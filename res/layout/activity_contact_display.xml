@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/background_android"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/header2" />
+
+    <LinearLayout
+        android:id="@+id/search_LL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:padding="5dp" >
+<!--         android:background="@color/grey" -->
+
+        <EditText
+            android:id="@+id/searchContact_ET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_bg_solid_radius"
+            android:gravity="center_horizontal"
+            android:hint="Search by name or organization"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/contact_LV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_LL" />
+
+    <TextView
+        android:id="@+id/error_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Contact Found."
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.crm.activity"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.mw.crm.extra.MyApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.mw.crm.activity.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.MenuActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.ContactAddActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.ContactListActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <!-- android:theme="@style/Theme.FixedSize" -->
+        <activity
+            android:name="com.mw.crm.activity.OpportunityListActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.OpportunityAddActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.AppointmentListActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.AppointmentAddActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.AccountListActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.mw.crm.activity.AccountAddActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <service android:name="com.mw.crm.service.InternalConnectService" />
+        <service android:name="com.mw.crm.service.AccountService" />
+        <service android:name="com.mw.crm.service.AppointmentService" />
+        <service android:name="com.mw.crm.service.ContactService" />
+        <service android:name="com.mw.crm.service.OpportunityService" />
+    </application>
+
+</manifest>

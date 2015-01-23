@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/header_logo_IV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/header" />
+
+    <TextView
+        android:id="@+id/title_header_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/header_logo_IV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
+    
+    <TextView
+        android:id="@+id/right_button_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/header_logo_IV"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:onClick="onRightButton"
+        android:text="TextView"
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/back_B"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+        android:onClick="onBack"
+        android:src="@drawable/back_button" />
+    <!-- android:layout_centerVertical="true" -->
+
+</RelativeLayout>

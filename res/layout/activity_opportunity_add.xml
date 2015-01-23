@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            android:background="@drawable/background_android"
+        android:layout_below="@+id/header" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/clientName_TV"
+                style="@style/style_TV2"
+                android:layout_marginTop="1dp"
+                android:text="Client Name" />
+
+            <RelativeLayout
+                android:id="@+id/client_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/custom_bg_solid_radius"
+                android:clickable="true"
+                android:onClick="onOpenContextMenu" >
+
+                <TextView
+                    android:id="@+id/client2_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="Search for client"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/description_TV"
+                style="@style/style_TV2"
+                android:text="Description" />
+
+            <EditText
+                android:id="@+id/description_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/status_TV"
+                style="@style/style_TV2"
+                android:text="Status" />
+
+            <RelativeLayout
+                android:id="@+id/status_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/custom_bg_solid_radius"
+                android:clickable="true"
+                android:onClick="onShowPicker" >
+
+                <TextView
+                    android:id="@+id/status_TV2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="Status"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:src="@drawable/arrow_down" />
+            </RelativeLayout>
+
+            <NumberPicker
+                android:id="@+id/status_NP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/requiredSolutions_TV"
+                style="@style/style_TV2"
+                android:text="No. of required solutions:" />
+
+            <EditText
+                android:id="@+id/requiredSolutions_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/currency_TV"
+                style="@style/style_TV2"
+                android:text="Currency" />
+
+            <EditText
+                android:id="@+id/currency_ET"
+                style="@style/style_ET2" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

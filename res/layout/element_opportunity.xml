@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="7dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/cost_TV"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/name_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opportunity Name"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/description_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="A really long description."
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/primary_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Primary Service"
+            android:textColor="@color/grey" />
+        
+        <TextView
+            android:id="@+id/status_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Status"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cost_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/arrow"
+        android:textSize="16sp"
+        android:text="$123,123"
+        android:textColor="@color/grey" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
+        android:background="@null"
+        android:src="@drawable/arrow_right" />
+
+</RelativeLayout>
