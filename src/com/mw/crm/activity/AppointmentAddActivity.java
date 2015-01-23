@@ -114,12 +114,15 @@ public class AppointmentAddActivity extends CRMActivity {
 			System.out.println(tempAppointment);
 
 			// purpose_ET.setText(tempAppointment.getDescription());
+			
 			nameClient_ET.setText(tempAppointment.getPurposeOfMeeting());
+			
 			// interaction_ET.setText(tempAppointment.getNameFirst());
 			// designation_ET.setText(tempAppointment.getDescription());
 			// notes_ET.setText(tempAppointment.getNameFirst());
-			startTime_ET.setText(tempAppointment.getStartTime().toString());
-			endTime_ET.setText(tempAppointment.getEndTime().toString());
+			
+//			startTime_ET.setText(tempAppointment.getStartTime().toString());
+//			endTime_ET.setText(tempAppointment.getEndTime().toString());
 		}
 	}
 

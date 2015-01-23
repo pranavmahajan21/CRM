@@ -54,7 +54,7 @@ public class AppointmentListActivity extends CRMActivity {
 			adapter = new AppointmentAdapter(this, appointmentList);
 		}
 
-		nextIntent = new Intent(this, AppointmentAddActivity.class);
+		
 	}
 
 	public void findThings() {
@@ -97,7 +97,7 @@ public class AppointmentListActivity extends CRMActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_appointment_display);
+		setContentView(R.layout.activity_appointment_list);
 
 		initThings();
 		findThings();
@@ -112,6 +112,7 @@ public class AppointmentListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				nextIntent = new Intent(AppointmentListActivity.this, AppointmentDetailsActivity.class);
 				nextIntent.putExtra("position", position);
 				startActivity(nextIntent);
 			}
@@ -121,6 +122,7 @@ public class AppointmentListActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
+		nextIntent = new Intent(AppointmentListActivity.this, AppointmentAddActivity.class);
 		startActivity(nextIntent);
 	}
 }

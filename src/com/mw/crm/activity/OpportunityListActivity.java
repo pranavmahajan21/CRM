@@ -53,7 +53,6 @@ public class OpportunityListActivity extends CRMActivity {
 		if (opportunityList != null && opportunityList.size() > 0) {
 			adapter = new OpportunityAdapter(this, opportunityList);
 		}
-		nextIntent = new Intent(this, OpportunityAddActivity.class);
 	}
 
 	public void findThings() {
@@ -111,6 +110,7 @@ public class OpportunityListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				nextIntent = new Intent(OpportunityListActivity.this, OpportunityDetailsActivity.class);
 				nextIntent.putExtra("position", position);
 				startActivity(nextIntent);
 			}
@@ -119,6 +119,7 @@ public class OpportunityListActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
+		nextIntent = new Intent(this, OpportunityAddActivity.class);
 		startActivity(nextIntent);
 	}
 

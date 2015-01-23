@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
             android:src="@drawable/header2" />
-<!--             android:background="@android:color/white" -->
+        <!-- android:background="@android:color/white" -->
 
         <ImageButton
             android:id="@+id/back_B"
@@ -28,12 +28,31 @@
             android:src="@drawable/back_button" />
         <!-- android:layout_centerVertical="true" -->
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+                android:layout_alignBottom="@+id/header_logo_IV"
+            android:weightSum="2" >
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+android:onClick="onHome"
+                android:layout_weight="1" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_marginTop="8dp"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" >
 
         <TextView
             android:id="@+id/title_header_TV"

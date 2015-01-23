@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class AppointmentDetailsActivity extends Activity {
+public class AccountDetailsActivity extends Activity {
 
 	Intent nextIntent, previousIntent;
 	
@@ -28,7 +28,7 @@ public class AppointmentDetailsActivity extends Activity {
 
 	public void onEdit(View view)
 	{
-		nextIntent = new Intent(this, AppointmentAddActivity.class);
+		nextIntent = new Intent(this, AccountAddActivity.class);
 		nextIntent.putExtra("position", previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
 		startActivity(nextIntent);

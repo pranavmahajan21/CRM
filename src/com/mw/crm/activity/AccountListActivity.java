@@ -60,7 +60,7 @@ public class AccountListActivity extends CRMActivity {
 			adapter = new AccountAdapter(this, accountList);
 		}
 
-		nextIntent = new Intent(this, AccountAddActivity.class);
+		nextIntent = new Intent(this, AccountDetailsActivity.class);
 
 	}
 
@@ -104,7 +104,7 @@ public class AccountListActivity extends CRMActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_account_display);
+		setContentView(R.layout.activity_account_list);
 
 		initThings();
 		findThings();
@@ -120,6 +120,7 @@ public class AccountListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				nextIntent = new Intent(AccountListActivity.this, AccountDetailsActivity.class);
 				nextIntent.putExtra("position", position);
 				startActivity(nextIntent);
 			}
@@ -130,6 +131,7 @@ public class AccountListActivity extends CRMActivity {
 	
 
 	public void onRightButton(View view) {
+		nextIntent = new Intent(this, AccountAddActivity.class);
 		startActivity(nextIntent);
 	}
 }
