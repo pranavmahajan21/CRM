@@ -1,5 +1,10 @@
 package com.mw.crm.extra;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,11 +14,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -325,6 +336,12 @@ public class MyApp extends Application {
 		loadMenuItems();
 		createCountryData();
 
+		try {
+			readExcel("");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		Intent intent2 = new Intent(this, OpportunityService.class);
 //		startService(intent2);
 		
@@ -648,6 +665,73 @@ public class MyApp extends Application {
 		}
 		// System.out.println(">><<><><><" + dateStr);
 		return date;
+	}
 
+	public List<String> readExcel(String key) throws IOException  {
+	    List<String> resultSet = new ArrayList<String>();
+
+//	    AssetManager assetManager = getAssets();
+//	    InputStream ims = assetManager.open("excels/lob.xlsx");
+	    
+	    InputStream ims = getAssets().open("excels/lob.xlsx", Context.MODE_WORLD_READABLE);
+	    File file = null;
+	    try {
+	        file = new File(getCacheDir(), "cacheFileAppeal.srl");
+	        final OutputStream output = new FileOutputStream(file);
+	        try {
+	            try {
+	                final byte[] buffer = new byte[1024];
+	                int read;
+
+	                while ((read = ims.read(buffer)) != -1)
+	                    output.write(buffer, 0, read);
+
+	                output.flush();
+	            } finally {
+	                output.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    } finally {
+	    	ims.close();
+	    }
+	    
+	    
+	    
+	    //	    jxl.read.biff.File inputWorkbook = new jxl.read.biff.File(ims, null);
+//	    File inputWorkbook = new File("assets/excels/lob.xlsx");
+	    
+//	    if(inputWorkbook.exists()){
+	        Workbook w;
+	        try {
+	            w = Workbook.getWorkbook(file);
+	            // Get the first sheet
+	            Sheet sheet = w.getSheet(0);
+	            // Loop over column and lines
+	            for (int j = 0; j < sheet.getRows(); j++) {
+	                Cell cell = sheet.getCell(0, j);
+	                if(cell.getContents().equalsIgnoreCase(key)){
+	                    for (int i = 0; i < sheet.getColumns(); i++) {
+	                        Cell cel = sheet.getCell(i, j);
+	                        resultSet.add(cel.getContents());
+	                    }
+	                }
+	                continue;
+	            }
+	        } catch (BiffException e) {
+	            e.printStackTrace();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+//	    }
+//	    else
+//	    {
+//	        resultSet.add("File not found..!");
+//	    }
+	    if(resultSet.size()==0){
+	        resultSet.add("Data not found..!");
+	    }
+	    return resultSet;
 	}
 }

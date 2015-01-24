@@ -2,13 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_android"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onEdit"
-        android:text="Edit" />
+        layout="@layout/header2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    style="@style/TV_left"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TV_right"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/internalConnectLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Internal Connect:" />
+
+            <TextView
+                android:id="@+id/internalConnect_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onEdit"
+                android:text="Edit" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
