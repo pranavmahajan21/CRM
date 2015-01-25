@@ -1,14 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@drawable/background_android"
+    android:orientation="vertical"
+    tools:context="com.mw.crm.activity.OpportunityDetailsActivity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onEdit"
-        android:text="Edit" />
+        layout="@layout/header2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/name_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Name"
+                android:textColor="@color/blue_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ownerLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Owner:" />
+
+            <TextView
+                android:id="@+id/owner_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/probabilityLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Probability:" />
+
+                <TextView
+                    android:id="@+id/probability_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/statusLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Status:" />
+
+                <TextView
+                    android:id="@+id/status_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/salesStageLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Sales Stage:" />
+
+                <TextView
+                    android:id="@+id/salesStage_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/clientNameLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Client Name:" />
+
+            <TextView
+                android:id="@+id/clientName_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/countryLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Country:" />
+
+                <TextView
+                    android:id="@+id/country_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/corridorLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Corridor:" />
+
+                <TextView
+                    android:id="@+id/corridor_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/lobLabel_TV"
+                    style="@style/TV_left"
+                    android:text="LOB:" />
+
+                <TextView
+                    android:id="@+id/lob_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/sublobLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Sub LOB:" />
+
+                <TextView
+                    android:id="@+id/sublob_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/sectorLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Sector:" />
+
+                <TextView
+                    android:id="@+id/sector_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onEdit"
+                android:text="Edit" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -1,14 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@drawable/background_android"
+    android:orientation="vertical"
+    tools:context="com.mw.crm.activity.AccountDetailsActivity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onEdit"
-        android:text="Edit" />
+        layout="@layout/header2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/acc_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Name"
+                android:textColor="@color/blue_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/leadPartnerLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Lead Partner1:" />
+
+            <TextView
+                android:id="@+id/leadPartner_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/headquarterCountryLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Headquarter Country:" />
+
+            <TextView
+                android:id="@+id/headquarterCountry_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/lobLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="LOB:" />
+
+            <TextView
+                android:id="@+id/lob_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/sublobLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Sub LOB:" />
+
+            <TextView
+                android:id="@+id/sublob_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/sectorLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Sector:" />
+
+            <TextView
+                android:id="@+id/sector_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/accountCategoryLabel_TV"
+                style="@style/TV_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Account Category1:" />
+
+            <TextView
+                android:id="@+id/accountCategory_TV"
+                style="@style/TV_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
