@@ -1,10 +1,6 @@
 package com.mw.crm.extra;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -24,7 +19,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -69,13 +63,13 @@ public class MyApp extends Application {
 	public static String ACCOUNTS_ADD = "/accounts";
 	public static String CONTACTS_ADD = "/contacts";
 	public static String OPPORTUNITY_ADD = "/opportunities";
-	
+
 	/* Used to update <T> */
 	public static String APPOINTMENTS_UPDATE = "/PostAppointmentUpdate";
 	public static String ACCOUNTS_UPDATE = "/PostAccountUpdate";
 	public static String CONTACTS_UPDATE = "/PostContactUpdate";
 	public static String OPPORTUNITY_UPDATE = "/PostContactUpdate";
-	
+
 	/*
 	 * Used for Internal Connect in Contacts screen & owner in Appointments
 	 * screen
@@ -91,7 +85,28 @@ public class MyApp extends Application {
 
 	List<InternalConnect> internalConnectList;// = new
 												// ArrayList<InternalConnect>();
+
+	private static String ACCOUNT_CATEGORY_PATH = "excels/account_category.xls";
+	private static String COUNTRY_PATH = "excels/country.xls";
+	private static String DOR_PATH = "excels/dor.xls";
+	private static String INTERACTION_TYPE_PATH = "excels/interaction_type.xls";
+	private static String LOB_PATH = "excels/lob.xls";
+	private static String PROBABILITY_PATH = "excels/probability.xls";
+	private static String SALES_STAGE_PATH = "excels/sales_stage.xls";
+	private static String SECTOR_PATH = "excels/sector.xls";
+	private static String STATUS_PATH = "excels/status.xls";
+	private static String SUB_LOP_PATH = "excels/sub_lob.xls";
+
+	Map<String, String> accountCategoryMap;
 	Map<String, String> countryMap;
+	Map<String, String> dorMap;
+	Map<String, String> interactionTypeMap;
+	Map<String, String> lobMap;
+	Map<String, String> probabilityMap;
+	Map<String, String> salesStageMap;
+	Map<String, String> sectorMap;
+	Map<String, String> statusMap;
+	Map<String, String> subLobMap;
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
@@ -119,6 +134,17 @@ public class MyApp extends Application {
 				"fonts/SourceSansPro-Regular.ttf");
 		typefaceBoldSans = Typeface.createFromAsset(getAssets(),
 				"fonts/SourceSansPro-Semibold.ttf");
+
+		accountCategoryMap = new LinkedHashMap<String, String>();
+		countryMap = new LinkedHashMap<String, String>();
+		dorMap = new LinkedHashMap<String, String>();
+		interactionTypeMap = new LinkedHashMap<String, String>();
+		lobMap = new LinkedHashMap<String, String>();
+		probabilityMap = new LinkedHashMap<String, String>();
+		salesStageMap = new LinkedHashMap<String, String>();
+		sectorMap = new LinkedHashMap<String, String>();
+		statusMap = new LinkedHashMap<String, String>();
+		subLobMap = new LinkedHashMap<String, String>();
 
 		gson = new Gson();
 	}
@@ -295,22 +321,25 @@ public class MyApp extends Application {
 		contactList.add(new Contact("Arisglobal Software Private Limited",
 				null, null, null, "**A Agarwal**"));
 
-		appointmentList.add(new Appointment("","Discuss on Access Bank Project",
-				null, null, null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("","Wedding of Shivali and mahendra",
-				null, null, null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("","Balanced Score Card Demo:OBIEE",
-				null, null, null, null, new Date(), new Date()));
+		appointmentList.add(new Appointment("",
+				"Discuss on Access Bank Project", null, null, null, null,
+				new Date(), new Date()));
+		appointmentList.add(new Appointment("",
+				"Wedding of Shivali and mahendra", null, null, null, null,
+				new Date(), new Date()));
+		appointmentList.add(new Appointment("",
+				"Balanced Score Card Demo:OBIEE", null, null, null, null,
+				new Date(), new Date()));
 		appointmentList.add(new Appointment("",
 				"Conference Room Pilot - Advisory Function", null, null, null,
 				null, new Date(), new Date()));
 		appointmentList.add(new Appointment("",
 				"Conference Room Pilot(CRP) - CRM Application Tax...", null,
 				null, null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("","VC with the Promoters", null,
+		appointmentList.add(new Appointment("", "VC with the Promoters", null,
 				null, null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("","**Srikanth meeting**", null, null,
-				null, null, new Date(), new Date()));
+		appointmentList.add(new Appointment("", "**Srikanth meeting**", null,
+				null, null, null, new Date(), new Date()));
 
 		accountList.add(new Account("South Asia Clean Energy Fund....",
 				"4440158", null, null, null));
@@ -336,15 +365,10 @@ public class MyApp extends Application {
 		loadMenuItems();
 		createCountryData();
 
-		try {
-			readExcel("");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		Intent intent2 = new Intent(this, OpportunityService.class);
-//		startService(intent2);
-		
+		readDataFromExcel();
+		// Intent intent2 = new Intent(this, OpportunityService.class);
+		// startService(intent2);
+
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
 			fetchPreferences();
@@ -390,81 +414,81 @@ public class MyApp extends Application {
 		countryMap.put("15006", "Egypt");
 		countryMap.put("1005", "Ethiopia");
 		countryMap.put("8004", "Finland");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
-//		countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
+		// countryMap.put("", "");
 	}
 
 	public static synchronized MyApp getInstance() {
@@ -521,7 +545,7 @@ public class MyApp extends Application {
 		}
 		return params;
 	}
-	
+
 	public List<Opportunity> getOpportunityList() {
 		return opportunityList;
 	}
@@ -624,7 +648,6 @@ public class MyApp extends Application {
 		editor.commit();
 	}
 
-	
 	public String formatDateToString(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
@@ -633,7 +656,7 @@ public class MyApp extends Application {
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
 	}
-	
+
 	public String formatDateToString2(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -642,7 +665,7 @@ public class MyApp extends Application {
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
 	}
-	
+
 	public String formatDateToString3(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
@@ -667,71 +690,231 @@ public class MyApp extends Application {
 		return date;
 	}
 
-	public List<String> readExcel(String key) throws IOException  {
-	    List<String> resultSet = new ArrayList<String>();
-
-//	    AssetManager assetManager = getAssets();
-//	    InputStream ims = assetManager.open("excels/lob.xlsx");
-	    
-	    InputStream ims = getAssets().open("excels/lob.xlsx", Context.MODE_WORLD_READABLE);
-	    File file = null;
-	    try {
-	        file = new File(getCacheDir(), "cacheFileAppeal.srl");
-	        final OutputStream output = new FileOutputStream(file);
-	        try {
-	            try {
-	                final byte[] buffer = new byte[1024];
-	                int read;
-
-	                while ((read = ims.read(buffer)) != -1)
-	                    output.write(buffer, 0, read);
-
-	                output.flush();
-	            } finally {
-	                output.close();
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    } finally {
-	    	ims.close();
-	    }
-	    
-	    
-	    
-	    //	    jxl.read.biff.File inputWorkbook = new jxl.read.biff.File(ims, null);
-//	    File inputWorkbook = new File("assets/excels/lob.xlsx");
-	    
-//	    if(inputWorkbook.exists()){
-	        Workbook w;
-	        try {
-	            w = Workbook.getWorkbook(file);
-	            // Get the first sheet
-	            Sheet sheet = w.getSheet(0);
-	            // Loop over column and lines
-	            for (int j = 0; j < sheet.getRows(); j++) {
-	                Cell cell = sheet.getCell(0, j);
-	                if(cell.getContents().equalsIgnoreCase(key)){
-	                    for (int i = 0; i < sheet.getColumns(); i++) {
-	                        Cell cel = sheet.getCell(i, j);
-	                        resultSet.add(cel.getContents());
-	                    }
-	                }
-	                continue;
-	            }
-	        } catch (BiffException e) {
-	            e.printStackTrace();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-//	    }
-//	    else
-//	    {
-//	        resultSet.add("File not found..!");
-//	    }
-	    if(resultSet.size()==0){
-	        resultSet.add("Data not found..!");
-	    }
-	    return resultSet;
+	public void readDataFromExcel() {
+		readAccountCategoryExcel();
+		readCountryExcel();
+		readDorExcel();
+		readInteractionTypeExcel();
+		readLobExcel();
+		readProbabilityExcel();
+		readSalesStageExcel();
+		readSectorExcel();
+		readStatusExcel();
+		readSubLopExcel();
 	}
+
+	public void readAccountCategoryExcel() {
+		/**
+		 * http://stackoverflow.com/questions/5428794/biffexception-while-
+		 * reading-an-excel-sheet
+		 **/
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(ACCOUNT_CATEGORY_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Account Category data.",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			accountCategoryMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readCountryExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(COUNTRY_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Country data.",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			lobMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readDorExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(DOR_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load DOR data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			dorMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readInteractionTypeExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(INTERACTION_TYPE_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Interaction Type data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			interactionTypeMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readLobExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(LOB_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load lob data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			lobMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readProbabilityExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(PROBABILITY_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Probability data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			probabilityMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readSalesStageExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(SALES_STAGE_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Sales Stage data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			salesStageMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readSectorExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(SECTOR_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Sector data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			sectorMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readStatusExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(STATUS_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Status data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			statusMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
+	public void readSubLopExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(SUB_LOP_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Sub Lop data.", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			subLobMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
+					.getContents());
+		}
+
+	}
+
 }
