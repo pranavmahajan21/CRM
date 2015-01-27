@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/background_android" >
 
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/header" />
+        layout="@layout/header2" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        android:background="@drawable/background_android" >
+        android:layout_below="@+id/header" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,37 +33,20 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/corridor_TV"
+                android:id="@+id/sector_TV"
                 style="@style/style_TV2"
-                android:text="Corridor:" />
+                android:text="Sector:" />
 
             <RelativeLayout
-                android:id="@+id/corridor_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                android:id="@+id/sector_RL"
+                style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/corridor_TV2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Corridor"
-                    android:textSize="18sp" />
+                    android:id="@+id/sector_TV2"
+                    style="@style/TV"
+                    android:text="Sector" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <TextView
@@ -73,65 +56,48 @@
 
             <RelativeLayout
                 android:id="@+id/headquarter_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                style="@style/RL" >
 
                 <TextView
                     android:id="@+id/headquarter_TV2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Headquarter Country"
-                    android:textSize="18sp" />
+                    style="@style/TV"
+                    android:text="Headquarter Country" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/sub_TV"
+                android:id="@+id/lob_TV"
+                style="@style/style_TV2"
+                android:text="LOB:" />
+
+            <RelativeLayout
+                android:id="@+id/lob_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/lob_TV2"
+                    style="@style/TV"
+                    android:text="LOB" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/sublob_TV"
                 style="@style/style_TV2"
                 android:text="Sub LOB:" />
 
             <RelativeLayout
-                android:id="@+id/sub_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                android:id="@+id/sublob_RL"
+                style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/sub_TV2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Sub LOB"
-                    android:textSize="18sp" />
+                    android:id="@+id/sublob_TV2"
+                    style="@style/TV"
+                    android:text="Sub LOB" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <TextView
@@ -141,31 +107,14 @@
 
             <RelativeLayout
                 android:id="@+id/leadPartner_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                style="@style/RL" >
 
                 <TextView
                     android:id="@+id/leadPartner_TV2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Lead Partner"
-                    android:textSize="18sp" />
+                    style="@style/TV"
+                    android:text="Lead Partner" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <TextView
@@ -175,31 +124,14 @@
 
             <RelativeLayout
                 android:id="@+id/accountCategory_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                style="@style/RL" >
 
                 <TextView
                     android:id="@+id/accountCategory_TV2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Account Category"
-                    android:textSize="18sp" />
+                    style="@style/TV"
+                    android:text="Account Category" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                <ImageView style="@style/IV" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

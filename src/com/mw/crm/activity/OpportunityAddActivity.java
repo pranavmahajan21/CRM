@@ -40,10 +40,14 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView clientName_TV, client2_TV, description_TV, status_TV,
-			requiredSolutions_TV, currency_TV;
+	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
+			requiredSolutions_TV, currency_TV, probabilityLabel_TV, salesStageLabel_TV;
+	
+	TextView clientName_TV, probability_TV, salesStage_TV;
+	
 	EditText description_ET, requiredSolutions_ET, currency_ET;
-	RelativeLayout clientRL;
+	
+	RelativeLayout clientRL, probability_RL, salesStage_RL;
 
 	boolean pickerVisibility = false;
 	NumberPicker picker;
@@ -69,19 +73,26 @@ public class OpportunityAddActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 
+		descriptionLabel_TV = (TextView) findViewById(R.id.description_TV);
+		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
+		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
+		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
+		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
+		
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
-		description_TV = (TextView) findViewById(R.id.description_TV);
-		status_TV = (TextView) findViewById(R.id.status_TV);
 		requiredSolutions_TV = (TextView) findViewById(R.id.requiredSolutions_TV);
 		currency_TV = (TextView) findViewById(R.id.currency_TV);
-		client2_TV = (TextView) findViewById(R.id.client2_TV);
-
+		probability_TV = (TextView) findViewById(R.id.probability_TV);
+		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
+		
 		description_ET = (EditText) findViewById(R.id.description_ET);
 		requiredSolutions_ET = (EditText) findViewById(R.id.requiredSolutions_ET);
 		currency_ET = (EditText) findViewById(R.id.currency_ET);
 
 		clientRL = (RelativeLayout) findViewById(R.id.client_RL);
-
+		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
+		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
+		
 		picker = (NumberPicker) findViewById(R.id.status_NP);
 
 		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -93,8 +104,8 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	private void setTypeface() {
 		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		description_TV.setTypeface(myApp.getTypefaceRegularSans());
-		status_TV.setTypeface(myApp.getTypefaceRegularSans());
+		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		requiredSolutions_TV.setTypeface(myApp.getTypefaceRegularSans());
 		currency_TV.setTypeface(myApp.getTypefaceRegularSans());
 
@@ -149,7 +160,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		client2_TV.setText(item.getTitle());
+		clientNameLabel_TV.setText(item.getTitle());
 		return super.onContextItemSelected(item);
 
 	}

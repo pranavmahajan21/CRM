@@ -1,64 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/background_android" >
 
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/header" />
+        layout="@layout/header2" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-            android:background="@drawable/background_android"
         android:layout_below="@+id/header" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/clientName_TV"
+                android:id="@+id/clientNameLabel_TV"
                 style="@style/style_TV2"
                 android:layout_marginTop="1dp"
                 android:text="Client Name" />
 
             <RelativeLayout
                 android:id="@+id/client_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/client2_TV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Search for client"
-                    android:textSize="18sp" />
+                    android:id="@+id/clientName_TV"
+                    style="@style/TV"
+                    android:text="Search for client" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
+                    style="@style/IV"
                     android:src="@drawable/arrow_right" />
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/description_TV"
+                android:id="@+id/descriptionLabel_TV"
                 style="@style/style_TV2"
                 android:text="Description" />
 
@@ -67,37 +52,21 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/status_TV"
+                android:id="@+id/statusLabel_TV"
                 style="@style/style_TV2"
                 android:text="Status" />
 
             <RelativeLayout
                 android:id="@+id/status_RL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
+                style="@style/RL"
                 android:onClick="onShowPicker" >
 
                 <TextView
                     android:id="@+id/status_TV2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="Status"
-                    android:textSize="18sp" />
+                    style="@style/TV"
+                    android:text="Status" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <NumberPicker
@@ -123,6 +92,44 @@
             <EditText
                 android:id="@+id/currency_ET"
                 style="@style/style_ET2" />
+            
+            <TextView
+                android:id="@+id/probabilityLabel_TV"
+                style="@style/style_TV2"
+                android:text="Probability" />
+
+            <RelativeLayout
+                android:id="@+id/probability_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/probability_TV"
+                    style="@style/TV"
+                    android:text="Probability" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+            
+            <TextView
+                android:id="@+id/salesStageLabel_TV"
+                style="@style/style_TV2"
+                android:text="Client Name" />
+
+            <RelativeLayout
+                android:id="@+id/salesStage_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/salesStage_TV"
+                    style="@style/TV"
+                    android:text="Sales Stage" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

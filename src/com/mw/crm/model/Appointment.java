@@ -21,6 +21,7 @@ public class Appointment implements Serializable {
 	String nameOfTheClientOfficial;
 	String typeOfMeeting;
 	String designationOfClientOfficial;
+	String ownerId;
 	Date startTime;
 	Date endTime;
 
@@ -81,9 +82,18 @@ public class Appointment implements Serializable {
 		this.endTime = endTime;
 	}
 
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
 	public Appointment(String id, String purposeOfMeeting, String description,
 			String nameOfTheClientOfficial, String typeOfMeeting,
-			String designationOfClientOfficial, Date startTime, Date endTime) {
+			String designationOfClientOfficial, String ownerId, Date startTime,
+			Date endTime) {
 		super();
 		this.id = id;
 		this.purposeOfMeeting = purposeOfMeeting;
@@ -91,6 +101,7 @@ public class Appointment implements Serializable {
 		this.nameOfTheClientOfficial = nameOfTheClientOfficial;
 		this.typeOfMeeting = typeOfMeeting;
 		this.designationOfClientOfficial = designationOfClientOfficial;
+		this.ownerId = ownerId;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}

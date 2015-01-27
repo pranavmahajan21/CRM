@@ -71,8 +71,8 @@ public class MyApp extends Application {
 	public static String OPPORTUNITY_UPDATE = "/PostContactUpdate";
 
 	/*
-	 * Used for Internal Connect in Contacts screen & owner in Appointments
-	 * screen
+	 * Used for Internal Connect in CONTACT screen & owner in APPOINTMENT screen
+	 * & LeadPartner in ACCOUNT screen
 	 */
 	public static String USER = "/PostUser";
 
@@ -97,6 +97,7 @@ public class MyApp extends Application {
 	private static String STATUS_PATH = "excels/status.xls";
 	private static String SUB_LOP_PATH = "excels/sub_lob.xls";
 
+	/** Coming from excels **/
 	Map<String, String> accountCategoryMap;
 	Map<String, String> countryMap;
 	Map<String, String> dorMap;
@@ -107,6 +108,10 @@ public class MyApp extends Application {
 	Map<String, String> sectorMap;
 	Map<String, String> statusMap;
 	Map<String, String> subLobMap;
+
+	/** Coming from excels **/
+	Map<String, String> userMap;
+	// Map<String, String> countryMap;
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
@@ -145,6 +150,8 @@ public class MyApp extends Application {
 		sectorMap = new LinkedHashMap<String, String>();
 		statusMap = new LinkedHashMap<String, String>();
 		subLobMap = new LinkedHashMap<String, String>();
+
+		userMap = new LinkedHashMap<String, String>();
 
 		gson = new Gson();
 	}
@@ -198,16 +205,28 @@ public class MyApp extends Application {
 			}
 		}
 
-		if (sharedPreferences.contains("internal_connect_list")) {
-			String value = sharedPreferences.getString("internal_connect_list",
-					null);
+		// if (sharedPreferences.contains("internal_connect_list")) {
+		// String value = sharedPreferences.getString("internal_connect_list",
+		// null);
+		// if (value != null) {
+		// Type listType = (Type) new TypeToken<ArrayList<InternalConnect>>() {
+		// }.getType();
+		// setInternalConnectList((List<InternalConnect>) gson.fromJson(
+		// value, listType));
+		// System.out.println("InternalConnect size  : "
+		// + getInternalConnectList().size());
+		// }
+		// }
+
+		if (sharedPreferences.contains("user_map")) {
+			String value = sharedPreferences.getString("user_map", null);
 			if (value != null) {
-				Type listType = (Type) new TypeToken<ArrayList<InternalConnect>>() {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
-				setInternalConnectList((List<InternalConnect>) gson.fromJson(
-						value, listType));
-				System.out.println("InternalConnect size  : "
-						+ getInternalConnectList().size());
+				// setInternalConnectList((List<InternalConnect>) gson.fromJson(
+				// value, mapType));
+				setUserMap((Map<String, String>) gson.fromJson(value, mapType));
+				System.out.println("User map size  : " + getUserMap().size());
 			}
 		}
 
@@ -264,41 +283,41 @@ public class MyApp extends Application {
 		opportunityList
 				.add(new Opportunity("A, Pradeep", null,
 						"Meher Pudumjee, Pheroz Pudumj...", "Active", null,
-						null, null));
+						null, null, null, null));
 		opportunityList
 				.add(new Opportunity("Abhishek, A", null,
 						"Blue Print for development o...", "On Hold", null,
-						null, null));
+						null, null, null, null));
 		opportunityList.add(new Opportunity("Abraham, Anil Alex", null,
-				"IvyCap Trust DT-FS-13-14", "Scrapped", null, null, null));
+				"IvyCap Trust DT-FS-13-14", "Scrapped", null, null, null, null, null));
 		opportunityList
 				.add(new Opportunity("Abraham Philomena", null,
 						"LLP conversion, Profit repat....", "Active", null,
-						null, null));
+						null, null, null, null));
 		opportunityList.add(new Opportunity("Adhikari Sawant, Rupali", null,
-				"Macquarie Group Services-IES...", "Delete", null, null, null));
+				"Macquarie Group Services-IES...", "Delete", null, null, null, null, null));
 		opportunityList.add(new Opportunity("Adhikari, Pratik", null,
 				"Meher Pudumjee, Pheroz Pudumj...", "Scrapped", null, null,
-				null));
+				null, null, null));
 		opportunityList
 				.add(new Opportunity("Adhikary, Subhendu", null,
 						"Macquarie Group Services IES...", "On Hold", null,
-						null, null));
+						null, null, null, null));
 		opportunityList.add(new Opportunity("Administrator, CRM", null,
 				"Regulatory compliance under F...", "Scrapped", null, null,
-				null));
+				null, null, null));
 		opportunityList.add(new Opportunity("Advani, Harish", null,
-				"Responing to Queries from ta...", "Active", null, null, null));
+				"Responing to Queries from ta...", "Active", null, null, null, null, null));
 		opportunityList
 				.add(new Opportunity("Advani, Vikram", null,
 						"Security Audit of application...", "Delete", null,
-						null, null));
+						null, null, null, null));
 		opportunityList
 				.add(new Opportunity("Agarwal, Abhijit", null,
 						"Blue Print for development o...", "On Hold", null,
-						null, null));
+						null, null, null, null));
 		opportunityList.add(new Opportunity("**Agarwal, Abhishek**", null,
-				"Macquarie Group Services-IES...", "Delete", null, null, null));
+				"Macquarie Group Services-IES...", "Delete", null, null, null, null, null));
 
 		contactList.add(new Contact("NTPC Limited", null, null, null,
 				"A A Sheikh"));
@@ -322,24 +341,24 @@ public class MyApp extends Application {
 				null, null, null, "**A Agarwal**"));
 
 		appointmentList.add(new Appointment("",
-				"Discuss on Access Bank Project", null, null, null, null,
+				"Discuss on Access Bank Project", null, null, null, null, null,
 				new Date(), new Date()));
 		appointmentList.add(new Appointment("",
 				"Wedding of Shivali and mahendra", null, null, null, null,
-				new Date(), new Date()));
+				null, new Date(), new Date()));
 		appointmentList.add(new Appointment("",
-				"Balanced Score Card Demo:OBIEE", null, null, null, null,
+				"Balanced Score Card Demo:OBIEE", null, null, null, null, null,
 				new Date(), new Date()));
 		appointmentList.add(new Appointment("",
 				"Conference Room Pilot - Advisory Function", null, null, null,
-				null, new Date(), new Date()));
+				null, null, new Date(), new Date()));
 		appointmentList.add(new Appointment("",
 				"Conference Room Pilot(CRP) - CRM Application Tax...", null,
-				null, null, null, new Date(), new Date()));
+				null, null, null, null, new Date(), new Date()));
 		appointmentList.add(new Appointment("", "VC with the Promoters", null,
-				null, null, null, new Date(), new Date()));
+				null, null, null, null, new Date(), new Date()));
 		appointmentList.add(new Appointment("", "**Srikanth meeting**", null,
-				null, null, null, new Date(), new Date()));
+				null, null, null, null, new Date(), new Date()));
 
 		accountList.add(new Account("South Asia Clean Energy Fund....",
 				"4440158", null, null, null));
@@ -363,7 +382,7 @@ public class MyApp extends Application {
 
 		initThings();
 		loadMenuItems();
-		createCountryData();
+		// createCountryData();
 
 		readDataFromExcel();
 		// Intent intent2 = new Intent(this, OpportunityService.class);
@@ -546,6 +565,39 @@ public class MyApp extends Application {
 		return params;
 	}
 
+	public List<Contact> getContactList() {
+		return contactList;
+	}
+
+	public void setContactList(List<Contact> contactList) {
+		this.contactList = contactList;
+		String json = gson.toJson(contactList);
+		editor.putString("contact_list", json);
+		editor.commit();
+	}
+
+	public List<Appointment> getAppointmentList() {
+		return appointmentList;
+	}
+
+	public void setAppointmentList(List<Appointment> appointmentList) {
+		this.appointmentList = appointmentList;
+		String json = gson.toJson(appointmentList);
+		editor.putString("appointment_list", json);
+		editor.commit();
+	}
+
+	public List<Account> getAccountList() {
+		return accountList;
+	}
+
+	public void setAccountList(List<Account> accountList) {
+		this.accountList = accountList;
+		String json = gson.toJson(accountList);
+		editor.putString("account_list", json);
+		editor.commit();
+	}
+
 	public List<Opportunity> getOpportunityList() {
 		return opportunityList;
 	}
@@ -557,23 +609,23 @@ public class MyApp extends Application {
 		editor.commit();
 	}
 
+	public Map<String, String> getUserMap() {
+		return userMap;
+	}
+
+	public void setUserMap(Map<String, String> userMap) {
+		this.userMap = userMap;
+		String json = gson.toJson(userMap);
+		editor.putString("user_map", json);
+		editor.commit();
+	}
+
 	public List<MenuItem> getMenuItemList() {
 		return menuItemList;
 	}
 
 	public void setMenuItemList(List<MenuItem> menuItemList) {
 		this.menuItemList = menuItemList;
-	}
-
-	public List<Contact> getContactList() {
-		return contactList;
-	}
-
-	public void setContactList(List<Contact> contactList) {
-		this.contactList = contactList;
-		String json = gson.toJson(contactList);
-		editor.putString("contact_list", json);
-		editor.commit();
 	}
 
 	public Typeface getTypefaceRegularSans() {
@@ -600,28 +652,87 @@ public class MyApp extends Application {
 		this.countryMap = countryMap;
 	}
 
-	public List<Appointment> getAppointmentList() {
-		return appointmentList;
+	public Map<String, String> getAccountCategoryMap() {
+		return accountCategoryMap;
 	}
 
-	public void setAppointmentList(List<Appointment> appointmentList) {
-		this.appointmentList = appointmentList;
-		String json = gson.toJson(appointmentList);
-		editor.putString("appointment_list", json);
-		editor.commit();
+	public void setAccountCategoryMap(Map<String, String> accountCategoryMap) {
+		this.accountCategoryMap = accountCategoryMap;
 	}
 
-	public List<Account> getAccountList() {
-		return accountList;
+	public Map<String, String> getDorMap() {
+		return dorMap;
 	}
 
-	public void setAccountList(List<Account> accountList) {
-		this.accountList = accountList;
-		String json = gson.toJson(accountList);
-		editor.putString("account_list", json);
-		editor.commit();
+	public void setDorMap(Map<String, String> dorMap) {
+		this.dorMap = dorMap;
 	}
 
+	public Map<String, String> getInteractionTypeMap() {
+		return interactionTypeMap;
+	}
+
+	public void setInteractionTypeMap(Map<String, String> interactionTypeMap) {
+		this.interactionTypeMap = interactionTypeMap;
+	}
+
+	public Map<String, String> getLobMap() {
+		return lobMap;
+	}
+
+	public void setLobMap(Map<String, String> lobMap) {
+		this.lobMap = lobMap;
+	}
+
+	public Map<String, String> getProbabilityMap() {
+		return probabilityMap;
+	}
+
+	public void setProbabilityMap(Map<String, String> probabilityMap) {
+		this.probabilityMap = probabilityMap;
+	}
+
+	public Map<String, String> getSalesStageMap() {
+		return salesStageMap;
+	}
+
+	public void setSalesStageMap(Map<String, String> salesStageMap) {
+		this.salesStageMap = salesStageMap;
+	}
+
+	public Map<String, String> getSectorMap() {
+		return sectorMap;
+	}
+
+	public void setSectorMap(Map<String, String> sectorMap) {
+		this.sectorMap = sectorMap;
+	}
+
+	public Map<String, String> getStatusMap() {
+		return statusMap;
+	}
+
+	public void setStatusMap(Map<String, String> statusMap) {
+		this.statusMap = statusMap;
+	}
+
+	public Map<String, String> getSubLobMap() {
+		return subLobMap;
+	}
+
+	public void setSubLobMap(Map<String, String> subLobMap) {
+		this.subLobMap = subLobMap;
+	}
+
+	public static String getPerfectString(String string) {
+		// Does both of 1. removes Quotes 2. Decrypt Data 
+		return MyApp.removeQuotesFromString(MyApp.decryptData(string));
+	}
+	
+	public static String removeQuotesFromString(String string) {
+		return string.substring(1, string.length() - 1);
+	}
+	
 	public static String decryptData(String string) {
 
 		// String aa = new Encrypter(null, null).decrypt(string);
@@ -690,6 +801,8 @@ public class MyApp extends Application {
 		return date;
 	}
 
+	
+
 	public void readDataFromExcel() {
 		readAccountCategoryExcel();
 		readCountryExcel();
@@ -722,8 +835,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			accountCategoryMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			accountCategoryMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}
@@ -743,8 +856,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			lobMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			countryMap.put(sheet.getCell(0, i).getContents(),
+					sheet.getCell(1, i).getContents());
 		}
 
 	}
@@ -776,8 +889,8 @@ public class MyApp extends Application {
 			w = Workbook.getWorkbook(getAssets().open(INTERACTION_TYPE_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Interaction Type data.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Unable to load Interaction Type data.",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -785,8 +898,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			interactionTypeMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			interactionTypeMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}
@@ -818,8 +931,8 @@ public class MyApp extends Application {
 			w = Workbook.getWorkbook(getAssets().open(PROBABILITY_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Probability data.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Unable to load Probability data.",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -827,8 +940,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			probabilityMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			probabilityMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}
@@ -839,8 +952,8 @@ public class MyApp extends Application {
 			w = Workbook.getWorkbook(getAssets().open(SALES_STAGE_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sales Stage data.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Unable to load Sales Stage data.",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -848,8 +961,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			salesStageMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			salesStageMap.put(sheet.getCell(0, i).getContents(),
+					sheet.getCell(1, i).getContents());
 		}
 
 	}
@@ -860,8 +973,8 @@ public class MyApp extends Application {
 			w = Workbook.getWorkbook(getAssets().open(SECTOR_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sector data.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Unable to load Sector data.",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -869,8 +982,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			sectorMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			sectorMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}
@@ -881,8 +994,8 @@ public class MyApp extends Application {
 			w = Workbook.getWorkbook(getAssets().open(STATUS_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Status data.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Unable to load Status data.",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -890,8 +1003,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			statusMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			statusMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}
@@ -902,8 +1015,8 @@ public class MyApp extends Application {
 			w = Workbook.getWorkbook(getAssets().open(SUB_LOP_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sub Lop data.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Unable to load Sub Lop data.",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -911,8 +1024,8 @@ public class MyApp extends Application {
 		Sheet sheet = w.getSheet(0);
 
 		for (int i = 0; i < sheet.getRows(); i++) {
-			subLobMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
-					.getContents());
+			subLobMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}

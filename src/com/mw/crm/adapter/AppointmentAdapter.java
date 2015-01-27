@@ -41,7 +41,7 @@ public class AppointmentAdapter extends BaseAdapter {
 	static class ViewHolder {
 		protected TextView nameTV;
 		protected TextView subjectTV;
-//		protected TextView endTimeTV;
+		// protected TextView endTimeTV;
 	}
 
 	@Override
@@ -51,21 +51,21 @@ public class AppointmentAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-//			convertView = inflater.inflate(R.layout.element_appointment,
-//					parent, false);
-			convertView = inflater.inflate(R.layout.element_contact_and_account,
-					parent, false);
-			
+			// convertView = inflater.inflate(R.layout.element_appointment,
+			// parent, false);
+			convertView = inflater.inflate(
+					R.layout.element_contact_and_account, parent, false);
+
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);
 			viewHolder.subjectTV = (TextView) convertView
 					.findViewById(R.id.company_TV);
-//			viewHolder.endTimeTV = (TextView) convertView
-//					.findViewById(R.id.endTime_TV);
+			// viewHolder.endTimeTV = (TextView) convertView
+			// .findViewById(R.id.endTime_TV);
 
 			viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
 			viewHolder.subjectTV.setTypeface(myApp.getTypefaceRegularSans());
-//			viewHolder.endTimeTV.setTypeface(myApp.getTypefaceRegularSans());
+			// viewHolder.endTimeTV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -73,18 +73,11 @@ public class AppointmentAdapter extends BaseAdapter {
 		}
 
 		Appointment tempAppointment = appointmentList.get(position);
-System.out.println("purpose  :  " + tempAppointment.getNameOfTheClientOfficial());
+		System.out.println("purpose  :  "
+				+ tempAppointment.getNameOfTheClientOfficial());
 		viewHolder.nameTV.setText(tempAppointment.getPurposeOfMeeting());
 		System.out.println("subject  :  " + tempAppointment.getDescription());
 		viewHolder.subjectTV.setText(tempAppointment.getDescription());
-//		if (tempAppointment.getStartTime() != null) {
-//			viewHolder.subjectTV.setText(myApp
-//					.formatDateToString2(tempAppointment.getStartTime()));
-//		}
-//		if (tempAppointment.getEndTime() != null) {
-//			viewHolder.endTimeTV.setText(myApp
-//					.formatDateToString2(tempAppointment.getEndTime()));
-//		}
 
 		return convertView;
 	}
@@ -111,8 +104,8 @@ System.out.println("purpose  :  " + tempAppointment.getNameOfTheClientOfficial()
 			appointmentList.addAll(tempAppointmentList);
 		} else {
 			for (Appointment tempAppointment : tempAppointmentList) {
-				if (tempAppointment.getNameOfTheClientOfficial().toLowerCase(Locale.getDefault())
-						.contains(charText)
+				if (tempAppointment.getNameOfTheClientOfficial()
+						.toLowerCase(Locale.getDefault()).contains(charText)
 						|| tempAppointment.getPurposeOfMeeting()
 								.toLowerCase(Locale.getDefault())
 								.contains(charText)) {

@@ -33,15 +33,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ownerLabel_TV"
+                android:id="@+id/oppoManagerLabel_TV"
                 style="@style/TV_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Owner:" />
+                android:text="Oppotrunity Manager:" />
 
             <TextView
-                android:id="@+id/owner_TV"
+                android:id="@+id/oppoManager_TV"
                 style="@style/TV_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -36,18 +36,27 @@ public class AccountAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView clientName_TV, corridor_TV, corridor_TV2, headquarter_TV,
-			headquarter_TV2, sub_TV, sub_TV2;
+	TextView clientName_TV, sector_TV, sector_TV2, headquarter_TV,
+			headquarter_TV2, lob_TV, lob_TV2, sublob_TV, sublob_TV2,
+			leadPartner_TV, leadPartner_TV2, accountCategory_TV,
+			accountCategory_TV2;
 	EditText clientName_ET;
 
-	RelativeLayout corridor_RL, headquarter_RL, sub_RL;
+	RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
+			leadPartner_RL, accountCategory_RL;
 
 	Intent previousIntent;
 
 	RequestQueue queue;
 
+	Map<String, String> sectorMap;
 	Map<String, String> countryMap;
-	
+	Map<String, String> lobMap;
+	Map<String, String> subLobMap;
+	Map<String, String> accountCategoryMap;
+
+	// Map<String, String> countryMap;
+
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
@@ -62,26 +71,36 @@ public class AccountAddActivity extends CRMActivity {
 		super.findThings();
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
-		corridor_TV = (TextView) findViewById(R.id.corridor_TV);
-		corridor_TV2 = (TextView) findViewById(R.id.corridor_TV2);
+
+		sector_TV = (TextView) findViewById(R.id.sector_TV);
+		sector_TV2 = (TextView) findViewById(R.id.sector_TV2);
 		headquarter_TV = (TextView) findViewById(R.id.headquarter_TV);
 		headquarter_TV2 = (TextView) findViewById(R.id.headquarter_TV2);
-		sub_TV = (TextView) findViewById(R.id.sub_TV);
-		sub_TV2 = (TextView) findViewById(R.id.sub_TV2);
+		lob_TV = (TextView) findViewById(R.id.lob_TV);
+		lob_TV2 = (TextView) findViewById(R.id.lob_TV2);
+		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
+		sublob_TV2 = (TextView) findViewById(R.id.sublob_TV2);
+		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
+		leadPartner_TV2 = (TextView) findViewById(R.id.leadPartner_TV2);
+		accountCategory_TV = (TextView) findViewById(R.id.accountCategory_TV);
+		accountCategory_TV2 = (TextView) findViewById(R.id.accountCategory_TV2);
 
 		clientName_ET = (EditText) findViewById(R.id.clientName_ET);
 
-		corridor_RL = (RelativeLayout) findViewById(R.id.corridor_RL);
+		sector_RL = (RelativeLayout) findViewById(R.id.sector_RL);
 		headquarter_RL = (RelativeLayout) findViewById(R.id.headquarter_RL);
-		sub_RL = (RelativeLayout) findViewById(R.id.sub_RL);
+		lob_RL = (RelativeLayout) findViewById(R.id.lob_RL);
+		sublob_RL = (RelativeLayout) findViewById(R.id.sublob_RL);
+		leadPartner_RL = (RelativeLayout) findViewById(R.id.leadPartner_RL);
+		accountCategory_RL = (RelativeLayout) findViewById(R.id.accountCategory_RL);
 
 	}
 
 	private void setTypeface() {
 		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		corridor_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
 		headquarter_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sub_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		clientName_ET.setTypeface(myApp.getTypefaceRegularSans());
 
@@ -111,43 +130,88 @@ public class AccountAddActivity extends CRMActivity {
 		initView("Add Account", "Submit");
 
 		// registerForContextMenu(corridor_RL);
+		registerForContextMenu(sector_RL);
 		registerForContextMenu(headquarter_RL);
-		registerForContextMenu(sub_RL);
-		
+		registerForContextMenu(lob_RL);
+		registerForContextMenu(sublob_RL);
+		registerForContextMenu(leadPartner_RL);
+		registerForContextMenu(accountCategory_RL);
+
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		if (v.getId() == R.id.headquarter_RL) {
-			countryMap = myApp.getCountryMap();
-			
-			List<String> list = new ArrayList<String>(countryMap.values());
-			for (int i=0;i<list.size();i++) {
+
+		if (v.getId() == R.id.sector_RL) {
+			sectorMap = myApp.getSectorMap();
+
+			List<String> list = new ArrayList<String>(sectorMap.values());
+			for (int i = 0; i < list.size(); i++) {
 				menu.add(0, v.getId(), i, list.get(i));
 			}
-			
-//			for (String countryName : countryMap.values()) {
-//				menu.add(0, v.getId(), 0, countryName);
-//			}
-			
-//			menu.add(0, v.getId(), 0, "Africa");
-//			menu.add(0, v.getId(), 0, "Argentina");
-		} else if (v.getId() == R.id.sub_RL) {
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
-			menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
-			menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
-			menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
-			menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
-			menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
+
 		}
+		if (v.getId() == R.id.headquarter_RL) {
+			countryMap = myApp.getCountryMap();
+
+			List<String> list = new ArrayList<String>(countryMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
+			}
+
+		}
+		if (v.getId() == R.id.lob_RL) {
+			lobMap = myApp.getLobMap();
+
+			List<String> list = new ArrayList<String>(lobMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
+			}
+
+		}
+		if (v.getId() == R.id.sublob_RL) {
+			subLobMap = myApp.getSubLobMap();
+
+			List<String> list = new ArrayList<String>(subLobMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
+			}
+
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
+			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
+			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
+			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
+			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
+			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
+		}
+		if (v.getId() == R.id.leadPartner_RL) {
+			// countryMap = myApp.getCountryMap();
+			//
+			// List<String> list = new ArrayList<String>(countryMap.values());
+			// for (int i = 0; i < list.size(); i++) {
+			// menu.add(0, v.getId(), i, list.get(i));
+			// }
+
+		}
+		if (v.getId() == R.id.accountCategory_RL) {
+			accountCategoryMap = myApp.getAccountCategoryMap();
+
+			List<String> list = new ArrayList<String>(
+					accountCategoryMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
+			}
+
+		}
+
 	}
 
 	@Override
@@ -156,12 +220,14 @@ public class AccountAddActivity extends CRMActivity {
 			headquarter_TV2.setText(item.getTitle());
 			List<String> keys = new ArrayList<String>(countryMap.keySet());
 			keys.get(item.getOrder());
-			
-//			System.out.println(countryMap.get(keys.get(item.getOrder())));
-			
-			Toast.makeText(AccountAddActivity.this, countryMap.get(keys.get(item.getOrder())), Toast.LENGTH_SHORT).show();
+
+			// System.out.println(countryMap.get(keys.get(item.getOrder())));
+
+			Toast.makeText(AccountAddActivity.this,
+					countryMap.get(keys.get(item.getOrder())),
+					Toast.LENGTH_SHORT).show();
 		} else if (item.getGroupId() == 1) {
-			sub_TV2.setText(item.getTitle());
+			sublob_TV2.setText(item.getTitle());
 		}
 		return super.onContextItemSelected(item);
 

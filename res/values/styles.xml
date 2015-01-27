@@ -29,6 +29,11 @@
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+    
+    <style name="dimensions3">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
     <style name="style_TV" parent="dimensions">
         <item name="android:layout_width">0dip</item>
@@ -55,7 +60,7 @@
         <item name="android:padding">5dp</item>
     </style>
 
-    <!-- used in contact_details -->
+    <!-- used in details screens -->
     <style name="LL" parent="dimensions">
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingTop">10dp</item>
@@ -68,7 +73,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
-    
+
     <style name="TV_right" parent="dimensions2">
         <item name="android:layout_weight">3</item>
         <item name="android:layout_marginLeft">5dp</item>
@@ -76,6 +81,30 @@
         <item name="android:textSize">18sp</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
-    <!-- <item name="android:background">@drawable/border_one_side</item> -->
+    <!-- used in details screens -->
+
+
+    <!-- used in context menu -->
+    <style name="RL" parent="dimensions">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:background">@drawable/custom_bg_solid_radius</item>
+        <item name="android:clickable">true</item>
+        <item name="android:onClick">onOpenContextMenu</item>
+    </style>
+
+    <style name="TV" parent="dimensions">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="IV" parent="dimensions3">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:src">@drawable/arrow_down</item>
+    </style>
+    <!-- used in context menu -->
 
 </resources>

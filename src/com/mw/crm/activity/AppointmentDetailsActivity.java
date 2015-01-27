@@ -1,25 +1,34 @@
 package com.mw.crm.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.mw.crm.model.Appointment;
 
 public class AppointmentDetailsActivity extends CRMActivity {
 
 	Intent nextIntent, previousIntent;
+	Appointment selectedAppointment;
 
 	TextView purposeLabel_TV, interactionTypeLabel_TV, dateMeetingLabel_TV,
 			endTimeLabel_TV, ownerLabel_TV;
 
-	TextView purpose_TV, interactionType_TV,
-			dateMeeting_TV, endTime_TV, owner_TV;
+	TextView nameClientOfficial_TV, designationClientOfficial_TV, purpose_TV,
+			interactionType_TV, dateMeeting_TV, endTime_TV, owner_TV;
 
 	private void initThings() {
 		myApp.getAccountList();
 		previousIntent = getIntent();
+		System.out.println("position"
+				+ previousIntent.getIntExtra("position", 0));
+		selectedAppointment = myApp.getAppointmentList().get(
+				previousIntent.getIntExtra("position", 0));
 	}
 
 	public void findThings() {
@@ -30,10 +39,12 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
 		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
 
-		purpose_TV = (TextView) findViewById(R.id.email_TV);
-		interactionType_TV = (TextView) findViewById(R.id.officePhone_TV);
-		dateMeeting_TV = (TextView) findViewById(R.id.mobile_TV);
-		endTime_TV = (TextView) findViewById(R.id.internalConnect_TV);
+		nameClientOfficial_TV = (TextView) findViewById(R.id.nameClientOfficial_TV);
+		designationClientOfficial_TV = (TextView) findViewById(R.id.designationClientOfficial_TV);
+		purpose_TV = (TextView) findViewById(R.id.purpose_TV);
+		interactionType_TV = (TextView) findViewById(R.id.interactionType_TV);
+		dateMeeting_TV = (TextView) findViewById(R.id.dateMeeting_TV);
+		endTime_TV = (TextView) findViewById(R.id.endTime_TV);
 		owner_TV = (TextView) findViewById(R.id.owner_TV);
 	}
 
@@ -56,6 +67,31 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+
+		nameClientOfficial_TV.setText(selectedAppointment
+				.getNameOfTheClientOfficial());
+		designationClientOfficial_TV.setText(selectedAppointment
+				.getDesignationOfClientOfficial());
+		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
+
+		try {
+//			new JSONObject(selectedAppointment.getTypeOfMeeting())
+//					.getInt("Value");
+			interactionType_TV.setText(myApp.getInteractionTypeMap().get(
+					Integer.toString(new JSONObject(selectedAppointment
+							.getTypeOfMeeting()).getInt("Value"))));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		// dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
+		// endTime_TV.setText(selectedAppointment.getEndTime().toString());
+		try {
+//			new JSONObject(selectedAppointment.getOwnerId()).getString("Name");
+			owner_TV.setText(new JSONObject(selectedAppointment.getOwnerId()).getString("Name"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

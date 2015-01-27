@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/background_android" >
 
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/header" />
+        layout="@layout/header2" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-            android:background="@drawable/background_android"
         android:layout_below="@+id/header" >
 
         <LinearLayout
@@ -87,31 +87,43 @@
 
             <RelativeLayout
                 android:id="@+id/owner_RL"
-                android:layout_width="match_parent"
+                style="@style/RL"
+                android:layout_marginTop="10dp" >
+
+                <!--
+                     android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_bg_solid_radius"
                 android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                android:onClick="onOpenContextMenu"
+                -->
 
                 <TextView
                     android:id="@+id/owner_TV"
-                    android:layout_width="match_parent"
+                    style="@style/TV"
+                    android:text="Owner" />
+                <!--
+                         android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:gravity="center_horizontal"
                     android:padding="5dp"
-                    android:text="Owner"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                -->
 
                 <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" 
+                    />
+                <!--
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:src="@drawable/arrow_right" />
+                -->
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,15 +1,21 @@
 package com.mw.crm.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.mw.crm.model.Appointment;
+import com.mw.crm.model.Opportunity;
 
 public class OpportunityDetailsActivity extends CRMActivity {
 
 	Intent nextIntent, previousIntent;
+	Opportunity selectedOpportunity;
 
 	TextView ownerLabel_TV, probabilityLabel_TV, statusLabel_TV,
 			salesStageLabel_TV, clientNameLabel_TV, countryLabel_TV,
@@ -21,6 +27,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	private void initThings() {
 		myApp.getAccountList();
 		previousIntent = getIntent();
+		
+		selectedOpportunity = myApp.getOpportunityList().get(
+				previousIntent.getIntExtra("position", 0));
 	}
 
 	public void findThings() {
@@ -77,6 +86,40 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+		
+//		probability_TV.setText(myApp.getProbabilityMap().get(
+//				Integer.toString(new JSONObject(selectedAppointment
+//						.getTypeOfMeeting()).getInt("Value"))));
+//		probability_TV.setText(selectedOpportunity.getProbability());
+//		salesStage_TV.setText(selectedOpportunity.getSalesStage());
+		
+		try {
+			probability_TV.setText(myApp.getProbabilityMap().get(
+					Integer.toString(new JSONObject(selectedOpportunity
+							.getProbability()).getInt("Value"))));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+//		status_TV.setText(selectedOpportunity.getKpmgStatus());
+		
+		try {
+			status_TV.setText(myApp.getStatusMap().get(
+					Integer.toString(new JSONObject(selectedOpportunity
+							.getKpmgStatus()).getInt("Value"))));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			salesStage_TV.setText(myApp.getSalesStageMap().get(
+					Integer.toString(new JSONObject(selectedOpportunity
+							.getSalesStage()).getInt("Value"))));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		clientName_TV.setText(selectedOpportunity.getCustomerId());
 	}
 
 	@Override

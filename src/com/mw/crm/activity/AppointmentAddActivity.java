@@ -1,6 +1,8 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +52,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	Intent previousIntent;
 
 	List<InternalConnect> ownerList;
+	Map<String, String> ownerMap;
 
 	RequestQueue queue;
 
@@ -113,16 +116,30 @@ public class AppointmentAddActivity extends CRMActivity {
 
 			System.out.println(tempAppointment);
 
-			// purpose_ET.setText(tempAppointment.getDescription());
-			
-			nameClient_ET.setText(tempAppointment.getPurposeOfMeeting());
-			
-			// interaction_ET.setText(tempAppointment.getNameFirst());
-			// designation_ET.setText(tempAppointment.getDescription());
-			// notes_ET.setText(tempAppointment.getNameFirst());
-			
-//			startTime_ET.setText(tempAppointment.getStartTime().toString());
-//			endTime_ET.setText(tempAppointment.getEndTime().toString());
+			purpose_ET.setText(tempAppointment.getPurposeOfMeeting());
+
+			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
+
+			try {
+				interaction_ET.setText(myApp.getInteractionTypeMap().get(
+						Integer.toString(new JSONObject(tempAppointment
+								.getTypeOfMeeting()).getInt("Value"))));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			designation_ET.setText(tempAppointment
+					.getDesignationOfClientOfficial());
+			 notes_ET.setText(tempAppointment.getDescription());
+
+			// startTime_ET.setText(tempAppointment.getStartTime().toString());
+			// endTime_ET.setText(tempAppointment.getEndTime().toString());
+
+			try {
+				owner_TV.setText(new JSONObject(tempAppointment.getOwnerId())
+						.getString("Name"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -155,11 +172,20 @@ public class AppointmentAddActivity extends CRMActivity {
 		// menu.add(0, v.getId(), 0, "Agarwal, Abhijit");
 		// menu.add(0, v.getId(), 0, "Agarwal, Abhishek");
 
-		ownerList = myApp.getInternalConnectList();
-
-		for (int i = 0; i < ownerList.size(); i++) {
-			menu.add(1, v.getId(), i, ownerList.get(i).getLastName());
+//		ownerList = myApp.getInternalConnectList();
+//
+//		for (int i = 0; i < ownerList.size(); i++) {
+//			menu.add(1, v.getId(), i, ownerList.get(i).getLastName());
+//		}
+		
+		ownerMap = myApp.getUserMap();
+		List<String> list = new ArrayList<String>(ownerMap.values());
+		for (int i = 0; i < list.size(); i++) {
+			menu.add(0, v.getId(), i, list.get(i));
 		}
+//		for (int i = 0; i < ownerMap.size(); i++) {
+//			menu.add(1, v.getId(), i, ownerList.get(i).getLastName());
+//		}
 	}
 
 	@Override

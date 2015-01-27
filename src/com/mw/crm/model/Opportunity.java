@@ -6,13 +6,16 @@ public class Opportunity implements Serializable {
 
 	private static final long serialVersionUID = -1622121450891551591L;
 
+	String opportunityId;
 	String name;
 	String totalAmount;
 	String ownerId;
-	String transactionCurrencyId; 
+	String transactionCurrencyId;
 	String customerId;
+
+	String probability;
 	String kpmgStatus;
-	String opportunityId;
+	String salesStage;
 
 	public Opportunity() {
 		super();
@@ -74,9 +77,26 @@ public class Opportunity implements Serializable {
 		this.opportunityId = opportunityId;
 	}
 
+	public String getProbability() {
+		return probability;
+	}
+
+	public void setProbability(String probability) {
+		this.probability = probability;
+	}
+
+	public String getSalesStage() {
+		return salesStage;
+	}
+
+	public void setSalesStage(String salesStage) {
+		this.salesStage = salesStage;
+	}
+
 	public Opportunity(String ownerId, String transactionCurrencyId,
 			String totalAmount, String customerId, String name,
-			String kpmgStatus, String opportunityId) {
+			String kpmgStatus, String opportunityId, String probability,
+			String salesStage) {
 		super();
 		this.ownerId = ownerId;
 		this.transactionCurrencyId = transactionCurrencyId;
@@ -85,6 +105,8 @@ public class Opportunity implements Serializable {
 		this.name = name;
 		this.kpmgStatus = kpmgStatus;
 		this.opportunityId = opportunityId;
+		this.probability = probability;
+		this.salesStage = salesStage;
 	}
 
 	@Override
@@ -96,6 +118,4 @@ public class Opportunity implements Serializable {
 				+ opportunityId + "]";
 	}
 
-	
-	
 }

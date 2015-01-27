@@ -132,11 +132,10 @@ public class OpportunityService extends IntentService {
 
 	private Opportunity getOpportunityObject(JSONObject jsonObject) {
 		try {
-//			System.out.println(jsonObject.toString());
-//			System.out.println("transactioncurrencyid : "
-//					+ jsonObject.has("transactioncurrencyid") );
+			// System.out.println(jsonObject.toString());
+			// System.out.println("transactioncurrencyid : "
+			// + jsonObject.has("transactioncurrencyid") );
 
-			
 			Opportunity opportunity = new Opportunity(
 					MyApp.decryptData(jsonObject.getString("ownerid")),
 					MyApp.decryptData(jsonObject
@@ -145,7 +144,9 @@ public class OpportunityService extends IntentService {
 					MyApp.decryptData(jsonObject.getString("customerid")),
 					MyApp.decryptData(jsonObject.getString("name")),
 					MyApp.decryptData(jsonObject.getString("pcl_kpmgstatus")),
-					MyApp.decryptData(jsonObject.getString("opportunityid")));
+					MyApp.decryptData(jsonObject.getString("opportunityid")),
+					MyApp.decryptData(jsonObject.getString("opportunityratingcode")),
+					MyApp.decryptData(jsonObject.getString("salesstagecode")));
 			return opportunity;
 
 		} catch (JSONException e) {

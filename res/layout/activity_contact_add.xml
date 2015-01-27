@@ -49,30 +49,35 @@
 
             <RelativeLayout
                 android:id="@+id/organization_RL"
-                android:layout_width="match_parent"
+                style="@style/RL">
+<!--                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/custom_bg_solid_radius"
                 android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                android:onClick="onOpenContextMenu"  -->
 
                 <TextView
                     android:id="@+id/organization2_TV"
-                    android:layout_width="match_parent"
+                    android:text="Select Organization"
+                                        style="@style/TV"
+                    />
+<!--                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:padding="5dp"
-                    android:text="Select Organization"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"  -->
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+<!--                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:src="@drawable/arrow_right" />
+                    android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -82,30 +87,36 @@
 
             <RelativeLayout
                 android:id="@+id/internal_RL"
-                android:layout_width="match_parent"
+                style="@style/RL"
+                >
+<!--                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/custom_bg_solid_radius"
                 android:clickable="true"
-                android:onClick="onOpenContextMenu" >
+                android:onClick="onOpenContextMenu"  -->
 
                 <TextView
                     android:id="@+id/internalConnect2_TV"
-                    android:layout_width="match_parent"
+                     style="@style/TV"
+                    android:textSize="18sp" 
+                    />
+<!--                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:padding="5dp"
-                    android:text="Select Internal Connect"
-                    android:textSize="18sp" />
+                    android:text="Select Internal Connect" -->
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+<!--                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:src="@drawable/arrow_right" />
+                    android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -115,31 +126,36 @@
 
             <RelativeLayout
                 android:id="@+id/aa3"
-                android:layout_width="match_parent"
+                style="@style/RL"
+                android:onClick="onShowPicker" >
+<!--                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onShowPicker" >
+                android:clickable="true" -->
 
                 <TextView
                     android:id="@+id/dor2_TV"
-                    android:layout_width="match_parent"
+                    style="@style/TV"
+                    android:text="Degree of Relationship"
+                    />
+<!--                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:gravity="center_horizontal"
                     android:padding="5dp"
-                    android:text="Degree of Relationship"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"  -->
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    style="@style/IV"
+                    />
+<!--                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:src="@drawable/arrow_down" />
+                    android:src="@drawable/arrow_down"  -->
             </RelativeLayout>
 
             <NumberPicker

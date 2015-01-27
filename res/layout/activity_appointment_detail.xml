@@ -27,13 +27,13 @@
                 android:id="@+id/app_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contact Name"
+                android:text="client official"
                 android:textColor="@color/blue_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/app2_TV"
+                android:id="@+id/nameClientOfficial_TV"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:textSize="18sp" />
             
             <TextView
-                android:id="@+id/app3_TV"
+                android:id="@+id/designationClientOfficial_TV"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 <TextView
                     android:id="@+id/purpose_TV"
                     style="@style/TV_right"
-                    android:text="TextView" />
+                    android:text="-" />
             </LinearLayout>
 
             <LinearLayout style="@style/LL" >
@@ -73,7 +73,7 @@
                 <TextView
                     android:id="@+id/interactionType_TV"
                     style="@style/TV_right"
-                    android:text="TextView" />
+                    android:text="-" />
             </LinearLayout>
 
             <LinearLayout style="@style/LL" >
@@ -86,7 +86,7 @@
                 <TextView
                     android:id="@+id/dateMeeting_TV"
                     style="@style/TV_right"
-                    android:text="TextView" />
+                    android:text="-" />
             </LinearLayout>
 
             <LinearLayout style="@style/LL" >
@@ -99,7 +99,7 @@
                 <TextView
                     android:id="@+id/endTime_TV"
                     style="@style/TV_right"
-                    android:text="TextView" />
+                    android:text="-" />
             </LinearLayout>
 
             <TextView
