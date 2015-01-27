@@ -360,20 +360,20 @@ public class MyApp extends Application {
 		appointmentList.add(new Appointment("", "**Srikanth meeting**", null,
 				null, null, null, null, new Date(), new Date()));
 
-		accountList.add(new Account("South Asia Clean Energy Fund....",
-				"4440158", null, null, null));
-		accountList.add(new Account("(n)Code Solutions", "4440152", null, null,
-				null));
-		accountList.add(new Account("1 MG", "4440157", null, null, null));
-		accountList.add(new Account("1 MG Road", "4440156", null, null, null));
-		accountList.add(new Account("10C India Internet India private Ltd",
-				"5550158", null, null, null));
-		accountList.add(new Account("120 Media Collective Private Ltd",
-				"5550152", null, null, null));
-		accountList.add(new Account("1FB Support Services Private Ltd",
-				"5550153", null, null, null));
-		accountList.add(new Account("**2 Degrees**", "5550155", null, null,
-				null));
+//		accountList.add(new Account("South Asia Clean Energy Fund....",
+//				"4440158", null, null, null));
+//		accountList.add(new Account("(n)Code Solutions", "4440152", null, null,
+//				null));
+//		accountList.add(new Account("1 MG", "4440157", null, null, null));
+//		accountList.add(new Account("1 MG Road", "4440156", null, null, null));
+//		accountList.add(new Account("10C India Internet India private Ltd",
+//				"5550158", null, null, null));
+//		accountList.add(new Account("120 Media Collective Private Ltd",
+//				"5550152", null, null, null));
+//		accountList.add(new Account("1FB Support Services Private Ltd",
+//				"5550153", null, null, null));
+//		accountList.add(new Account("**2 Degrees**", "5550155", null, null,
+//				null));
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -36,10 +37,12 @@ public class AccountAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView clientName_TV, sector_TV, sector_TV2, headquarter_TV,
-			headquarter_TV2, lob_TV, lob_TV2, sublob_TV, sublob_TV2,
-			leadPartner_TV, leadPartner_TV2, accountCategory_TV,
-			accountCategory_TV2;
+	TextView clientNameLabel_TV, sectorLabel_TV, headquarterLabel_TV,
+			lobLabel_TV, sublobLabel_TV, leadPartnerLabel_TV,
+			accountCategoryLabel_TV;
+	TextView sector_TV, headquarter_TV, lob_TV, sublob_TV, leadPartner_TV,
+			accountCategory_TV;
+
 	EditText clientName_ET;
 
 	RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
@@ -55,8 +58,6 @@ public class AccountAddActivity extends CRMActivity {
 	Map<String, String> subLobMap;
 	Map<String, String> accountCategoryMap;
 
-	// Map<String, String> countryMap;
-
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
@@ -70,20 +71,20 @@ public class AccountAddActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 
-		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
+		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
+		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
+		headquarterLabel_TV = (TextView) findViewById(R.id.headquarterLabel_TV);
+		lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
+		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
+		leadPartnerLabel_TV = (TextView) findViewById(R.id.leadPartnerLabel_TV);
+		accountCategoryLabel_TV = (TextView) findViewById(R.id.accountCategoryLabel_TV);
 
 		sector_TV = (TextView) findViewById(R.id.sector_TV);
-		sector_TV2 = (TextView) findViewById(R.id.sector_TV2);
 		headquarter_TV = (TextView) findViewById(R.id.headquarter_TV);
-		headquarter_TV2 = (TextView) findViewById(R.id.headquarter_TV2);
 		lob_TV = (TextView) findViewById(R.id.lob_TV);
-		lob_TV2 = (TextView) findViewById(R.id.lob_TV2);
 		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
-		sublob_TV2 = (TextView) findViewById(R.id.sublob_TV2);
 		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
-		leadPartner_TV2 = (TextView) findViewById(R.id.leadPartner_TV2);
 		accountCategory_TV = (TextView) findViewById(R.id.accountCategory_TV);
-		accountCategory_TV2 = (TextView) findViewById(R.id.accountCategory_TV2);
 
 		clientName_ET = (EditText) findViewById(R.id.clientName_ET);
 
@@ -97,10 +98,10 @@ public class AccountAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
-		headquarter_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		clientNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		headquarterLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		clientName_ET.setTypeface(myApp.getTypefaceRegularSans());
 
@@ -116,7 +117,32 @@ public class AccountAddActivity extends CRMActivity {
 
 			clientName_ET.setText(tempAccount.getName());
 
-			System.out.println(tempAccount.toString());
+			try {
+				headquarter_TV.setText(myApp.getCountryMap().get(
+						Integer.toString(new JSONObject(tempAccount
+								.getCountry()).getInt("Value"))));
+				lob_TV.setText(myApp.getLobMap().get(
+						Integer.toString(new JSONObject(tempAccount.getLob())
+								.getInt("Value"))));
+				sublob_TV.setText(myApp.getSubLobMap()
+						.get(Integer.toString(new JSONObject(tempAccount
+								.getSubLob()).getInt("Value"))));
+				sector_TV.setText(myApp.getSectorMap()
+						.get(Integer.toString(new JSONObject(tempAccount
+								.getSector()).getInt("Value"))));
+				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
+						Integer.toString(new JSONObject(tempAccount
+								.getAccountCategory()).getInt("Value"))));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				leadPartner_TV.setText(new JSONObject(tempAccount
+						.getLeadPartner()).getString("Name"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -217,7 +243,7 @@ public class AccountAddActivity extends CRMActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getGroupId() == 0) {
-			headquarter_TV2.setText(item.getTitle());
+			headquarter_TV.setText(item.getTitle());
 			List<String> keys = new ArrayList<String>(countryMap.keySet());
 			keys.get(item.getOrder());
 
@@ -227,7 +253,7 @@ public class AccountAddActivity extends CRMActivity {
 					countryMap.get(keys.get(item.getOrder())),
 					Toast.LENGTH_SHORT).show();
 		} else if (item.getGroupId() == 1) {
-			sublob_TV2.setText(item.getTitle());
+			sublob_TV.setText(item.getTitle());
 		}
 		return super.onContextItemSelected(item);
 

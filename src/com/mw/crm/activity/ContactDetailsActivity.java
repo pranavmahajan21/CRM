@@ -1,5 +1,8 @@
 package com.mw.crm.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,12 +10,15 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Appointment;
+import com.mw.crm.model.Contact;
 
 public class ContactDetailsActivity extends CRMActivity {
 
 //	MyApp myApp; will be inherited from CRMActivity
 
 	Intent nextIntent, previousIntent;
+	Contact selectedContact;
 
 	TextView emailLabel_TV, officePhoneLabel_TV, mobileLabel_TV,
 			internalConnectLabel_TV, dorLabel_TV;
@@ -22,6 +28,8 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	private void initThings() {
 		previousIntent = getIntent();
+		selectedContact = myApp.getContactList().get(
+				previousIntent.getIntExtra("position", 0));
 	}
 
 	public void findThings() {
@@ -62,12 +70,30 @@ public class ContactDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+		
+		email_TV.setText(selectedContact.getEmail());
+		officePhone_TV.setText(selectedContact.getTelephone());
+		mobile_TV.setText(selectedContact.getMobilePhone());
+		
+		try {
+			internalConnect_TV.setText(new JSONObject(selectedContact.getInternalConnect()).getString("Name"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			dor_TV.setText(myApp.getDorMap().get(
+					Integer.toString(new JSONObject(selectedContact
+							.getDegreeOfRelation()).getInt("Value"))));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_appointment_detail);
+		setContentView(R.layout.activity_contact_detail);
 
 		initThings();
 		findThings();

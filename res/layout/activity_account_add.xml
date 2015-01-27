@@ -23,7 +23,7 @@
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/clientName_TV"
+                android:id="@+id/clientNameLabel_TV"
                 style="@style/style_TV2"
                 android:layout_marginTop="1dp"
                 android:text="Client Name:" />
@@ -33,7 +33,7 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/sector_TV"
+                android:id="@+id/sectorLabel_TV"
                 style="@style/style_TV2"
                 android:text="Sector:" />
 
@@ -42,7 +42,7 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/sector_TV2"
+                    android:id="@+id/sector_TV"
                     style="@style/TV"
                     android:text="Sector" />
 
@@ -50,7 +50,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/headquarter_TV"
+                android:id="@+id/headquarterLabel_TV"
                 style="@style/style_TV2"
                 android:text="Headquarter Country:" />
 
@@ -59,7 +59,7 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/headquarter_TV2"
+                    android:id="@+id/headquarter_TV"
                     style="@style/TV"
                     android:text="Headquarter Country" />
 
@@ -67,7 +67,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/lob_TV"
+                android:id="@+id/lobLabel_TV"
                 style="@style/style_TV2"
                 android:text="LOB:" />
 
@@ -76,7 +76,7 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/lob_TV2"
+                    android:id="@+id/lob_TV"
                     style="@style/TV"
                     android:text="LOB" />
 
@@ -84,7 +84,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/sublob_TV"
+                android:id="@+id/sublobLabel_TV"
                 style="@style/style_TV2"
                 android:text="Sub LOB:" />
 
@@ -93,7 +93,7 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/sublob_TV2"
+                    android:id="@+id/sublob_TV"
                     style="@style/TV"
                     android:text="Sub LOB" />
 
@@ -101,7 +101,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/leadPartner_TV"
+                android:id="@+id/leadPartnerLabel_TV"
                 style="@style/style_TV2"
                 android:text="Lead Partner 1:" />
 
@@ -110,7 +110,7 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/leadPartner_TV2"
+                    android:id="@+id/leadPartner_TV"
                     style="@style/TV"
                     android:text="Lead Partner" />
 
@@ -118,7 +118,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/accountCategory_TV"
+                android:id="@+id/accountCategoryLabel_TV"
                 style="@style/style_TV2"
                 android:text="Account Category 1:" />
 
@@ -127,7 +127,7 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/accountCategory_TV2"
+                    android:id="@+id/accountCategory_TV"
                     style="@style/TV"
                     android:text="Account Category" />
 

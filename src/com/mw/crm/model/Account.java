@@ -9,23 +9,37 @@ public class Account implements Serializable {
 	String name;
 	String accountId;
 	String country;
-	String subLob;
 	String lob;
+	String subLob;
 
 	String accountCategory;
 	String sector;
 	String leadPartner;
-	
-	String corridor;
-	
-	public Account(String name, String accountId, String country,
-			String corridor, String subLob) {
+
+	// String corridor;
+
+	// public Account(String name, String accountId, String country,
+	// String corridor, String subLob) {
+	// super();
+	// this.name = name;
+	// this.accountId = accountId;
+	// this.country = country;
+	// this.corridor = corridor;
+	// this.subLob = subLob;
+	// }
+
+	public Account(String name, String accountId, String country, String lob,
+			String subLob, String accountCategory, String sector,
+			String leadPartner) {
 		super();
 		this.name = name;
 		this.accountId = accountId;
 		this.country = country;
-		this.corridor = corridor;
+		this.lob = lob;
 		this.subLob = subLob;
+		this.accountCategory = accountCategory;
+		this.sector = sector;
+		this.leadPartner = leadPartner;
 	}
 
 	public String getName() {
@@ -52,14 +66,6 @@ public class Account implements Serializable {
 		this.country = country;
 	}
 
-	public String getCorridor() {
-		return corridor;
-	}
-
-	public void setCorridor(String corridor) {
-		this.corridor = corridor;
-	}
-
 	public String getSubLob() {
 		return subLob;
 	}
@@ -68,11 +74,44 @@ public class Account implements Serializable {
 		this.subLob = subLob;
 	}
 
+	public String getLob() {
+		return lob;
+	}
+
+	public void setLob(String lob) {
+		this.lob = lob;
+	}
+
+	public String getAccountCategory() {
+		return accountCategory;
+	}
+
+	public void setAccountCategory(String accountCategory) {
+		this.accountCategory = accountCategory;
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+
+	public String getLeadPartner() {
+		return leadPartner;
+	}
+
+	public void setLeadPartner(String leadPartner) {
+		this.leadPartner = leadPartner;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [name=" + name + ", accountId=" + accountId
-				+ ", country=" + country + ", corridor=" + corridor
-				+ ", subLob=" + subLob + "]";
+				+ ", country=" + country + ", lob=" + lob + ", subLob="
+				+ subLob + ", accountCategory=" + accountCategory + ", sector="
+				+ sector + ", leadPartner=" + leadPartner + "]";
 	}
 
 }

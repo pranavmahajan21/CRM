@@ -1,25 +1,31 @@
 package com.mw.crm.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.mw.crm.model.Account;
 
 public class AccountDetailsActivity extends CRMActivity {
 
 	Intent nextIntent, previousIntent;
+	Account selectedAccount;
 
 	TextView leadPartnerLabel_TV, headquarterCountryLabel_TV, lobLabel_TV,
 			sublobLabel_TV, sectorLabel_TV, accountCategoryLabel_TV;
 
-	TextView leadPartner_TV, headquarterCountry_TV, lob_TV, sublob_TV,
+	TextView accountName_TV, leadPartner_TV, headquarterCountry_TV, lob_TV, sublob_TV,
 			sector_TV, accountCategory_TV;
 
 	private void initThings() {
-//		myApp.getAccountList();
 		previousIntent = getIntent();
+		selectedAccount = myApp.getAccountList().get(
+				previousIntent.getIntExtra("position", 0));
 	}
 
 	public void findThings() {
@@ -31,6 +37,7 @@ public class AccountDetailsActivity extends CRMActivity {
 		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
 		accountCategoryLabel_TV = (TextView) findViewById(R.id.accountCategoryLabel_TV);
 
+		accountName_TV = (TextView) findViewById(R.id.accountName_TV);
 		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
 		headquarterCountry_TV = (TextView) findViewById(R.id.headquarterCountry_TV);
 		lob_TV = (TextView) findViewById(R.id.lob_TV);
@@ -42,24 +49,52 @@ public class AccountDetailsActivity extends CRMActivity {
 	private void setTypeface() {
 		// myApp.getTypefaceBoldSans()
 
-//		 leadPartnerLabel_TV.setTypeface();
-//		 headquarterCountryLabel_TV.setTypeface();
-//		 lobLabel_TV.setTypeface();
-//		 sublobLabel_TV.setTypeface();
-//		 sectorLabel_TV.setTypeface();
-//		 accountCategoryLabel_TV.setTypeface();
-//		 
-//		 leadPartner_TV.setTypeface();
-//		 headquarterCountry_TV.setTypeface();
-//		 lob_TV.setTypeface();
-//		 sublob_TV.setTypeface();
-//		 sector_TV.setTypeface();
-//		 accountCategory_TV.setTypeface();
+		// leadPartnerLabel_TV.setTypeface();
+		// headquarterCountryLabel_TV.setTypeface();
+		// lobLabel_TV.setTypeface();
+		// sublobLabel_TV.setTypeface();
+		// sectorLabel_TV.setTypeface();
+		// accountCategoryLabel_TV.setTypeface();
+		//
+		// leadPartner_TV.setTypeface();
+		// headquarterCountry_TV.setTypeface();
+		// lob_TV.setTypeface();
+		// sublob_TV.setTypeface();
+		// sector_TV.setTypeface();
+		// accountCategory_TV.setTypeface();
 	}
 
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+
+		accountName_TV.setText(selectedAccount.getName());
+		
+		try {
+			headquarterCountry_TV.setText(myApp.getCountryMap().get(
+					Integer.toString(new JSONObject(selectedAccount
+							.getCountry()).getInt("Value"))));
+			lob_TV.setText(myApp.getLobMap().get(
+					Integer.toString(new JSONObject(selectedAccount
+							.getLob()).getInt("Value"))));
+			sublob_TV.setText(myApp.getSubLobMap().get(
+					Integer.toString(new JSONObject(selectedAccount
+							.getSubLob()).getInt("Value"))));
+			sector_TV.setText(myApp.getSectorMap().get(
+					Integer.toString(new JSONObject(selectedAccount
+							.getSector()).getInt("Value"))));
+			accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
+					Integer.toString(new JSONObject(selectedAccount
+							.getAccountCategory()).getInt("Value"))));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			leadPartner_TV.setText(new JSONObject(selectedAccount.getLeadPartner()).getString("Name"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

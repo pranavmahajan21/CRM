@@ -129,7 +129,7 @@ public class InternalConnectService extends IntentService {
 	private void createUserMap(JSONObject jsonObject) {
 		try {
 
-			System.out.println("[][]" + MyApp.getPerfectString(jsonObject.getString("systemuserid")));
+			System.out.println("[][]" + MyApp.getPerfectString(jsonObject.getString("systemuserid")) + "\n[][]" + MyApp.getPerfectString(jsonObject.getString("lastname")));
 			
 			userMap.put(MyApp.getPerfectString(jsonObject.getString("systemuserid")),
 					MyApp.getPerfectString(jsonObject.getString("lastname")));

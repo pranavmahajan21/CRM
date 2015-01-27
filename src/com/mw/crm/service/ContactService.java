@@ -35,7 +35,7 @@ public class ContactService extends IntentService {
 	Gson gson = new Gson();
 
 	List<Contact> contactList = new ArrayList<Contact>();
-	
+
 	public ContactService() {
 		super("ContactService");
 	}
@@ -54,35 +54,29 @@ public class ContactService extends IntentService {
 			String url = MyApp.URL + MyApp.CONTACTS_DATA;
 
 			System.out.println("URL : " + url);
-			
+
 			JSONObject params = new JSONObject();
 			params = MyApp.addParamToJson(params);
-			
+
 			System.out.println("json" + params);
-			
+
 			JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
 					Method.POST, url, params,
 					new Response.Listener<JSONArray>() {
 
 						@Override
 						public void onResponse(JSONArray response) {
-							System.out.println("Contact response" + response.toString());
-							// TODO
-							// Type listType = (Type) new
-							// TypeToken<ArrayList<Contactt>>() {
-							// }.getType();
-							// accountList = (List<Account>) gson.fromJson(
-							// response.toString(), listType);
+							System.out.println("Contact response"
+									+ response.toString());
 
 							for (int i = 0; i < response.length(); i++) {
 								try {
 									contactList.add(getContactObject(response
 											.getJSONObject(i)));
 								} catch (JSONException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								
+
 							}
 							myApp.setContactList(contactList);
 						}
@@ -91,7 +85,9 @@ public class ContactService extends IntentService {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 							System.out.println("ERROR  : " + error.getMessage());
-							Toast.makeText(ContactService.this, "Error while fetching Contact", Toast.LENGTH_SHORT).show();
+							Toast.makeText(ContactService.this,
+									"Error while fetching Contact",
+									Toast.LENGTH_SHORT).show();
 							error.printStackTrace();
 
 							if (error instanceof NetworkError) {
@@ -127,21 +123,27 @@ public class ContactService extends IntentService {
 		} else if (AppointmentAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("owner_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		}else if (MenuActivity.isActivityVisible) {
+		} else if (MenuActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
 	}
-	
+
 	private Contact getContactObject(JSONObject jsonObject) {
 		try {
 
-			Contact contact = new Contact(
-					MyApp.decryptData(jsonObject.getString("ownerid")),
-					MyApp.decryptData(jsonObject.getString("parentcustomerid")),
-					MyApp.decryptData(jsonObject.getString("customertypecode")),
-					MyApp.decryptData(jsonObject.getString("contactid")), MyApp
-							.decryptData(jsonObject.getString("lastname")));
+			Contact contact = new Contact(MyApp.decryptData(jsonObject
+					.getString("firstname")), MyApp.decryptData(jsonObject
+					.getString("lastname")), MyApp.decryptData(jsonObject
+					.getString("emailaddress1")), MyApp.decryptData(jsonObject
+					.getString("pcl_designation")), MyApp.decryptData(jsonObject
+					.getString("mobilephone")), MyApp.decryptData(jsonObject
+					.getString("telephone1")), MyApp.decryptData(jsonObject
+					.getString("ownerid")), MyApp.decryptData(jsonObject
+					.getString("parentcustomerid")), MyApp.decryptData(jsonObject
+					.getString("customertypecode")), MyApp.decryptData(jsonObject
+					.getString("contactid")));
+
 			return contact;
 
 		} catch (JSONException e) {

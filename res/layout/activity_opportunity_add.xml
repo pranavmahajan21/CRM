@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
 
+            <!--
             <TextView
                 android:id="@+id/requiredSolutions_TV"
                 style="@style/style_TV2"
@@ -92,7 +93,8 @@
             <EditText
                 android:id="@+id/currency_ET"
                 style="@style/style_ET2" />
-            
+            -->
+
             <TextView
                 android:id="@+id/probabilityLabel_TV"
                 style="@style/style_TV2"
@@ -111,11 +113,11 @@
                     style="@style/IV"
                     android:src="@drawable/arrow_right" />
             </RelativeLayout>
-            
+
             <TextView
                 android:id="@+id/salesStageLabel_TV"
                 style="@style/style_TV2"
-                android:text="Client Name" />
+                android:text="Sales Stage" />
 
             <RelativeLayout
                 android:id="@+id/salesStage_RL"
@@ -125,6 +127,98 @@
                     android:id="@+id/salesStage_TV"
                     style="@style/TV"
                     android:text="Sales Stage" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/countryLabel_TV"
+                style="@style/style_TV2"
+                android:text="Country" />
+
+            <RelativeLayout
+                android:id="@+id/country_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/country_TV"
+                    style="@style/TV"
+                    android:text="Country" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/corridorLabel_TV"
+                style="@style/style_TV2"
+                android:text="Corridor" />
+
+            <RelativeLayout
+                android:id="@+id/corridor_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/corridor_TV"
+                    style="@style/TV"
+                    android:text="Corridor" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/lob_TV"
+                style="@style/style_TV2"
+                android:text="LOB:" />
+
+            <RelativeLayout
+                android:id="@+id/lob_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/lob_TV2"
+                    style="@style/TV"
+                    android:text="LOB" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/sublob_TV"
+                style="@style/style_TV2"
+                android:text="Sub LOB:" />
+
+            <RelativeLayout
+                android:id="@+id/sublob_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/sublob_TV2"
+                    style="@style/TV"
+                    android:text="Sub LOB" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+            
+            
+            <TextView
+                android:id="@+id/sectorLabel_TV"
+                style="@style/style_TV2"
+                android:text="Sector" />
+
+            <RelativeLayout
+                android:id="@+id/sector_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/sector_TV"
+                    style="@style/TV"
+                    android:text="Sector" />
 
                 <ImageView
                     style="@style/IV"

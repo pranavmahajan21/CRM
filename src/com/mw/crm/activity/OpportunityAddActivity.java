@@ -41,11 +41,11 @@ public class OpportunityAddActivity extends CRMActivity {
 	MyApp myApp;
 
 	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
-			requiredSolutions_TV, currency_TV, probabilityLabel_TV, salesStageLabel_TV;
+			 probabilityLabel_TV, salesStageLabel_TV;
 	
 	TextView clientName_TV, probability_TV, salesStage_TV;
 	
-	EditText description_ET, requiredSolutions_ET, currency_ET;
+	EditText description_ET;
 	
 	RelativeLayout clientRL, probability_RL, salesStage_RL;
 
@@ -80,14 +80,10 @@ public class OpportunityAddActivity extends CRMActivity {
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
 		
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
-		requiredSolutions_TV = (TextView) findViewById(R.id.requiredSolutions_TV);
-		currency_TV = (TextView) findViewById(R.id.currency_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
 		
 		description_ET = (EditText) findViewById(R.id.description_ET);
-		requiredSolutions_ET = (EditText) findViewById(R.id.requiredSolutions_ET);
-		currency_ET = (EditText) findViewById(R.id.currency_ET);
 
 		clientRL = (RelativeLayout) findViewById(R.id.client_RL);
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
@@ -103,11 +99,11 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		requiredSolutions_TV.setTypeface(myApp.getTypefaceRegularSans());
-		currency_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		requiredSolutions_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		currency_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 	}
 

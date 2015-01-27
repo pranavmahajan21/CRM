@@ -35,7 +35,7 @@ public class AccountService extends IntentService {
 	Gson gson = new Gson();
 
 	List<Account> accountList = new ArrayList<Account>();
-	
+
 	public AccountService() {
 		super("AccountService");
 	}
@@ -57,21 +57,18 @@ public class AccountService extends IntentService {
 
 			JSONObject params = new JSONObject();
 			params = MyApp.addParamToJson(params);
-			
+
 			System.out.println(params.toString());
-			
+
 			JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
 					Method.POST, url, params,
 					new Response.Listener<JSONArray>() {
 
 						@Override
 						public void onResponse(JSONArray response) {
-							// TODO
-							// Advanced GSON conversion required
 							System.out.println(">>>>Account Response => "
 									+ response.toString());
-							
-							
+
 							for (int i = 0; i < response.length(); i++) {
 								try {
 									accountList.add(getAccountObject(response
@@ -87,7 +84,9 @@ public class AccountService extends IntentService {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 							System.out.println("ERROR  : " + error.getMessage());
-							Toast.makeText(AccountService.this, "Error while fetching Account", Toast.LENGTH_SHORT).show();
+							Toast.makeText(AccountService.this,
+									"Error while fetching Account",
+									Toast.LENGTH_SHORT).show();
 							error.printStackTrace();
 
 							if (error instanceof NetworkError) {
@@ -123,25 +122,25 @@ public class AccountService extends IntentService {
 		} else if (AppointmentAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("owner_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		}else if (MenuActivity.isActivityVisible) {
+		} else if (MenuActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
 	}
-	
+
 	private Account getAccountObject(JSONObject jsonObject) {
 		try {
-			
-			Account account = new Account(MyApp.decryptData(jsonObject
+
+			Account account = new Account(MyApp.getPerfectString(jsonObject
 					.getString("name")), MyApp.decryptData(jsonObject
 					.getString("accountid")), MyApp.decryptData(jsonObject
-							.getString("pcl_country1")), null, MyApp.decryptData(jsonObject
-					.getString("pcl_sublob")));
-			
-//			MyApp.decryptData(jsonObject
-//					.getString("pcl_country1")), MyApp.decryptData(jsonObject
-//					.getString("pcl_corridor"))
-					
+					.getString("pcl_country1")), MyApp.decryptData(jsonObject
+					.getString("pcl_lob")), MyApp.decryptData(jsonObject
+					.getString("pcl_sublob")), MyApp.decryptData(jsonObject
+					.getString("pcl_accountcategory1")),
+					MyApp.decryptData(jsonObject.getString("pcl_sectorlist")),
+					MyApp.decryptData(jsonObject.getString("pcl_leadpartner")));
+
 			System.out.println("#$#$" + account.getName());
 			return account;
 

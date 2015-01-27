@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
-import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityDetailsActivity extends CRMActivity {
@@ -87,31 +86,13 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 		
-//		probability_TV.setText(myApp.getProbabilityMap().get(
-//				Integer.toString(new JSONObject(selectedAppointment
-//						.getTypeOfMeeting()).getInt("Value"))));
-//		probability_TV.setText(selectedOpportunity.getProbability());
-//		salesStage_TV.setText(selectedOpportunity.getSalesStage());
-		
 		try {
 			probability_TV.setText(myApp.getProbabilityMap().get(
 					Integer.toString(new JSONObject(selectedOpportunity
 							.getProbability()).getInt("Value"))));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-//		status_TV.setText(selectedOpportunity.getKpmgStatus());
-		
-		try {
 			status_TV.setText(myApp.getStatusMap().get(
 					Integer.toString(new JSONObject(selectedOpportunity
 							.getKpmgStatus()).getInt("Value"))));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		try {
 			salesStage_TV.setText(myApp.getSalesStageMap().get(
 					Integer.toString(new JSONObject(selectedOpportunity
 							.getSalesStage()).getInt("Value"))));
