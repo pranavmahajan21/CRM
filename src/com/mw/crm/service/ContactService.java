@@ -132,7 +132,7 @@ public class ContactService extends IntentService {
 	private Contact getContactObject(JSONObject jsonObject) {
 		try {
 
-			Contact contact = new Contact(MyApp.decryptData(jsonObject
+			Contact contact = new Contact(MyApp.getPerfectString(jsonObject
 					.getString("firstname")), MyApp.decryptData(jsonObject
 					.getString("lastname")), MyApp.decryptData(jsonObject
 					.getString("emailaddress1")), MyApp.decryptData(jsonObject

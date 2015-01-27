@@ -726,7 +726,14 @@ public class MyApp extends Application {
 
 	public static String getPerfectString(String string) {
 		// Does both of 1. removes Quotes 2. Decrypt Data 
-		return MyApp.removeQuotesFromString(MyApp.decryptData(string));
+//		return MyApp.removeQuotesFromString(MyApp.decryptData(string));
+		
+		String s = MyApp.decryptData(string);
+		System.out.println("After decryption : " + s.length() +"  asdsd  :  " + (s==null));
+		String s2 = MyApp.removeQuotesFromString(s);
+		System.out.println("After removing quotes  : " + s2);
+		
+		return s2;
 	}
 	
 	public static String removeQuotesFromString(String string) {

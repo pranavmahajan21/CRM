@@ -19,8 +19,9 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	TextView purposeLabel_TV, interactionTypeLabel_TV, dateMeetingLabel_TV,
 			endTimeLabel_TV, ownerLabel_TV;
 
-	TextView nameClientOfficial_TV, designationClientOfficial_TV, purpose_TV,
-			interactionType_TV, dateMeeting_TV, endTime_TV, owner_TV;
+	TextView description_TV, nameClientOfficial_TV,
+			designationClientOfficial_TV, purpose_TV, interactionType_TV,
+			dateMeeting_TV, endTime_TV, owner_TV;
 
 	private void initThings() {
 		myApp.getAccountList();
@@ -39,6 +40,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
 		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
 
+		description_TV = (TextView) findViewById(R.id.description_TV);
 		nameClientOfficial_TV = (TextView) findViewById(R.id.nameClientOfficial_TV);
 		designationClientOfficial_TV = (TextView) findViewById(R.id.designationClientOfficial_TV);
 		purpose_TV = (TextView) findViewById(R.id.purpose_TV);
@@ -68,6 +70,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
+		description_TV.setText(selectedAppointment.getDescription());
 		nameClientOfficial_TV.setText(selectedAppointment
 				.getNameOfTheClientOfficial());
 		designationClientOfficial_TV.setText(selectedAppointment
@@ -75,8 +78,6 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 
 		try {
-//			new JSONObject(selectedAppointment.getTypeOfMeeting())
-//					.getInt("Value");
 			interactionType_TV.setText(myApp.getInteractionTypeMap().get(
 					Integer.toString(new JSONObject(selectedAppointment
 							.getTypeOfMeeting()).getInt("Value"))));
@@ -87,8 +88,10 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		// dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
 		// endTime_TV.setText(selectedAppointment.getEndTime().toString());
 		try {
-//			new JSONObject(selectedAppointment.getOwnerId()).getString("Name");
-			owner_TV.setText(new JSONObject(selectedAppointment.getOwnerId()).getString("Name"));
+			// new
+			// JSONObject(selectedAppointment.getOwnerId()).getString("Name");
+			owner_TV.setText(new JSONObject(selectedAppointment.getOwnerId())
+					.getString("Name"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

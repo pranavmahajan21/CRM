@@ -106,7 +106,7 @@
                 <TextView
                     android:id="@+id/dor_TV"
                     style="@style/TV_right"
-                    android:text="TextView" />
+                    android:text="-" />
             </LinearLayout>
 
             <Button

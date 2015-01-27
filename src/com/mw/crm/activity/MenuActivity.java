@@ -166,24 +166,24 @@ public class MenuActivity extends Activity {
 
 		Intent intent = new Intent(this, AccountService.class);
 
-		X++;
-		startService(intent);
-
-		intent = new Intent(this, AppointmentService.class);
-		X++;
-		startService(intent);
-
+//		X++;
+//		startService(intent);
+//
+//		intent = new Intent(this, AppointmentService.class);
+//		X++;
+//		startService(intent);
+//
 		intent = new Intent(this, ContactService.class);
 		X++;
 		startService(intent);
 
-		intent = new Intent(this, OpportunityService.class);
-		X++;
-		startService(intent);
-
-		intent = new Intent(this, InternalConnectService.class);
-		X++;
-		startService(intent);
+//		intent = new Intent(this, OpportunityService.class);
+//		X++;
+//		startService(intent);
+//
+//		intent = new Intent(this, InternalConnectService.class);
+//		X++;
+//		startService(intent);
 
 		String temp = myApp.formatDateToString3(new Date());
 		syncDate_TV.setText(temp);

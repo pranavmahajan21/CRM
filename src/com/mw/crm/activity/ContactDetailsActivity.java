@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
-import com.mw.crm.extra.MyApp;
-import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
 
 public class ContactDetailsActivity extends CRMActivity {
@@ -71,6 +69,7 @@ public class ContactDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 		
+		name_TV.setText(selectedContact.getFirstName() + " " + selectedContact.getLastName());
 		email_TV.setText(selectedContact.getEmail());
 		officePhone_TV.setText(selectedContact.getTelephone());
 		mobile_TV.setText(selectedContact.getMobilePhone());

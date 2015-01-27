@@ -151,19 +151,15 @@ public class AppointmentService extends IntentService {
 
 	private Appointment getAppointmentObject(JSONObject jsonObject) {
 		try {
-			// System.out.println("<><><>"
-			// + attributes.getJSONObject(0).getString("Value"));
 
-			System.out.println(MyApp.removeQuotesFromString(MyApp.decryptData(jsonObject.getString("subject"))));
-			System.out.println(MyApp.getPerfectString((jsonObject.getString("subject"))));
-			
-			Appointment appointment = new Appointment(
-					MyApp.decryptData(jsonObject.getString("activityid")),
-					MyApp.getPerfectString(jsonObject.getString("subject")),
-					MyApp.decryptData(jsonObject.getString("description")),
+			Appointment appointment = new Appointment(MyApp
+					.decryptData(jsonObject.getString("activityid")), MyApp
+					.getPerfectString(jsonObject.getString("subject")), MyApp
+					.decryptData(jsonObject.getString("description")),
 					MyApp.getPerfectString(jsonObject
-							.getString("pcl_nameoftheclientofficial")),
-					MyApp.decryptData(jsonObject.getString("pcl_typeofmeeting")),
+							.getString("pcl_nameoftheclientofficial")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_typeofmeeting")),
 					MyApp.getPerfectString(jsonObject
 							.getString("pcl_designationofclientofficial")),
 					MyApp.decryptData(jsonObject.getString("ownerid")), myApp

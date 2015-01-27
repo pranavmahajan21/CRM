@@ -16,11 +16,11 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	Intent nextIntent, previousIntent;
 	Opportunity selectedOpportunity;
 
-	TextView ownerLabel_TV, probabilityLabel_TV, statusLabel_TV,
+	TextView oppoManagerLabel_TV, probabilityLabel_TV, statusLabel_TV,
 			salesStageLabel_TV, clientNameLabel_TV, countryLabel_TV,
 			corridorLabel_TV, lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
-	TextView owner_TV, probability_TV, status_TV, salesStage_TV, clientName_TV,
+	TextView oppoName_TV, oppoManager_TV, probability_TV, status_TV, salesStage_TV, clientName_TV,
 			country_TV, corridor_TV, lob_TV, sublob_TV, sector_TV;
 
 	private void initThings() {
@@ -33,7 +33,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	public void findThings() {
 		super.findThings();
-		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		oppoManagerLabel_TV = (TextView) findViewById(R.id.oppoManagerLabel_TV);
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
@@ -44,7 +44,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
 		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
 
-		owner_TV = (TextView) findViewById(R.id.owner_TV);
+		oppoName_TV = (TextView) findViewById(R.id.oppoName_TV);
+		oppoManager_TV = (TextView) findViewById(R.id.oppoManager_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		status_TV = (TextView) findViewById(R.id.status_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
@@ -85,6 +86,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+		
+//		oppoName_TV.setText(selectedOpportunity.get);
+//		oppoManager_TV.setText(selectedOpportunity.get);
 		
 		try {
 			probability_TV.setText(myApp.getProbabilityMap().get(
