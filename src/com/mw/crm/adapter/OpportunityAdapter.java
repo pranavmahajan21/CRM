@@ -55,7 +55,7 @@ public class OpportunityAdapter extends BaseAdapter {
 			viewHolder = new ViewHolder();
 //			convertView = inflater.inflate(R.layout.element_opportunity,
 //					parent, false);
-			convertView = inflater.inflate(R.layout.element_contact_and_account,
+			convertView = inflater.inflate(R.layout.element_common,
 					parent, false);
 
 			viewHolder.nameTV = (TextView) convertView

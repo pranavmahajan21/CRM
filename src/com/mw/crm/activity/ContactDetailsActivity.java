@@ -74,14 +74,14 @@ public class ContactDetailsActivity extends CRMActivity {
 		name_TV.setText(myApp.getContactName(selectedContact));
 		designation_TV.setText(selectedContact.getDesignation());
 
-		organization_TV.setText(myApp.getStringFromStringJSON(selectedContact
+		organization_TV.setText(myApp.getStringNameFromStringJSON(selectedContact
 				.getOrganization()));
 		email_TV.setText(selectedContact.getEmail());
 		officePhone_TV.setText(selectedContact.getTelephone());
 		mobile_TV.setText(selectedContact.getMobilePhone());
 
 		internalConnect_TV.setText(myApp
-				.getStringFromStringJSON(selectedContact.getInternalConnect()));
+				.getStringNameFromStringJSON(selectedContact.getInternalConnect()));
 
 		Integer temp = myApp.getValueFromStringJSON(selectedContact
 				.getDegreeOfRelation());

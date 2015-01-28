@@ -16,12 +16,12 @@ import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 
 public class AccountAdapter extends BaseAdapter {
-	
+
 	MyApp myApp;
 	Context context;
 
 	LayoutInflater inflater;
-	
+
 	List<Account> accountList;
 	List<Account> tempAccountList;
 
@@ -40,7 +40,7 @@ public class AccountAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		protected TextView nameTV;
-		protected TextView accountIdTV;
+		protected TextView countryTV;
 	}
 
 	@Override
@@ -50,16 +50,16 @@ public class AccountAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.element_contact_and_account,
-					parent, false);
+			convertView = inflater.inflate(R.layout.element_common, parent,
+					false);
 
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);
-			viewHolder.accountIdTV = (TextView) convertView
+			viewHolder.countryTV = (TextView) convertView
 					.findViewById(R.id.company_TV);
 
-			 viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
-			 viewHolder.accountIdTV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.countryTV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -68,7 +68,14 @@ public class AccountAdapter extends BaseAdapter {
 
 		Account tempAccount = accountList.get(position);
 		viewHolder.nameTV.setText(tempAccount.getName());
-		viewHolder.accountIdTV.setText(tempAccount.getAccountId());
+		Integer temp = myApp.getValueFromStringJSON(tempAccount.getCountry());
+
+		if (temp != null) {
+			// headquarterCountry_TV.setText(myApp.getCountryMap().get(
+			// Integer.toString(temp.intValue())));
+			viewHolder.countryTV.setText(myApp.getCountryMap().get(
+					Integer.toString(temp.intValue())));
+		}
 
 		return convertView;
 	}

@@ -75,7 +75,8 @@ public class SearchActivity extends Activity {
 			stringList = new ArrayList<String>();
 			for (int i = 0; i < opportunityList.size(); i++) {
 				try {
-					stringList.add(new JSONObject(opportunityList.get(i).getCustomerId()).getString("Name"));
+					stringList.add(new JSONObject(opportunityList.get(i)
+							.getCustomerId()).getString("Name"));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -126,4 +127,7 @@ public class SearchActivity extends Activity {
 		});
 	}
 
+	public void onBack(View view) {
+		finish();
+	}
 }

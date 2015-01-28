@@ -54,7 +54,7 @@ public class ContactAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(
-					R.layout.element_contact_and_account, parent, false);
+					R.layout.element_common, parent, false);
 
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);

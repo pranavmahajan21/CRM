@@ -7,6 +7,35 @@
     android:orientation="vertical"
     tools:context="com.mw.crm.activity.SearchActivity" >
 
+    <RelativeLayout
+        android:id="@+id/header_LL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
+
+        <ImageButton
+            android:id="@+id/back_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:onClick="onBack"
+            android:src="@drawable/back_button" />
+
+        <TextView
+            android:id="@+id/title_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="Select" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/search_LL"
         android:layout_width="match_parent"
@@ -29,6 +58,8 @@
 
     <ListView
         android:id="@+id/search_LV"
+        android:divider="@android:color/white"
+        android:dividerHeight="1dp" 
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

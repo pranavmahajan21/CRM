@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
@@ -135,13 +136,6 @@ public class ContactAddActivity extends CRMActivity {
 		internal_RL = (RelativeLayout) findViewById(R.id.internal_RL);
 		organization_RL = (RelativeLayout) findViewById(R.id.organization_RL);
 
-		// picker = (NumberPicker) findViewById(R.id.picker);
-		//
-		// picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		// picker.setMinValue(0);
-		// picker.setMaxValue(4);
-		// picker.setDisplayedValues(temp);
-
 	}
 
 	private void setTypeface() {
@@ -158,6 +152,8 @@ public class ContactAddActivity extends CRMActivity {
 		// lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
+	Contact tempContact;
+
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
@@ -165,10 +161,10 @@ public class ContactAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("position")) {
 			// getRightButtonTV().setVisibility(View.GONE);
 
-			Contact tempContact = myApp.getContactList().get(
+			tempContact = myApp.getContactList().get(
 					previousIntent.getIntExtra("position", 0));
 
-			System.out.println(tempContact.toString());
+//			System.out.println(tempContact.toString());
 
 			firstName_ET.setText(tempContact.getFirstName());
 			lastName_ET.setText(tempContact.getLastName());
@@ -179,15 +175,31 @@ public class ContactAddActivity extends CRMActivity {
 				dor_TV.setText(myApp.getDorMap().get(
 						Integer.toString(temp.intValue())));
 			}
+			selectedDOR = myApp.getIndexFromKeyDORMap(Integer.toString(temp
+					.intValue()));
 
 			internalConnect_TV.setText(myApp
-					.getStringFromStringJSON(tempContact.getInternalConnect()));
-			organization_TV.setText(myApp.getStringFromStringJSON(tempContact
-					.getOrganization()));
+					.getStringNameFromStringJSON(tempContact
+							.getInternalConnect()));
+			selectedInternalConnect = myApp
+					.getIndexFromKeyUserMap(myApp
+							.getStringIdFromStringJSON(tempContact
+									.getInternalConnect()));
+
+			organization_TV
+					.setText(myApp.getStringNameFromStringJSON(tempContact
+							.getOrganization()));
+			selectedOrganisation = myApp.getIndexFromAccountList(myApp
+					.getStringIdFromStringJSON(tempContact.getOrganization()));
+
 			designation_ET.setText(tempContact.getDesignation());
 			email_ET.setText(tempContact.getEmail());
 			officePhone_ET.setText(tempContact.getTelephone());
 			mobile_ET.setText(tempContact.getMobilePhone());
+
+			System.out.println("selectedDOR  : " + selectedDOR
+					+ "\nselectedInternalConnect  : " + selectedInternalConnect
+					+ "\nselectedOrganisation  : " + selectedOrganisation);
 		}
 
 	}
@@ -302,50 +314,96 @@ public class ContactAddActivity extends CRMActivity {
 		/**
 		 * ctcode - dor ,,,,oid - int conn ,,,,pcid - org
 		 * **/
+		JSONObject params = new JSONObject();
 
-		
+		try {
+			params.put("ctCode",
+					new ArrayList<String>(dorMap.keySet()).get(selectedDOR))
+					.put("oId",
+							new ArrayList<String>(userMap.keySet())
+									.get(selectedInternalConnect))
+					.put("pcId",
+							accountList.get(selectedOrganisation)
+									.getAccountId())
+					.put("LastName",
+							MyApp.encryptData(lastName_ET.getText().toString()))
+					.put("FirstName",
+							MyApp.encryptData(firstName_ET.getText().toString()))
+					.put("Designation",
+							MyApp.encryptData(designation_ET.getText()
+									.toString()))
+					.put("EMailAddress1",
+							MyApp.encryptData(email_ET.getText().toString()))
+					.put("Telephone1",
+							MyApp.encryptData(officePhone_ET.getText()
+									.toString()))
+					.put("MobilePhone",
+							MyApp.encryptData(mobile_ET.getText().toString()));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		System.out.println("json" + params);
+
+		params = MyApp.addParamToJson(params);
+
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
-
-		} else {
+			/** Update Mode **/
+			String url = MyApp.URL + MyApp.CONTACTS_UPDATE;
 			try {
-
-				String url = MyApp.URL + MyApp.CONTACTS_ADD;
+				// :"3e4669b1-77a1-e411-96e8-5cf3fc3f502a"
+				// String url = MyApp.URL + MyApp.CONTACTS_ADD;
+				params.put("conid", tempContact.getContactId());
 
 				System.out.println("URL : " + url);
 
-				JSONObject params = new JSONObject();
+				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+						Method.POST, url, params,
+						new Response.Listener<JSONObject>() {
 
-				params.put("ctCode",
-						new ArrayList<String>(dorMap.keySet()).get(selectedDOR))
-						.put("oId",
-								new ArrayList<String>(userMap.keySet())
-										.get(selectedInternalConnect))
-						.put("pcId",
-								accountList.get(selectedOrganisation)
-										.getAccountId())
+							@Override
+							public void onResponse(JSONObject response) {
+								System.out.println("length2" + response);
+								progressDialog.hide();
+							}
+						}, new Response.ErrorListener() {
 
-						.put("LastName",
-								MyApp.encryptData(lastName_ET.getText()
-										.toString()))
-						.put("FirstName",
-								MyApp.encryptData(firstName_ET.getText()
-										.toString()))
-						.put("Designation",
-								MyApp.encryptData(designation_ET.getText()
-										.toString()))
-						.put("EMailAddress1",
-								MyApp.encryptData(email_ET.getText().toString()))
-						.put("Telephone1",
-								MyApp.encryptData(officePhone_ET.getText()
-										.toString()))
-						.put("MobilePhone",
-								MyApp.encryptData(mobile_ET.getText()
-										.toString()));
+							@Override
+							public void onErrorResponse(VolleyError error) {
+								progressDialog.hide();
+								System.out.println("ERROR  : "
+										+ error.getMessage());
+								error.printStackTrace();
 
-				System.out.println("json" + params);
+								if (error instanceof NetworkError) {
+									System.out.println("NetworkError");
+								}
+								if (error instanceof NoConnectionError) {
+									System.out
+											.println("NoConnectionError you are now offline.");
+								}
+								if (error instanceof ServerError) {
+									System.out.println("ServerError");
+								}
+							}
+						});
 
-				params = MyApp.addParamToJson(params);
+				RetryPolicy policy = new DefaultRetryPolicy(30000,
+						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+				jsonArrayRequest.setRetryPolicy(policy);
+				queue.add(jsonArrayRequest);
+			} catch (Exception e) {
+				e.printStackTrace();
+				progressDialog.hide();
+			}
+		} else {
+			/** Create Mode **/
+			String url = MyApp.URL + MyApp.CONTACTS_ADD;
+			try {
+
+				System.out.println("URL : " + url);
 
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,

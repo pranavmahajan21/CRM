@@ -968,9 +968,9 @@ public class MyApp extends Application {
 	}
 
 	public Account getAccountById(String id) {
-		// System.out.println("1111" + id);
+		// System.out.println("1111  " + id);
 		for (int i = 0; i < accountList.size(); i++) {
-			// System.out.println("2222" + accountList.get(i).getAccountId());
+			// System.out.println("2222  " + accountList.get(i).getAccountId());
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
 				return accountList.get(i);
 			}
@@ -978,6 +978,42 @@ public class MyApp extends Application {
 		return null;
 	}
 
+	public int getIndexFromAccountList(String key){
+//		 System.out.println("1111  " + key);
+		
+		for (int i = 0; i < accountList.size(); i++) {
+//			 System.out.println("2222  " + accountList.get(i).getAccountId());
+			if (accountList.get(i).getAccountId().equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	
+	public int getIndexFromKeyUserMap(String key){
+		 System.out.println("1111  " + key);
+		List<String> aa = new ArrayList<String>(userMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			 System.out.println("2222  " + aa.get(i));
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	
+	public int getIndexFromKeyDORMap(String key){
+		List<String> aa = new ArrayList<String>(dorMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	public Integer getValueFromStringJSON(String x) {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
@@ -988,9 +1024,20 @@ public class MyApp extends Application {
 		}
 	}
 
-	public String getStringFromStringJSON(String x) {
+	public String getStringNameFromStringJSON(String x) {
+		System.out.println("getStringFromStringJSON  :  " + x);
 		try {
 			return new JSONObject(x).getString("Name");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String getStringIdFromStringJSON(String x) {
+		System.out.println("getStringFromStringJSON  :  " + x);
+		try {
+			return new JSONObject(x).getString("Id");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;
