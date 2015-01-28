@@ -17,6 +17,22 @@ public class Opportunity implements Serializable {
 	String kpmgStatus;
 	String salesStage;
 
+	public Opportunity(String ownerId, String transactionCurrencyId,
+			String totalAmount, String customerId, String name,
+			String kpmgStatus, String opportunityId, String probability,
+			String salesStage) {
+		super();
+		this.ownerId = ownerId;
+		this.transactionCurrencyId = transactionCurrencyId;
+		this.totalAmount = totalAmount;
+		this.customerId = customerId;
+		this.name = name;
+		this.kpmgStatus = kpmgStatus;
+		this.opportunityId = opportunityId;
+		this.probability = probability;
+		this.salesStage = salesStage;
+	}
+	
 	public Opportunity() {
 		super();
 	}
@@ -90,22 +106,6 @@ public class Opportunity implements Serializable {
 	}
 
 	public void setSalesStage(String salesStage) {
-		this.salesStage = salesStage;
-	}
-
-	public Opportunity(String ownerId, String transactionCurrencyId,
-			String totalAmount, String customerId, String name,
-			String kpmgStatus, String opportunityId, String probability,
-			String salesStage) {
-		super();
-		this.ownerId = ownerId;
-		this.transactionCurrencyId = transactionCurrencyId;
-		this.totalAmount = totalAmount;
-		this.customerId = customerId;
-		this.name = name;
-		this.kpmgStatus = kpmgStatus;
-		this.opportunityId = opportunityId;
-		this.probability = probability;
 		this.salesStage = salesStage;
 	}
 

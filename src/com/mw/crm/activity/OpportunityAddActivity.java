@@ -1,5 +1,10 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.BroadcastReceiver;
@@ -46,23 +51,27 @@ public class OpportunityAddActivity extends CRMActivity {
 	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
 			probabilityLabel_TV, salesStageLabel_TV;
 
-	TextView clientName_TV, probability_TV, salesStage_TV;
+	TextView clientName_TV, status_TV, probability_TV, salesStage_TV;
 
 	EditText description_ET;
 
-	RelativeLayout clientRL, probability_RL, salesStage_RL;
+	RelativeLayout client_RL, status_RL, probability_RL, salesStage_RL;
 
 	boolean pickerVisibility = false;
 	NumberPicker picker;
 
-	Intent previousIntent;
+	Map<String, String> probabilityMap;
+	Map<String, String> statusMap;
+	Map<String, String> lobMap;
+
+	Intent previousIntent, nextIntent;
 
 	RequestQueue queue;
 
 	private BroadcastReceiver opportunityReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			registerForContextMenu(clientRL);
+			registerForContextMenu(client_RL);
 		}
 	};
 
@@ -83,12 +92,14 @@ public class OpportunityAddActivity extends CRMActivity {
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
+		status_TV = (TextView) findViewById(R.id.status_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
 
 		description_ET = (EditText) findViewById(R.id.description_ET);
 
-		clientRL = (RelativeLayout) findViewById(R.id.client_RL);
+		client_RL = (RelativeLayout) findViewById(R.id.client_RL);
+		status_RL = (RelativeLayout) findViewById(R.id.status_RL);
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
 		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
 
@@ -151,30 +162,72 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		registerForContextMenu(clientRL);
+		registerForContextMenu(client_RL);
+		registerForContextMenu(status_RL);
+		registerForContextMenu(probability_RL);
+		registerForContextMenu(salesStage_RL);
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, v.getId(), 0, "South Asia Clean Energy Fund Partners, L.p");
-		menu.add(0, v.getId(), 0, "(n)Code Solutions");
-		menu.add(0, v.getId(), 0, "1 MG");
-		menu.add(0, v.getId(), 0, "10 MG Road");
-		menu.add(0, v.getId(), 0, "10C India Internet India Private Limited");
-		menu.add(0, v.getId(), 0, "10C India Internet Pve. Ltd.");
-		menu.add(0, v.getId(), 0, "11210");
-		menu.add(0, v.getId(), 0, "20 Media Collective Private Limited");
-		menu.add(0, v.getId(), 0, "1FB Support Services Private Limited");
-		menu.add(0, v.getId(), 0, "2 Degrees");
-		menu.add(0, v.getId(), 0, "20 Cube Group");
-		menu.add(0, v.getId(), 0, "20 Cube Group");
+
+		if (v.getId() == R.id.status_RL) {
+			statusMap = myApp.getStatusMap();
+
+			List<String> list = new ArrayList<String>(statusMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
+			}
+
+		}
+
+		if (v.getId() == R.id.probability_RL) {
+			probabilityMap = myApp.getProbabilityMap();
+
+			List<String> list = new ArrayList<String>(probabilityMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(1, v.getId(), i, list.get(i));
+			}
+
+		}
+
+		if (v.getId() == R.id.salesStage_RL) {
+			statusMap = myApp.getSalesStageMap();
+
+			List<String> list = new ArrayList<String>(statusMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(2, v.getId(), i, list.get(i));
+			}
+
+		}
+
+		// menu.add(0, v.getId(), 0,
+		// "South Asia Clean Energy Fund Partners, L.p");
+		// menu.add(0, v.getId(), 0, "(n)Code Solutions");
+		// menu.add(0, v.getId(), 0, "1 MG");
+		// menu.add(0, v.getId(), 0, "10 MG Road");
+		// menu.add(0, v.getId(), 0,
+		// "10C India Internet India Private Limited");
+		// menu.add(0, v.getId(), 0, "10C India Internet Pve. Ltd.");
+		// menu.add(0, v.getId(), 0, "11210");
+		// menu.add(0, v.getId(), 0, "20 Media Collective Private Limited");
+		// menu.add(0, v.getId(), 0, "1FB Support Services Private Limited");
+		// menu.add(0, v.getId(), 0, "2 Degrees");
+		// menu.add(0, v.getId(), 0, "20 Cube Group");
+		// menu.add(0, v.getId(), 0, "20 Cube Group");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		clientNameLabel_TV.setText(item.getTitle());
+		if (item.getGroupId() == 0) {
+			status_TV.setText(item.getTitle());
+		} else if (item.getGroupId() == 1) {
+			probability_TV.setText(item.getTitle());
+		} else if (item.getGroupId() == 2) {
+			salesStage_TV.setText(item.getTitle());
+		}
 		return super.onContextItemSelected(item);
 
 	}
@@ -267,4 +320,40 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.onPause();
 	}
 
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		intent.putExtra("request_code", requestCode);
+		super.startActivityForResult(intent, requestCode);
+	}
+
+	public void onSearchItem(View view) {
+		nextIntent = new Intent(this, SearchActivity.class);
+
+		switch (view.getId()) {
+		case R.id.client_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_OPPORTUNITY);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			int positionItem = data.getIntExtra("position_item", 0);
+			if (requestCode == MyApp.SEARCH_OPPORTUNITY) {
+				List<Opportunity> opportunityList = myApp.getOpportunityList();
+				try {
+					clientName_TV.setText(new JSONObject(opportunityList.get(
+							positionItem).getCustomerId()).getString("Name"));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
 }

@@ -66,9 +66,9 @@ public class AccountAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		Account tempContact = accountList.get(position);
-		viewHolder.nameTV.setText(tempContact.getName());
-		viewHolder.accountIdTV.setText(tempContact.getAccountId());
+		Account tempAccount = accountList.get(position);
+		viewHolder.nameTV.setText(tempAccount.getName());
+		viewHolder.accountIdTV.setText(tempAccount.getAccountId());
 
 		return convertView;
 	}

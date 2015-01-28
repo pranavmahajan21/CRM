@@ -108,6 +108,7 @@
             <RelativeLayout
                 android:id="@+id/owner_RL"
                 style="@style/RL"
+                android:onClick="onSearchItem"
                 android:layout_marginTop="10dp" >
 
                 <TextView

@@ -79,19 +79,9 @@ public class MyApp extends Application {
 	final public static int SEARCH_SECTOR = 0;
 	final public static int SEARCH_HQ_COUNTRY = 1;
 	final public static int SEARCH_SUB_LOB = 10;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
-//	public static int SEARCH_ = ;
+	final public static int SEARCH_USER = 11;
+	final public static int SEARCH_ACCOUNT = 100;
+	final public static int SEARCH_OPPORTUNITY = 101;
 	
 	
 	List<MenuItem> menuItemList = new ArrayList<MenuItem>();

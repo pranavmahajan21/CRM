@@ -1,8 +1,6 @@
 package com.mw.crm.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,37 +11,28 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.mw.crm.extra.MyApp;
-import com.mw.crm.model.Account;
 
-public class SearchAdapter extends BaseAdapter {
+public class SearchListAdapter extends BaseAdapter {
 	
 	MyApp myApp;
 	Context context;
 
 	LayoutInflater inflater;
 	
-	Map<String, String> searchMap;
-	List<Account> tempAccountList;
+	List<String> stringList;
+//	List<Account> tempAccountList;
 
-	List<String> keys;
-	
-	public SearchAdapter(Context context, Map<String, String> searchMap) {
+	public SearchListAdapter(Context context, List<String> stringList) {
 		super();
 		this.context = context;
-		this.searchMap = searchMap;
+		this.stringList = stringList;
 //		this.tempAccountList = new ArrayList<Account>();
-//		this.tempAccountList.addAll(accountList);
+//		this.tempAccountList.addAll(stringList);
 		myApp = (MyApp) context.getApplicationContext();
-		keys = new ArrayList<String>(searchMap.keySet());
 	}
-
-	// public void swapData(List<ParseObject> alertList) {
-	// this.eventPO = alertList;
-	// }
 
 	static class ViewHolder {
 		protected TextView itemTV;
-//		protected TextView accountIdTV;
 	}
 
 	@Override
@@ -66,17 +55,15 @@ public class SearchAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-//		searchMap.keySet()
-//		
-//		Account tempContact = accountList.get(position);
-		viewHolder.itemTV.setText(searchMap.get(keys.get(position)));
+//		Account tempAccount = stringList.get(position);
+		viewHolder.itemTV.setText(stringList.get(position));
 
 		return convertView;
 	}
 
 	@Override
 	public int getCount() {
-		return searchMap.size();
+		return stringList.size();
 	}
 
 	@Override
@@ -89,22 +76,22 @@ public class SearchAdapter extends BaseAdapter {
 		return 0;
 	}
 
-	// public void filter(String charText) {
-	// charText = charText.toLowerCase(Locale.getDefault());
-	// accountList.clear();
-	// if (charText.length() == 0) {
-	// accountList.addAll(tempAccountList);
-	// } else {
-	// for (Account tempAccount : tempAccountList) {
-	// if (tempAccount.getName().toLowerCase(Locale.getDefault())
-	// .contains(charText)
-	// || tempAccount.getCountry()
-	// .toLowerCase(Locale.getDefault())
-	// .contains(charText)) {
-	// accountList.add(tempAccount);
-	// }
-	// }
-	// }
-	// notifyDataSetChanged();
-	// }
+//	public void filter(String charText) {
+//		charText = charText.toLowerCase(Locale.getDefault());
+//		stringList.clear();
+//		if (charText.length() == 0) {
+//			stringList.addAll(tempAccountList);
+//		} else {
+//			for (Account tempAccount : tempAccountList) {
+//				if (tempAccount.getName().toLowerCase(Locale.getDefault())
+//						.contains(charText)
+//						|| tempAccount.getCountry()
+//								.toLowerCase(Locale.getDefault())
+//								.contains(charText)) {
+//					stringList.add(tempAccount);
+//				}
+//			}
+//		}
+//		notifyDataSetChanged();
+//	}
 }

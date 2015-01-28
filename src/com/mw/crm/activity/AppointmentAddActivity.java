@@ -14,26 +14,25 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
@@ -57,11 +56,11 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	RelativeLayout interactionType_RL, owner_RL;
 
-	Intent previousIntent;
+	Intent previousIntent, nextIntent;
 
 	List<InternalConnect> ownerList;
 
-	Map<String, String> ownerMap;
+	Map<String, String> userMap;
 	Map<String, String> interactionTypeMap;
 
 	RequestQueue queue;
@@ -179,7 +178,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(interactionType_RL);
-		registerForContextMenu(owner_RL);
+		// registerForContextMenu(owner_RL);
 	}
 
 	@Override
@@ -196,14 +195,13 @@ public class AppointmentAddActivity extends CRMActivity {
 			}
 		}
 
-		if (v.getId() == R.id.owner_RL) {
-
-			ownerMap = myApp.getUserMap();
-			List<String> list = new ArrayList<String>(ownerMap.values());
-			for (int i = 0; i < list.size(); i++) {
-				menu.add(1, v.getId(), i, list.get(i));
-			}
-		}
+//		if (v.getId() == R.id.owner_RL) {
+//			userMap = myApp.getUserMap();
+//			List<String> list = new ArrayList<String>(userMap.values());
+//			for (int i = 0; i < list.size(); i++) {
+//				menu.add(1, v.getId(), i, list.get(i));
+//			}
+//		}
 
 	}
 
@@ -211,18 +209,17 @@ public class AppointmentAddActivity extends CRMActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getGroupId() == 0) {
 			interactionType_TV.setText(item.getTitle());
-			
-//			List<String> keys = new ArrayList<String>(countryMap.keySet());
-//			keys.get(item.getOrder());
 
+			// List<String> keys = new ArrayList<String>(countryMap.keySet());
+			// keys.get(item.getOrder());
 
 		}
 		if (item.getGroupId() == 1) {
 			owner_TV.setText(item.getTitle());
 
 		}
-		
-//		ownerLabel_TV.setText(item.getTitle());
+
+		// ownerLabel_TV.setText(item.getTitle());
 		return super.onContextItemSelected(item);
 
 	}
@@ -392,5 +389,39 @@ public class AppointmentAddActivity extends CRMActivity {
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(
 				ownerReceiver);
 		super.onPause();
+	}
+
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		intent.putExtra("request_code", requestCode);
+		super.startActivityForResult(intent, requestCode);
+	}
+
+	public void onSearchItem(View view) {
+		nextIntent = new Intent(this, SearchActivity.class);
+
+		switch (view.getId()) {
+		case R.id.owner_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			int positionItem = data.getIntExtra("position_item", 0);
+			if (requestCode == MyApp.SEARCH_USER) {
+				userMap = myApp.getUserMap();
+				List<String> list = new ArrayList<String>(userMap.values());
+				owner_TV.setText(list.get(positionItem));
+			}
+		}
+
 	}
 }

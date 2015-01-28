@@ -50,12 +50,13 @@
                 android:text="Degree of Relationship" />
 
             <RelativeLayout
-                android:id="@+id/aa3"
+                android:id="@+id/dor_RL"
                 style="@style/RL"
-                android:onClick="onShowPicker" >
+                 >
+<!--                 android:onClick="onShowPicker" -->
 
                 <TextView
-                    android:id="@+id/dor2_TV"
+                    android:id="@+id/dor_TV"
                     style="@style/TV"
                     android:hint="Degree of Relationship" />
 
@@ -75,10 +76,11 @@
 
             <RelativeLayout
                 android:id="@+id/internal_RL"
+                android:onClick="onSearchItem"
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/internalConnect2_TV"
+                    android:id="@+id/internalConnect_TV"
                     style="@style/TV"
                     android:hint="Internal Connect" />
 
@@ -94,6 +96,7 @@
 
             <RelativeLayout
                 android:id="@+id/organization_RL"
+                android:onClick="onSearchItem"
                 style="@style/RL" >
 
                 <TextView

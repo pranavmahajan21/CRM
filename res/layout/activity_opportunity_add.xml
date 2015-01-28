@@ -33,12 +33,13 @@
 
             <RelativeLayout
                 android:id="@+id/client_RL"
+                android:onClick="onSearchItem"
                 style="@style/RL" >
 
                 <TextView
                     android:id="@+id/clientName_TV"
                     style="@style/TV"
-                    android:text="Search for client" />
+                    android:hint="Search for client" />
 
                 <ImageView
                     style="@style/IV"
@@ -61,13 +62,13 @@
 
             <RelativeLayout
                 android:id="@+id/status_RL"
-                style="@style/RL"
-                android:onClick="onShowPicker" >
+                style="@style/RL" >
+                <!-- android:onClick="onShowPicker" -->
 
                 <TextView
-                    android:id="@+id/status_TV2"
+                    android:id="@+id/status_TV"
                     style="@style/TV"
-                    android:text="Status" />
+                    android:hint="Status" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -77,26 +78,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
-
-            <!--
-            <TextView
-                android:id="@+id/requiredSolutions_TV"
-                style="@style/style_TV2"
-                android:text="No. of required solutions:" />
-
-            <EditText
-                android:id="@+id/requiredSolutions_ET"
-                style="@style/style_ET2" />
-
-            <TextView
-                android:id="@+id/currency_TV"
-                style="@style/style_TV2"
-                android:text="Currency" />
-
-            <EditText
-                android:id="@+id/currency_ET"
-                style="@style/style_ET2" />
-            -->
 
             <TextView
                 android:id="@+id/probabilityLabel_TV"
@@ -110,7 +91,7 @@
                 <TextView
                     android:id="@+id/probability_TV"
                     style="@style/TV"
-                    android:text="Probability" />
+                    android:hint="Probability" />
 
                 <ImageView
                     style="@style/IV"
@@ -129,7 +110,7 @@
                 <TextView
                     android:id="@+id/salesStage_TV"
                     style="@style/TV"
-                    android:text="Sales Stage" />
+                    android:hint="Sales Stage" />
 
                 <ImageView
                     style="@style/IV"
@@ -148,7 +129,7 @@
                 <TextView
                     android:id="@+id/country_TV"
                     style="@style/TV"
-                    android:text="Country" />
+                    android:hint="Country" />
 
                 <ImageView
                     style="@style/IV"
@@ -167,7 +148,7 @@
                 <TextView
                     android:id="@+id/corridor_TV"
                     style="@style/TV"
-                    android:text="Corridor" />
+                    android:hint="Corridor" />
 
                 <ImageView
                     style="@style/IV"
@@ -186,7 +167,7 @@
                 <TextView
                     android:id="@+id/lob_TV2"
                     style="@style/TV"
-                    android:text="LOB" />
+                    android:hint="LOB" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -203,7 +184,7 @@
                 <TextView
                     android:id="@+id/sublob_TV2"
                     style="@style/TV"
-                    android:text="Sub LOB" />
+                    android:hint="Sub LOB" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -220,7 +201,7 @@
                 <TextView
                     android:id="@+id/sector_TV"
                     style="@style/TV"
-                    android:text="Sector" />
+                    android:hint="Sector" />
 
                 <ImageView
                     style="@style/IV"

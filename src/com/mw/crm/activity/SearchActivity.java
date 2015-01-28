@@ -1,6 +1,11 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,8 +18,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.example.crm.activity.R;
-import com.mw.crm.adapter.SearchAdapter;
+import com.mw.crm.adapter.SearchListAdapter;
+import com.mw.crm.adapter.SearchMapAdapter;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Account;
+import com.mw.crm.model.Opportunity;
 
 public class SearchActivity extends Activity {
 
@@ -25,7 +33,12 @@ public class SearchActivity extends Activity {
 
 	Map<String, String> searchMap;
 
-	SearchAdapter adapter;
+	List<Account> accountList;
+	List<Opportunity> opportunityList;
+	List<String> stringList;
+
+	SearchMapAdapter adapter;
+	SearchListAdapter adapter2;
 	ListView search_LV;
 
 	private void findThings() {
@@ -47,19 +60,44 @@ public class SearchActivity extends Activity {
 		case MyApp.SEARCH_SUB_LOB:
 			searchMap = myApp.getSubLobMap();
 			break;
+		case MyApp.SEARCH_USER:
+			searchMap = myApp.getUserMap();
+			break;
+		case MyApp.SEARCH_ACCOUNT:
+			List<Account> accountList = myApp.getAccountList();
+			stringList = new ArrayList<String>();
+			for (int i = 0; i < accountList.size(); i++) {
+				stringList.add(accountList.get(i).getName());
+			}
+			break;
+		case MyApp.SEARCH_OPPORTUNITY:
+			List<Opportunity> opportunityList = myApp.getOpportunityList();
+			stringList = new ArrayList<String>();
+			for (int i = 0; i < opportunityList.size(); i++) {
+				try {
+					stringList.add(new JSONObject(opportunityList.get(i).getCustomerId()).getString("Name"));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			break;
 
 		default:
 			break;
 		}
 
 		if (searchMap != null) {
-			adapter = new SearchAdapter(this, searchMap);
+			adapter = new SearchMapAdapter(this, searchMap);
+		} else if (stringList != null && stringList.size() > 0) {
+			adapter2 = new SearchListAdapter(this, stringList);
 		}
 	}
 
 	private void initView() {
 		if (adapter != null) {
 			search_LV.setAdapter(adapter);
+		} else if (adapter2 != null) {
+			search_LV.setAdapter(adapter2);
 		}
 	}
 
@@ -67,7 +105,8 @@ public class SearchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		setContentView(R.layout.activity_search);
 
 		initThings();

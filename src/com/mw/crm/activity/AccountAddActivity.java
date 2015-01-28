@@ -60,6 +60,7 @@ public class AccountAddActivity extends CRMActivity {
 	Map<String, String> lobMap;
 	Map<String, String> subLobMap;
 	Map<String, String> accountCategoryMap;
+	Map<String, String> userMap;
 
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
@@ -188,24 +189,24 @@ public class AccountAddActivity extends CRMActivity {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		if (v.getId() == R.id.sector_RL) {
-			sectorMap = myApp.getSectorMap();
-
-			List<String> list = new ArrayList<String>(sectorMap.values());
-			for (int i = 0; i < list.size(); i++) {
-				menu.add(0, v.getId(), i, list.get(i));
-			}
-
-		}
-		if (v.getId() == R.id.headquarter_RL) {
-			countryMap = myApp.getCountryMap();
-
-			List<String> list = new ArrayList<String>(countryMap.values());
-			for (int i = 0; i < list.size(); i++) {
-				menu.add(0, v.getId(), i, list.get(i));
-			}
-
-		}
+//		if (v.getId() == R.id.sector_RL) {
+//			sectorMap = myApp.getSectorMap();
+//
+//			List<String> list = new ArrayList<String>(sectorMap.values());
+//			for (int i = 0; i < list.size(); i++) {
+//				menu.add(0, v.getId(), i, list.get(i));
+//			}
+//
+//		}
+//		if (v.getId() == R.id.headquarter_RL) {
+//			countryMap = myApp.getCountryMap();
+//
+//			List<String> list = new ArrayList<String>(countryMap.values());
+//			for (int i = 0; i < list.size(); i++) {
+//				menu.add(0, v.getId(), i, list.get(i));
+//			}
+//
+//		}
 		if (v.getId() == R.id.lob_RL) {
 			lobMap = myApp.getLobMap();
 
@@ -215,27 +216,27 @@ public class AccountAddActivity extends CRMActivity {
 			}
 
 		}
-		if (v.getId() == R.id.sublob_RL) {
-			subLobMap = myApp.getSubLobMap();
-
-			List<String> list = new ArrayList<String>(subLobMap.values());
-			for (int i = 0; i < list.size(); i++) {
-				menu.add(0, v.getId(), i, list.get(i));
-			}
-
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
-			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
-			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
-			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
-			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
-			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
-		}
+//		if (v.getId() == R.id.sublob_RL) {
+//			subLobMap = myApp.getSubLobMap();
+//
+//			List<String> list = new ArrayList<String>(subLobMap.values());
+//			for (int i = 0; i < list.size(); i++) {
+//				menu.add(0, v.getId(), i, list.get(i));
+//			}
+//
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
+//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
+//		}
 		if (v.getId() == R.id.leadPartner_RL) {
 			// countryMap = myApp.getCountryMap();
 			//
@@ -251,7 +252,7 @@ public class AccountAddActivity extends CRMActivity {
 			List<String> list = new ArrayList<String>(
 					accountCategoryMap.values());
 			for (int i = 0; i < list.size(); i++) {
-				menu.add(0, v.getId(), i, list.get(i));
+				menu.add(1, v.getId(), i, list.get(i));
 			}
 
 		}
@@ -260,16 +261,22 @@ public class AccountAddActivity extends CRMActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		if (item.getGroupId() == 0) {
-			headquarter_TV.setText(item.getTitle());
-			List<String> keys = new ArrayList<String>(countryMap.keySet());
-			keys.get(item.getOrder());
 
-			Toast.makeText(AccountAddActivity.this,
-					countryMap.get(keys.get(item.getOrder())),
-					Toast.LENGTH_SHORT).show();
+		/** important code for mapping. DO NOT DELETE. **/
+		//		if (item.getGroupId() == 0) {
+//			headquarter_TV.setText(item.getTitle());
+//			List<String> keys = new ArrayList<String>(countryMap.keySet());
+//			keys.get(item.getOrder());
+//
+//			Toast.makeText(AccountAddActivity.this,
+//					countryMap.get(keys.get(item.getOrder())),
+//					Toast.LENGTH_SHORT).show();
+//		}
+		
+		if (item.getGroupId() == 0) {
+			lob_TV.setText(item.getTitle());
 		} else if (item.getGroupId() == 1) {
-			sublob_TV.setText(item.getTitle());
+			accountCategory_TV.setText(item.getTitle());
 		}
 		return super.onContextItemSelected(item);
 
@@ -349,9 +356,6 @@ public class AccountAddActivity extends CRMActivity {
 	public void onSearchItem(View view) {
 		nextIntent = new Intent(this, SearchActivity.class);
 
-		// RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
-		// leadPartner_RL, accountCategory_RL;
-
 		switch (view.getId()) {
 		case R.id.sector_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_SECTOR);
@@ -363,6 +367,10 @@ public class AccountAddActivity extends CRMActivity {
 		case R.id.sublob_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_SUB_LOB);
 			break;
+		case R.id.leadPartner_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+			
 		default:
 			break;
 		}
@@ -389,6 +397,11 @@ public class AccountAddActivity extends CRMActivity {
 				List<String> list = new ArrayList<String>(subLobMap.values());
 				System.out.println("asdsad  :  " + list.get(positionItem));
 				sublob_TV.setText(list.get(positionItem));
+			}
+			if (requestCode == MyApp.SEARCH_USER) {
+				userMap = myApp.getUserMap();
+				List<String> list = new ArrayList<String>(userMap.values());
+				leadPartner_TV.setText(list.get(positionItem));
 			}
 		}
 

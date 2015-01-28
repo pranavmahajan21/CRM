@@ -113,6 +113,7 @@
 
             <RelativeLayout
                 android:id="@+id/leadPartner_RL"
+                android:onClick="onSearchItem"
                 style="@style/RL" >
 
                 <TextView

@@ -1,6 +1,8 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -58,16 +60,19 @@ public class ContactAddActivity extends CRMActivity {
 	TextView dor_TV, internalConnect_TV, organization_TV;
 	EditText firstName_ET, lastName_ET, designation_ET, email_ET,
 			officePhone_ET, mobile_ET;
-	RelativeLayout organizationRL, internalRL;
+	RelativeLayout dor_RL, organization_RL, internal_RL;
 
 	boolean pickerVisibility = false;
 	NumberPicker picker;
 
-	Intent previousIntent;
+	Intent previousIntent,nextIntent;
 
-	int selectedInternalConnect = -1;
+	int selectedDOR = -1;
 	List<InternalConnect> internalConnectList;
 	List<Account> accountList;
+
+	Map<String, String> dorMap;
+	Map<String, String> userMap;
 
 	Gson gson;
 	RequestQueue queue;
@@ -75,8 +80,8 @@ public class ContactAddActivity extends CRMActivity {
 	private BroadcastReceiver contactReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			registerForContextMenu(internalRL);
-			registerForContextMenu(organizationRL);
+			registerForContextMenu(internal_RL);
+			registerForContextMenu(organization_RL);
 		}
 	};
 
@@ -112,8 +117,9 @@ public class ContactAddActivity extends CRMActivity {
 		officePhone_ET = (EditText) findViewById(R.id.officePhone_ET);
 		mobile_ET = (EditText) findViewById(R.id.mobile_ET);
 
-		internalRL = (RelativeLayout) findViewById(R.id.internal_RL);
-		organizationRL = (RelativeLayout) findViewById(R.id.organization_RL);
+		dor_RL = (RelativeLayout) findViewById(R.id.dor_RL);
+		internal_RL = (RelativeLayout) findViewById(R.id.internal_RL);
+		organization_RL = (RelativeLayout) findViewById(R.id.organization_RL);
 
 		picker = (NumberPicker) findViewById(R.id.picker);
 
@@ -152,10 +158,8 @@ public class ContactAddActivity extends CRMActivity {
 
 			firstName_ET.setText(tempContact.getLastName());
 			lastName_ET.setText(tempContact.getLastName());
-		} else {
-			registerForContextMenu(internalRL);
-			registerForContextMenu(organizationRL);
 		}
+
 	}
 
 	private void hideKeyboardFunctionality() {
@@ -181,6 +185,10 @@ public class ContactAddActivity extends CRMActivity {
 		initView("Add Contact", "Submit");
 
 		hideKeyboardFunctionality();
+
+		registerForContextMenu(dor_RL);
+//		registerForContextMenu(internal_RL);
+//		registerForContextMenu(organization_RL);
 
 		setPickerProperties();
 
@@ -214,47 +222,32 @@ public class ContactAddActivity extends CRMActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		if (v.getId() == R.id.organization_RL) {
-			accountList = myApp.getAccountList();
-
-			for (int i = 0; i < accountList.size(); i++) {
-				menu.add(1, v.getId(), i, accountList.get(i).getName());
+		if (v.getId() == R.id.dor_RL) {
+			dorMap = myApp.getDorMap();
+			List<String> list = new ArrayList<String>(dorMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
 			}
-			// menu.add(0, v.getId(), 0,
-			// "South Asia Clean Energy Fund Partners, L.p");
-			// menu.add(0, v.getId(), 0, "(n)Code Solutions");
-			// menu.add(0, v.getId(), 0, "1 MG");
-			// menu.add(0, v.getId(), 0, "1 MG Road");
-			// menu.add(0, v.getId(), 0,
-			// "10C India Internet India Private Limited");
-			// menu.add(0, v.getId(), 0, "10C India Internet Pve. Ltd.");
-			// menu.add(0, v.getId(), 0, "11210");
-			// menu.add(0, v.getId(), 0,
-			// "120 Media Collective Private Limited");
-			// menu.add(0, v.getId(), 0,
-			// "1FB Support Services Private Limited");
-			// menu.add(0, v.getId(), 0, "2 Degrees");
-			// menu.add(0, v.getId(), 0, "20 Cube Group");
-		} else if (v.getId() == R.id.internal_RL) {
-			/** For Internal Connect **/
-			internalConnectList = myApp.getInternalConnectList();
-
-			for (int i = 0; i < internalConnectList.size(); i++) {
-				menu.add(1, v.getId(), i, internalConnectList.get(i)
-						.getLastName());
-			}
-
 		}
+//		if (v.getId() == R.id.organization_RL) {
+//			accountList = myApp.getAccountList();
+//
+//			for (int i = 0; i < accountList.size(); i++) {
+//				menu.add(1, v.getId(), i, accountList.get(i).getName());
+//			}
+//		}
+
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
 		if (item.getGroupId() == 0) {
-			organization_TV.setText(item.getTitle());
+			selectedDOR = item.getOrder();
+			dor_TV.setText(item.getTitle());
+//			organization_TV.setText(item.getTitle());
 		} else if (item.getGroupId() == 1) {
 			internalConnect_TV.setText(item.getTitle());
-			selectedInternalConnect = item.getOrder();
 		}
 		return super.onContextItemSelected(item);
 
@@ -369,4 +362,44 @@ public class ContactAddActivity extends CRMActivity {
 		super.onPause();
 	}
 
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		intent.putExtra("request_code", requestCode);
+		super.startActivityForResult(intent, requestCode);
+	}
+
+	public void onSearchItem(View view) {
+		nextIntent = new Intent(this, SearchActivity.class);
+
+		switch (view.getId()) {
+		case R.id.internal_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+		case R.id.organization_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			int positionItem = data.getIntExtra("position_item", 0);
+			if (requestCode == MyApp.SEARCH_USER) {
+				userMap = myApp.getUserMap();
+				List<String> list = new ArrayList<String>(userMap.values());
+				internalConnect_TV.setText(list.get(positionItem));
+			}
+			if (requestCode == MyApp.SEARCH_ACCOUNT) {
+				List<Account> accountList = myApp.getAccountList();
+				organization_TV.setText(accountList.get(positionItem).getName());
+			}
+		}
+
+	}
 }
