@@ -70,7 +70,10 @@ public class ContactAdapter extends BaseAdapter {
 		}
 
 		Contact tempContact = contactList.get(position);
-		viewHolder.nameTV.setText(tempContact.getLastName());
+
+		String temp = myApp.getContactName(tempContact);
+		viewHolder.nameTV.setText(temp);
+
 		try {
 			viewHolder.companyTV.setText(getNameFromJson(new JSONObject(
 					tempContact.getOrganization())));

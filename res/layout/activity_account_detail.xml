@@ -34,98 +34,62 @@
 
             <TextView
                 android:id="@+id/leadPartnerLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                style="@style/TV_top"
                 android:text="Lead Partner1:" />
 
             <TextView
                 android:id="@+id/leadPartner_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                style="@style/TV_bottom"
                 android:text="-" />
 
             <TextView
                 android:id="@+id/headquarterCountryLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                style="@style/TV_top"
                 android:text="Headquarter Country:" />
 
             <TextView
                 android:id="@+id/headquarterCountry_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                style="@style/TV_bottom"
                 android:text="-" />
 
             <TextView
                 android:id="@+id/lobLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                style="@style/TV_top"
                 android:text="LOB:" />
 
             <TextView
                 android:id="@+id/lob_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                style="@style/TV_bottom"
                 android:text="-" />
 
             <TextView
                 android:id="@+id/sublobLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                style="@style/TV_top"
                 android:text="Sub LOB:" />
 
             <TextView
                 android:id="@+id/sublob_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                style="@style/TV_bottom"
                 android:text="-" />
 
             <TextView
                 android:id="@+id/sectorLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                style="@style/TV_top"
                 android:text="Sector:" />
 
             <TextView
                 android:id="@+id/sector_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                style="@style/TV_bottom"
                 android:text="-" />
 
             <TextView
                 android:id="@+id/accountCategoryLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                style="@style/TV_top"
                 android:text="Account Category1:" />
 
             <TextView
                 android:id="@+id/accountCategory_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                style="@style/TV_bottom"
                 android:text="-" />
 
             <Button

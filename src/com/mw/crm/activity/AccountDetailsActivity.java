@@ -19,8 +19,8 @@ public class AccountDetailsActivity extends CRMActivity {
 	TextView leadPartnerLabel_TV, headquarterCountryLabel_TV, lobLabel_TV,
 			sublobLabel_TV, sectorLabel_TV, accountCategoryLabel_TV;
 
-	TextView accountName_TV, leadPartner_TV, headquarterCountry_TV, lob_TV, sublob_TV,
-			sector_TV, accountCategory_TV;
+	TextView accountName_TV, leadPartner_TV, headquarterCountry_TV, lob_TV,
+			sublob_TV, sector_TV, accountCategory_TV;
 
 	private void initThings() {
 		previousIntent = getIntent();
@@ -68,30 +68,45 @@ public class AccountDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
+		System.out.println("country : " + selectedAccount.getCountry());
+		System.out.println("lob : " + selectedAccount.getLob());
+		System.out.println("sublob : " + selectedAccount.getSubLob()
+				+ "   length :  " + selectedAccount.getSubLob().length());
+		System.out.println("sector : " + selectedAccount.getSector());
+
 		accountName_TV.setText(selectedAccount.getName());
-		
-		try {
+
+		Integer temp = myApp.getValueFromStringJSON(selectedAccount
+				.getCountry());
+
+		if (temp != null) {
 			headquarterCountry_TV.setText(myApp.getCountryMap().get(
-					Integer.toString(new JSONObject(selectedAccount
-							.getCountry()).getInt("Value"))));
+					Integer.toString(temp.intValue())));
+		}
+		temp = myApp.getValueFromStringJSON(selectedAccount.getLob());
+		if (temp != null) {
 			lob_TV.setText(myApp.getLobMap().get(
-					Integer.toString(new JSONObject(selectedAccount
-							.getLob()).getInt("Value"))));
+					Integer.toString(temp.intValue())));
+		}
+		temp = myApp.getValueFromStringJSON(selectedAccount.getSubLob());
+		if (temp != null) {
 			sublob_TV.setText(myApp.getSubLobMap().get(
-					Integer.toString(new JSONObject(selectedAccount
-							.getSubLob()).getInt("Value"))));
-			sector_TV.setText(myApp.getSectorMap().get(
-					Integer.toString(new JSONObject(selectedAccount
-							.getSector()).getInt("Value"))));
-			accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
-					Integer.toString(new JSONObject(selectedAccount
-							.getAccountCategory()).getInt("Value"))));
-		} catch (JSONException e) {
-			e.printStackTrace();
+					Integer.toString(temp.intValue())));
+		}
+		temp = myApp.getValueFromStringJSON(selectedAccount.getSector());
+		if (temp != null) {
+				sector_TV.setText(myApp.getSectorMap().get(
+						Integer.toString(temp.intValue())));
+		}
+		temp = myApp.getValueFromStringJSON(selectedAccount.getAccountCategory());
+		if (temp != null) {
+				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
+						Integer.toString(temp.intValue())));
 		}
 
 		try {
-			leadPartner_TV.setText(new JSONObject(selectedAccount.getLeadPartner()).getString("Name"));
+			leadPartner_TV.setText(new JSONObject(selectedAccount
+					.getLeadPartner()).getString("Name"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

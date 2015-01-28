@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.crm.activity.R;
+import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityDetailsActivity extends CRMActivity {
@@ -20,13 +22,14 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			salesStageLabel_TV, clientNameLabel_TV, countryLabel_TV,
 			corridorLabel_TV, lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
-	TextView oppoName_TV, oppoManager_TV, probability_TV, status_TV, salesStage_TV, clientName_TV,
-			country_TV, corridor_TV, lob_TV, sublob_TV, sector_TV;
+	TextView oppoName_TV, oppoManager_TV, probability_TV, status_TV,
+			salesStage_TV, clientName_TV, country_TV, corridor_TV, lob_TV,
+			sublob_TV, sector_TV;
 
 	private void initThings() {
 		myApp.getAccountList();
 		previousIntent = getIntent();
-		
+
 		selectedOpportunity = myApp.getOpportunityList().get(
 				previousIntent.getIntExtra("position", 0));
 	}
@@ -86,10 +89,10 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
-		
-//		oppoName_TV.setText(selectedOpportunity.get);
-//		oppoManager_TV.setText(selectedOpportunity.get);
-		
+
+		// oppoName_TV.setText(selectedOpportunity.get);
+		// oppoManager_TV.setText(selectedOpportunity.get);
+
 		try {
 			probability_TV.setText(myApp.getProbabilityMap().get(
 					Integer.toString(new JSONObject(selectedOpportunity
@@ -103,15 +106,51 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
+
 		clientName_TV.setText(selectedOpportunity.getCustomerId());
+
+		Account tempAccount = null;
+		try {
+			tempAccount = myApp.getAccountById(new JSONObject(
+					selectedOpportunity.getCustomerId()).getString("Id"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		if (tempAccount != null) {
+			Integer temp = myApp.getValueFromStringJSON(tempAccount
+					.getCountry());
+			if (temp != null) {
+				country_TV.setText(myApp.getCountryMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount.getLob());
+			if (temp != null) {
+				lob_TV.setText(myApp.getLobMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount.getSubLob());
+			if (temp != null) {
+				sublob_TV.setText(myApp.getSubLobMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount.getSector());
+			if (temp != null) {
+				sector_TV.setText(myApp.getSectorMap().get(
+						Integer.toString(temp.intValue())));
+			}
+		} else {
+			Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
+					.show();
+
+		}
+
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_opportunity_detail);
-		
+
 		initThings();
 		findThings();
 		initView("Opportunity", "Edit");

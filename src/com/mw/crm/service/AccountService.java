@@ -132,7 +132,7 @@ public class AccountService extends IntentService {
 		try {
 
 			Account account = new Account(MyApp.getPerfectString(jsonObject
-					.getString("name")), MyApp.decryptData(jsonObject
+					.getString("name")), MyApp.getPerfectString(jsonObject
 					.getString("accountid")), MyApp.decryptData(jsonObject
 					.getString("pcl_country1")), MyApp.decryptData(jsonObject
 					.getString("pcl_lob")), MyApp.decryptData(jsonObject

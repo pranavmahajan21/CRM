@@ -155,7 +155,7 @@ public class AppointmentService extends IntentService {
 			Appointment appointment = new Appointment(MyApp
 					.decryptData(jsonObject.getString("activityid")), MyApp
 					.getPerfectString(jsonObject.getString("subject")), MyApp
-					.decryptData(jsonObject.getString("description")),
+					.getPerfectString(jsonObject.getString("description")),
 					MyApp.getPerfectString(jsonObject
 							.getString("pcl_nameoftheclientofficial")), MyApp
 							.decryptData(jsonObject

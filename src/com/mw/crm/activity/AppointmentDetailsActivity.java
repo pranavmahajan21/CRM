@@ -69,6 +69,8 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+//		System.out
+//				.println("asdfsad" + selectedAppointment.getDescription() == null);
 
 		description_TV.setText(selectedAppointment.getDescription());
 		nameClientOfficial_TV.setText(selectedAppointment

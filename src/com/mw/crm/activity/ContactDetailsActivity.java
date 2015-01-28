@@ -69,7 +69,7 @@ public class ContactDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 		
-		name_TV.setText(selectedContact.getFirstName() + " " + selectedContact.getLastName());
+		name_TV.setText(myApp.getContactName(selectedContact));
 		email_TV.setText(selectedContact.getEmail());
 		officePhone_TV.setText(selectedContact.getTelephone());
 		mobile_TV.setText(selectedContact.getMobilePhone());

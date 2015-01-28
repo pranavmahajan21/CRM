@@ -82,8 +82,7 @@ public class MyApp extends Application {
 	final public static int SEARCH_USER = 11;
 	final public static int SEARCH_ACCOUNT = 100;
 	final public static int SEARCH_OPPORTUNITY = 101;
-	
-	
+
 	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
 
 	List<Opportunity> opportunityList;// = new ArrayList<Opportunity>();
@@ -238,7 +237,7 @@ public class MyApp extends Application {
 			}
 		}
 
-//		loadUnloadedData();
+		loadUnloadedData();
 	}
 
 	private void loadUnloadedData() {
@@ -265,7 +264,7 @@ public class MyApp extends Application {
 			intent = new Intent(this, AccountService.class);
 			startService(intent);
 		}
-		if (internalConnectList == null) {
+		if (userMap == null) {
 			isUnloadedDataThere = true;
 			intent = new Intent(this, InternalConnectService.class);
 			startService(intent);
@@ -288,44 +287,42 @@ public class MyApp extends Application {
 	}
 
 	private void staticData() {
-		opportunityList
-				.add(new Opportunity("A, Pradeep", null,
-						"Meher Pudumjee, Pheroz Pudumj...", "Active", null,
-						null, null, null, null));
-		opportunityList
-				.add(new Opportunity("Abhishek, A", null,
-						"Blue Print for development o...", "On Hold", null,
-						null, null, null, null));
+		opportunityList.add(new Opportunity("A, Pradeep", null,
+				"Meher Pudumjee, Pheroz Pudumj...", "Active", null, null, null,
+				null, null));
+		opportunityList.add(new Opportunity("Abhishek, A", null,
+				"Blue Print for development o...", "On Hold", null, null, null,
+				null, null));
 		opportunityList.add(new Opportunity("Abraham, Anil Alex", null,
-				"IvyCap Trust DT-FS-13-14", "Scrapped", null, null, null, null, null));
-		opportunityList
-				.add(new Opportunity("Abraham Philomena", null,
-						"LLP conversion, Profit repat....", "Active", null,
-						null, null, null, null));
+				"IvyCap Trust DT-FS-13-14", "Scrapped", null, null, null, null,
+				null));
+		opportunityList.add(new Opportunity("Abraham Philomena", null,
+				"LLP conversion, Profit repat....", "Active", null, null, null,
+				null, null));
 		opportunityList.add(new Opportunity("Adhikari Sawant, Rupali", null,
-				"Macquarie Group Services-IES...", "Delete", null, null, null, null, null));
+				"Macquarie Group Services-IES...", "Delete", null, null, null,
+				null, null));
 		opportunityList.add(new Opportunity("Adhikari, Pratik", null,
 				"Meher Pudumjee, Pheroz Pudumj...", "Scrapped", null, null,
 				null, null, null));
-		opportunityList
-				.add(new Opportunity("Adhikary, Subhendu", null,
-						"Macquarie Group Services IES...", "On Hold", null,
-						null, null, null, null));
+		opportunityList.add(new Opportunity("Adhikary, Subhendu", null,
+				"Macquarie Group Services IES...", "On Hold", null, null, null,
+				null, null));
 		opportunityList.add(new Opportunity("Administrator, CRM", null,
 				"Regulatory compliance under F...", "Scrapped", null, null,
 				null, null, null));
 		opportunityList.add(new Opportunity("Advani, Harish", null,
-				"Responing to Queries from ta...", "Active", null, null, null, null, null));
-		opportunityList
-				.add(new Opportunity("Advani, Vikram", null,
-						"Security Audit of application...", "Delete", null,
-						null, null, null, null));
-		opportunityList
-				.add(new Opportunity("Agarwal, Abhijit", null,
-						"Blue Print for development o...", "On Hold", null,
-						null, null, null, null));
+				"Responing to Queries from ta...", "Active", null, null, null,
+				null, null));
+		opportunityList.add(new Opportunity("Advani, Vikram", null,
+				"Security Audit of application...", "Delete", null, null, null,
+				null, null));
+		opportunityList.add(new Opportunity("Agarwal, Abhijit", null,
+				"Blue Print for development o...", "On Hold", null, null, null,
+				null, null));
 		opportunityList.add(new Opportunity("**Agarwal, Abhishek**", null,
-				"Macquarie Group Services-IES...", "Delete", null, null, null, null, null));
+				"Macquarie Group Services-IES...", "Delete", null, null, null,
+				null, null));
 
 		contactList.add(new Contact("NTPC Limited", null, null, null,
 				"A A Sheikh"));
@@ -368,20 +365,22 @@ public class MyApp extends Application {
 		appointmentList.add(new Appointment("", "**Srikanth meeting**", null,
 				null, null, null, null, new Date(), new Date()));
 
-//		accountList.add(new Account("South Asia Clean Energy Fund....",
-//				"4440158", null, null, null));
-//		accountList.add(new Account("(n)Code Solutions", "4440152", null, null,
-//				null));
-//		accountList.add(new Account("1 MG", "4440157", null, null, null));
-//		accountList.add(new Account("1 MG Road", "4440156", null, null, null));
-//		accountList.add(new Account("10C India Internet India private Ltd",
-//				"5550158", null, null, null));
-//		accountList.add(new Account("120 Media Collective Private Ltd",
-//				"5550152", null, null, null));
-//		accountList.add(new Account("1FB Support Services Private Ltd",
-//				"5550153", null, null, null));
-//		accountList.add(new Account("**2 Degrees**", "5550155", null, null,
-//				null));
+		// accountList.add(new Account("South Asia Clean Energy Fund....",
+		// "4440158", null, null, null));
+		// accountList.add(new Account("(n)Code Solutions", "4440152", null,
+		// null,
+		// null));
+		// accountList.add(new Account("1 MG", "4440157", null, null, null));
+		// accountList.add(new Account("1 MG Road", "4440156", null, null,
+		// null));
+		// accountList.add(new Account("10C India Internet India private Ltd",
+		// "5550158", null, null, null));
+		// accountList.add(new Account("120 Media Collective Private Ltd",
+		// "5550152", null, null, null));
+		// accountList.add(new Account("1FB Support Services Private Ltd",
+		// "5550153", null, null, null));
+		// accountList.add(new Account("**2 Degrees**", "5550155", null, null,
+		// null));
 	}
 
 	@Override
@@ -733,21 +732,27 @@ public class MyApp extends Application {
 	}
 
 	public static String getPerfectString(String string) {
-		// Does both of 1. removes Quotes 2. Decrypt Data 
-//		return MyApp.removeQuotesFromString(MyApp.decryptData(string));
-		
+		// Does both of 1. removes Quotes 2. Decrypt Data
+		// return MyApp.removeQuotesFromString(MyApp.decryptData(string));
+
 		String s = MyApp.decryptData(string);
-		System.out.println("After decryption : " + s.length() +"  asdsd  :  " + (s==null));
+		System.out.println("After decryption : " + s.length() + "  asdsd  :  "
+				+ (s == null));
 		String s2 = MyApp.removeQuotesFromString(s);
 		System.out.println("After removing quotes  : " + s2);
-		
+
 		return s2;
 	}
-	
+
 	public static String removeQuotesFromString(String string) {
-		return string.substring(1, string.length() - 1);
+		if (string != null && string.length() > 0) {
+			return string.substring(1, string.length() - 1);
+		} else {
+			// return string;
+			return null;
+		}
 	}
-	
+
 	public static String decryptData(String string) {
 
 		// String aa = new Encrypter(null, null).decrypt(string);
@@ -815,8 +820,6 @@ public class MyApp extends Application {
 		// System.out.println(">><<><><><" + dateStr);
 		return date;
 	}
-
-	
 
 	public void readDataFromExcel() {
 		readAccountCategoryExcel();
@@ -1045,4 +1048,40 @@ public class MyApp extends Application {
 
 	}
 
+	public String getContactName(Contact tempContact) {
+		String temp = null;
+		if (tempContact.getFirstName() != null
+				&& tempContact.getFirstName().length() > 0) {
+			temp = tempContact.getFirstName();
+		}
+		if (tempContact.getLastName() != null
+				&& tempContact.getLastName().length() > 0) {
+			if (temp != null) {
+				temp = temp + ", " + tempContact.getLastName();
+			} else {
+				temp = tempContact.getLastName();
+			}
+		}
+		return temp;
+	}
+
+	public Account getAccountById(String id) {
+//		System.out.println("1111" + id);
+		for (int i = 0; i < accountList.size(); i++) {
+//			System.out.println("2222" + accountList.get(i).getAccountId());
+			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
+				return accountList.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Integer getValueFromStringJSON(String x) {
+		try {
+			return new JSONObject(x).getInt("Value");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
