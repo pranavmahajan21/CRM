@@ -13,7 +13,7 @@ import com.mw.crm.model.Contact;
 
 public class ContactDetailsActivity extends CRMActivity {
 
-//	MyApp myApp; will be inherited from CRMActivity
+	// MyApp myApp; will be inherited from CRMActivity
 
 	Intent nextIntent, previousIntent;
 	Contact selectedContact;
@@ -21,8 +21,8 @@ public class ContactDetailsActivity extends CRMActivity {
 	TextView emailLabel_TV, officePhoneLabel_TV, mobileLabel_TV,
 			internalConnectLabel_TV, dorLabel_TV;
 
-	TextView name_TV, orgnaization_TV, email_TV, officePhone_TV, mobile_TV,
-			internalConnect_TV, dor_TV;
+	TextView name_TV, designation_TV, organization_TV, email_TV,
+			officePhone_TV, mobile_TV, internalConnect_TV, dor_TV;
 
 	private void initThings() {
 		previousIntent = getIntent();
@@ -39,7 +39,8 @@ public class ContactDetailsActivity extends CRMActivity {
 		dorLabel_TV = (TextView) findViewById(R.id.dorLabel_TV);
 
 		name_TV = (TextView) findViewById(R.id.name_TV);
-		orgnaization_TV = (TextView) findViewById(R.id.orgnaization_TV);
+		designation_TV = (TextView) findViewById(R.id.designation_TV);
+		organization_TV = (TextView) findViewById(R.id.organization_TV);
 		email_TV = (TextView) findViewById(R.id.email_TV);
 		officePhone_TV = (TextView) findViewById(R.id.officePhone_TV);
 		mobile_TV = (TextView) findViewById(R.id.mobile_TV);
@@ -57,7 +58,8 @@ public class ContactDetailsActivity extends CRMActivity {
 		// dorLabel_TV.setTypeface();
 		//
 		// name_TV.setTypeface();
-		// orgnaization_TV.setTypeface();
+		// designation_TV.setTypeface();
+		// organization_TV.setTypeface();
 		// email_TV.setTypeface();
 		// officePhone_TV.setTypeface();
 		// mobile_TV.setTypeface();
@@ -68,25 +70,27 @@ public class ContactDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
-		
+
 		name_TV.setText(myApp.getContactName(selectedContact));
+		designation_TV.setText(selectedContact.getDesignation());
+
+		organization_TV.setText(myApp.getStringFromStringJSON(selectedContact
+				.getOrganization()));
 		email_TV.setText(selectedContact.getEmail());
 		officePhone_TV.setText(selectedContact.getTelephone());
 		mobile_TV.setText(selectedContact.getMobilePhone());
-		
-		try {
-			internalConnect_TV.setText(new JSONObject(selectedContact.getInternalConnect()).getString("Name"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		try {
+
+		internalConnect_TV.setText(myApp
+				.getStringFromStringJSON(selectedContact.getInternalConnect()));
+
+		Integer temp = myApp.getValueFromStringJSON(selectedContact
+				.getDegreeOfRelation());
+
+		if (temp != null) {
 			dor_TV.setText(myApp.getDorMap().get(
-					Integer.toString(new JSONObject(selectedContact
-							.getDegreeOfRelation()).getInt("Value"))));
-		} catch (JSONException e) {
-			e.printStackTrace();
+					Integer.toString(temp.intValue())));
 		}
+
 	}
 
 	@Override

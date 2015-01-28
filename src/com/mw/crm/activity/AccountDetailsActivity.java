@@ -68,11 +68,11 @@ public class AccountDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
-		System.out.println("country : " + selectedAccount.getCountry());
-		System.out.println("lob : " + selectedAccount.getLob());
-		System.out.println("sublob : " + selectedAccount.getSubLob()
-				+ "   length :  " + selectedAccount.getSubLob().length());
-		System.out.println("sector : " + selectedAccount.getSector());
+//		System.out.println("country : " + selectedAccount.getCountry());
+//		System.out.println("lob : " + selectedAccount.getLob());
+//		System.out.println("sublob : " + selectedAccount.getSubLob()
+//				+ "   length :  " + selectedAccount.getSubLob().length());
+//		System.out.println("sector : " + selectedAccount.getSector());
 
 		accountName_TV.setText(selectedAccount.getName());
 

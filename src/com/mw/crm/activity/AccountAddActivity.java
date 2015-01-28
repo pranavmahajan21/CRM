@@ -19,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -121,24 +120,33 @@ public class AccountAddActivity extends CRMActivity {
 
 			clientName_ET.setText(tempAccount.getName());
 
-			try {
+			Integer temp = myApp.getValueFromStringJSON(tempAccount
+					.getCountry());
+
+			if (temp != null) {
 				headquarter_TV.setText(myApp.getCountryMap().get(
-						Integer.toString(new JSONObject(tempAccount
-								.getCountry()).getInt("Value"))));
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount.getLob());
+			if (temp != null) {
 				lob_TV.setText(myApp.getLobMap().get(
-						Integer.toString(new JSONObject(tempAccount.getLob())
-								.getInt("Value"))));
-				sublob_TV.setText(myApp.getSubLobMap()
-						.get(Integer.toString(new JSONObject(tempAccount
-								.getSubLob()).getInt("Value"))));
-				sector_TV.setText(myApp.getSectorMap()
-						.get(Integer.toString(new JSONObject(tempAccount
-								.getSector()).getInt("Value"))));
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount.getSubLob());
+			if (temp != null) {
+				sublob_TV.setText(myApp.getSubLobMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount.getSector());
+			if (temp != null) {
+				sector_TV.setText(myApp.getSectorMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(tempAccount
+					.getAccountCategory());
+			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
-						Integer.toString(new JSONObject(tempAccount
-								.getAccountCategory()).getInt("Value"))));
-			} catch (JSONException e) {
-				e.printStackTrace();
+						Integer.toString(temp.intValue())));
 			}
 
 			try {
@@ -189,24 +197,24 @@ public class AccountAddActivity extends CRMActivity {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-//		if (v.getId() == R.id.sector_RL) {
-//			sectorMap = myApp.getSectorMap();
-//
-//			List<String> list = new ArrayList<String>(sectorMap.values());
-//			for (int i = 0; i < list.size(); i++) {
-//				menu.add(0, v.getId(), i, list.get(i));
-//			}
-//
-//		}
-//		if (v.getId() == R.id.headquarter_RL) {
-//			countryMap = myApp.getCountryMap();
-//
-//			List<String> list = new ArrayList<String>(countryMap.values());
-//			for (int i = 0; i < list.size(); i++) {
-//				menu.add(0, v.getId(), i, list.get(i));
-//			}
-//
-//		}
+		// if (v.getId() == R.id.sector_RL) {
+		// sectorMap = myApp.getSectorMap();
+		//
+		// List<String> list = new ArrayList<String>(sectorMap.values());
+		// for (int i = 0; i < list.size(); i++) {
+		// menu.add(0, v.getId(), i, list.get(i));
+		// }
+		//
+		// }
+		// if (v.getId() == R.id.headquarter_RL) {
+		// countryMap = myApp.getCountryMap();
+		//
+		// List<String> list = new ArrayList<String>(countryMap.values());
+		// for (int i = 0; i < list.size(); i++) {
+		// menu.add(0, v.getId(), i, list.get(i));
+		// }
+		//
+		// }
 		if (v.getId() == R.id.lob_RL) {
 			lobMap = myApp.getLobMap();
 
@@ -216,27 +224,27 @@ public class AccountAddActivity extends CRMActivity {
 			}
 
 		}
-//		if (v.getId() == R.id.sublob_RL) {
-//			subLobMap = myApp.getSubLobMap();
-//
-//			List<String> list = new ArrayList<String>(subLobMap.values());
-//			for (int i = 0; i < list.size(); i++) {
-//				menu.add(0, v.getId(), i, list.get(i));
-//			}
-//
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
-//			// menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
-//		}
+		// if (v.getId() == R.id.sublob_RL) {
+		// subLobMap = myApp.getSubLobMap();
+		//
+		// List<String> list = new ArrayList<String>(subLobMap.values());
+		// for (int i = 0; i < list.size(); i++) {
+		// menu.add(0, v.getId(), i, list.get(i));
+		// }
+		//
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
+		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
+		// }
 		if (v.getId() == R.id.leadPartner_RL) {
 			// countryMap = myApp.getCountryMap();
 			//
@@ -263,16 +271,16 @@ public class AccountAddActivity extends CRMActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 
 		/** important code for mapping. DO NOT DELETE. **/
-		//		if (item.getGroupId() == 0) {
-//			headquarter_TV.setText(item.getTitle());
-//			List<String> keys = new ArrayList<String>(countryMap.keySet());
-//			keys.get(item.getOrder());
-//
-//			Toast.makeText(AccountAddActivity.this,
-//					countryMap.get(keys.get(item.getOrder())),
-//					Toast.LENGTH_SHORT).show();
-//		}
-		
+		// if (item.getGroupId() == 0) {
+		// headquarter_TV.setText(item.getTitle());
+		// List<String> keys = new ArrayList<String>(countryMap.keySet());
+		// keys.get(item.getOrder());
+		//
+		// Toast.makeText(AccountAddActivity.this,
+		// countryMap.get(keys.get(item.getOrder())),
+		// Toast.LENGTH_SHORT).show();
+		// }
+
 		if (item.getGroupId() == 0) {
 			lob_TV.setText(item.getTitle());
 		} else if (item.getGroupId() == 1) {
@@ -370,7 +378,7 @@ public class AccountAddActivity extends CRMActivity {
 		case R.id.leadPartner_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
-			
+
 		default:
 			break;
 		}

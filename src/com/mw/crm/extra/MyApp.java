@@ -126,6 +126,7 @@ public class MyApp extends Application {
 	Typeface typefaceRegularSans;
 	Typeface typefaceBoldSans;
 
+	CreateDialog createDialog;
 	// Volley stuff
 	public static final String TAG = MyApp.class.getSimpleName();
 
@@ -159,6 +160,8 @@ public class MyApp extends Application {
 		subLobMap = new LinkedHashMap<String, String>();
 
 		userMap = new LinkedHashMap<String, String>();
+
+		createDialog = new CreateDialog(this);
 
 		gson = new Gson();
 	}
@@ -408,115 +411,6 @@ public class MyApp extends Application {
 
 	}
 
-	private void createCountryData() {
-		countryMap = new LinkedHashMap<>();
-		countryMap.put("15001", "Afghanistan");
-		countryMap.put("1001", "Africa");
-		countryMap.put("1002", "Algeria");
-		countryMap.put("2001", "Argentina");
-		countryMap.put("4001", "Australia");
-		countryMap.put("8001", "Austria");
-		countryMap.put("15002", "Bahrain");
-		countryMap.put("15003", "Bangladesh");
-		countryMap.put("5001", "Belgium");
-		countryMap.put("24005", "Bermuda");
-		countryMap.put("17002", "Bhutan");
-		countryMap.put("2002", "Brazil");
-		countryMap.put("17003", "Brunei");
-		countryMap.put("8002", "Bulgaria");
-		countryMap.put("17004", "Burma");
-		countryMap.put("3001", "Cambodia");
-		countryMap.put("1003", "Cameroon");
-		countryMap.put("6001", "Canada");
-		countryMap.put("17005", "Cayman Islands");
-		countryMap.put("2003", "Chile");
-		countryMap.put("7001", "China");
-		countryMap.put("2004", "Colombia");
-		countryMap.put("1004", "Congo");
-		countryMap.put("15004", "Cyprus");
-		countryMap.put("8003", "Czech Republic");
-		countryMap.put("20001", "Denmark");
-		countryMap.put("15005", "Dubai");
-		countryMap.put("15006", "Egypt");
-		countryMap.put("1005", "Ethiopia");
-		countryMap.put("8004", "Finland");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-		// countryMap.put("", "");
-	}
-
 	public static synchronized MyApp getInstance() {
 		return mInstance;
 	}
@@ -633,6 +527,14 @@ public class MyApp extends Application {
 
 	public void setMenuItemList(List<MenuItem> menuItemList) {
 		this.menuItemList = menuItemList;
+	}
+
+	public CreateDialog getCreateDialog() {
+		return createDialog;
+	}
+
+	public void setCreateDialog(CreateDialog createDialog) {
+		this.createDialog = createDialog;
 	}
 
 	public Typeface getTypefaceRegularSans() {
@@ -1066,19 +968,29 @@ public class MyApp extends Application {
 	}
 
 	public Account getAccountById(String id) {
-//		System.out.println("1111" + id);
+		// System.out.println("1111" + id);
 		for (int i = 0; i < accountList.size(); i++) {
-//			System.out.println("2222" + accountList.get(i).getAccountId());
+			// System.out.println("2222" + accountList.get(i).getAccountId());
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
 				return accountList.get(i);
 			}
 		}
 		return null;
 	}
-	
+
 	public Integer getValueFromStringJSON(String x) {
+		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
 			return new JSONObject(x).getInt("Value");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String getStringFromStringJSON(String x) {
+		try {
+			return new JSONObject(x).getString("Name");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;

@@ -135,7 +135,7 @@ public class ContactService extends IntentService {
 			Contact contact = new Contact(MyApp.getPerfectString(jsonObject
 					.getString("firstname")), MyApp.getPerfectString(jsonObject
 					.getString("lastname")), MyApp.getPerfectString(jsonObject
-					.getString("emailaddress1")), MyApp.decryptData(jsonObject
+					.getString("emailaddress1")), MyApp.getPerfectString(jsonObject
 					.getString("pcl_designation")), MyApp.getPerfectString(jsonObject
 					.getString("mobilephone")), MyApp.getPerfectString(jsonObject
 					.getString("telephone1")), MyApp.decryptData(jsonObject
