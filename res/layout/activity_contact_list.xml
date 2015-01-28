@@ -38,7 +38,9 @@
         android:id="@+id/contact_LV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_LL" />
+        android:layout_below="@+id/search_LL"
+        android:divider="@android:color/white"
+        android:dividerHeight="1dp" />
 
     <TextView
         android:id="@+id/error_TV"

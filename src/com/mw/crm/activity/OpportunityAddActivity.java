@@ -11,7 +11,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -20,12 +23,12 @@ import android.widget.TextView;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
@@ -41,12 +44,12 @@ public class OpportunityAddActivity extends CRMActivity {
 	MyApp myApp;
 
 	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
-			 probabilityLabel_TV, salesStageLabel_TV;
-	
+			probabilityLabel_TV, salesStageLabel_TV;
+
 	TextView clientName_TV, probability_TV, salesStage_TV;
-	
+
 	EditText description_ET;
-	
+
 	RelativeLayout clientRL, probability_RL, salesStage_RL;
 
 	boolean pickerVisibility = false;
@@ -78,17 +81,17 @@ public class OpportunityAddActivity extends CRMActivity {
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
-		
+
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
-		
+
 		description_ET = (EditText) findViewById(R.id.description_ET);
 
 		clientRL = (RelativeLayout) findViewById(R.id.client_RL);
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
 		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
-		
+
 		picker = (NumberPicker) findViewById(R.id.status_NP);
 
 		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -99,11 +102,11 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-//		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-//		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-//		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-//		requiredSolutions_TV.setTypeface(myApp.getTypefaceRegularSans());
-//		currency_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// requiredSolutions_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// currency_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 	}
 
@@ -124,6 +127,19 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	}
 
+	private void hideKeyboardFunctionality() {
+		((RelativeLayout) findViewById(R.id.activity_opportunity_add_RL))
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -132,6 +148,8 @@ public class OpportunityAddActivity extends CRMActivity {
 		initThings();
 		findThings();
 		initView("Add Opportunity", "Submit");
+
+		hideKeyboardFunctionality();
 
 		registerForContextMenu(clientRL);
 	}

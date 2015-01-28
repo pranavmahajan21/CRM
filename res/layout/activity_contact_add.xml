@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_contact_add_RL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_android"
@@ -56,7 +57,7 @@
                 <TextView
                     android:id="@+id/dor2_TV"
                     style="@style/TV"
-                    android:text="Degree of Relationship" />
+                    android:hint="Degree of Relationship" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -79,7 +80,7 @@
                 <TextView
                     android:id="@+id/internalConnect2_TV"
                     style="@style/TV"
-                    android:textSize="18sp" />
+                    android:hint="Internal Connect" />
 
                 <ImageView
                     style="@style/IV"
@@ -98,7 +99,7 @@
                 <TextView
                     android:id="@+id/organization2_TV"
                     style="@style/TV"
-                    android:text="Select Organization" />
+                    android:hint="Organization" />
 
                 <ImageView
                     style="@style/IV"

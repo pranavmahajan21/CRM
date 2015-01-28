@@ -13,8 +13,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
@@ -155,6 +158,19 @@ public class ContactAddActivity extends CRMActivity {
 		}
 	}
 
+	private void hideKeyboardFunctionality() {
+		((RelativeLayout) findViewById(R.id.activity_contact_add_RL))
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -163,6 +179,8 @@ public class ContactAddActivity extends CRMActivity {
 		initThings();
 		findThings();
 		initView("Add Contact", "Submit");
+
+		hideKeyboardFunctionality();
 
 		setPickerProperties();
 

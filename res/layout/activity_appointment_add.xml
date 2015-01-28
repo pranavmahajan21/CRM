@@ -64,10 +64,7 @@
                     android:src="@drawable/arrow_right" />
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/interaction_ET"
-                style="@style/style_ET2" />
-
+           
             <TextView
                 android:id="@+id/designationLabel_TV"
                 style="@style/style_TV2"

@@ -12,7 +12,10 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,7 +51,7 @@ public class AccountAddActivity extends CRMActivity {
 	RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
 			leadPartner_RL, accountCategory_RL;
 
-	Intent previousIntent;
+	Intent previousIntent, nextIntent;
 
 	RequestQueue queue;
 
@@ -146,6 +149,19 @@ public class AccountAddActivity extends CRMActivity {
 		}
 	}
 
+	private void hideKeyboardFunctionality() {
+		((RelativeLayout) findViewById(R.id.activity_account_add_RL))
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -154,6 +170,8 @@ public class AccountAddActivity extends CRMActivity {
 		initThings();
 		findThings();
 		initView("Add Account", "Submit");
+
+		hideKeyboardFunctionality();
 
 		// registerForContextMenu(corridor_RL);
 		registerForContextMenu(sector_RL);
@@ -247,8 +265,6 @@ public class AccountAddActivity extends CRMActivity {
 			List<String> keys = new ArrayList<String>(countryMap.keySet());
 			keys.get(item.getOrder());
 
-			// System.out.println(countryMap.get(keys.get(item.getOrder())));
-
 			Toast.makeText(AccountAddActivity.this,
 					countryMap.get(keys.get(item.getOrder())),
 					Toast.LENGTH_SHORT).show();
@@ -323,4 +339,59 @@ public class AccountAddActivity extends CRMActivity {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		intent.putExtra("request_code", requestCode);
+		super.startActivityForResult(intent, requestCode);
+	}
+
+	public void onSearchItem(View view) {
+		nextIntent = new Intent(this, SearchActivity.class);
+
+		// RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
+		// leadPartner_RL, accountCategory_RL;
+
+		switch (view.getId()) {
+		case R.id.sector_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_SECTOR);
+			break;
+
+		case R.id.headquarter_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_HQ_COUNTRY);
+			break;
+		case R.id.sublob_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_SUB_LOB);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			int positionItem = data.getIntExtra("position_item", 0);
+			if (requestCode == MyApp.SEARCH_SECTOR) {
+				sectorMap = myApp.getSectorMap();
+				List<String> list = new ArrayList<String>(sectorMap.values());
+				sector_TV.setText(list.get(positionItem));
+			}
+			if (requestCode == MyApp.SEARCH_HQ_COUNTRY) {
+				countryMap = myApp.getCountryMap();
+				List<String> list = new ArrayList<String>(countryMap.values());
+				headquarter_TV.setText(list.get(positionItem));
+			}
+			if (requestCode == MyApp.SEARCH_SUB_LOB) {
+				subLobMap = myApp.getSubLobMap();
+				List<String> list = new ArrayList<String>(subLobMap.values());
+				System.out.println("asdsad  :  " + list.get(positionItem));
+				sublob_TV.setText(list.get(positionItem));
+			}
+		}
+
+	}
+
 }

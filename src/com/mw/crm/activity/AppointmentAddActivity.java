@@ -15,11 +15,15 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -43,18 +47,22 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView purposeLabel_TV, nameClientLabel_TV, interactionTypeLabel_TV, designationLabel_TV,
-			ownerLabel_TV;
-	
-	EditText purpose_ET, nameClient_ET, designation_ET,
-			notes_ET, startTime_ET, endTime_ET;
-	
+	TextView purposeLabel_TV, nameClientLabel_TV, interactionTypeLabel_TV,
+			designationLabel_TV, ownerLabel_TV;
+
+	TextView interactionType_TV, owner_TV;
+
+	EditText purpose_ET, nameClient_ET, designation_ET, notes_ET, startTime_ET,
+			endTime_ET;
+
 	RelativeLayout interactionType_RL, owner_RL;
 
 	Intent previousIntent;
 
 	List<InternalConnect> ownerList;
+
 	Map<String, String> ownerMap;
+	Map<String, String> interactionTypeMap;
 
 	RequestQueue queue;
 
@@ -75,11 +83,14 @@ public class AppointmentAddActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 
-		purposeLabel_TV = (TextView) findViewById(R.id.purpose_TV);
+		purposeLabel_TV = (TextView) findViewById(R.id.purposeLabel_TV);
 		nameClientLabel_TV = (TextView) findViewById(R.id.nameClientLabel_TV);
 		interactionTypeLabel_TV = (TextView) findViewById(R.id.interactionTypeLabel_TV);
 		designationLabel_TV = (TextView) findViewById(R.id.designationLabel_TV);
-		ownerLabel_TV = (TextView) findViewById(R.id.owner_TV);
+		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+
+		interactionType_TV = (TextView) findViewById(R.id.interactionType_TV);
+		owner_TV = (TextView) findViewById(R.id.owner_TV);
 
 		purpose_ET = (EditText) findViewById(R.id.purpose_ET);
 		nameClient_ET = (EditText) findViewById(R.id.nameClient_ET);
@@ -121,26 +132,39 @@ public class AppointmentAddActivity extends CRMActivity {
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
 
 			try {
-//				interaction_ET.setText(myApp.getInteractionTypeMap().get(
-//						Integer.toString(new JSONObject(tempAppointment
-//								.getTypeOfMeeting()).getInt("Value"))));
+				interactionType_TV.setText(myApp.getInteractionTypeMap().get(
+						Integer.toString(new JSONObject(tempAppointment
+								.getTypeOfMeeting()).getInt("Value"))));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			designation_ET.setText(tempAppointment
 					.getDesignationOfClientOfficial());
-			 notes_ET.setText(tempAppointment.getDescription());
+			notes_ET.setText(tempAppointment.getDescription());
 
 			// startTime_ET.setText(tempAppointment.getStartTime().toString());
 			// endTime_ET.setText(tempAppointment.getEndTime().toString());
 
 			try {
-				ownerLabel_TV.setText(new JSONObject(tempAppointment.getOwnerId())
-						.getString("Name"));
+				ownerLabel_TV.setText(new JSONObject(tempAppointment
+						.getOwnerId()).getString("Name"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void hideKeyboardFunctionality() {
+		((RelativeLayout) findViewById(R.id.activity_appointment_add_RL))
+				.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(), 0);
+						return false;
+					}
+				});
 	}
 
 	@Override
@@ -152,6 +176,9 @@ public class AppointmentAddActivity extends CRMActivity {
 		findThings();
 		initView("Add Appointment", "Submit");
 
+		hideKeyboardFunctionality();
+
+		registerForContextMenu(interactionType_RL);
 		registerForContextMenu(owner_RL);
 	}
 
@@ -159,38 +186,43 @@ public class AppointmentAddActivity extends CRMActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		// menu.add(0, v.getId(), 0, "A, Pradeep");
-		// menu.add(0, v.getId(), 0, "Abhishek, A");
-		// menu.add(0, v.getId(), 0, "Abraham, Anil Alex");
-		// menu.add(0, v.getId(), 0, "Abraham Philomena");
-		// menu.add(0, v.getId(), 0, "Adhikari Sawant, Rupali");
-		// menu.add(0, v.getId(), 0, "Adhikari, Pratik");
-		// menu.add(0, v.getId(), 0, "Adhikary, Subhendu");
-		// menu.add(0, v.getId(), 0, "Administrator, CRM");
-		// menu.add(0, v.getId(), 0, "Advani, Harish");
-		// menu.add(0, v.getId(), 0, "Advani, Vikram");
-		// menu.add(0, v.getId(), 0, "Agarwal, Abhijit");
-		// menu.add(0, v.getId(), 0, "Agarwal, Abhishek");
 
-//		ownerList = myApp.getInternalConnectList();
-//
-//		for (int i = 0; i < ownerList.size(); i++) {
-//			menu.add(1, v.getId(), i, ownerList.get(i).getLastName());
-//		}
-		
-		ownerMap = myApp.getUserMap();
-		List<String> list = new ArrayList<String>(ownerMap.values());
-		for (int i = 0; i < list.size(); i++) {
-			menu.add(0, v.getId(), i, list.get(i));
+		if (v.getId() == R.id.interactionType_RL) {
+			interactionTypeMap = myApp.getInteractionTypeMap();
+			List<String> list = new ArrayList<String>(
+					interactionTypeMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(0, v.getId(), i, list.get(i));
+			}
 		}
-//		for (int i = 0; i < ownerMap.size(); i++) {
-//			menu.add(1, v.getId(), i, ownerList.get(i).getLastName());
-//		}
+
+		if (v.getId() == R.id.owner_RL) {
+
+			ownerMap = myApp.getUserMap();
+			List<String> list = new ArrayList<String>(ownerMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(1, v.getId(), i, list.get(i));
+			}
+		}
+
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		ownerLabel_TV.setText(item.getTitle());
+		if (item.getGroupId() == 0) {
+			interactionType_TV.setText(item.getTitle());
+			
+//			List<String> keys = new ArrayList<String>(countryMap.keySet());
+//			keys.get(item.getOrder());
+
+
+		}
+		if (item.getGroupId() == 1) {
+			owner_TV.setText(item.getTitle());
+
+		}
+		
+//		ownerLabel_TV.setText(item.getTitle());
 		return super.onContextItemSelected(item);
 
 	}

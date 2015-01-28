@@ -76,6 +76,24 @@ public class MyApp extends Application {
 	 */
 	public static String USER = "/PostUser";
 
+	final public static int SEARCH_SECTOR = 0;
+	final public static int SEARCH_HQ_COUNTRY = 1;
+	final public static int SEARCH_SUB_LOB = 10;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+//	public static int SEARCH_ = ;
+	
+	
 	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
 
 	List<Opportunity> opportunityList;// = new ArrayList<Opportunity>();
