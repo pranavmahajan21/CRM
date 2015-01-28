@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_android"
     android:orientation="vertical"
-    tools:context="com.mw.crm.activity.ContactDetailsActivity">
+    tools:context="com.mw.crm.activity.ContactDetailsActivity" >
 
     <include
         android:id="@+id/header"
@@ -35,8 +35,8 @@
             <TextView
                 android:id="@+id/orgnaization_TV"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Orgnaization"
                 android:textColor="@color/blue_dark"
                 android:textSize="18sp" />
@@ -83,17 +83,17 @@
             <TextView
                 android:id="@+id/internalConnectLabel_TV"
                 style="@style/TV_left"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Internal Connect:" />
 
             <TextView
                 android:id="@+id/internalConnect_TV"
-                android:layout_marginTop="8dp"
                 style="@style/TV_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="-" />
 
             <LinearLayout style="@style/LL" >

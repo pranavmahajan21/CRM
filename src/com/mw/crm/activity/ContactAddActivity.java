@@ -48,9 +48,13 @@ public class ContactAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView firstName_TV, lastName_TV, organization_TV, organization2_TV,
-			internalConnect_TV, internalConnect2_TV, dor_TV, dor2_TV;
-	EditText firstName_ET, lastName_ET;
+	TextView firstNameLabel_TV, lastNameLabel_TV, dorLabel_TV,
+			internalConnectLabel_TV, organizationLabel_TV, designationLabel_TV,
+			emailLabel_TV, officePhoneLabel_TV, mobileLabel_TV;
+
+	TextView dor_TV, internalConnect_TV, organization_TV;
+	EditText firstName_ET, lastName_ET, designation_ET, email_ET,
+			officePhone_ET, mobile_ET;
 	RelativeLayout organizationRL, internalRL;
 
 	boolean pickerVisibility = false;
@@ -84,20 +88,30 @@ public class ContactAddActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 
-		firstName_TV = (TextView) findViewById(R.id.firstName_TV);
-		lastName_TV = (TextView) findViewById(R.id.lastName_TV);
-		organization_TV = (TextView) findViewById(R.id.organization_TV);
-		organization2_TV = (TextView) findViewById(R.id.organization2_TV);
-		internalConnect_TV = (TextView) findViewById(R.id.internalConnect_TV);
-		internalConnect2_TV = (TextView) findViewById(R.id.internalConnect2_TV);
+		firstNameLabel_TV = (TextView) findViewById(R.id.firstNameLabel_TV);
+		lastNameLabel_TV = (TextView) findViewById(R.id.lastNameLabel_TV);
+		dorLabel_TV = (TextView) findViewById(R.id.dorLabel_TV);
+		internalConnectLabel_TV = (TextView) findViewById(R.id.internalConnectLabel_TV);
+		organizationLabel_TV = (TextView) findViewById(R.id.organizationLabel_TV);
+		designationLabel_TV = (TextView) findViewById(R.id.designationLabel_TV);
+		emailLabel_TV = (TextView) findViewById(R.id.emailLabel_TV);
+		officePhoneLabel_TV = (TextView) findViewById(R.id.officePhoneLabel_TV);
+		mobileLabel_TV = (TextView) findViewById(R.id.mobileLabel_TV);
+
 		dor_TV = (TextView) findViewById(R.id.dor_TV);
-		dor2_TV = (TextView) findViewById(R.id.dor2_TV);
+		internalConnect_TV = (TextView) findViewById(R.id.internalConnect_TV);
+		organization_TV = (TextView) findViewById(R.id.organization2_TV);
 
 		firstName_ET = (EditText) findViewById(R.id.firstName_ET);
 		lastName_ET = (EditText) findViewById(R.id.lastName_ET);
+		designation_ET = (EditText) findViewById(R.id.designation_ET);
+		email_ET = (EditText) findViewById(R.id.email_ET);
+		officePhone_ET = (EditText) findViewById(R.id.officePhone_ET);
+		mobile_ET = (EditText) findViewById(R.id.mobile_ET);
 
 		internalRL = (RelativeLayout) findViewById(R.id.internal_RL);
 		organizationRL = (RelativeLayout) findViewById(R.id.organization_RL);
+
 		picker = (NumberPicker) findViewById(R.id.picker);
 
 		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -108,17 +122,17 @@ public class ContactAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		firstName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		lastName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		organization_TV.setTypeface(myApp.getTypefaceRegularSans());
-		organization2_TV.setTypeface(myApp.getTypefaceRegularSans());
-		internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
-		internalConnect2_TV.setTypeface(myApp.getTypefaceRegularSans());
-		dor_TV.setTypeface(myApp.getTypefaceRegularSans());
-		dor2_TV.setTypeface(myApp.getTypefaceRegularSans());
-
-		firstName_ET.setTypeface(myApp.getTypefaceRegularSans());
-		lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
+		// firstNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// lastNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// organizationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// organization2_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// internalConnect2_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// dor_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// dor2_TV.setTypeface(myApp.getTypefaceRegularSans());
+		//
+		// firstName_ET.setTypeface(myApp.getTypefaceRegularSans());
+		// lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String title, String title2) {
@@ -171,7 +185,7 @@ public class ContactAddActivity extends CRMActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				dor2_TV.setText(temp[picker.getValue()]);
+				dor_TV.setText(temp[picker.getValue()]);
 				System.out.println("value click");
 
 			}
@@ -219,9 +233,9 @@ public class ContactAddActivity extends CRMActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 
 		if (item.getGroupId() == 0) {
-			organization2_TV.setText(item.getTitle());
+			organization_TV.setText(item.getTitle());
 		} else if (item.getGroupId() == 1) {
-			internalConnect2_TV.setText(item.getTitle());
+			internalConnect_TV.setText(item.getTitle());
 			selectedInternalConnect = item.getOrder();
 		}
 		return super.onContextItemSelected(item);

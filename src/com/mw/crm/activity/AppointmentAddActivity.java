@@ -43,11 +43,13 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView purpose_TV, nameClient_TV, interaction_TV, designation_TV,
-			owner_TV;
-	EditText purpose_ET, nameClient_ET, interaction_ET, designation_ET,
+	TextView purposeLabel_TV, nameClientLabel_TV, interactionTypeLabel_TV, designationLabel_TV,
+			ownerLabel_TV;
+	
+	EditText purpose_ET, nameClient_ET, designation_ET,
 			notes_ET, startTime_ET, endTime_ET;
-	RelativeLayout owner_RL;
+	
+	RelativeLayout interactionType_RL, owner_RL;
 
 	Intent previousIntent;
 
@@ -73,33 +75,31 @@ public class AppointmentAddActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 
-		purpose_TV = (TextView) findViewById(R.id.purpose_TV);
-		nameClient_TV = (TextView) findViewById(R.id.nameClient_TV);
-		interaction_TV = (TextView) findViewById(R.id.interaction_TV);
-		designation_TV = (TextView) findViewById(R.id.designation_TV);
-		owner_TV = (TextView) findViewById(R.id.owner_TV);
+		purposeLabel_TV = (TextView) findViewById(R.id.purpose_TV);
+		nameClientLabel_TV = (TextView) findViewById(R.id.nameClientLabel_TV);
+		interactionTypeLabel_TV = (TextView) findViewById(R.id.interactionTypeLabel_TV);
+		designationLabel_TV = (TextView) findViewById(R.id.designationLabel_TV);
+		ownerLabel_TV = (TextView) findViewById(R.id.owner_TV);
 
 		purpose_ET = (EditText) findViewById(R.id.purpose_ET);
 		nameClient_ET = (EditText) findViewById(R.id.nameClient_ET);
-		interaction_ET = (EditText) findViewById(R.id.interaction_ET);
 		designation_ET = (EditText) findViewById(R.id.designation_ET);
 		notes_ET = (EditText) findViewById(R.id.notes_ET);
 		startTime_ET = (EditText) findViewById(R.id.startTime_ET);
 		endTime_ET = (EditText) findViewById(R.id.endTime_ET);
 
 		owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
-
+		interactionType_RL = (RelativeLayout) findViewById(R.id.interactionType_RL);
 	}
 
 	private void setTypeface() {
-		purpose_TV.setTypeface(myApp.getTypefaceRegularSans());
-		nameClient_TV.setTypeface(myApp.getTypefaceRegularSans());
-		interaction_TV.setTypeface(myApp.getTypefaceRegularSans());
-		designation_TV.setTypeface(myApp.getTypefaceRegularSans());
+		purposeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		nameClientLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		interactionTypeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		designationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		purpose_ET.setTypeface(myApp.getTypefaceRegularSans());
 		nameClient_ET.setTypeface(myApp.getTypefaceRegularSans());
-		interaction_ET.setTypeface(myApp.getTypefaceRegularSans());
 		designation_ET.setTypeface(myApp.getTypefaceRegularSans());
 		notes_ET.setTypeface(myApp.getTypefaceRegularSans());
 		startTime_ET.setTypeface(myApp.getTypefaceRegularSans());
@@ -121,9 +121,9 @@ public class AppointmentAddActivity extends CRMActivity {
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
 
 			try {
-				interaction_ET.setText(myApp.getInteractionTypeMap().get(
-						Integer.toString(new JSONObject(tempAppointment
-								.getTypeOfMeeting()).getInt("Value"))));
+//				interaction_ET.setText(myApp.getInteractionTypeMap().get(
+//						Integer.toString(new JSONObject(tempAppointment
+//								.getTypeOfMeeting()).getInt("Value"))));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -135,7 +135,7 @@ public class AppointmentAddActivity extends CRMActivity {
 			// endTime_ET.setText(tempAppointment.getEndTime().toString());
 
 			try {
-				owner_TV.setText(new JSONObject(tempAppointment.getOwnerId())
+				ownerLabel_TV.setText(new JSONObject(tempAppointment.getOwnerId())
 						.getString("Name"));
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -190,7 +190,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		owner_TV.setText(item.getTitle());
+		ownerLabel_TV.setText(item.getTitle());
 		return super.onContextItemSelected(item);
 
 	}

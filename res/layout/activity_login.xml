@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_android"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context="com.mw.crm.activity.LoginActivity" >
 
     <ImageView
         android:id="@+id/header_logo_IV"
@@ -27,9 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:textStyle="bold"
             android:textColor="@color/blue_dark"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/email_ET"

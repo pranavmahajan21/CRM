@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_android" >
+    android:background="@drawable/background_android"
+    tools:context="com.mw.crm.activity.AccountAddActivity" >
 
     <include
         android:id="@+id/header"
@@ -44,7 +46,8 @@
                 <TextView
                     android:id="@+id/sector_TV"
                     style="@style/TV"
-                    android:text="Sector" />
+                    android:hint="Sector" />
+                <!-- android:text="Sector" -->
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -61,7 +64,7 @@
                 <TextView
                     android:id="@+id/headquarter_TV"
                     style="@style/TV"
-                    android:text="Headquarter Country" />
+                    android:hint="Headquarter Country" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -78,7 +81,7 @@
                 <TextView
                     android:id="@+id/lob_TV"
                     style="@style/TV"
-                    android:text="LOB" />
+                    android:hint="LOB" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -95,7 +98,7 @@
                 <TextView
                     android:id="@+id/sublob_TV"
                     style="@style/TV"
-                    android:text="Sub LOB" />
+                    android:hint="Sub LOB" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -112,7 +115,7 @@
                 <TextView
                     android:id="@+id/leadPartner_TV"
                     style="@style/TV"
-                    android:text="Lead Partner" />
+                    android:hint="Lead Partner" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -129,7 +132,7 @@
                 <TextView
                     android:id="@+id/accountCategory_TV"
                     style="@style/TV"
-                    android:text="Account Category" />
+                    android:hint="Account Category" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>

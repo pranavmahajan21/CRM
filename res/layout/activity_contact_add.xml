@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-        android:background="@drawable/background_android" 
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/background_android"
+    tools:context="com.mw.crm.activity.ContactAddActivity" >
 
     <include
         android:id="@+id/header"
@@ -14,8 +16,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        >
+        android:layout_below="@+id/header" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/firstName_TV"
+                android:id="@+id/firstNameLabel_TV"
                 style="@style/style_TV2"
                 android:layout_marginTop="1dp"
                 android:text="* First Name" />
@@ -34,7 +35,7 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/lastName_TV"
+                android:id="@+id/lastNameLabel_TV"
                 style="@style/style_TV2"
                 android:text="* Last Name" />
 
@@ -43,84 +44,7 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/organization_TV"
-                style="@style/style_TV2"
-                android:text="* Organization" />
-
-            <RelativeLayout
-                android:id="@+id/organization_RL"
-                style="@style/RL">
-<!--                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu"  -->
-
-                <TextView
-                    android:id="@+id/organization2_TV"
-                    android:text="Select Organization"
-                                        style="@style/TV"
-                    />
-<!--                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:padding="5dp"
-                    android:textSize="18sp"  -->
-
-                <ImageView
-                    style="@style/IV"
-                    android:src="@drawable/arrow_right" />
-<!--                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_right"  -->
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/internalConnect_TV"
-                style="@style/style_TV2"
-                android:text="* Internal Connect" />
-
-            <RelativeLayout
-                android:id="@+id/internal_RL"
-                style="@style/RL"
-                >
-<!--                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu"  -->
-
-                <TextView
-                    android:id="@+id/internalConnect2_TV"
-                     style="@style/TV"
-                    android:textSize="18sp" 
-                    />
-<!--                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:padding="5dp"
-                    android:text="Select Internal Connect" -->
-
-                <ImageView
-                    style="@style/IV"
-                    android:src="@drawable/arrow_right" />
-<!--                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_right"  -->
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/dor_TV"
+                android:id="@+id/dorLabel_TV"
                 style="@style/style_TV2"
                 android:text="Degree of Relationship" />
 
@@ -128,34 +52,13 @@
                 android:id="@+id/aa3"
                 style="@style/RL"
                 android:onClick="onShowPicker" >
-<!--                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true" -->
 
                 <TextView
                     android:id="@+id/dor2_TV"
                     style="@style/TV"
-                    android:text="Degree of Relationship"
-                    />
-<!--                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:textSize="18sp"  -->
+                    android:text="Degree of Relationship" />
 
-                <ImageView
-                    style="@style/IV"
-                    />
-<!--                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:src="@drawable/arrow_down"  -->
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <NumberPicker
@@ -163,36 +66,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
-            
+
             <TextView
-                android:id="@+id/designation_TV"
+                android:id="@+id/internalConnectLabel_TV"
+                style="@style/style_TV2"
+                android:text="* Internal Connect" />
+
+            <RelativeLayout
+                android:id="@+id/internal_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/internalConnect2_TV"
+                    style="@style/TV"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/organizationLabel_TV"
+                style="@style/style_TV2"
+                android:text="* Organization" />
+
+            <RelativeLayout
+                android:id="@+id/organization_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/organization2_TV"
+                    style="@style/TV"
+                    android:text="Select Organization" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/designationLabel_TV"
                 style="@style/style_TV2"
                 android:text="* Designation" />
 
             <EditText
                 android:id="@+id/designation_ET"
                 style="@style/style_ET2" />
-            
+
             <TextView
-                android:id="@+id/email_TV"
+                android:id="@+id/emailLabel_TV"
                 style="@style/style_TV2"
                 android:text="* Email" />
 
             <EditText
                 android:id="@+id/email_ET"
                 style="@style/style_ET2" />
-            
+
             <TextView
-                android:id="@+id/officePhone_TV"
+                android:id="@+id/officePhoneLabel_TV"
                 style="@style/style_TV2"
                 android:text="* Office Phone" />
 
             <EditText
                 android:id="@+id/officePhone_ET"
                 style="@style/style_ET2" />
-            
+
             <TextView
-                android:id="@+id/mobile_TV"
+                android:id="@+id/mobileLabel_TV"
                 style="@style/style_TV2"
                 android:text="* Mobile" />
 

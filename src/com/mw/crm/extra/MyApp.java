@@ -230,7 +230,7 @@ public class MyApp extends Application {
 			}
 		}
 
-		loadUnloadedData();
+//		loadUnloadedData();
 	}
 
 	private void loadUnloadedData() {

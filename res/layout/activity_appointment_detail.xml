@@ -35,21 +35,21 @@
             <TextView
                 android:id="@+id/nameClientOfficial_TV"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Orgnaization"
                 android:textColor="@color/blue_dark"
                 android:textSize="18sp" />
-            
+
             <TextView
                 android:id="@+id/designationClientOfficial_TV"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Organization"
                 android:textColor="@color/blue_dark"
                 android:textSize="18sp" />
-            
+
             <LinearLayout style="@style/LL" >
 
                 <TextView

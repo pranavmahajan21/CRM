@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_appointment_add_RL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_android" >
+    android:background="@drawable/background_android"
+    tools:context="com.mw.crm.activity.AppointmentAddActivity" >
 
     <include
         android:id="@+id/header"
@@ -23,7 +26,7 @@
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/purpose_TV"
+                android:id="@+id/purposeLabel_TV"
                 style="@style/style_TV2"
                 android:layout_marginTop="1dp"
                 android:text="Purpose of Meeting" />
@@ -33,7 +36,7 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/nameClient_TV"
+                android:id="@+id/nameClientLabel_TV"
                 style="@style/style_TV2"
                 android:text="Name of the client Official" />
 
@@ -42,16 +45,31 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/interaction_TV"
+                android:id="@+id/interactionTypeLabel_TV"
                 style="@style/style_TV2"
                 android:text="Interaction Type" />
+
+            <RelativeLayout
+                android:id="@+id/interactionType_RL"
+                style="@style/RL"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/interactionType_TV"
+                    style="@style/TV"
+                    android:hint="Interaction Type" />
+
+                <ImageView
+                    style="@style/IV"
+                    android:src="@drawable/arrow_right" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/interaction_ET"
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/designation_TV"
+                android:id="@+id/designationLabel_TV"
                 style="@style/style_TV2"
                 android:text="Designation of the client Official" />
 
@@ -60,7 +78,7 @@
                 style="@style/style_ET2" />
 
             <TextView
-                android:id="@+id/detailsDiscussion_TV"
+                android:id="@+id/detailsDiscussionLabel_TV"
                 style="@style/style_TV2"
                 android:text="Details of discussion" />
 
@@ -85,45 +103,24 @@
                 android:gravity="center_horizontal"
                 android:hint="End Time" />
 
+            <TextView
+                android:id="@+id/ownerLabel_TV"
+                style="@style/style_TV2"
+                android:text="Owner" />
+
             <RelativeLayout
                 android:id="@+id/owner_RL"
                 style="@style/RL"
                 android:layout_marginTop="10dp" >
 
-                <!--
-                     android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/custom_bg_solid_radius"
-                android:clickable="true"
-                android:onClick="onOpenContextMenu"
-                -->
-
                 <TextView
                     android:id="@+id/owner_TV"
                     style="@style/TV"
                     android:text="Owner" />
-                <!--
-                         android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:textSize="18sp"
-                -->
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" 
-                    />
-                <!--
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                -->
-
+                    android:src="@drawable/arrow_right" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

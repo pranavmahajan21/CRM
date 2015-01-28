@@ -166,24 +166,24 @@ public class MenuActivity extends Activity {
 
 		Intent intent = new Intent(this, AccountService.class);
 
-//		X++;
-//		startService(intent);
-//
-//		intent = new Intent(this, AppointmentService.class);
-//		X++;
-//		startService(intent);
-//
+		X++;
+		startService(intent);
+
+		intent = new Intent(this, AppointmentService.class);
+		X++;
+		startService(intent);
+
 		intent = new Intent(this, ContactService.class);
 		X++;
 		startService(intent);
 
-//		intent = new Intent(this, OpportunityService.class);
-//		X++;
-//		startService(intent);
-//
-//		intent = new Intent(this, InternalConnectService.class);
-//		X++;
-//		startService(intent);
+		intent = new Intent(this, OpportunityService.class);
+		X++;
+		startService(intent);
+
+		intent = new Intent(this, InternalConnectService.class);
+		X++;
+		startService(intent);
 
 		String temp = myApp.formatDateToString3(new Date());
 		syncDate_TV.setText(temp);
@@ -209,5 +209,15 @@ public class MenuActivity extends Activity {
 
 	public void onSync(View view) {
 		loadAppData();
+	}
+
+	public void onLogout(View view) {
+		editor.clear();
+		editor.commit();
+		
+		nextIntent = new Intent(this, LoginActivity.class);
+		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(nextIntent);
 	}
 }

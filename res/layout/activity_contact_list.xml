@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background_android"
-    android:layout_height="match_parent" >
+    tools:context="com.mw.crm.activity.ContactListActivity" >
 
     <include
         android:id="@+id/header"
@@ -17,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:padding="5dp" >
-<!--         android:background="@color/grey" -->
+
+        <!-- android:background="@color/grey" -->
 
         <EditText
             android:id="@+id/searchContact_ET"

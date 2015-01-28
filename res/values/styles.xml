@@ -29,7 +29,7 @@
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    
+
     <style name="dimensions3">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -46,19 +46,21 @@
         <item name="android:layout_weight">3</item>
     </style>
 
-    <!-- used in add contact -->
+    <!-- used in add/edit screens -->
     <style name="style_TV2" parent="dimensions">
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/blue_dark</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
 
-    <!-- used in add contact -->
     <style name="style_ET2" parent="dimensions">
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:background">@drawable/custom_bg_solid_radius</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">5dp</item>
     </style>
+    <!-- used in add/edit screens -->
+
 
     <!-- used in details screens -->
     <style name="LL" parent="dimensions">
@@ -97,7 +99,7 @@
         <item name="android:padding">5dp</item>
         <item name="android:textSize">18sp</item>
     </style>
-    
+
     <style name="IV" parent="dimensions3">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
