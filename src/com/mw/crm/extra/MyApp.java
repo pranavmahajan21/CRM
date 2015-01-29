@@ -991,8 +991,10 @@ public class MyApp extends Application {
 	}
 
 	public int getIndexFromKeyAccountMap(String key) {
+		// System.out.println("1111  " + key);
 		List<String> aa = new ArrayList<String>(accountCategoryMap.keySet());
 		for (int i = 0; i < aa.size(); i++) {
+			// System.out.println("2222  " + accountList.get(i).getAccountId());
 			if (aa.get(i).equalsIgnoreCase(key)) {
 				return i;
 			}

@@ -61,7 +61,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                     />
+<!--                     android:src="@drawable/arrow_right" -->
             </RelativeLayout>
 
            
@@ -118,7 +119,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

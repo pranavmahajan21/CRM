@@ -60,6 +60,8 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	List<InternalConnect> ownerList;
 
+	int selectedInteraction = -1, selectedOwner = -1;
+
 	Map<String, String> userMap;
 	Map<String, String> interactionTypeMap;
 
@@ -75,6 +77,8 @@ public class AppointmentAddActivity extends CRMActivity {
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
+
+		interactionTypeMap = myApp.getInteractionTypeMap();
 
 		queue = Volley.newRequestQueue(this);
 	}
@@ -115,13 +119,13 @@ public class AppointmentAddActivity extends CRMActivity {
 		startTime_ET.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
-
+	Appointment tempAppointment;
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
 
 		if (previousIntent.hasExtra("position")) {
-			Appointment tempAppointment = myApp.getAppointmentList().get(
+			tempAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 
 			System.out.println(tempAppointment);
@@ -130,13 +134,15 @@ public class AppointmentAddActivity extends CRMActivity {
 
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
 
-			try {
+			Integer temp = myApp.getValueFromStringJSON(tempAppointment
+					.getTypeOfMeeting());
+			if (temp != null) {
 				interactionType_TV.setText(myApp.getInteractionTypeMap().get(
-						Integer.toString(new JSONObject(tempAppointment
-								.getTypeOfMeeting()).getInt("Value"))));
-			} catch (JSONException e) {
-				e.printStackTrace();
+						Integer.toString(temp.intValue())));
+				selectedInteraction = myApp.getIndexFromKeyInteractionMap(Integer.toString(temp
+						.intValue()));
 			}
+			
 			designation_ET.setText(tempAppointment
 					.getDesignationOfClientOfficial());
 			notes_ET.setText(tempAppointment.getDescription());
@@ -144,12 +150,20 @@ public class AppointmentAddActivity extends CRMActivity {
 			// startTime_ET.setText(tempAppointment.getStartTime().toString());
 			// endTime_ET.setText(tempAppointment.getEndTime().toString());
 
-			try {
-				ownerLabel_TV.setText(new JSONObject(tempAppointment
-						.getOwnerId()).getString("Name"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			
+			owner_TV.setText(myApp
+					.getStringNameFromStringJSON(tempAppointment
+							.getOwnerId()));
+			selectedOwner = myApp
+					.getIndexFromKeyUserMap(myApp
+							.getStringIdFromStringJSON(tempAppointment
+									.getOwnerId()));
+//			try {
+//				ownerLabel_TV.setText(new JSONObject(tempAppointment
+//						.getOwnerId()).getString("Name"));
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
 		}
 	}
 
@@ -187,41 +201,21 @@ public class AppointmentAddActivity extends CRMActivity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
 		if (v.getId() == R.id.interactionType_RL) {
-			interactionTypeMap = myApp.getInteractionTypeMap();
 			List<String> list = new ArrayList<String>(
 					interactionTypeMap.values());
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(0, v.getId(), i, list.get(i));
 			}
 		}
-
-//		if (v.getId() == R.id.owner_RL) {
-//			userMap = myApp.getUserMap();
-//			List<String> list = new ArrayList<String>(userMap.values());
-//			for (int i = 0; i < list.size(); i++) {
-//				menu.add(1, v.getId(), i, list.get(i));
-//			}
-//		}
-
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getGroupId() == 0) {
+			selectedInteraction = item.getOrder();
 			interactionType_TV.setText(item.getTitle());
-
-			// List<String> keys = new ArrayList<String>(countryMap.keySet());
-			// keys.get(item.getOrder());
-
 		}
-		if (item.getGroupId() == 1) {
-			owner_TV.setText(item.getTitle());
-
-		}
-
-		// ownerLabel_TV.setText(item.getTitle());
 		return super.onContextItemSelected(item);
-
 	}
 
 	public void onOpenContextMenu(View view) {
@@ -420,6 +414,7 @@ public class AppointmentAddActivity extends CRMActivity {
 				userMap = myApp.getUserMap();
 				List<String> list = new ArrayList<String>(userMap.values());
 				owner_TV.setText(list.get(positionItem));
+				selectedOwner = positionItem;
 			}
 		}
 

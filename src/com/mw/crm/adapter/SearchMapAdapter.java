@@ -61,7 +61,7 @@ public class SearchMapAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-
+System.out.println("1212  " + searchMap.get(keys.get(position)));
 		viewHolder.itemTV.setText(searchMap.get(keys.get(position)));
 
 		return convertView;

@@ -43,7 +43,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -73,11 +74,11 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
-            <NumberPicker
+<!--             <NumberPicker
                 android:id="@+id/status_NP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:visibility="gone" /> -->
 
             <TextView
                 android:id="@+id/probabilityLabel_TV"
@@ -95,7 +96,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -114,7 +116,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -133,7 +136,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -152,7 +156,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -205,7 +210,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -156,12 +156,10 @@ public class ContactAddActivity extends CRMActivity {
 		setTypeface();
 
 		if (previousIntent.hasExtra("position")) {
-			// getRightButtonTV().setVisibility(View.GONE);
 
 			tempContact = myApp.getContactList().get(
 					previousIntent.getIntExtra("position", 0));
 
-//			System.out.println(tempContact.toString());
 
 			firstName_ET.setText(tempContact.getFirstName());
 			lastName_ET.setText(tempContact.getLastName());

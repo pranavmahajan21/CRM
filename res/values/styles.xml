@@ -119,7 +119,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:background">@null</item>
-        <item name="android:src">@drawable/arrow_down</item>
+        <item name="android:src">@drawable/arrow_right</item>
     </style>
     <!-- used in context menu -->
 

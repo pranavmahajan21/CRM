@@ -86,7 +86,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView
@@ -106,7 +107,8 @@
 
                 <ImageView
                     style="@style/IV"
-                    android:src="@drawable/arrow_right" />
+                    />
+<!--                     android:src="@drawable/arrow_right"  -->
             </RelativeLayout>
 
             <TextView

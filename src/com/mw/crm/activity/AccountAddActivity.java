@@ -177,7 +177,7 @@ public class AccountAddActivity extends CRMActivity {
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
 						Integer.toString(temp.intValue())));
-				selectedAccountCategory = myApp.getIndexFromKeyDORMap(Integer
+				selectedAccountCategory = myApp.getIndexFromKeyAccountMap(Integer
 						.toString(temp.intValue()));
 			}
 

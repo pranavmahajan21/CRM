@@ -58,7 +58,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	RelativeLayout client_RL, status_RL, probability_RL, salesStage_RL;
 
 	boolean pickerVisibility = false;
-	NumberPicker picker;
+//	NumberPicker picker;
 
 	Map<String, String> probabilityMap;
 	Map<String, String> statusMap;
@@ -103,13 +103,13 @@ public class OpportunityAddActivity extends CRMActivity {
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
 		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
 
-		picker = (NumberPicker) findViewById(R.id.status_NP);
-
-		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		picker.setMinValue(0);
-		picker.setMaxValue(3);
-		// picker.setDisplayedValues(new String[] { "A", "B", "C", "D" });
-		picker.setDisplayedValues(temp);
+//		picker = (NumberPicker) findViewById(R.id.status_NP);
+//
+//		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+//		picker.setMinValue(0);
+//		picker.setMaxValue(3);
+//		// picker.setDisplayedValues(new String[] { "A", "B", "C", "D" });
+//		picker.setDisplayedValues(temp);
 	}
 
 	private void setTypeface() {
@@ -293,14 +293,14 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 	}
 
-	public void onShowPicker(View view) {
-		pickerVisibility = !pickerVisibility;
-		if (pickerVisibility) {
-			picker.setVisibility(View.VISIBLE);
-		} else {
-			picker.setVisibility(View.GONE);
-		}
-	}
+//	public void onShowPicker(View view) {
+//		pickerVisibility = !pickerVisibility;
+//		if (pickerVisibility) {
+//			picker.setVisibility(View.VISIBLE);
+//		} else {
+//			picker.setVisibility(View.GONE);
+//		}
+//	}
 
 	@Override
 	protected void onResume() {
