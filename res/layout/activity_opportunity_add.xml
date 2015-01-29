@@ -33,18 +33,16 @@
 
             <RelativeLayout
                 android:id="@+id/client_RL"
-                android:onClick="onSearchItem"
-                style="@style/RL" >
+                style="@style/RL"
+                android:onClick="onSearchItem" >
 
                 <TextView
                     android:id="@+id/clientName_TV"
                     style="@style/TV"
                     android:hint="Search for client" />
 
-                <ImageView
-                    style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
+                <ImageView style="@style/IV" />
+                <!-- android:src="@drawable/arrow_right" -->
             </RelativeLayout>
 
             <TextView
@@ -64,6 +62,7 @@
             <RelativeLayout
                 android:id="@+id/status_RL"
                 style="@style/RL" >
+
                 <!-- android:onClick="onShowPicker" -->
 
                 <TextView
@@ -73,12 +72,6 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-
-<!--             <NumberPicker
-                android:id="@+id/status_NP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" /> -->
 
             <TextView
                 android:id="@+id/probabilityLabel_TV"
@@ -94,10 +87,7 @@
                     style="@style/TV"
                     android:hint="Probability" />
 
-                <ImageView
-                    style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <TextView
@@ -114,10 +104,7 @@
                     style="@style/TV"
                     android:hint="Sales Stage" />
 
-                <ImageView
-                    style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
             <TextView
@@ -136,32 +123,11 @@
 
                 <ImageView
                     style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
+                    android:src="@null" />
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/corridorLabel_TV"
-                style="@style/style_TV2"
-                android:text="Corridor" />
-
-            <RelativeLayout
-                android:id="@+id/corridor_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/corridor_TV"
-                    style="@style/TV"
-                    android:hint="Corridor" />
-
-                <ImageView
-                    style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/lob_TV"
+                android:id="@+id/lobLabel_TV"
                 style="@style/style_TV2"
                 android:text="LOB:" />
 
@@ -170,15 +136,17 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/lob_TV2"
+                    android:id="@+id/lob_TV"
                     style="@style/TV"
                     android:hint="LOB" />
 
-                <ImageView style="@style/IV" />
+                <ImageView
+                    style="@style/IV"
+                    android:src="@null" />
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/sublob_TV"
+                android:id="@+id/sublobLabel_TV"
                 style="@style/style_TV2"
                 android:text="Sub LOB:" />
 
@@ -187,11 +155,13 @@
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/sublob_TV2"
+                    android:id="@+id/sublob_TV"
                     style="@style/TV"
                     android:hint="Sub LOB" />
 
-                <ImageView style="@style/IV" />
+                <ImageView
+                    style="@style/IV"
+                    android:src="@null" />
             </RelativeLayout>
 
             <TextView
@@ -210,8 +180,7 @@
 
                 <ImageView
                     style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
+                    android:src="@null" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

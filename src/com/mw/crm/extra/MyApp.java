@@ -707,6 +707,15 @@ public class MyApp extends Application {
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
 	}
+	
+	public String formatDateToString4(Date date) {
+//		2015-01-14T14:16:34Z
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+		String dateStr = formatter.format(date);
+		System.out.println(">><<><><><" + dateStr);
+		return dateStr;
+	}
 
 	public Date formatStringToDate(String dateString) {
 

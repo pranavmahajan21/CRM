@@ -119,19 +119,6 @@
             <LinearLayout style="@style/LL" >
 
                 <TextView
-                    android:id="@+id/corridorLabel_TV"
-                    style="@style/TV_left"
-                    android:text="Corridor:" />
-
-                <TextView
-                    android:id="@+id/corridor_TV"
-                    style="@style/TV_right"
-                    android:text="-" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/LL" >
-
-                <TextView
                     android:id="@+id/lobLabel_TV"
                     style="@style/TV_left"
                     android:text="LOB:" />

@@ -20,10 +20,10 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	TextView oppoManagerLabel_TV, probabilityLabel_TV, statusLabel_TV,
 			salesStageLabel_TV, clientNameLabel_TV, countryLabel_TV,
-			corridorLabel_TV, lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
+			 lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
 	TextView oppoName_TV, oppoManager_TV, probability_TV, status_TV,
-			salesStage_TV, clientName_TV, country_TV, corridor_TV, lob_TV,
+			salesStage_TV, clientName_TV, country_TV,  lob_TV,
 			sublob_TV, sector_TV;
 
 	private void initThings() {
@@ -42,7 +42,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
 		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
 		countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
-		corridorLabel_TV = (TextView) findViewById(R.id.corridorLabel_TV);
 		lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
 		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
 		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
@@ -54,7 +53,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
 		country_TV = (TextView) findViewById(R.id.country_TV);
-		corridor_TV = (TextView) findViewById(R.id.corridor_TV);
 		lob_TV = (TextView) findViewById(R.id.lob_TV);
 		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
 		sector_TV = (TextView) findViewById(R.id.sector_TV);
@@ -69,7 +67,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		// salesStageLabel_TV.setTypeface();
 		// clientNameLabel_TV.setTypeface();
 		// countryLabel_TV.setTypeface();
-		// corridorLabel_TV.setTypeface();
 		// lobLabel_TV.setTypeface();
 		// sublobLabel_TV.setTypeface();
 		// sectorLabel_TV.setTypeface();
@@ -80,7 +77,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		// salesStage_TV.setTypeface();
 		// clientName_TV.setTypeface();
 		// country_TV.setTypeface();
-		// corridor_TV.setTypeface();
 		// lob_TV.setTypeface();
 		// sublob_TV.setTypeface();
 		// sector_TV.setTypeface();

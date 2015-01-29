@@ -304,7 +304,6 @@ public class ContactAddActivity extends CRMActivity {
 	// }
 
 	public void onRightButton(View view) {
-		progressDialog.show();
 
 		/**
 		 * ctcode - dor ,,,,oid - int conn ,,,,pcid - org
@@ -341,7 +340,7 @@ public class ContactAddActivity extends CRMActivity {
 		System.out.println("json" + params);
 
 		params = MyApp.addParamToJson(params);
-
+		progressDialog.show();
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/

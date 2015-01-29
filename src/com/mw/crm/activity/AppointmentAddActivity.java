@@ -1,12 +1,14 @@
 package com.mw.crm.activity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.InternalConnect;
@@ -62,6 +65,9 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	int selectedInteraction = -1, selectedOwner = -1;
 
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+	
 	Map<String, String> userMap;
 	Map<String, String> interactionTypeMap;
 
@@ -81,6 +87,10 @@ public class AppointmentAddActivity extends CRMActivity {
 		interactionTypeMap = myApp.getInteractionTypeMap();
 
 		queue = Volley.newRequestQueue(this);
+		
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Saving Changes",
+				"This may take some time", true, null);
 	}
 
 	public void findThings() {
@@ -119,7 +129,9 @@ public class AppointmentAddActivity extends CRMActivity {
 		startTime_ET.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
+
 	Appointment tempAppointment;
+
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
@@ -139,10 +151,11 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (temp != null) {
 				interactionType_TV.setText(myApp.getInteractionTypeMap().get(
 						Integer.toString(temp.intValue())));
-				selectedInteraction = myApp.getIndexFromKeyInteractionMap(Integer.toString(temp
-						.intValue()));
+				selectedInteraction = myApp
+						.getIndexFromKeyInteractionMap(Integer.toString(temp
+								.intValue()));
 			}
-			
+
 			designation_ET.setText(tempAppointment
 					.getDesignationOfClientOfficial());
 			notes_ET.setText(tempAppointment.getDescription());
@@ -150,20 +163,16 @@ public class AppointmentAddActivity extends CRMActivity {
 			// startTime_ET.setText(tempAppointment.getStartTime().toString());
 			// endTime_ET.setText(tempAppointment.getEndTime().toString());
 
-			
-			owner_TV.setText(myApp
-					.getStringNameFromStringJSON(tempAppointment
-							.getOwnerId()));
-			selectedOwner = myApp
-					.getIndexFromKeyUserMap(myApp
-							.getStringIdFromStringJSON(tempAppointment
-									.getOwnerId()));
-//			try {
-//				ownerLabel_TV.setText(new JSONObject(tempAppointment
-//						.getOwnerId()).getString("Name"));
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
+			owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
+					.getOwnerId()));
+			selectedOwner = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempAppointment.getOwnerId()));
+			// try {
+			// ownerLabel_TV.setText(new JSONObject(tempAppointment
+			// .getOwnerId()).getString("Name"));
+			// } catch (JSONException e) {
+			// e.printStackTrace();
+			// }
 		}
 	}
 
@@ -223,40 +232,38 @@ public class AppointmentAddActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
-		// System.out.println("\nSubject  :  "
-		// + MyApp.encryptData(purpose_ET.getText().toString())
-		// + "\nclientname  :  "
-		// + MyApp.encryptData(nameClient_ET.getText().toString())
-		// + "\ndesignation  :  "
-		// + MyApp.encryptData(designation_ET.getText().toString())
-		// + "\ndescribe  :  "
-		// + MyApp.encryptData(notes_ET.getText().toString()));
 
+//		System.out.println(myApp.formatDateToString4(new Date()));
+		
 		JSONObject params = new JSONObject();
+		
 		try {
-			params.put("Subject", purpose_ET.getText().toString())
-					.put("clientname", nameClient_ET.getText().toString())
-					.put("designation", designation_ET.getText().toString())
-					.put("describe", notes_ET.getText().toString())
-					.put("inttype", "4")
-					.put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a")
-					.put("startdate", "2015-01-14T14:16:34Z")
-					.put("enddate", "2015-01-14T14:16:34Z");
+			params.put("Subject", MyApp.encryptData(purpose_ET.getText().toString()))
+					.put("clientname", MyApp.encryptData(nameClient_ET.getText().toString()))
+					.put("inttype",
+							new ArrayList<String>(interactionTypeMap.keySet())
+									.get(selectedInteraction))
+					.put("designation", MyApp.encryptData(designation_ET.getText().toString()))
+					.put("describe", MyApp.encryptData(notes_ET.getText().toString()))
+					.put("startdate", myApp.formatDateToString4(new Date()))
+					.put("enddate", myApp.formatDateToString4(new Date()))
+					.put("ownid",
+							new ArrayList<String>(userMap.keySet())
+									.get(selectedOwner));
 		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		params = MyApp.addParamToJson(params);
 
+		progressDialog.show();
+		
 		if (previousIntent.getBooleanExtra("is_edit_mode", false)) {
+			/** Update Mode **/
+			String url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
 			try {
-
-				String url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
-
 				System.out.println("URL : " + url);
 
-				System.out.println("json" + params);
 				params.put("apponid", "8d0592e9-79a1-e411-96e8-5cf3fc3f502a");
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,
@@ -265,12 +272,13 @@ public class AppointmentAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-
+								progressDialog.hide();
 							}
 						}, new Response.ErrorListener() {
 
 							@Override
 							public void onErrorResponse(VolleyError error) {
+								progressDialog.hide();
 								System.out.println("ERROR  : "
 										+ error.getMessage());
 								error.printStackTrace();
@@ -294,35 +302,16 @@ public class AppointmentAddActivity extends CRMActivity {
 				jsonArrayRequest.setRetryPolicy(policy);
 				queue.add(jsonArrayRequest);
 			} catch (Exception e) {
+				progressDialog.hide();
 				e.printStackTrace();
 			}
 		} else {
+			/** Create Mode **/
 			try {
 
 				String url = MyApp.URL + MyApp.APPOINTMENTS_ADD;
 
 				System.out.println("URL : " + url);
-
-				// System.out.println("\nSubject  :  "
-				// + MyApp.encryptData(purpose_ET.getText().toString())
-				// + "\nclientname  :  "
-				// + MyApp.encryptData(nameClient_ET.getText().toString())
-				// + "\ndesignation  :  "
-				// + MyApp.encryptData(designation_ET.getText().toString())
-				// + "\ndescribe  :  "
-				// + MyApp.encryptData(notes_ET.getText().toString()));
-
-				// JSONObject params = new JSONObject();
-				// params.put("Subject", purpose_ET.getText().toString())
-				// .put("clientname", nameClient_ET.getText().toString())
-				// .put("designation", designation_ET.getText().toString())
-				// .put("describe", notes_ET.getText().toString())
-				// .put("inttype", "4")
-				// .put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a")
-				// .put("startdate", "2015-01-14T14:16:34Z")
-				// .put("enddate", "2015-01-14T14:16:34Z");
-				//
-				// params = MyApp.addParamToJson(params);
 
 				System.out.println("json" + params);
 
@@ -333,12 +322,13 @@ public class AppointmentAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-
+								progressDialog.hide();
 							}
 						}, new Response.ErrorListener() {
 
 							@Override
 							public void onErrorResponse(VolleyError error) {
+								progressDialog.hide();
 								System.out.println("ERROR  : "
 										+ error.getMessage());
 								error.printStackTrace();
@@ -362,6 +352,7 @@ public class AppointmentAddActivity extends CRMActivity {
 				jsonArrayRequest.setRetryPolicy(policy);
 				queue.add(jsonArrayRequest);
 			} catch (Exception e) {
+				progressDialog.hide();
 				e.printStackTrace();
 			}
 		}

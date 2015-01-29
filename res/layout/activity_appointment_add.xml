@@ -59,13 +59,9 @@
                     style="@style/TV"
                     android:hint="Interaction Type" />
 
-                <ImageView
-                    style="@style/IV"
-                     />
-<!--                     android:src="@drawable/arrow_right" -->
+                <ImageView style="@style/IV" />
             </RelativeLayout>
 
-           
             <TextView
                 android:id="@+id/designationLabel_TV"
                 style="@style/style_TV2"
@@ -109,18 +105,15 @@
             <RelativeLayout
                 android:id="@+id/owner_RL"
                 style="@style/RL"
-                android:onClick="onSearchItem"
-                android:layout_marginTop="10dp" >
+                android:layout_marginTop="10dp"
+                android:onClick="onSearchItem" >
 
                 <TextView
                     android:id="@+id/owner_TV"
                     style="@style/TV"
                     android:text="Owner" />
 
-                <ImageView
-                    style="@style/IV"
-                    />
-<!--                     android:src="@drawable/arrow_right"  -->
+                <ImageView style="@style/IV" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

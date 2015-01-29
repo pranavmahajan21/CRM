@@ -21,9 +21,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -38,6 +38,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityAddActivity extends CRMActivity {
@@ -49,20 +50,23 @@ public class OpportunityAddActivity extends CRMActivity {
 	MyApp myApp;
 
 	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
-			probabilityLabel_TV, salesStageLabel_TV;
+			probabilityLabel_TV, salesStageLabel_TV, countryLabel_TV,
+			lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
-	TextView clientName_TV, status_TV, probability_TV, salesStage_TV;
+	TextView clientName_TV, status_TV, probability_TV, salesStage_TV,
+			country_TV, lob_TV, sublob_TV, sector_TV;
 
 	EditText description_ET;
 
 	RelativeLayout client_RL, status_RL, probability_RL, salesStage_RL;
 
 	boolean pickerVisibility = false;
-//	NumberPicker picker;
+	// NumberPicker picker;
 
-	Map<String, String> probabilityMap;
-	Map<String, String> statusMap;
 	Map<String, String> lobMap;
+	Map<String, String> probabilityMap;
+	Map<String, String> salesStageMap;
+	Map<String, String> statusMap;
 
 	Intent previousIntent, nextIntent;
 
@@ -79,22 +83,35 @@ public class OpportunityAddActivity extends CRMActivity {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
 
+		lobMap = myApp.getLobMap();
+		probabilityMap = myApp.getProbabilityMap();
+		salesStageMap = myApp.getSalesStageMap();
+		statusMap = myApp.getStatusMap();
+
 		queue = Volley.newRequestQueue(this);
 	}
 
 	public void findThings() {
 		super.findThings();
 
-		descriptionLabel_TV = (TextView) findViewById(R.id.description_TV);
 		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
+		descriptionLabel_TV = (TextView) findViewById(R.id.description_TV);
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
+		countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
+		lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
+		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
+		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
 		status_TV = (TextView) findViewById(R.id.status_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
+		country_TV = (TextView) findViewById(R.id.country_TV);
+		lob_TV = (TextView) findViewById(R.id.lob_TV);
+		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
+		sector_TV = (TextView) findViewById(R.id.sector_TV);
 
 		description_ET = (EditText) findViewById(R.id.description_ET);
 
@@ -103,13 +120,6 @@ public class OpportunityAddActivity extends CRMActivity {
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
 		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
 
-//		picker = (NumberPicker) findViewById(R.id.status_NP);
-//
-//		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-//		picker.setMinValue(0);
-//		picker.setMaxValue(3);
-//		// picker.setDisplayedValues(new String[] { "A", "B", "C", "D" });
-//		picker.setDisplayedValues(temp);
 	}
 
 	private void setTypeface() {
@@ -132,8 +142,6 @@ public class OpportunityAddActivity extends CRMActivity {
 			System.out.println(tempOpportunity.toString());
 
 			description_ET.setText(tempOpportunity.getCustomerId());
-			// requiredSolutions_ET.setText(tempOpportunity.getNameFirst());
-			// currency_ET.setText(tempOpportunity.getNameFirst());
 		}
 
 	}
@@ -174,8 +182,6 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
 		if (v.getId() == R.id.status_RL) {
-			statusMap = myApp.getStatusMap();
-
 			List<String> list = new ArrayList<String>(statusMap.values());
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(0, v.getId(), i, list.get(i));
@@ -184,39 +190,19 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 
 		if (v.getId() == R.id.probability_RL) {
-			probabilityMap = myApp.getProbabilityMap();
-
 			List<String> list = new ArrayList<String>(probabilityMap.values());
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(1, v.getId(), i, list.get(i));
 			}
-
 		}
 
 		if (v.getId() == R.id.salesStage_RL) {
-			statusMap = myApp.getSalesStageMap();
-
-			List<String> list = new ArrayList<String>(statusMap.values());
+			List<String> list = new ArrayList<String>(salesStageMap.values());
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(2, v.getId(), i, list.get(i));
 			}
 
 		}
-
-		// menu.add(0, v.getId(), 0,
-		// "South Asia Clean Energy Fund Partners, L.p");
-		// menu.add(0, v.getId(), 0, "(n)Code Solutions");
-		// menu.add(0, v.getId(), 0, "1 MG");
-		// menu.add(0, v.getId(), 0, "10 MG Road");
-		// menu.add(0, v.getId(), 0,
-		// "10C India Internet India Private Limited");
-		// menu.add(0, v.getId(), 0, "10C India Internet Pve. Ltd.");
-		// menu.add(0, v.getId(), 0, "11210");
-		// menu.add(0, v.getId(), 0, "20 Media Collective Private Limited");
-		// menu.add(0, v.getId(), 0, "1FB Support Services Private Limited");
-		// menu.add(0, v.getId(), 0, "2 Degrees");
-		// menu.add(0, v.getId(), 0, "20 Cube Group");
-		// menu.add(0, v.getId(), 0, "20 Cube Group");
 	}
 
 	@Override
@@ -293,18 +279,8 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 	}
 
-//	public void onShowPicker(View view) {
-//		pickerVisibility = !pickerVisibility;
-//		if (pickerVisibility) {
-//			picker.setVisibility(View.VISIBLE);
-//		} else {
-//			picker.setVisibility(View.GONE);
-//		}
-//	}
-
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		isActivityVisible = true;
 		LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -346,11 +322,50 @@ public class OpportunityAddActivity extends CRMActivity {
 			int positionItem = data.getIntExtra("position_item", 0);
 			if (requestCode == MyApp.SEARCH_OPPORTUNITY) {
 				List<Opportunity> opportunityList = myApp.getOpportunityList();
-				try {
-					clientName_TV.setText(new JSONObject(opportunityList.get(
-							positionItem).getCustomerId()).getString("Name"));
-				} catch (JSONException e) {
-					e.printStackTrace();
+
+				// try {
+				// clientName_TV.setText(new JSONObject(opportunityList.get(
+				// positionItem).getCustomerId()).getString("Name"));
+				// } catch (JSONException e) {
+				// e.printStackTrace();
+				// }
+
+				clientName_TV.setText(myApp
+						.getStringNameFromStringJSON(opportunityList.get(
+								positionItem).getCustomerId()));
+
+				Account tempAccount = null;
+				tempAccount = myApp.getAccountById(myApp
+						.getStringIdFromStringJSON(opportunityList.get(
+								positionItem).getCustomerId()));
+				if (tempAccount != null) {
+					Integer temp = myApp.getValueFromStringJSON(tempAccount
+							.getCountry());
+					if (temp != null) {
+						country_TV.setText(myApp.getCountryMap().get(
+								Integer.toString(temp.intValue())));
+					}
+					temp = myApp.getValueFromStringJSON(tempAccount.getLob());
+					if (temp != null) {
+						lob_TV.setText(myApp.getLobMap().get(
+								Integer.toString(temp.intValue())));
+					}
+					temp = myApp
+							.getValueFromStringJSON(tempAccount.getSubLob());
+					if (temp != null) {
+						sublob_TV.setText(myApp.getSubLobMap().get(
+								Integer.toString(temp.intValue())));
+					}
+					temp = myApp
+							.getValueFromStringJSON(tempAccount.getSector());
+					if (temp != null) {
+						sector_TV.setText(myApp.getSectorMap().get(
+								Integer.toString(temp.intValue())));
+					}
+				} else {
+					Toast.makeText(this, "Account not found",
+							Toast.LENGTH_SHORT).show();
+
 				}
 			}
 		}

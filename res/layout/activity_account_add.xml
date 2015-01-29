@@ -42,8 +42,8 @@
 
             <RelativeLayout
                 android:id="@+id/sector_RL"
-                android:onClick="onSearchItem"
-                style="@style/RL" >
+                style="@style/RL"
+                android:onClick="onSearchItem" >
 
                 <TextView
                     android:id="@+id/sector_TV"
@@ -60,8 +60,8 @@
 
             <RelativeLayout
                 android:id="@+id/headquarter_RL"
-                android:onClick="onSearchItem"
-                style="@style/RL" >
+                style="@style/RL"
+                android:onClick="onSearchItem" >
 
                 <TextView
                     android:id="@+id/headquarter_TV"
@@ -95,8 +95,8 @@
 
             <RelativeLayout
                 android:id="@+id/sublob_RL"
-                android:onClick="onSearchItem"
-                style="@style/RL" >
+                style="@style/RL"
+                android:onClick="onSearchItem" >
 
                 <TextView
                     android:id="@+id/sublob_TV"
@@ -113,8 +113,8 @@
 
             <RelativeLayout
                 android:id="@+id/leadPartner_RL"
-                android:onClick="onSearchItem"
-                style="@style/RL" >
+                style="@style/RL"
+                android:onClick="onSearchItem" >
 
                 <TextView
                     android:id="@+id/leadPartner_TV"
