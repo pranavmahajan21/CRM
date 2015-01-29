@@ -111,13 +111,6 @@
                     style="@style/TV_right"
                     android:text="-" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onEdit"
-                android:text="Edit" />
         </LinearLayout>
     </ScrollView>
 

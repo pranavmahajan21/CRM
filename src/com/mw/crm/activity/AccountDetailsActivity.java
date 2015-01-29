@@ -122,7 +122,7 @@ public class AccountDetailsActivity extends CRMActivity {
 		initView("Account", "Edit");
 	}
 
-	public void onEdit(View view) {
+	public void onRightButton(View view) {
 		nextIntent = new Intent(this, AccountAddActivity.class);
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));

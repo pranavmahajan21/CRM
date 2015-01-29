@@ -69,8 +69,6 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
-//		System.out
-//				.println("asdfsad" + selectedAppointment.getDescription() == null);
 
 		description_TV.setText(selectedAppointment.getDescription());
 		nameClientOfficial_TV.setText(selectedAppointment
@@ -90,8 +88,6 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		// dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
 		// endTime_TV.setText(selectedAppointment.getEndTime().toString());
 		try {
-			// new
-			// JSONObject(selectedAppointment.getOwnerId()).getString("Name");
 			owner_TV.setText(new JSONObject(selectedAppointment.getOwnerId())
 					.getString("Name"));
 		} catch (JSONException e) {
@@ -108,12 +104,11 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		initView("Appointment", "Edit");
 	}
 
-	public void onEdit(View view) {
+	public void onRightButton(View view) {
 		nextIntent = new Intent(this, AppointmentAddActivity.class);
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
 		startActivity(nextIntent);
 	}
-
 }

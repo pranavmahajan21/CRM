@@ -40,10 +40,7 @@ public class OpportunityAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		protected TextView nameTV;
-//		protected TextView descriptionTV;
-//		protected TextView primaryTV;
 		protected TextView statusTV;
-//		protected TextView costTV;
 	}
 
 	@Override
@@ -53,28 +50,16 @@ public class OpportunityAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-//			convertView = inflater.inflate(R.layout.element_opportunity,
-//					parent, false);
-			convertView = inflater.inflate(R.layout.element_common,
-					parent, false);
+			convertView = inflater.inflate(R.layout.element_common, parent,
+					false);
 
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);
 			viewHolder.statusTV = (TextView) convertView
 					.findViewById(R.id.company_TV);
-//			viewHolder.descriptionTV = (TextView) convertView
-//					.findViewById(R.id.description_TV);
-//			viewHolder.primaryTV = (TextView) convertView
-//					.findViewById(R.id.primary_TV);
-//			viewHolder.costTV = (TextView) convertView
-//					.findViewById(R.id.cost_TV);
 
 			viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
 			viewHolder.statusTV.setTypeface(myApp.getTypefaceRegularSans());
-//			viewHolder.descriptionTV
-//					.setTypeface(myApp.getTypefaceRegularSans());
-//			viewHolder.primaryTV.setTypeface(myApp.getTypefaceRegularSans());
-//			viewHolder.costTV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -83,19 +68,15 @@ public class OpportunityAdapter extends BaseAdapter {
 
 		Opportunity tempOpportunity = opportunityList.get(position);
 		opportunityList.size();
-		if(viewHolder.nameTV == null)
-		{
-			System.out.println("111111");
-		}
-		if(tempOpportunity == null)
-		{
-			System.out.println("222222");
-		}
-		viewHolder.nameTV.setText(tempOpportunity.getName());
-		viewHolder.statusTV.setText(tempOpportunity.getKpmgStatus());
-//		viewHolder.descriptionTV.setText(tempOpportunity.getCustomerId());
-//		viewHolder.costTV.setText("$"
-//				+ tempOpportunity.getTotalAmount());
+//		if (viewHolder.nameTV == null) {
+//			System.out.println("111111");
+//		}
+//		if (tempOpportunity == null) {
+//			System.out.println("222222");
+//		}
+		viewHolder.nameTV.setText(myApp
+				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
+		viewHolder.statusTV.setText(tempOpportunity.getName());
 		return convertView;
 	}
 

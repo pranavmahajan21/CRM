@@ -1,8 +1,5 @@
 package com.mw.crm.activity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -74,14 +71,16 @@ public class ContactDetailsActivity extends CRMActivity {
 		name_TV.setText(myApp.getContactName(selectedContact));
 		designation_TV.setText(selectedContact.getDesignation());
 
-		organization_TV.setText(myApp.getStringNameFromStringJSON(selectedContact
-				.getOrganization()));
+		organization_TV
+				.setText(myApp.getStringNameFromStringJSON(selectedContact
+						.getOrganization()));
 		email_TV.setText(selectedContact.getEmail());
 		officePhone_TV.setText(selectedContact.getTelephone());
 		mobile_TV.setText(selectedContact.getMobilePhone());
 
 		internalConnect_TV.setText(myApp
-				.getStringNameFromStringJSON(selectedContact.getInternalConnect()));
+				.getStringNameFromStringJSON(selectedContact
+						.getInternalConnect()));
 
 		Integer temp = myApp.getValueFromStringJSON(selectedContact
 				.getDegreeOfRelation());
@@ -103,7 +102,7 @@ public class ContactDetailsActivity extends CRMActivity {
 		initView("Contact", "Edit");
 	}
 
-	public void onEdit(View view) {
+	public void onRightButton(View view) {
 		nextIntent = new Intent(this, ContactAddActivity.class);
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));

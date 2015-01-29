@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
@@ -49,12 +51,12 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV, oppoManagerLabel_TV,
-			probabilityLabel_TV, salesStageLabel_TV, countryLabel_TV,
-			lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
+	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
+			oppoManagerLabel_TV, probabilityLabel_TV, salesStageLabel_TV,
+			countryLabel_TV, lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
-	TextView clientName_TV, status_TV, oppoManager_TV, probability_TV, salesStage_TV,
-			country_TV, lob_TV, sublob_TV, sector_TV;
+	TextView clientName_TV, status_TV, oppoManager_TV, probability_TV,
+			salesStage_TV, country_TV, lob_TV, sublob_TV, sector_TV;
 
 	EditText description_ET;
 
@@ -76,6 +78,9 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	RequestQueue queue;
 
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+	
 	private BroadcastReceiver opportunityReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -93,6 +98,10 @@ public class OpportunityAddActivity extends CRMActivity {
 		statusMap = myApp.getStatusMap();
 		userMap = myApp.getUserMap();
 
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Saving Changes",
+				"This may take some time", true, null);
+		
 		queue = Volley.newRequestQueue(this);
 	}
 
@@ -102,7 +111,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
 		descriptionLabel_TV = (TextView) findViewById(R.id.description_TV);
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
-		oppoManagerLabel_TV= (TextView) findViewById(R.id.oppoManagerLabel_TV);
+		oppoManagerLabel_TV = (TextView) findViewById(R.id.oppoManagerLabel_TV);
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
 		countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
@@ -112,7 +121,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
 		status_TV = (TextView) findViewById(R.id.status_TV);
-		oppoManager_TV= (TextView) findViewById(R.id.oppoManager_TV);
+		oppoManager_TV = (TextView) findViewById(R.id.oppoManager_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
 		country_TV = (TextView) findViewById(R.id.country_TV);
@@ -206,7 +215,8 @@ public class OpportunityAddActivity extends CRMActivity {
 		if (v.getId() == R.id.salesStage_RL) {
 			List<String> list = new ArrayList<String>(salesStageMap.values());
 			for (int i = 0; i < list.size(); i++) {
-				menu.add(2, v.getId(), i, list.get(i));
+				menu.add(2, v.getId(), i, list.get(i));CreateDialog createDialog;
+				ProgressDialog progressDialog;
 			}
 
 		}
@@ -233,67 +243,133 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
+		JSONObject params = new JSONObject();
 		try {
-
-			String url = MyApp.URL + MyApp.OPPORTUNITY_ADD;
-
-			System.out.println("URL : " + url);
-
-			JSONObject params = new JSONObject();
 			params.put("Name",
-					MyApp.encryptData(clientName_TV.getText().toString()))
-					.put("CstId", "da7bb1a7-8095-e411-96e8-5cf3fc3f502a")
+					MyApp.encryptData(description_ET.getText().toString()))
+					.put("CstId",
+							myApp.getAccountList().get(selectedClientName)
+									.getAccountId())
 					.put("KPMGStatus",
 							new ArrayList<String>(statusMap.keySet())
 									.get(selectedStatus))
-					.put("Oid", "401a5d5f-9a8a-e411-96e8-5cf3fc3f502a")
+					.put("Oid",
+							new ArrayList<String>(userMap.keySet())
+									.get(selectedOppoManager))
 					.put("salesstagecodes",
 							new ArrayList<String>(salesStageMap.keySet())
 									.get(selectedSalesStage))
 					.put("probabilty",
 							new ArrayList<String>(probabilityMap.keySet())
 									.get(selectedProbability));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
 
-			params = MyApp.addParamToJson(params);
+		params = MyApp.addParamToJson(params);
 
-			System.out.println("json" + params);
+		progressDialog.show();
+		if (previousIntent.hasExtra("is_edit_mode")
+				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+			/** Update Mode **/
+			String url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
+			try {
+				System.out.println("URL : " + url);
 
-			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-					Method.POST, url, params,
-					new Response.Listener<JSONObject>() {
 
-						@Override
-						public void onResponse(JSONObject response) {
-							System.out.println("length2" + response);
+				System.out.println("json" + params);
 
-						}
-					}, new Response.ErrorListener() {
+				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+						Method.POST, url, params,
+						new Response.Listener<JSONObject>() {
 
-						@Override
-						public void onErrorResponse(VolleyError error) {
-							System.out.println("ERROR  : " + error.getMessage());
-							error.printStackTrace();
+							@Override
+							public void onResponse(JSONObject response) {
+								System.out.println("length2" + response);
+								progressDialog.hide();
 
-							if (error instanceof NetworkError) {
-								System.out.println("NetworkError");
 							}
-							if (error instanceof NoConnectionError) {
-								System.out
-										.println("NoConnectionError you are now offline.");
-							}
-							if (error instanceof ServerError) {
-								System.out.println("ServerError");
-							}
-						}
-					});
+						}, new Response.ErrorListener() {
 
-			RetryPolicy policy = new DefaultRetryPolicy(30000,
-					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-			jsonArrayRequest.setRetryPolicy(policy);
-			queue.add(jsonArrayRequest);
-		} catch (Exception e) {
-			e.printStackTrace();
+							@Override
+							public void onErrorResponse(VolleyError error) {
+								progressDialog.hide();
+								System.out.println("ERROR  : "
+										+ error.getMessage());
+								error.printStackTrace();
+
+								if (error instanceof NetworkError) {
+									System.out.println("NetworkError");
+								}
+								if (error instanceof NoConnectionError) {
+									System.out
+											.println("NoConnectionError you are now offline.");
+								}
+								if (error instanceof ServerError) {
+									System.out.println("ServerError");
+								}
+							}
+						});
+
+				RetryPolicy policy = new DefaultRetryPolicy(30000,
+						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+				jsonArrayRequest.setRetryPolicy(policy);
+				queue.add(jsonArrayRequest);
+			} catch (Exception e) {
+				progressDialog.hide();
+				e.printStackTrace();
+			}
+		} else {
+			/** Create Mode **/
+			String url = MyApp.URL + MyApp.OPPORTUNITY_ADD;
+			try {
+				System.out.println("URL : " + url);
+
+
+				System.out.println("json" + params);
+
+				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+						Method.POST, url, params,
+						new Response.Listener<JSONObject>() {
+
+							@Override
+							public void onResponse(JSONObject response) {
+								System.out.println("length2" + response);
+								progressDialog.hide();
+
+							}
+						}, new Response.ErrorListener() {
+
+							@Override
+							public void onErrorResponse(VolleyError error) {
+								progressDialog.hide();
+								System.out.println("ERROR  : "
+										+ error.getMessage());
+								error.printStackTrace();
+
+								if (error instanceof NetworkError) {
+									System.out.println("NetworkError");
+								}
+								if (error instanceof NoConnectionError) {
+									System.out
+											.println("NoConnectionError you are now offline.");
+								}
+								if (error instanceof ServerError) {
+									System.out.println("ServerError");
+								}
+							}
+						});
+
+				RetryPolicy policy = new DefaultRetryPolicy(30000,
+						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+				jsonArrayRequest.setRetryPolicy(policy);
+				queue.add(jsonArrayRequest);
+			} catch (Exception e) {
+				progressDialog.hide();
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -384,11 +460,11 @@ public class OpportunityAddActivity extends CRMActivity {
 							Toast.LENGTH_SHORT).show();
 
 				}
-			}//if (requestCode == MyApp.SEARCH_ACCOUNT)
+			}// if (requestCode == MyApp.SEARCH_ACCOUNT)
 			if (requestCode == MyApp.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				oppoManager_TV.setText(list.get(positionItem));
-				
+
 				selectedOppoManager = positionItem;
 			}
 		}

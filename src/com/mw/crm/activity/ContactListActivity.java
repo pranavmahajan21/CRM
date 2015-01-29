@@ -110,9 +110,6 @@ public class ContactListActivity extends CRMActivity {
 		initView("Contacts", "Add");
 
 		myOwnOnTextChangeListeners();
-//		progressDialog.show();
-		// JSONObject jsonObject;
-		
 
 		contactLV.setOnItemClickListener(new OnItemClickListener() {
 

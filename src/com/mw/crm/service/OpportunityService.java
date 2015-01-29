@@ -132,10 +132,6 @@ public class OpportunityService extends IntentService {
 
 	private Opportunity getOpportunityObject(JSONObject jsonObject) {
 		try {
-			// System.out.println(jsonObject.toString());
-			// System.out.println("transactioncurrencyid : "
-			// + jsonObject.has("transactioncurrencyid") );
-
 			Opportunity opportunity = new Opportunity(
 					MyApp.decryptData(jsonObject.getString("ownerid")),
 					MyApp.decryptData(jsonObject

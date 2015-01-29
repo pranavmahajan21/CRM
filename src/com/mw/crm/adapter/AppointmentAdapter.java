@@ -41,7 +41,6 @@ public class AppointmentAdapter extends BaseAdapter {
 	static class ViewHolder {
 		protected TextView nameTV;
 		protected TextView subjectTV;
-		// protected TextView endTimeTV;
 	}
 
 	@Override
@@ -69,11 +68,11 @@ public class AppointmentAdapter extends BaseAdapter {
 
 		Appointment tempAppointment = appointmentList.get(position);
 		
-		System.out.println("purpose  :  "
-				+ tempAppointment.getNameOfTheClientOfficial());
-		System.out.println("subject  :  " + tempAppointment.getDescription());
+//		System.out.println("purpose  :  "
+//				+ tempAppointment.getNameOfTheClientOfficial());
+//		System.out.println("subject  :  " + tempAppointment.getDescription());
 
-		viewHolder.nameTV.setText(tempAppointment.getPurposeOfMeeting());
+		viewHolder.nameTV.setText(tempAppointment.getDescription());
 		viewHolder.subjectTV.setText(tempAppointment.getPurposeOfMeeting());
 
 		return convertView;

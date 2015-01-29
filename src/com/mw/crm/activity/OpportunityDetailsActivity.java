@@ -152,12 +152,11 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		initView("Opportunity", "Edit");
 	}
 
-	public void onEdit(View view) {
+	public void onRightButton(View view) {
 		nextIntent = new Intent(this, OpportunityAddActivity.class);
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
 		startActivity(nextIntent);
 	}
-
 }
