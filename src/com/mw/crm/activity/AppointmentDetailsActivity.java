@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
 
@@ -25,12 +26,17 @@ public class AppointmentDetailsActivity extends CRMActivity {
 			dateMeeting_TV, endTime_TV, owner_TV;
 
 	private void initThings() {
-		myApp.getAccountList();
 		previousIntent = getIntent();
 		System.out.println("position"
 				+ previousIntent.getIntExtra("position", 0));
-		selectedAppointment = myApp.getAppointmentList().get(
-				previousIntent.getIntExtra("position", 0));
+		if (previousIntent.hasExtra("contact_dummy")) {
+			selectedAppointment = new Gson().fromJson(
+					previousIntent.getStringExtra("appointment_dummy"),
+					Appointment.class);
+		} else {
+			selectedAppointment = myApp.getAppointmentList().get(
+					previousIntent.getIntExtra("position", 0));
+		}
 	}
 
 	public void findThings() {
@@ -67,32 +73,51 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		// owner_TV.setTypeface();
 	}
 
-	public void initView(String string, String string2) {
-		super.initView(string, string2);
-		setTypeface();
-
+	private void initWithoutMappingFields() {
 		description_TV.setText(selectedAppointment.getDescription());
 		nameClientOfficial_TV.setText(selectedAppointment
 				.getNameOfTheClientOfficial());
 		designationClientOfficial_TV.setText(selectedAppointment
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
-
-		try {
-			interactionType_TV.setText(myApp.getInteractionTypeMap().get(
-					Integer.toString(new JSONObject(selectedAppointment
-							.getTypeOfMeeting()).getInt("Value"))));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
+		
 		// dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
 		// endTime_TV.setText(selectedAppointment.getEndTime().toString());
-		try {
-			owner_TV.setText(new JSONObject(selectedAppointment.getOwnerId())
-					.getString("Name"));
-		} catch (JSONException e) {
-			e.printStackTrace();
+
+	}
+
+	public void initView(String string, String string2) {
+		super.initView(string, string2);
+		setTypeface();
+
+		if (previousIntent.hasExtra("appointment_dummy")
+				&& selectedAppointment != null) {
+			initWithoutMappingFields();
+			interactionType_TV.setText(selectedAppointment.getTypeOfMeeting());
+			owner_TV.setText(selectedAppointment.getOwnerId());
+		} else {
+			// description_TV.setText(selectedAppointment.getDescription());
+			// nameClientOfficial_TV.setText(selectedAppointment
+			// .getNameOfTheClientOfficial());
+			// designationClientOfficial_TV.setText(selectedAppointment
+			// .getDesignationOfClientOfficial());
+			// purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
+			initWithoutMappingFields();
+
+			try {
+				interactionType_TV.setText(myApp.getInteractionTypeMap().get(
+						Integer.toString(new JSONObject(selectedAppointment
+								.getTypeOfMeeting()).getInt("Value"))));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				owner_TV.setText(new JSONObject(selectedAppointment
+						.getOwnerId()).getString("Name"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -102,7 +127,12 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		setContentView(R.layout.activity_appointment_detail);
 		initThings();
 		findThings();
-		initView("Appointment", "Edit");
+
+		if (previousIntent.hasExtra("appointment_dummy")) {
+			initView("Appointment Created", null);
+		} else {
+			initView("Appointment", "Edit");
+		}
 	}
 
 	public void onRightButton(View view) {

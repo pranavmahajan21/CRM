@@ -60,7 +60,9 @@ public class ContactAddActivity extends CRMActivity {
 			officePhone_ET, mobile_ET;
 	RelativeLayout dor_RL, organization_RL, internal_RL;
 
-	boolean pickerVisibility = false;
+	Contact tempContact;
+
+//	boolean pickerVisibility = false;
 
 	Intent previousIntent, nextIntent;
 
@@ -145,8 +147,6 @@ public class ContactAddActivity extends CRMActivity {
 		// firstName_ET.setTypeface(myApp.getTypefaceRegularSans());
 		// lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
-
-	Contact tempContact;
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);

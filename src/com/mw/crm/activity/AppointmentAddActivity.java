@@ -42,7 +42,6 @@ import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
-import com.mw.crm.model.Contact;
 import com.mw.crm.model.InternalConnect;
 
 public class AppointmentAddActivity extends CRMActivity {
@@ -62,6 +61,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	RelativeLayout interactionType_RL, owner_RL;
 
 	Intent previousIntent, nextIntent;
+	Appointment tempAppointment;
 
 	List<InternalConnect> ownerList;
 
@@ -69,7 +69,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
-	
+
 	Map<String, String> userMap;
 	Map<String, String> interactionTypeMap;
 
@@ -87,9 +87,10 @@ public class AppointmentAddActivity extends CRMActivity {
 		previousIntent = getIntent();
 
 		interactionTypeMap = myApp.getInteractionTypeMap();
+		userMap = myApp.getUserMap();
 
 		queue = Volley.newRequestQueue(this);
-		
+
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
@@ -132,8 +133,6 @@ public class AppointmentAddActivity extends CRMActivity {
 		endTime_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
-	Appointment tempAppointment;
-
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
@@ -169,12 +168,9 @@ public class AppointmentAddActivity extends CRMActivity {
 					.getOwnerId()));
 			selectedOwner = myApp.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAppointment.getOwnerId()));
-			// try {
-			// ownerLabel_TV.setText(new JSONObject(tempAppointment
-			// .getOwnerId()).getString("Name"));
-			// } catch (JSONException e) {
-			// e.printStackTrace();
-			// }
+
+			System.out.println("selectedInteraction  : " + selectedInteraction
+					+ "\nselectedOwner  : " + selectedOwner);
 		}
 	}
 
@@ -235,18 +231,24 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 
-//		System.out.println(myApp.formatDateToString4(new Date()));
-		
+		// System.out.println(myApp.formatDateToString4(new Date()));
+
 		JSONObject params = new JSONObject();
-		
+
 		try {
-			params.put("Subject", MyApp.encryptData(purpose_ET.getText().toString()))
-					.put("clientname", MyApp.encryptData(nameClient_ET.getText().toString()))
+			params.put("Subject",
+					MyApp.encryptData(purpose_ET.getText().toString()))
+					.put("clientname",
+							MyApp.encryptData(nameClient_ET.getText()
+									.toString()))
 					.put("inttype",
 							new ArrayList<String>(interactionTypeMap.keySet())
 									.get(selectedInteraction))
-					.put("designation", MyApp.encryptData(designation_ET.getText().toString()))
-					.put("describe", MyApp.encryptData(notes_ET.getText().toString()))
+					.put("designation",
+							MyApp.encryptData(designation_ET.getText()
+									.toString()))
+					.put("describe",
+							MyApp.encryptData(notes_ET.getText().toString()))
 					.put("startdate", myApp.formatDateToString4(new Date()))
 					.put("enddate", myApp.formatDateToString4(new Date()))
 					.put("ownid",
@@ -259,7 +261,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		params = MyApp.addParamToJson(params);
 
 		progressDialog.show();
-		
+
 		if (previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/
 			String url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
@@ -362,19 +364,27 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
-		Contact aa = new Contact(firstName_ET.getText().toString(), lastName_ET
-				.getText().toString(), email_ET.getText().toString(),
-				designation_ET.getText().toString(), mobile_ET.getText()
-						.toString(), officePhone_ET.getText().toString(),
-				internalConnect_TV.getText().toString(), organization_TV
-						.getText().toString(), dor_TV.getText().toString(),
-				null);
+		// Contact aa = new Contact(firstName_ET.getText().toString(),
+		// lastName_ET
+		// .getText().toString(), email_ET.getText().toString(),
+		// designation_ET.getText().toString(), mobile_ET.getText()
+		// .toString(), officePhone_ET.getText().toString(),
+		// internalConnect_TV.getText().toString(), organization_TV
+		// .getText().toString(), dor_TV.getText().toString(),
+		// null);
+
+		Appointment aa = new Appointment(null, purpose_ET.getText().toString(),
+				notes_ET.getText().toString(), nameClient_ET.getText()
+						.toString(), interactionType_TV.getText().toString(),
+				designation_ET.getText().toString(), owner_TV.getText()
+						.toString(), new Date(), new Date());
 
 		nextIntent = new Intent(this, AppointmentDetailsActivity.class);
-		nextIntent.putExtra("appointment_dummy", new Gson().toJson(aa, Appointment.class));
+		nextIntent.putExtra("appointment_dummy",
+				new Gson().toJson(aa, Appointment.class));
 		startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -416,13 +426,21 @@ public class AppointmentAddActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			int positionItem = data.getIntExtra("position_item", 0);
+			int positionItem = 0;
+			if (data != null) {
+				positionItem = data.getIntExtra("position_item", 0);
+			}
 			if (requestCode == MyApp.SEARCH_USER) {
 				userMap = myApp.getUserMap();
 				List<String> list = new ArrayList<String>(userMap.values());
 				owner_TV.setText(list.get(positionItem));
 				selectedOwner = positionItem;
 			}
+			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
+				setResult(RESULT_OK);
+				finish();
+			}
+
 		}
 
 	}

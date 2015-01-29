@@ -72,26 +72,31 @@ public class ContactDetailsActivity extends CRMActivity {
 		// dor_TV.setTypeface();
 	}
 
+	private void initWithoutMappingFields() {
+		name_TV.setText(myApp.getContactName(selectedContact));
+		designation_TV.setText(selectedContact.getDesignation());
+		email_TV.setText(selectedContact.getEmail());
+		officePhone_TV.setText(selectedContact.getTelephone());
+		mobile_TV.setText(selectedContact.getMobilePhone());
+	}
+
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
 		if (previousIntent.hasExtra("contact_dummy") && selectedContact != null) {
-			name_TV.setText(myApp.getContactName(selectedContact));
-			designation_TV.setText(selectedContact.getDesignation());
-			email_TV.setText(selectedContact.getEmail());
-			officePhone_TV.setText(selectedContact.getTelephone());
-			mobile_TV.setText(selectedContact.getMobilePhone());
+			initWithoutMappingFields();
 
 			organization_TV.setText(selectedContact.getOrganization());
 			internalConnect_TV.setText(selectedContact.getInternalConnect());
 			dor_TV.setText(selectedContact.getDegreeOfRelation());
 		} else {
-			name_TV.setText(myApp.getContactName(selectedContact));
-			designation_TV.setText(selectedContact.getDesignation());
-			email_TV.setText(selectedContact.getEmail());
-			officePhone_TV.setText(selectedContact.getTelephone());
-			mobile_TV.setText(selectedContact.getMobilePhone());
-
+//			name_TV.setText(myApp.getContactName(selectedContact));
+//			designation_TV.setText(selectedContact.getDesignation());
+//			email_TV.setText(selectedContact.getEmail());
+//			officePhone_TV.setText(selectedContact.getTelephone());
+//			mobile_TV.setText(selectedContact.getMobilePhone());
+			initWithoutMappingFields();
+			
 			organization_TV.setText(myApp
 					.getStringNameFromStringJSON(selectedContact
 							.getOrganization()));
@@ -142,7 +147,7 @@ public class ContactDetailsActivity extends CRMActivity {
 	@Override
 	public void onBackPressed() {
 		setResult(RESULT_OK, new Intent());
-		 super.onBackPressed();
+		super.onBackPressed();
 	}
 
 	@Override

@@ -688,24 +688,6 @@ public class MyApp extends Application {
 		editor.commit();
 	}
 
-	public String formatDateToString(Date date) {
-
-		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
-
-		String dateStr = formatter.format(date);
-		System.out.println(">><<><><><" + dateStr);
-		return dateStr;
-	}
-
-	public String formatDateToString2(Date date) {
-
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
-		String dateStr = formatter.format(date);
-		System.out.println(">><<><><><" + dateStr);
-		return dateStr;
-	}
-
 	public String formatDateToString3(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");

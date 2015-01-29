@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 
@@ -25,8 +26,14 @@ public class AccountDetailsActivity extends CRMActivity {
 
 	private void initThings() {
 		previousIntent = getIntent();
-		selectedAccount = myApp.getAccountList().get(
-				previousIntent.getIntExtra("position", 0));
+		if (previousIntent.hasExtra("account_dummy")) {
+			selectedAccount = new Gson().fromJson(
+					previousIntent.getStringExtra("account_dummy"),
+					Account.class);
+		} else {
+			selectedAccount = myApp.getAccountList().get(
+					previousIntent.getIntExtra("position", 0));
+		}
 	}
 
 	public void findThings() {
@@ -69,47 +76,50 @@ public class AccountDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
-//		System.out.println("country : " + selectedAccount.getCountry());
-//		System.out.println("lob : " + selectedAccount.getLob());
-//		System.out.println("sublob : " + selectedAccount.getSubLob()
-//				+ "   length :  " + selectedAccount.getSubLob().length());
-//		System.out.println("sector : " + selectedAccount.getSector());
+		// System.out.println("country : " + selectedAccount.getCountry());
+		// System.out.println("lob : " + selectedAccount.getLob());
+		// System.out.println("sublob : " + selectedAccount.getSubLob()
+		// + "   length :  " + selectedAccount.getSubLob().length());
+		// System.out.println("sector : " + selectedAccount.getSector());
+		if (previousIntent.hasExtra("account_dummy") && selectedAccount != null) {
+		} else {
+			accountName_TV.setText(selectedAccount.getName());
 
-		accountName_TV.setText(selectedAccount.getName());
+			Integer temp = myApp.getValueFromStringJSON(selectedAccount
+					.getCountry());
 
-		Integer temp = myApp.getValueFromStringJSON(selectedAccount
-				.getCountry());
-
-		if (temp != null) {
-			headquarterCountry_TV.setText(myApp.getCountryMap().get(
-					Integer.toString(temp.intValue())));
-		}
-		temp = myApp.getValueFromStringJSON(selectedAccount.getLob());
-		if (temp != null) {
-			lob_TV.setText(myApp.getLobMap().get(
-					Integer.toString(temp.intValue())));
-		}
-		temp = myApp.getValueFromStringJSON(selectedAccount.getSubLob());
-		if (temp != null) {
-			sublob_TV.setText(myApp.getSubLobMap().get(
-					Integer.toString(temp.intValue())));
-		}
-		temp = myApp.getValueFromStringJSON(selectedAccount.getSector());
-		if (temp != null) {
+			if (temp != null) {
+				headquarterCountry_TV.setText(myApp.getCountryMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(selectedAccount.getLob());
+			if (temp != null) {
+				lob_TV.setText(myApp.getLobMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(selectedAccount.getSubLob());
+			if (temp != null) {
+				sublob_TV.setText(myApp.getSubLobMap().get(
+						Integer.toString(temp.intValue())));
+			}
+			temp = myApp.getValueFromStringJSON(selectedAccount.getSector());
+			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
-		}
-		temp = myApp.getValueFromStringJSON(selectedAccount.getAccountCategory());
-		if (temp != null) {
+			}
+			temp = myApp.getValueFromStringJSON(selectedAccount
+					.getAccountCategory());
+			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
 						Integer.toString(temp.intValue())));
-		}
+			}
 
-		try {
-			leadPartner_TV.setText(new JSONObject(selectedAccount
-					.getLeadPartner()).getString("Name"));
-		} catch (JSONException e) {
-			e.printStackTrace();
+			try {
+				leadPartner_TV.setText(new JSONObject(selectedAccount
+						.getLeadPartner()).getString("Name"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -120,7 +130,12 @@ public class AccountDetailsActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Account", "Edit");
+
+		if (previousIntent.hasExtra("account_dummy")) {
+			initView("Account Created", null);
+		} else {
+			initView("Account", "Edit");
+		}
 	}
 
 	public void onRightButton(View view) {
@@ -140,7 +155,7 @@ public class AccountDetailsActivity extends CRMActivity {
 	@Override
 	public void onBackPressed() {
 		setResult(RESULT_OK, new Intent());
-		 super.onBackPressed();
+		super.onBackPressed();
 	}
 
 	@Override

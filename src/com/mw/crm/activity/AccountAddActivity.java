@@ -37,7 +37,6 @@ import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
-import com.mw.crm.model.Contact;
 
 public class AccountAddActivity extends CRMActivity {
 
@@ -55,6 +54,7 @@ public class AccountAddActivity extends CRMActivity {
 			leadPartner_RL, accountCategory_RL;
 
 	Intent previousIntent, nextIntent;
+	Account tempAccount;
 
 	RequestQueue queue;
 
@@ -131,8 +131,6 @@ public class AccountAddActivity extends CRMActivity {
 		clientName_ET.setTypeface(myApp.getTypefaceRegularSans());
 
 	}
-
-	Account tempAccount;
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
@@ -471,7 +469,10 @@ public class AccountAddActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			int positionItem = data.getIntExtra("position_item", 0);
+			int positionItem = 0;
+			if (data!= null) {
+				positionItem = data.getIntExtra("position_item", 0);
+			}
 			if (requestCode == MyApp.SEARCH_SECTOR) {
 				List<String> list = new ArrayList<String>(sectorMap.values());
 				sector_TV.setText(list.get(positionItem));
@@ -498,6 +499,10 @@ public class AccountAddActivity extends CRMActivity {
 				selectedLeadPartner = positionItem;
 				System.out.println("selectedLeadPartner  :  "
 						+ selectedLeadPartner);
+			}
+			if (requestCode == MyApp.DETAILS_ACCOUNT) {
+				setResult(RESULT_OK);
+				finish();
 			}
 		}
 
