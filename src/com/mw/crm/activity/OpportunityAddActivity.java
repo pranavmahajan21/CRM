@@ -49,16 +49,16 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
+	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV, oppoManagerLabel_TV,
 			probabilityLabel_TV, salesStageLabel_TV, countryLabel_TV,
 			lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
-	TextView clientName_TV, status_TV, probability_TV, salesStage_TV,
+	TextView clientName_TV, status_TV, oppoManager_TV, probability_TV, salesStage_TV,
 			country_TV, lob_TV, sublob_TV, sector_TV;
 
 	EditText description_ET;
 
-	RelativeLayout client_RL, status_RL, probability_RL, salesStage_RL;
+	RelativeLayout status_RL, oppoManager_RL, probability_RL, salesStage_RL;
 
 	boolean pickerVisibility = false;
 	// NumberPicker picker;
@@ -67,15 +67,19 @@ public class OpportunityAddActivity extends CRMActivity {
 	Map<String, String> probabilityMap;
 	Map<String, String> salesStageMap;
 	Map<String, String> statusMap;
+	Map<String, String> userMap;
 
 	Intent previousIntent, nextIntent;
+
+	int selectedClientName = -1, selectedStatus = -1, selectedOppoManager = -1,
+			selectedProbability = -1, selectedSalesStage = -1;
 
 	RequestQueue queue;
 
 	private BroadcastReceiver opportunityReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			registerForContextMenu(client_RL);
+			// registerForContextMenu(client_RL);
 		}
 	};
 
@@ -87,6 +91,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		probabilityMap = myApp.getProbabilityMap();
 		salesStageMap = myApp.getSalesStageMap();
 		statusMap = myApp.getStatusMap();
+		userMap = myApp.getUserMap();
 
 		queue = Volley.newRequestQueue(this);
 	}
@@ -97,6 +102,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
 		descriptionLabel_TV = (TextView) findViewById(R.id.description_TV);
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
+		oppoManagerLabel_TV= (TextView) findViewById(R.id.oppoManagerLabel_TV);
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
 		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
 		countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
@@ -106,6 +112,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
 		status_TV = (TextView) findViewById(R.id.status_TV);
+		oppoManager_TV= (TextView) findViewById(R.id.oppoManager_TV);
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
 		country_TV = (TextView) findViewById(R.id.country_TV);
@@ -115,8 +122,8 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		description_ET = (EditText) findViewById(R.id.description_ET);
 
-		client_RL = (RelativeLayout) findViewById(R.id.client_RL);
 		status_RL = (RelativeLayout) findViewById(R.id.status_RL);
+		oppoManager_RL = (RelativeLayout) findViewById(R.id.oppoManager_RL);
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
 		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
 
@@ -170,7 +177,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		registerForContextMenu(client_RL);
+		// registerForContextMenu(client_RL);
 		registerForContextMenu(status_RL);
 		registerForContextMenu(probability_RL);
 		registerForContextMenu(salesStage_RL);
@@ -209,10 +216,13 @@ public class OpportunityAddActivity extends CRMActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getGroupId() == 0) {
 			status_TV.setText(item.getTitle());
+			selectedStatus = item.getOrder();
 		} else if (item.getGroupId() == 1) {
 			probability_TV.setText(item.getTitle());
+			selectedProbability = item.getOrder();
 		} else if (item.getGroupId() == 2) {
 			salesStage_TV.setText(item.getTitle());
+			selectedSalesStage = item.getOrder();
 		}
 		return super.onContextItemSelected(item);
 
@@ -230,11 +240,19 @@ public class OpportunityAddActivity extends CRMActivity {
 			System.out.println("URL : " + url);
 
 			JSONObject params = new JSONObject();
-			params.put("Name", "Hello World")
+			params.put("Name",
+					MyApp.encryptData(clientName_TV.getText().toString()))
 					.put("CstId", "da7bb1a7-8095-e411-96e8-5cf3fc3f502a")
-					.put("KPMGStatus", "798330000")
+					.put("KPMGStatus",
+							new ArrayList<String>(statusMap.keySet())
+									.get(selectedStatus))
 					.put("Oid", "401a5d5f-9a8a-e411-96e8-5cf3fc3f502a")
-					.put("salesstagecodes", "1").put("probabilty", "1");
+					.put("salesstagecodes",
+							new ArrayList<String>(salesStageMap.keySet())
+									.get(selectedSalesStage))
+					.put("probabilty",
+							new ArrayList<String>(probabilityMap.keySet())
+									.get(selectedProbability));
 
 			params = MyApp.addParamToJson(params);
 
@@ -307,7 +325,10 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.client_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_OPPORTUNITY);
+			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			break;
+		case R.id.oppoManager_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		default:
 			break;
@@ -320,55 +341,56 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			int positionItem = data.getIntExtra("position_item", 0);
-			if (requestCode == MyApp.SEARCH_OPPORTUNITY) {
-				List<Opportunity> opportunityList = myApp.getOpportunityList();
-
-				// try {
-				// clientName_TV.setText(new JSONObject(opportunityList.get(
-				// positionItem).getCustomerId()).getString("Name"));
-				// } catch (JSONException e) {
-				// e.printStackTrace();
-				// }
-
-				clientName_TV.setText(myApp
-						.getStringNameFromStringJSON(opportunityList.get(
-								positionItem).getCustomerId()));
+			selectedClientName = positionItem;
+			if (requestCode == MyApp.SEARCH_ACCOUNT) {
 
 				Account tempAccount = null;
-				tempAccount = myApp.getAccountById(myApp
-						.getStringIdFromStringJSON(opportunityList.get(
-								positionItem).getCustomerId()));
+				tempAccount = myApp.getAccountList().get(positionItem);
 				if (tempAccount != null) {
+					clientName_TV.setText(tempAccount.getName());
 					Integer temp = myApp.getValueFromStringJSON(tempAccount
 							.getCountry());
 					if (temp != null) {
 						country_TV.setText(myApp.getCountryMap().get(
 								Integer.toString(temp.intValue())));
+					} else {
+						country_TV.setText("");
 					}
 					temp = myApp.getValueFromStringJSON(tempAccount.getLob());
 					if (temp != null) {
 						lob_TV.setText(myApp.getLobMap().get(
 								Integer.toString(temp.intValue())));
+					} else {
+						lob_TV.setText("");
 					}
 					temp = myApp
 							.getValueFromStringJSON(tempAccount.getSubLob());
 					if (temp != null) {
 						sublob_TV.setText(myApp.getSubLobMap().get(
 								Integer.toString(temp.intValue())));
+					} else {
+						sublob_TV.setText("");
 					}
 					temp = myApp
 							.getValueFromStringJSON(tempAccount.getSector());
 					if (temp != null) {
 						sector_TV.setText(myApp.getSectorMap().get(
 								Integer.toString(temp.intValue())));
+					} else {
+						sector_TV.setText("");
 					}
 				} else {
 					Toast.makeText(this, "Account not found",
 							Toast.LENGTH_SHORT).show();
 
 				}
+			}//if (requestCode == MyApp.SEARCH_ACCOUNT)
+			if (requestCode == MyApp.SEARCH_USER) {
+				List<String> list = new ArrayList<String>(userMap.values());
+				oppoManager_TV.setText(list.get(positionItem));
+				
+				selectedOppoManager = positionItem;
 			}
 		}
-
 	}
 }

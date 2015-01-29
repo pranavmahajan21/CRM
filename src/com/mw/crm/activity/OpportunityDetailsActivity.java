@@ -20,11 +20,11 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	TextView oppoManagerLabel_TV, probabilityLabel_TV, statusLabel_TV,
 			salesStageLabel_TV, clientNameLabel_TV, countryLabel_TV,
-			 lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
+			lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
 
 	TextView oppoName_TV, oppoManager_TV, probability_TV, status_TV,
-			salesStage_TV, clientName_TV, country_TV,  lob_TV,
-			sublob_TV, sector_TV;
+			salesStage_TV, clientName_TV, country_TV, lob_TV, sublob_TV,
+			sector_TV;
 
 	private void initThings() {
 		myApp.getAccountList();
@@ -86,8 +86,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
-		// oppoName_TV.setText(selectedOpportunity.get);
-		// oppoManager_TV.setText(selectedOpportunity.get);
+		 oppoName_TV.setText(selectedOpportunity.getName());
+		 oppoManager_TV.setText(myApp.getStringNameFromStringJSON(selectedOpportunity.getOwnerId()));
 
 		try {
 			probability_TV.setText(myApp.getProbabilityMap().get(
@@ -103,7 +103,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			e.printStackTrace();
 		}
 
-		clientName_TV.setText(selectedOpportunity.getCustomerId());
+		clientName_TV.setText(myApp.getStringNameFromStringJSON(selectedOpportunity.getCustomerId()));
 
 		Account tempAccount = null;
 		try {

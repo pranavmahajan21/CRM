@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.SearchListAdapter;
@@ -64,7 +65,8 @@ public class SearchActivity extends Activity {
 			searchMap = myApp.getUserMap();
 			break;
 		case MyApp.SEARCH_ACCOUNT:
-			List<Account> accountList = myApp.getAccountList();
+			accountList = myApp.getAccountList();
+			Toast.makeText(this, accountList.size()+"", Toast.LENGTH_SHORT).show();
 			stringList = new ArrayList<String>();
 			for (int i = 0; i < accountList.size(); i++) {
 				stringList.add(accountList.get(i).getName());

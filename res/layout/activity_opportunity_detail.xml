@@ -27,7 +27,7 @@
                 android:id="@+id/oppoName_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contact Name"
+                android:text="Oppo Name"
                 android:textColor="@color/blue_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
