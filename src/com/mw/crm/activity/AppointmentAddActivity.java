@@ -147,7 +147,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
 
-			Integer temp = myApp.getValueFromStringJSON(tempAppointment
+			Integer temp = myApp.getIntValueFromStringJSON(tempAppointment
 					.getTypeOfMeeting());
 			if (temp != null) {
 				interactionType_TV.setText(myApp.getInteractionTypeMap().get(

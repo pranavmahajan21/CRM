@@ -1105,7 +1105,7 @@ public class MyApp extends Application {
 		return 0;
 	}
 
-	public Integer getValueFromStringJSON(String x) {
+	public Integer getIntValueFromStringJSON(String x) {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
 			return new JSONObject(x).getInt("Value");

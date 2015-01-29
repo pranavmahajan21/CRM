@@ -1,8 +1,5 @@
 package com.mw.crm.activity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -87,53 +84,80 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
-		 oppoName_TV.setText(selectedOpportunity.getName());
-		 oppoManager_TV.setText(myApp.getStringNameFromStringJSON(selectedOpportunity.getOwnerId()));
+		oppoName_TV.setText(selectedOpportunity.getName());
+		oppoManager_TV.setText(myApp
+				.getStringNameFromStringJSON(selectedOpportunity.getOwnerId()));
 
-		try {
-			probability_TV.setText(myApp.getProbabilityMap().get(
-					Integer.toString(new JSONObject(selectedOpportunity
-							.getProbability()).getInt("Value"))));
+		Integer temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+				.getKpmgStatus());
+		if (temp2 != null) {
 			status_TV.setText(myApp.getStatusMap().get(
-					Integer.toString(new JSONObject(selectedOpportunity
-							.getKpmgStatus()).getInt("Value"))));
+					Integer.toString(temp2.intValue())));
+			temp2 = null;
+		}
+		temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+				.getProbability());
+		if (temp2 != null) {
+			probability_TV.setText(myApp.getProbabilityMap().get(
+					Integer.toString(temp2.intValue())));
+			temp2 = null;
+		}
+
+		temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+				.getSalesStage());
+		if (temp2 != null) {
 			salesStage_TV.setText(myApp.getSalesStageMap().get(
-					Integer.toString(new JSONObject(selectedOpportunity
-							.getSalesStage()).getInt("Value"))));
-		} catch (JSONException e) {
-			e.printStackTrace();
+					Integer.toString(temp2.intValue())));
+			temp2 = null;
 		}
 
-		clientName_TV.setText(myApp.getStringNameFromStringJSON(selectedOpportunity.getCustomerId()));
+		// try {
+		// probability_TV.setText(myApp.getProbabilityMap().get(
+		// Integer.toString(new JSONObject(selectedOpportunity
+		// .getProbability()).getInt("Value"))));
+		// status_TV.setText(myApp.getStatusMap().get(
+		// Integer.toString(new JSONObject(selectedOpportunity
+		// .getKpmgStatus()).getInt("Value"))));
+		// salesStage_TV.setText(myApp.getSalesStageMap().get(
+		// Integer.toString(new JSONObject(selectedOpportunity
+		// .getSalesStage()).getInt("Value"))));
+		// } catch (JSONException e) {
+		// e.printStackTrace();
+		// }
 
-		Account tempAccount = null;
-		try {
-			tempAccount = myApp.getAccountById(new JSONObject(
-					selectedOpportunity.getCustomerId()).getString("Id"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		clientName_TV.setText(myApp
+				.getStringNameFromStringJSON(selectedOpportunity
+						.getCustomerId()));
+
+		Account tempAccount = myApp
+				.getAccountById(myApp
+						.getStringIdFromStringJSON(selectedOpportunity
+								.getCustomerId()));
 		if (tempAccount != null) {
-			Integer temp = myApp.getValueFromStringJSON(tempAccount
+			Integer temp = myApp.getIntValueFromStringJSON(tempAccount
 					.getCountry());
 			if (temp != null) {
 				country_TV.setText(myApp.getCountryMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount.getLob());
+			temp = myApp.getIntValueFromStringJSON(tempAccount.getLob());
 			if (temp != null) {
 				lob_TV.setText(myApp.getLobMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount.getSubLob());
+			temp = myApp.getIntValueFromStringJSON(tempAccount.getSubLob());
 			if (temp != null) {
 				sublob_TV.setText(myApp.getSubLobMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount.getSector());
+			temp = myApp.getIntValueFromStringJSON(tempAccount.getSector());
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
 		} else {
 			Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
@@ -160,7 +184,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		nextIntent.putExtra("is_edit_mode", true);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
-	
+
 	@Override
 	public void onBack(View view) {
 		setResult(RESULT_OK);
@@ -170,7 +194,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	@Override
 	public void onBackPressed() {
 		setResult(RESULT_OK, new Intent());
-		 super.onBackPressed();
+		super.onBackPressed();
 	}
 
 	@Override

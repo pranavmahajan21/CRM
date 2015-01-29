@@ -62,8 +62,6 @@ public class ContactAddActivity extends CRMActivity {
 
 	Contact tempContact;
 
-//	boolean pickerVisibility = false;
-
 	Intent previousIntent, nextIntent;
 
 	int selectedDOR = -1, selectedInternalConnect = -1,
@@ -162,7 +160,7 @@ public class ContactAddActivity extends CRMActivity {
 			firstName_ET.setText(tempContact.getFirstName());
 			lastName_ET.setText(tempContact.getLastName());
 
-			Integer temp = myApp.getValueFromStringJSON(tempContact
+			Integer temp = myApp.getIntValueFromStringJSON(tempContact
 					.getDegreeOfRelation());
 			if (temp != null) {
 				dor_TV.setText(myApp.getDorMap().get(

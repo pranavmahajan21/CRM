@@ -63,8 +63,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	RelativeLayout status_RL, oppoManager_RL, probability_RL, salesStage_RL;
 
-	boolean pickerVisibility = false;
-	// NumberPicker picker;
+	Opportunity tempOpportunity;
 
 	Map<String, String> lobMap;
 	Map<String, String> probabilityMap;
@@ -153,12 +152,93 @@ public class OpportunityAddActivity extends CRMActivity {
 		setTypeface();
 
 		if (previousIntent.hasExtra("position")) {
-			Opportunity tempOpportunity = myApp.getOpportunityList().get(
+			tempOpportunity = myApp.getOpportunityList().get(
 					previousIntent.getIntExtra("position", 0));
 
 			System.out.println(tempOpportunity.toString());
 
-			description_ET.setText(tempOpportunity.getCustomerId());
+			// description_ET.setText(tempOpportunity.getCustomerId());
+
+			Integer temp = myApp.getIntValueFromStringJSON(tempOpportunity
+					.getKpmgStatus());
+			if (temp != null) {
+				status_TV.setText(myApp.getStatusMap().get(
+						Integer.toString(temp.intValue())));
+				selectedStatus = myApp.getIndexFromKeyStatusMap(Integer
+						.toString(temp.intValue()));
+				temp = null;
+			}
+
+			temp = myApp.getIntValueFromStringJSON(tempOpportunity
+					.getProbability());
+			if (temp != null) {
+				probability_TV.setText(myApp.getProbabilityMap().get(
+						Integer.toString(temp.intValue())));
+				selectedProbability = myApp
+						.getIndexFromKeyProbabilityMap(Integer.toString(temp
+								.intValue()));
+				temp = null;
+			}
+
+			temp = myApp.getIntValueFromStringJSON(tempOpportunity
+					.getProbability());
+			if (temp != null) {
+				salesStage_TV.setText(myApp.getSalesStageMap().get(
+						Integer.toString(temp.intValue())));
+				selectedSalesStage = myApp.getIndexFromKeySalesMap(Integer
+						.toString(temp.intValue()));
+				temp = null;
+			}
+
+			oppoManager_TV.setText(myApp
+					.getStringNameFromStringJSON(tempOpportunity.getOwnerId()));
+			selectedOppoManager = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempOpportunity.getOwnerId()));
+
+			clientName_TV.setText(myApp
+					.getStringNameFromStringJSON(tempOpportunity
+							.getCustomerId()));
+			Account tempAccount = myApp
+					.getAccountById(myApp
+							.getStringIdFromStringJSON(tempOpportunity
+									.getCustomerId()));
+			if (tempAccount != null) {
+				selectedClientName = myApp.getIndexFromAccountList(tempAccount.getAccountId());
+				Integer temp2 = myApp.getIntValueFromStringJSON(tempAccount
+						.getCountry());
+				if (temp2 != null) {
+					country_TV.setText(myApp.getCountryMap().get(
+							Integer.toString(temp2.intValue())));
+					temp2 = null;
+				}
+				temp2 = myApp.getIntValueFromStringJSON(tempAccount.getLob());
+				if (temp2 != null) {
+					lob_TV.setText(myApp.getLobMap().get(
+							Integer.toString(temp2.intValue())));
+					temp2 = null;
+				}
+				temp2 = myApp.getIntValueFromStringJSON(tempAccount.getSubLob());
+				if (temp2 != null) {
+					sublob_TV.setText(myApp.getSubLobMap().get(
+							Integer.toString(temp2.intValue())));
+					temp2 = null;
+				}
+				temp2 = myApp.getIntValueFromStringJSON(tempAccount.getSector());
+				if (temp2 != null) {
+					sector_TV.setText(myApp.getSectorMap().get(
+							Integer.toString(temp2.intValue())));
+					temp2 = null;
+				}
+			} else {
+				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
+						.show();
+			}
+			
+			System.out.println("selectedClientName  : " + selectedClientName
+					+ "\nselectedStatus  : " + selectedStatus
+					+ "\nselectedOppoManager  : " + selectedOppoManager
+					+ "\nselectedProbability  : " + selectedProbability
+					+ "\nselectedSalesStage  : " + selectedSalesStage);
 		}
 
 	}
@@ -428,14 +508,14 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			int positionItem = data.getIntExtra("position_item", 0);
-			selectedClientName = positionItem;
 			if (requestCode == MyApp.SEARCH_ACCOUNT) {
+				selectedClientName = positionItem;
 
 				Account tempAccount = null;
 				tempAccount = myApp.getAccountList().get(positionItem);
 				if (tempAccount != null) {
 					clientName_TV.setText(tempAccount.getName());
-					Integer temp = myApp.getValueFromStringJSON(tempAccount
+					Integer temp = myApp.getIntValueFromStringJSON(tempAccount
 							.getCountry());
 					if (temp != null) {
 						country_TV.setText(myApp.getCountryMap().get(
@@ -443,23 +523,24 @@ public class OpportunityAddActivity extends CRMActivity {
 					} else {
 						country_TV.setText("");
 					}
-					temp = myApp.getValueFromStringJSON(tempAccount.getLob());
+					temp = myApp
+							.getIntValueFromStringJSON(tempAccount.getLob());
 					if (temp != null) {
 						lob_TV.setText(myApp.getLobMap().get(
 								Integer.toString(temp.intValue())));
 					} else {
 						lob_TV.setText("");
 					}
-					temp = myApp
-							.getValueFromStringJSON(tempAccount.getSubLob());
+					temp = myApp.getIntValueFromStringJSON(tempAccount
+							.getSubLob());
 					if (temp != null) {
 						sublob_TV.setText(myApp.getSubLobMap().get(
 								Integer.toString(temp.intValue())));
 					} else {
 						sublob_TV.setText("");
 					}
-					temp = myApp
-							.getValueFromStringJSON(tempAccount.getSector());
+					temp = myApp.getIntValueFromStringJSON(tempAccount
+							.getSector());
 					if (temp != null) {
 						sector_TV.setText(myApp.getSectorMap().get(
 								Integer.toString(temp.intValue())));

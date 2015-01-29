@@ -68,7 +68,7 @@ public class AccountAdapter extends BaseAdapter {
 
 		Account tempAccount = accountList.get(position);
 		viewHolder.nameTV.setText(tempAccount.getName());
-		Integer temp = myApp.getValueFromStringJSON(tempAccount.getCountry());
+		Integer temp = myApp.getIntValueFromStringJSON(tempAccount.getCountry());
 
 		if (temp != null) {
 			// headquarterCountry_TV.setText(myApp.getCountryMap().get(

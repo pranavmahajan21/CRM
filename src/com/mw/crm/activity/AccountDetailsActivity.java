@@ -76,38 +76,40 @@ public class AccountDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
-		// System.out.println("country : " + selectedAccount.getCountry());
-		// System.out.println("lob : " + selectedAccount.getLob());
-		// System.out.println("sublob : " + selectedAccount.getSubLob()
-		// + "   length :  " + selectedAccount.getSubLob().length());
-		// System.out.println("sector : " + selectedAccount.getSector());
 		if (previousIntent.hasExtra("account_dummy") && selectedAccount != null) {
+			accountName_TV.setText(selectedAccount.getName());
+			headquarterCountry_TV.setText(selectedAccount.getCountry());
+			lob_TV.setText(selectedAccount.getLob());
+			sublob_TV.setText(selectedAccount.getSubLob());
+			sector_TV.setText(selectedAccount.getSector());
+			accountCategory_TV.setText(selectedAccount.getAccountCategory());
+			leadPartner_TV.setText(selectedAccount.getLeadPartner());
 		} else {
 			accountName_TV.setText(selectedAccount.getName());
 
-			Integer temp = myApp.getValueFromStringJSON(selectedAccount
+			Integer temp = myApp.getIntValueFromStringJSON(selectedAccount
 					.getCountry());
 
 			if (temp != null) {
 				headquarterCountry_TV.setText(myApp.getCountryMap().get(
 						Integer.toString(temp.intValue())));
 			}
-			temp = myApp.getValueFromStringJSON(selectedAccount.getLob());
+			temp = myApp.getIntValueFromStringJSON(selectedAccount.getLob());
 			if (temp != null) {
 				lob_TV.setText(myApp.getLobMap().get(
 						Integer.toString(temp.intValue())));
 			}
-			temp = myApp.getValueFromStringJSON(selectedAccount.getSubLob());
+			temp = myApp.getIntValueFromStringJSON(selectedAccount.getSubLob());
 			if (temp != null) {
 				sublob_TV.setText(myApp.getSubLobMap().get(
 						Integer.toString(temp.intValue())));
 			}
-			temp = myApp.getValueFromStringJSON(selectedAccount.getSector());
+			temp = myApp.getIntValueFromStringJSON(selectedAccount.getSector());
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
 			}
-			temp = myApp.getValueFromStringJSON(selectedAccount
+			temp = myApp.getIntValueFromStringJSON(selectedAccount
 					.getAccountCategory());
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(

@@ -12,8 +12,6 @@ import com.mw.crm.model.Contact;
 
 public class ContactDetailsActivity extends CRMActivity {
 
-	// MyApp myApp; will be inherited from CRMActivity
-
 	Intent nextIntent, previousIntent;
 	Contact selectedContact;
 
@@ -105,7 +103,7 @@ public class ContactDetailsActivity extends CRMActivity {
 					.getStringNameFromStringJSON(selectedContact
 							.getInternalConnect()));
 
-			Integer temp = myApp.getValueFromStringJSON(selectedContact
+			Integer temp = myApp.getIntValueFromStringJSON(selectedContact
 					.getDegreeOfRelation());
 
 			if (temp != null) {

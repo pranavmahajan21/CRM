@@ -142,7 +142,7 @@ public class AccountAddActivity extends CRMActivity {
 
 			clientName_ET.setText(tempAccount.getName());
 
-			Integer temp = myApp.getValueFromStringJSON(tempAccount
+			Integer temp = myApp.getIntValueFromStringJSON(tempAccount
 					.getCountry());
 
 			if (temp != null) {
@@ -151,28 +151,28 @@ public class AccountAddActivity extends CRMActivity {
 				selectedCountry = myApp.getIndexFromKeyCountryMap(Integer
 						.toString(temp.intValue()));
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount.getLob());
+			temp = myApp.getIntValueFromStringJSON(tempAccount.getLob());
 			if (temp != null) {
 				lob_TV.setText(myApp.getLobMap().get(
 						Integer.toString(temp.intValue())));
 				selectedLob = myApp.getIndexFromKeyLobMap(Integer.toString(temp
 						.intValue()));
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount.getSubLob());
+			temp = myApp.getIntValueFromStringJSON(tempAccount.getSubLob());
 			if (temp != null) {
 				sublob_TV.setText(myApp.getSubLobMap().get(
 						Integer.toString(temp.intValue())));
 				selectedSubLob = myApp.getIndexFromKeySubLobMap(Integer
 						.toString(temp.intValue()));
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount.getSector());
+			temp = myApp.getIntValueFromStringJSON(tempAccount.getSector());
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
 				selectedSector = myApp.getIndexFromKeySectorMap(Integer
 						.toString(temp.intValue()));
 			}
-			temp = myApp.getValueFromStringJSON(tempAccount
+			temp = myApp.getIntValueFromStringJSON(tempAccount
 					.getAccountCategory());
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
@@ -322,7 +322,7 @@ public class AccountAddActivity extends CRMActivity {
 
 		params = MyApp.addParamToJson(params);
 		System.out.println("json" + params);
-
+		progressDialog.show();
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/
