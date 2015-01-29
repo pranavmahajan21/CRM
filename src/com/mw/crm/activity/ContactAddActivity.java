@@ -101,9 +101,6 @@ public class ContactAddActivity extends CRMActivity {
 		queue = Volley.newRequestQueue(this);
 
 		createDialog = new CreateDialog(this);
-		// progressDialog =
-		// myApp.getCreateDialog().createProgressDialog("Saving Changes",
-		// "This may take some time", true, null);
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
 	}
@@ -174,9 +171,9 @@ public class ContactAddActivity extends CRMActivity {
 			if (temp != null) {
 				dor_TV.setText(myApp.getDorMap().get(
 						Integer.toString(temp.intValue())));
+				selectedDOR = myApp.getIndexFromKeyDORMap(Integer.toString(temp
+						.intValue()));
 			}
-			selectedDOR = myApp.getIndexFromKeyDORMap(Integer.toString(temp
-					.intValue()));
 
 			internalConnect_TV.setText(myApp
 					.getStringNameFromStringJSON(tempContact
@@ -352,8 +349,6 @@ public class ContactAddActivity extends CRMActivity {
 			/** Update Mode **/
 			String url = MyApp.URL + MyApp.CONTACTS_UPDATE;
 			try {
-				// :"3e4669b1-77a1-e411-96e8-5cf3fc3f502a"
-				// String url = MyApp.URL + MyApp.CONTACTS_ADD;
 				params.put("conid", tempContact.getContactId());
 
 				System.out.println("URL : " + url);

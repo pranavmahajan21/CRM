@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -32,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 
@@ -54,6 +56,10 @@ public class AccountAddActivity extends CRMActivity {
 
 	RequestQueue queue;
 
+	int selectedSector = -1, selectedCountry = -1, selectedLob = -1,
+			selectedSubLob = -1, selectedLeadPartner = -1,
+			selectedAccountCategory = -1;
+
 	Map<String, String> sectorMap;
 	Map<String, String> countryMap;
 	Map<String, String> lobMap;
@@ -61,12 +67,26 @@ public class AccountAddActivity extends CRMActivity {
 	Map<String, String> accountCategoryMap;
 	Map<String, String> userMap;
 
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
 
+		sectorMap = myApp.getSectorMap();
+		countryMap = myApp.getCountryMap();
+		lobMap = myApp.getLobMap();
+		subLobMap = myApp.getSubLobMap();
+		accountCategoryMap = myApp.getAccountCategoryMap();
+		userMap = myApp.getUserMap();
+
 		if (previousIntent.hasExtra("position")) {
 		}
+
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Saving Changes",
+				"This may take some time", true, null);
 
 		queue = Volley.newRequestQueue(this);
 	}
@@ -110,12 +130,14 @@ public class AccountAddActivity extends CRMActivity {
 
 	}
 
+	Account tempAccount;
+
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
 
 		if (previousIntent.hasExtra("position")) {
-			Account tempAccount = myApp.getAccountList().get(
+			tempAccount = myApp.getAccountList().get(
 					previousIntent.getIntExtra("position", 0));
 
 			clientName_ET.setText(tempAccount.getName());
@@ -126,35 +148,53 @@ public class AccountAddActivity extends CRMActivity {
 			if (temp != null) {
 				headquarter_TV.setText(myApp.getCountryMap().get(
 						Integer.toString(temp.intValue())));
+				selectedCountry = myApp.getIndexFromKeyCountryMap(Integer
+						.toString(temp.intValue()));
 			}
 			temp = myApp.getValueFromStringJSON(tempAccount.getLob());
 			if (temp != null) {
 				lob_TV.setText(myApp.getLobMap().get(
 						Integer.toString(temp.intValue())));
+				selectedLob = myApp.getIndexFromKeyLobMap(Integer.toString(temp
+						.intValue()));
 			}
 			temp = myApp.getValueFromStringJSON(tempAccount.getSubLob());
 			if (temp != null) {
 				sublob_TV.setText(myApp.getSubLobMap().get(
 						Integer.toString(temp.intValue())));
+				selectedSubLob = myApp.getIndexFromKeySubLobMap(Integer
+						.toString(temp.intValue()));
 			}
 			temp = myApp.getValueFromStringJSON(tempAccount.getSector());
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
+				selectedSector = myApp.getIndexFromKeySectorMap(Integer
+						.toString(temp.intValue()));
 			}
 			temp = myApp.getValueFromStringJSON(tempAccount
 					.getAccountCategory());
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
 						Integer.toString(temp.intValue())));
+				selectedAccountCategory = myApp.getIndexFromKeyDORMap(Integer
+						.toString(temp.intValue()));
 			}
 
-			try {
-				leadPartner_TV.setText(new JSONObject(tempAccount
-						.getLeadPartner()).getString("Name"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			leadPartner_TV.setText(myApp
+					.getStringNameFromStringJSON(tempAccount.getLeadPartner()));
+			selectedLeadPartner = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempAccount.getLeadPartner()));
+
+			System.out
+					.println("selectedSector  : " + selectedSector
+							+ "\nselectedCountry  : " + selectedCountry
+							+ "\nselectedLob  : " + selectedLob
+							+ "\nselectedSubLob  : " + selectedSubLob
+							+ "\nselectedLeadPartner  : " + selectedLeadPartner
+							+ "\nselectedAccountCategory  : "
+							+ selectedAccountCategory);
+
 		}
 	}
 
@@ -282,8 +322,10 @@ public class AccountAddActivity extends CRMActivity {
 		// }
 
 		if (item.getGroupId() == 0) {
+			selectedLob = item.getOrder();
 			lob_TV.setText(item.getTitle());
 		} else if (item.getGroupId() == 1) {
+			selectedAccountCategory = item.getOrder();
 			accountCategory_TV.setText(item.getTitle());
 		}
 		return super.onContextItemSelected(item);
@@ -295,63 +337,130 @@ public class AccountAddActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
+		JSONObject params = new JSONObject();
+
 		try {
+			params.put("Name",
+					MyApp.encryptData(clientName_ET.getText().toString()))
+					.put("sectors",
+							new ArrayList<String>(sectorMap.keySet())
+									.get(selectedSector))
+					.put("cty",
+							new ArrayList<String>(countryMap.keySet())
+									.get(selectedCountry))
+					.put("lobusiness",
+							new ArrayList<String>(lobMap.keySet())
+									.get(selectedLob))
+					.put("slob",
+							new ArrayList<String>(subLobMap.keySet())
+									.get(selectedSubLob))
+					.put("leadpartner",
+							new ArrayList<String>(userMap.keySet())
+									.get(selectedLeadPartner))
+					.put("accountCategoryOnes",
+							new ArrayList<String>(accountCategoryMap.keySet())
+									.get(selectedAccountCategory));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
 
+		params = MyApp.addParamToJson(params);
+		System.out.println("json" + params);
+
+		if (previousIntent.hasExtra("is_edit_mode")
+				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+			/** Update Mode **/
+			String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
+
+			try {
+				params.put("accid", tempAccount.getAccountId());
+
+				System.out.println("URL : " + url);
+
+				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+						Method.POST, url, params,
+						new Response.Listener<JSONObject>() {
+
+							@Override
+							public void onResponse(JSONObject response) {
+								System.out.println("length2" + response);
+								progressDialog.hide();
+							}
+						}, new Response.ErrorListener() {
+
+							@Override
+							public void onErrorResponse(VolleyError error) {
+								progressDialog.hide();
+								System.out.println("ERROR  : "
+										+ error.getMessage());
+								error.printStackTrace();
+
+								if (error instanceof NetworkError) {
+									System.out.println("NetworkError");
+								}
+								if (error instanceof NoConnectionError) {
+									System.out
+											.println("NoConnectionError you are now offline.");
+								}
+								if (error instanceof ServerError) {
+									System.out.println("ServerError");
+								}
+							}
+						});
+
+				RetryPolicy policy = new DefaultRetryPolicy(30000,
+						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+				jsonArrayRequest.setRetryPolicy(policy);
+				queue.add(jsonArrayRequest);
+			} catch (Exception e) {
+				e.printStackTrace();
+				progressDialog.hide();
+			}
+		} else {
+			/** Create Mode **/
 			String url = MyApp.URL + MyApp.ACCOUNTS_ADD;
+			try {
+				System.out.println("URL : " + url);
 
-			System.out.println("URL : " + url);
+				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+						Method.POST, url, params,
+						new Response.Listener<JSONObject>() {
 
-			System.out.println("Name  : " + MyApp.encryptData("Hello World"));
+							@Override
+							public void onResponse(JSONObject response) {
+								System.out.println("length2" + response);
 
-			JSONObject params = new JSONObject();
-
-			params.put("cty", "11001")
-					.put("leadpartner", "401a5d5f-9a8a-e411-96e8-5cf3fc3f502a")
-					.put("lobusiness", "798330000")
-					.put("Name",
-							MyApp.encryptData(clientName_ET.getText()
-									.toString())).put("sectors", "798330029")
-					.put("slob", "798330031").put("accountCategoryOnes", "1");
-
-			params = MyApp.addParamToJson(params);
-			System.out.println("json" + params);
-
-			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-					Method.POST, url, params,
-					new Response.Listener<JSONObject>() {
-
-						@Override
-						public void onResponse(JSONObject response) {
-							System.out.println("length2" + response);
-
-						}
-					}, new Response.ErrorListener() {
-
-						@Override
-						public void onErrorResponse(VolleyError error) {
-							System.out.println("ERROR  : " + error.getMessage());
-							error.printStackTrace();
-
-							if (error instanceof NetworkError) {
-								System.out.println("NetworkError");
 							}
-							if (error instanceof NoConnectionError) {
-								System.out
-										.println("NoConnectionError you are now offline.");
-							}
-							if (error instanceof ServerError) {
-								System.out.println("ServerError");
-							}
-						}
-					});
+						}, new Response.ErrorListener() {
 
-			RetryPolicy policy = new DefaultRetryPolicy(30000,
-					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-			jsonArrayRequest.setRetryPolicy(policy);
-			queue.add(jsonArrayRequest);
-		} catch (Exception e) {
-			e.printStackTrace();
+							@Override
+							public void onErrorResponse(VolleyError error) {
+								System.out.println("ERROR  : "
+										+ error.getMessage());
+								error.printStackTrace();
+
+								if (error instanceof NetworkError) {
+									System.out.println("NetworkError");
+								}
+								if (error instanceof NoConnectionError) {
+									System.out
+											.println("NoConnectionError you are now offline.");
+								}
+								if (error instanceof ServerError) {
+									System.out.println("ServerError");
+								}
+							}
+						});
+
+				RetryPolicy policy = new DefaultRetryPolicy(30000,
+						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+				jsonArrayRequest.setRetryPolicy(policy);
+				queue.add(jsonArrayRequest);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -391,25 +500,31 @@ public class AccountAddActivity extends CRMActivity {
 		if (resultCode == RESULT_OK) {
 			int positionItem = data.getIntExtra("position_item", 0);
 			if (requestCode == MyApp.SEARCH_SECTOR) {
-				sectorMap = myApp.getSectorMap();
 				List<String> list = new ArrayList<String>(sectorMap.values());
 				sector_TV.setText(list.get(positionItem));
+				selectedSector = positionItem;
+				System.out.println("selectedSector  :  " + selectedSector);
 			}
 			if (requestCode == MyApp.SEARCH_HQ_COUNTRY) {
-				countryMap = myApp.getCountryMap();
 				List<String> list = new ArrayList<String>(countryMap.values());
 				headquarter_TV.setText(list.get(positionItem));
+				selectedCountry = positionItem;
+				System.out.println("selectedCountry  :  " + selectedCountry);
 			}
 			if (requestCode == MyApp.SEARCH_SUB_LOB) {
-				subLobMap = myApp.getSubLobMap();
+				// subLobMap = myApp.getSubLobMap();
 				List<String> list = new ArrayList<String>(subLobMap.values());
-				System.out.println("asdsad  :  " + list.get(positionItem));
+				// System.out.println("asdsad  :  " + list.get(positionItem));
 				sublob_TV.setText(list.get(positionItem));
+				selectedSubLob = positionItem;
+				System.out.println("selectedSubLob  :  " + selectedSubLob);
 			}
 			if (requestCode == MyApp.SEARCH_USER) {
-				userMap = myApp.getUserMap();
 				List<String> list = new ArrayList<String>(userMap.values());
 				leadPartner_TV.setText(list.get(positionItem));
+				selectedLeadPartner = positionItem;
+				System.out.println("selectedLeadPartner  :  "
+						+ selectedLeadPartner);
 			}
 		}
 

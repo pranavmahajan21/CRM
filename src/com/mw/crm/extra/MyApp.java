@@ -978,11 +978,11 @@ public class MyApp extends Application {
 		return null;
 	}
 
-	public int getIndexFromAccountList(String key){
-//		 System.out.println("1111  " + key);
-		
+	public int getIndexFromAccountList(String key) {
+		// System.out.println("1111  " + key);
+
 		for (int i = 0; i < accountList.size(); i++) {
-//			 System.out.println("2222  " + accountList.get(i).getAccountId());
+			// System.out.println("2222  " + accountList.get(i).getAccountId());
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(key)) {
 				return i;
 			}
@@ -990,12 +990,9 @@ public class MyApp extends Application {
 		return 0;
 	}
 
-	
-	public int getIndexFromKeyUserMap(String key){
-		 System.out.println("1111  " + key);
-		List<String> aa = new ArrayList<String>(userMap.keySet());
+	public int getIndexFromKeyAccountMap(String key) {
+		List<String> aa = new ArrayList<String>(accountCategoryMap.keySet());
 		for (int i = 0; i < aa.size(); i++) {
-			 System.out.println("2222  " + aa.get(i));
 			if (aa.get(i).equalsIgnoreCase(key)) {
 				return i;
 			}
@@ -1003,8 +1000,19 @@ public class MyApp extends Application {
 		return 0;
 	}
 
-	
-	public int getIndexFromKeyDORMap(String key){
+	public int getIndexFromKeyCountryMap(String key) {
+		// System.out.println("1111  " + key);
+		List<String> aa = new ArrayList<String>(countryMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			// System.out.println("2222  " + aa.get(i));
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeyDORMap(String key) {
 		List<String> aa = new ArrayList<String>(dorMap.keySet());
 		for (int i = 0; i < aa.size(); i++) {
 			if (aa.get(i).equalsIgnoreCase(key)) {
@@ -1013,7 +1021,89 @@ public class MyApp extends Application {
 		}
 		return 0;
 	}
-	
+
+	public int getIndexFromKeyInteractionMap(String key) {
+		List<String> aa = new ArrayList<String>(interactionTypeMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeyLobMap(String key) {
+		List<String> aa = new ArrayList<String>(lobMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeyProbabilityMap(String key) {
+		List<String> aa = new ArrayList<String>(probabilityMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeySalesMap(String key) {
+		List<String> aa = new ArrayList<String>(salesStageMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeySectorMap(String key) {
+		List<String> aa = new ArrayList<String>(sectorMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeyStatusMap(String key) {
+		List<String> aa = new ArrayList<String>(statusMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeySubLobMap(String key) {
+		List<String> aa = new ArrayList<String>(subLobMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public int getIndexFromKeyUserMap(String key) {
+		// System.out.println("1111  " + key);
+		List<String> aa = new ArrayList<String>(userMap.keySet());
+		for (int i = 0; i < aa.size(); i++) {
+			// System.out.println("2222  " + aa.get(i));
+			if (aa.get(i).equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
 	public Integer getValueFromStringJSON(String x) {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
@@ -1033,7 +1123,7 @@ public class MyApp extends Application {
 			return null;
 		}
 	}
-	
+
 	public String getStringIdFromStringJSON(String x) {
 		System.out.println("getStringFromStringJSON  :  " + x);
 		try {
