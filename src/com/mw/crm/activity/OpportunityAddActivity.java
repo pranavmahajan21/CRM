@@ -38,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
@@ -80,7 +81,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
-	
+
 	private BroadcastReceiver opportunityReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -101,7 +102,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
-		
+
 		queue = Volley.newRequestQueue(this);
 	}
 
@@ -215,8 +216,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		if (v.getId() == R.id.salesStage_RL) {
 			List<String> list = new ArrayList<String>(salesStageMap.values());
 			for (int i = 0; i < list.size(); i++) {
-				menu.add(2, v.getId(), i, list.get(i));CreateDialog createDialog;
-				ProgressDialog progressDialog;
+				menu.add(2, v.getId(), i, list.get(i));
 			}
 
 		}
@@ -276,7 +276,6 @@ public class OpportunityAddActivity extends CRMActivity {
 			try {
 				System.out.println("URL : " + url);
 
-
 				System.out.println("json" + params);
 
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
@@ -286,8 +285,7 @@ public class OpportunityAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
-
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -326,7 +324,6 @@ public class OpportunityAddActivity extends CRMActivity {
 			try {
 				System.out.println("URL : " + url);
 
-
 				System.out.println("json" + params);
 
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
@@ -336,8 +333,7 @@ public class OpportunityAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
-
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -371,6 +367,21 @@ public class OpportunityAddActivity extends CRMActivity {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void onPositiveResponse() {
+		progressDialog.dismiss();
+
+		Opportunity aa = new Opportunity(oppoManager_TV.getText().toString(),
+				null, null, clientName_TV.getText().toString(), description_ET
+						.getText().toString(), status_TV.getText().toString(),
+				null, probability_TV.getText().toString(), salesStage_TV
+						.getText().toString());
+
+		nextIntent = new Intent(this, OpportunityDetailsActivity.class);
+		nextIntent.putExtra("opportunity_dummy",
+				new Gson().toJson(aa, Opportunity.class));
+		startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
 	}
 
 	@Override

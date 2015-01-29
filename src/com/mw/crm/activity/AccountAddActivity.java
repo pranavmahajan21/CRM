@@ -33,9 +33,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
+import com.mw.crm.model.Contact;
 
 public class AccountAddActivity extends CRMActivity {
 
@@ -177,8 +179,9 @@ public class AccountAddActivity extends CRMActivity {
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
 						Integer.toString(temp.intValue())));
-				selectedAccountCategory = myApp.getIndexFromKeyAccountMap(Integer
-						.toString(temp.intValue()));
+				selectedAccountCategory = myApp
+						.getIndexFromKeyAccountMap(Integer.toString(temp
+								.intValue()));
 			}
 
 			leadPartner_TV.setText(myApp
@@ -237,24 +240,6 @@ public class AccountAddActivity extends CRMActivity {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		// if (v.getId() == R.id.sector_RL) {
-		// sectorMap = myApp.getSectorMap();
-		//
-		// List<String> list = new ArrayList<String>(sectorMap.values());
-		// for (int i = 0; i < list.size(); i++) {
-		// menu.add(0, v.getId(), i, list.get(i));
-		// }
-		//
-		// }
-		// if (v.getId() == R.id.headquarter_RL) {
-		// countryMap = myApp.getCountryMap();
-		//
-		// List<String> list = new ArrayList<String>(countryMap.values());
-		// for (int i = 0; i < list.size(); i++) {
-		// menu.add(0, v.getId(), i, list.get(i));
-		// }
-		//
-		// }
 		if (v.getId() == R.id.lob_RL) {
 			lobMap = myApp.getLobMap();
 
@@ -264,34 +249,7 @@ public class AccountAddActivity extends CRMActivity {
 			}
 
 		}
-		// if (v.getId() == R.id.sublob_RL) {
-		// subLobMap = myApp.getSubLobMap();
-		//
-		// List<String> list = new ArrayList<String>(subLobMap.values());
-		// for (int i = 0; i < list.size(); i++) {
-		// menu.add(0, v.getId(), i, list.get(i));
-		// }
-		//
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Cosmetics-Toiletries");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Ele Goods-Household");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Furniture-furnishing");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Others");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Photographic Equipment");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Security Sys-Svcs");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Textiles-Clothing");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-CP-Toys-Games");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Agricltre-Fisheries");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Bevrgs/Drinks-Alghic");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Bvrg/Drinks-Non A/C");
-		// // menu.add(1, v.getId(), 0, "CIM-CM-FD-Food Production");
-		// }
 		if (v.getId() == R.id.leadPartner_RL) {
-			// countryMap = myApp.getCountryMap();
-			//
-			// List<String> list = new ArrayList<String>(countryMap.values());
-			// for (int i = 0; i < list.size(); i++) {
-			// menu.add(0, v.getId(), i, list.get(i));
-			// }
 
 		}
 		if (v.getId() == R.id.accountCategory_RL) {
@@ -384,7 +342,7 @@ public class AccountAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -430,7 +388,7 @@ public class AccountAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -492,6 +450,21 @@ public class AccountAddActivity extends CRMActivity {
 			break;
 		}
 
+	}
+
+	private void onPositiveResponse() {
+		progressDialog.dismiss();
+
+		Account aa = new Account(clientName_ET.getText().toString(), null,
+				headquarter_TV.getText().toString(), lob_TV.getText()
+						.toString(), sublob_TV.getText().toString(),
+				accountCategory_TV.getText().toString(), sector_TV.getText()
+						.toString(), leadPartner_TV.getText().toString());
+
+		nextIntent = new Intent(this, AccountDetailsActivity.class);
+		nextIntent.putExtra("account_dummy",
+				new Gson().toJson(aa, Account.class));
+		startActivityForResult(nextIntent, MyApp.DETAILS_ACCOUNT);
 	}
 
 	@Override

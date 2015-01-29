@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
+import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Contact;
 
 public class ContactDetailsActivity extends CRMActivity {
@@ -23,8 +25,14 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	private void initThings() {
 		previousIntent = getIntent();
-		selectedContact = myApp.getContactList().get(
-				previousIntent.getIntExtra("position", 0));
+		if (previousIntent.hasExtra("contact_dummy")) {
+			selectedContact = new Gson().fromJson(
+					previousIntent.getStringExtra("contact_dummy"),
+					Contact.class);
+		} else {
+			selectedContact = myApp.getContactList().get(
+					previousIntent.getIntExtra("position", 0));
+		}
 	}
 
 	public void findThings() {
@@ -67,29 +75,40 @@ public class ContactDetailsActivity extends CRMActivity {
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
+		if (previousIntent.hasExtra("contact_dummy") && selectedContact != null) {
+			name_TV.setText(myApp.getContactName(selectedContact));
+			designation_TV.setText(selectedContact.getDesignation());
+			email_TV.setText(selectedContact.getEmail());
+			officePhone_TV.setText(selectedContact.getTelephone());
+			mobile_TV.setText(selectedContact.getMobilePhone());
 
-		name_TV.setText(myApp.getContactName(selectedContact));
-		designation_TV.setText(selectedContact.getDesignation());
+			organization_TV.setText(selectedContact.getOrganization());
+			internalConnect_TV.setText(selectedContact.getInternalConnect());
+			dor_TV.setText(selectedContact.getDegreeOfRelation());
+		} else {
+			name_TV.setText(myApp.getContactName(selectedContact));
+			designation_TV.setText(selectedContact.getDesignation());
+			email_TV.setText(selectedContact.getEmail());
+			officePhone_TV.setText(selectedContact.getTelephone());
+			mobile_TV.setText(selectedContact.getMobilePhone());
 
-		organization_TV
-				.setText(myApp.getStringNameFromStringJSON(selectedContact
-						.getOrganization()));
-		email_TV.setText(selectedContact.getEmail());
-		officePhone_TV.setText(selectedContact.getTelephone());
-		mobile_TV.setText(selectedContact.getMobilePhone());
+			organization_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedContact
+							.getOrganization()));
 
-		internalConnect_TV.setText(myApp
-				.getStringNameFromStringJSON(selectedContact
-						.getInternalConnect()));
+			internalConnect_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedContact
+							.getInternalConnect()));
 
-		Integer temp = myApp.getValueFromStringJSON(selectedContact
-				.getDegreeOfRelation());
+			Integer temp = myApp.getValueFromStringJSON(selectedContact
+					.getDegreeOfRelation());
 
-		if (temp != null) {
-			dor_TV.setText(myApp.getDorMap().get(
-					Integer.toString(temp.intValue())));
+			if (temp != null) {
+				dor_TV.setText(myApp.getDorMap().get(
+						Integer.toString(temp.intValue())));
+			}
+
 		}
-
 	}
 
 	@Override
@@ -99,7 +118,11 @@ public class ContactDetailsActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Contact", "Edit");
+		if (previousIntent.hasExtra("contact_dummy")) {
+			initView("Contact Created", null);
+		} else {
+			initView("Contact", "Edit");
+		}
 	}
 
 	public void onRightButton(View view) {
@@ -107,7 +130,27 @@ public class ContactDetailsActivity extends CRMActivity {
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+	}
+
+	@Override
+	public void onBack(View view) {
+		setResult(RESULT_OK);
+		super.onBack(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		setResult(RESULT_OK, new Intent());
+		 super.onBackPressed();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			finish();
+		}
 	}
 
 }

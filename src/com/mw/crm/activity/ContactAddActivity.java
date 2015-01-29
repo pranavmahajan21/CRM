@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -48,9 +49,6 @@ public class ContactAddActivity extends CRMActivity {
 
 	public static boolean isActivityVisible = false;
 
-	// String[] temp = new String[] { "Just Know", "High", "Medium", "Low",
-	// "Comfortable" };
-
 	MyApp myApp;
 
 	TextView firstNameLabel_TV, lastNameLabel_TV, dorLabel_TV,
@@ -63,7 +61,6 @@ public class ContactAddActivity extends CRMActivity {
 	RelativeLayout dor_RL, organization_RL, internal_RL;
 
 	boolean pickerVisibility = false;
-	// NumberPicker picker;
 
 	Intent previousIntent, nextIntent;
 
@@ -159,7 +156,8 @@ public class ContactAddActivity extends CRMActivity {
 
 			tempContact = myApp.getContactList().get(
 					previousIntent.getIntExtra("position", 0));
-
+			Toast.makeText(this, "asd  :  " + tempContact.getContactId(),
+					Toast.LENGTH_SHORT).show();
 
 			firstName_ET.setText(tempContact.getFirstName());
 			lastName_ET.setText(tempContact.getLastName());
@@ -224,54 +222,18 @@ public class ContactAddActivity extends CRMActivity {
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(dor_RL);
-		// registerForContextMenu(internal_RL);
-		// registerForContextMenu(organization_RL);
-
-		// setPickerProperties();
-
 	}
-
-	// private void setPickerProperties() {
-	// picker.setOnValueChangedListener(new OnValueChangeListener() {
-	//
-	// @Override
-	// public void onValueChange(NumberPicker picker, int oldVal,
-	// int newVal) {
-	// System.out.println("value change");
-	//
-	// }
-	// });
-	//
-	// picker.setOnClickListener(new OnClickListener() {
-	//
-	// @Override
-	// public void onClick(View v) {
-	// dor_TV.setText(temp[picker.getValue()]);
-	// System.out.println("value click");
-	//
-	// }
-	// });
-	// }
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		if (v.getId() == R.id.dor_RL) {
-			// dorMap = myApp.getDorMap();
 			List<String> list = new ArrayList<String>(dorMap.values());
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(0, v.getId(), i, list.get(i));
 			}
 		}
-		// if (v.getId() == R.id.organization_RL) {
-		// accountList = myApp.getAccountList();
-		//
-		// for (int i = 0; i < accountList.size(); i++) {
-		// menu.add(1, v.getId(), i, accountList.get(i).getName());
-		// }
-		// }
-
 	}
 
 	@Override
@@ -280,11 +242,7 @@ public class ContactAddActivity extends CRMActivity {
 		if (item.getGroupId() == 0) {
 			selectedDOR = item.getOrder();
 			dor_TV.setText(item.getTitle());
-			// organization_TV.setText(item.getTitle());
 		}
-		// else if (item.getGroupId() == 1) {
-		// internalConnect_TV.setText(item.getTitle());
-		// }
 		return super.onContextItemSelected(item);
 
 	}
@@ -293,15 +251,6 @@ public class ContactAddActivity extends CRMActivity {
 		openContextMenu(view);
 		System.out.println(view.getId());
 	}
-
-	// public void onShowPicker(View view) {
-	// pickerVisibility = !pickerVisibility;
-	// if (pickerVisibility) {
-	// picker.setVisibility(View.VISIBLE);
-	// } else {
-	// picker.setVisibility(View.GONE);
-	// }
-	// }
 
 	public void onRightButton(View view) {
 
@@ -326,8 +275,6 @@ public class ContactAddActivity extends CRMActivity {
 					.put("Designation",
 							MyApp.encryptData(designation_ET.getText()
 									.toString()))
-					.put("EMailAddress1",
-							MyApp.encryptData(email_ET.getText().toString()))
 					.put("Telephone1",
 							MyApp.encryptData(officePhone_ET.getText()
 									.toString()))
@@ -346,9 +293,12 @@ public class ContactAddActivity extends CRMActivity {
 			/** Update Mode **/
 			String url = MyApp.URL + MyApp.CONTACTS_UPDATE;
 			try {
-				params.put("conid", tempContact.getContactId());
+				params.put("EmailAddress1",
+						MyApp.encryptData(email_ET.getText().toString())).put(
+						"conid", tempContact.getContactId());
 
 				System.out.println("URL : " + url);
+				System.out.println("params : " + params);
 
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,
@@ -357,7 +307,7 @@ public class ContactAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -393,7 +343,10 @@ public class ContactAddActivity extends CRMActivity {
 		} else {
 			/** Create Mode **/
 			String url = MyApp.URL + MyApp.CONTACTS_ADD;
+
 			try {
+				params.put("EMailAddress1",
+						MyApp.encryptData(email_ET.getText().toString()));
 
 				System.out.println("URL : " + url);
 
@@ -404,7 +357,7 @@ public class ContactAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -435,14 +388,28 @@ public class ContactAddActivity extends CRMActivity {
 				queue.add(jsonArrayRequest);
 			} catch (Exception e) {
 				e.printStackTrace();
-				progressDialog.hide();
+				progressDialog.dismiss();
 			}
 		}
 	}
 
+	private void onPositiveResponse() {
+		progressDialog.dismiss();
+		Contact aa = new Contact(firstName_ET.getText().toString(), lastName_ET
+				.getText().toString(), email_ET.getText().toString(),
+				designation_ET.getText().toString(), mobile_ET.getText()
+						.toString(), officePhone_ET.getText().toString(),
+				internalConnect_TV.getText().toString(), organization_TV
+						.getText().toString(), dor_TV.getText().toString(),
+				null);
+
+		nextIntent = new Intent(this, ContactDetailsActivity.class);
+		nextIntent.putExtra("contact_dummy", gson.toJson(aa, Contact.class));
+		startActivityForResult(nextIntent, MyApp.DETAILS_CONTACT);
+	}
+
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		isActivityVisible = true;
 		LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -485,21 +452,33 @@ public class ContactAddActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			int positionItem = data.getIntExtra("position_item", 0);
+			int positionItem = 0;
+			if (data!= null) {
+				positionItem = data.getIntExtra("position_item", 0);
+			}
 			if (requestCode == MyApp.SEARCH_USER) {
-
 				List<String> list = new ArrayList<String>(userMap.values());
 				internalConnect_TV.setText(list.get(positionItem));
 
 				selectedInternalConnect = positionItem;
+
+				System.out.println(new ArrayList<String>(userMap.keySet())
+						.get(selectedInternalConnect));
+
+				System.out.println(userMap.get(new ArrayList<String>(userMap
+						.keySet()).get(selectedInternalConnect)));
 			}
 			if (requestCode == MyApp.SEARCH_ACCOUNT) {
-
 				organization_TV
 						.setText(accountList.get(positionItem).getName());
 				selectedOrganisation = positionItem;
 			}
+			if (requestCode == MyApp.DETAILS_CONTACT) {
+				setResult(RESULT_OK);
+				finish();
+			}
 		}
-
 	}
+
+	
 }

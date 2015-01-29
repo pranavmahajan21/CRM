@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.crm.activity.R;
+import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 
@@ -157,6 +158,27 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
+	
+	@Override
+	public void onBack(View view) {
+		setResult(RESULT_OK);
+		super.onBack(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		setResult(RESULT_OK, new Intent());
+		 super.onBackPressed();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			finish();
+		}
+	}
+
 }

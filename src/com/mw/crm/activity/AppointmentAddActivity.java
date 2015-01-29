@@ -38,9 +38,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
+import com.mw.crm.model.Contact;
 import com.mw.crm.model.InternalConnect;
 
 public class AppointmentAddActivity extends CRMActivity {
@@ -272,7 +274,7 @@ public class AppointmentAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -322,7 +324,7 @@ public class AppointmentAddActivity extends CRMActivity {
 							@Override
 							public void onResponse(JSONObject response) {
 								System.out.println("length2" + response);
-								progressDialog.hide();
+								onPositiveResponse();
 							}
 						}, new Response.ErrorListener() {
 
@@ -358,9 +360,23 @@ public class AppointmentAddActivity extends CRMActivity {
 		}
 	}
 
+	private void onPositiveResponse() {
+		progressDialog.dismiss();
+		Contact aa = new Contact(firstName_ET.getText().toString(), lastName_ET
+				.getText().toString(), email_ET.getText().toString(),
+				designation_ET.getText().toString(), mobile_ET.getText()
+						.toString(), officePhone_ET.getText().toString(),
+				internalConnect_TV.getText().toString(), organization_TV
+						.getText().toString(), dor_TV.getText().toString(),
+				null);
+
+		nextIntent = new Intent(this, AppointmentDetailsActivity.class);
+		nextIntent.putExtra("appointment_dummy", new Gson().toJson(aa, Appointment.class));
+		startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
+	}
+	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		isActivityVisible = true;
 		LocalBroadcastManager.getInstance(this).registerReceiver(ownerReceiver,

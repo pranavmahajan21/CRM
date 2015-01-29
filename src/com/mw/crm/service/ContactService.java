@@ -141,7 +141,7 @@ public class ContactService extends IntentService {
 					.getString("telephone1")), MyApp.decryptData(jsonObject
 					.getString("ownerid")), MyApp.decryptData(jsonObject
 					.getString("parentcustomerid")), MyApp.decryptData(jsonObject
-					.getString("customertypecode")), MyApp.decryptData(jsonObject
+					.getString("customertypecode")), MyApp.getPerfectString(jsonObject
 					.getString("contactid")));
 
 			return contact;

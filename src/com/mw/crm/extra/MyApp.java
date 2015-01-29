@@ -83,6 +83,13 @@ public class MyApp extends Application {
 	final public static int SEARCH_ACCOUNT = 100;
 	final public static int SEARCH_OPPORTUNITY = 101;
 
+	final public static int DETAILS_ACCOUNT = 1100;
+	final public static int DETAILS_APPOINTMENT = 1100;
+	final public static int DETAILS_CONTACT = 1100;
+	final public static int DETAILS_OPPORTUNITY = 1100;
+	
+	final public static int NOTHING_ELSE_MATTERS = 55;
+
 	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
 
 	List<Opportunity> opportunityList;// = new ArrayList<Opportunity>();
@@ -707,10 +714,11 @@ public class MyApp extends Application {
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
 	}
-	
+
 	public String formatDateToString4(Date date) {
-//		2015-01-14T14:16:34Z
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		// 2015-01-14T14:16:34Z
+		SimpleDateFormat formatter = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 		String dateStr = formatter.format(date);
 		System.out.println(">><<><><><" + dateStr);

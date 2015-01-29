@@ -14,53 +14,47 @@ import com.mw.crm.extra.MyApp;
 public class CRMActivity extends Activity {
 
 	TextView headerTitleTV, rightButtonTV;
-	MyApp myApp ;
-	
+	MyApp myApp;
+
 	public void findThings() {
 		headerTitleTV = (TextView) findViewById(R.id.title_header_TV);
-		rightButtonTV= (TextView) findViewById(R.id.right_button_TV);
-		
+		rightButtonTV = (TextView) findViewById(R.id.right_button_TV);
+
 	}
-	
+
 	private void setTypeface() {
 		headerTitleTV.setTypeface(myApp.getTypefaceBoldSans());
 		rightButtonTV.setTypeface(myApp.getTypefaceBoldSans());
 	}
 
-	
 	public void initView(String title, String title2) {
 		setTypeface();
 		headerTitleTV.setText(title);
-		rightButtonTV.setText(title2);
+		if (title2 != null) {
+			rightButtonTV.setText(title2);
+		} else {
+			rightButtonTV.setVisibility(View.GONE);
+		}
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-//		ActionBar actionBar = getActionBar();
-//		hackJBPolicy();
-//		LayoutInflater inflator = (LayoutInflater) this .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//		View mCustomView = inflator.inflate(R.layout.header, null);
-//		
-//		actionBar.setCustomView(mCustomView);
-//		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		initThings();
 	}
 
 	private void initThings() {
-		myApp= (MyApp) getApplicationContext();
-		
+		myApp = (MyApp) getApplicationContext();
+
 	}
-
-
 
 	public void onBack(View view) {
 		finish();
 	}
-	
+
 	public void onRightButton(View view) {
 
 	}
@@ -72,7 +66,7 @@ public class CRMActivity extends Activity {
 	public void setRightButtonTV(TextView rightButtonTV) {
 		this.rightButtonTV = rightButtonTV;
 	}
-	
+
 	public void onHome(View view) {
 		Intent intent = new Intent(this, MenuActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
