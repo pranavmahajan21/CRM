@@ -104,28 +104,30 @@
             <TextView
                 android:id="@+id/owner_TV"
                 style="@style/TV_top"
-                android:text="-" />
-<!--                 android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" -->
-            
+                android:layout_marginTop="8dp"
+                android:text="-"
+                android:textColor="@color/blue_dark" />
+
             <TextView
                 android:id="@+id/detailsDiscussionLabel_TV"
-                style="@style/TV_bottom"
+                style="@style/TV_top"
                 android:text="Details of Discussion" />
-<!--                 android:layout_width="wrap_content"
+            <!--
+                     android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" -->
-            
+                android:layout_marginTop="10dp"
+            -->
+
             <TextView
                 android:id="@+id/description_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--description--"
                 android:textColor="@color/blue_dark"
-                android:textSize="18sp"
-                />
-<!--                 android:textStyle="bold"  -->
+                android:textSize="18sp" />
+            <!-- android:textStyle="bold" -->
         </LinearLayout>
     </ScrollView>
 

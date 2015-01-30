@@ -82,8 +82,8 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 
-		// dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
-		// endTime_TV.setText(selectedAppointment.getEndTime().toString());
+		 dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
+		 endTime_TV.setText(selectedAppointment.getEndTime().toString());
 
 	}
 
@@ -97,12 +97,6 @@ public class AppointmentDetailsActivity extends CRMActivity {
 			interactionType_TV.setText(selectedAppointment.getTypeOfMeeting());
 			owner_TV.setText(selectedAppointment.getOwnerId());
 		} else {
-			// description_TV.setText(selectedAppointment.getDescription());
-			// nameClientOfficial_TV.setText(selectedAppointment
-			// .getNameOfTheClientOfficial());
-			// designationClientOfficial_TV.setText(selectedAppointment
-			// .getDesignationOfClientOfficial());
-			// purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 			initWithoutMappingFields();
 
 			try {

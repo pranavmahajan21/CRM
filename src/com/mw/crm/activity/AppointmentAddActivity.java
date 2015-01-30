@@ -478,7 +478,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
 
-		progressDialog = createDialog.createProgressDialog("Updating Contacts",
+		progressDialog = createDialog.createProgressDialog("Updating Appointments",
 				"This may take some time", true, null);
 		progressDialog.show();
 

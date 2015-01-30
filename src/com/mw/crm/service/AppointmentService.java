@@ -24,7 +24,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.AppointmentAddActivity;
-import com.mw.crm.activity.MenuActivity;
+import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
 
@@ -133,14 +133,10 @@ public class AppointmentService extends IntentService {
 	}
 
 	private void onRequestComplete() {
-//		if (ContactAddActivity.isActivityVisible) {
-//		Intent nextIntent = new Intent("internal_connect_data");
-//		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//	} else 
 		if (AppointmentAddActivity.isActivityVisible) {
 		Intent nextIntent = new Intent("appointment_update_receiver");
 		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-	} else if (MenuActivity.isActivityVisible) {
+	} else if (MenuActivity2.isActivityVisible) {
 		Intent nextIntent = new Intent("app_data");
 		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 	}
@@ -149,17 +145,6 @@ public class AppointmentService extends IntentService {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		if (ContactAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("internal_connect_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else 
-//			if (AppointmentAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("appointment_update_receiver");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else if (MenuActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("app_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		}
 	}
 
 	private Appointment getAppointmentObject(JSONObject jsonObject) {
@@ -176,7 +161,7 @@ public class AppointmentService extends IntentService {
 					MyApp.getPerfectString(jsonObject
 							.getString("pcl_designationofclientofficial")),
 					MyApp.decryptData(jsonObject.getString("ownerid")), myApp
-							.formatStringToDate(MyApp.decryptData(jsonObject
+							.formatStringSpecialToDate(MyApp.getPerfectString(jsonObject
 									.getString("scheduledstart"))), myApp
 							.formatStringToDate(MyApp.decryptData(jsonObject
 									.getString("scheduledend"))));

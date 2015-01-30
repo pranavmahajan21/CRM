@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,8 +50,9 @@ import com.mw.crm.service.OpportunityService;
 @SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
 
-	 public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
-//	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
+	public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
+	// public static String URL =
+	// "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
 
 	/* Used to get List<T> */
 	public static String APPOINTMENTS_DATA = "/PostAppointments";
@@ -81,13 +83,13 @@ public class MyApp extends Application {
 	final public static int SEARCH_SUB_LOB = 10;
 	final public static int SEARCH_USER = 11;
 	final public static int SEARCH_ACCOUNT = 100;
-//	final public static int SEARCH_OPPORTUNITY = 101;
+	// final public static int SEARCH_OPPORTUNITY = 101;
 
 	final public static int DETAILS_ACCOUNT = 1100;
 	final public static int DETAILS_APPOINTMENT = 1100;
 	final public static int DETAILS_CONTACT = 1100;
 	final public static int DETAILS_OPPORTUNITY = 1100;
-	
+
 	final public static int NOTHING_ELSE_MATTERS = 55;
 
 	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
@@ -305,8 +307,8 @@ public class MyApp extends Application {
 		loadMenuItems();
 
 		readDataFromExcel();
-		// Intent intent2 = new Intent(this, OpportunityService.class);
-		// startService(intent2);
+//		 Intent intent2 = new Intent(this, AppointmentService.class);
+//		 startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
@@ -565,8 +567,8 @@ public class MyApp extends Application {
 
 	public static String decryptData(String string) {
 
-		// String aa = new Encrypter(null, null).decrypt(string);
-		// System.out.println("!@!@" + aa);
+		String aa = new Encrypter(null, null).decrypt(string);
+		System.out.println("!@!@" + aa);
 
 		return new Encrypter(null, null).decrypt(string);
 	}
@@ -609,7 +611,7 @@ public class MyApp extends Application {
 	}
 
 	public Date formatStringToDate(String dateString) {
-
+		System.out.println("1212  :  " + dateString);
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ssZ");
 
@@ -621,6 +623,20 @@ public class MyApp extends Application {
 		}
 		// System.out.println(">><<><><><" + dateStr);
 		return date;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Date formatStringSpecialToDate(String dateString) {
+		System.out.println("1212  : " + dateString);
+//		String ackwardDate = "/Date(1376841597000)/";
+		
+		Calendar calendar = Calendar.getInstance();
+		String ackwardRipOff = dateString.replace("\\/Date(", "").replace(")\\/", "");
+		Long timeInMillis = Long.valueOf(ackwardRipOff);
+		calendar.setTimeInMillis(timeInMillis);
+		System.out.println(calendar.getTime().toGMTString());
+		System.out.println(calendar.getTime());
+		return calendar.getTime();
 	}
 
 	public void readDataFromExcel() {

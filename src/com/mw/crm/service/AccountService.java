@@ -24,7 +24,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.AccountAddActivity;
-import com.mw.crm.activity.MenuActivity;
+import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 
@@ -122,7 +122,7 @@ public class AccountService extends IntentService {
 			if (AccountAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("account_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		} else if (MenuActivity.isActivityVisible) {
+		} else if (MenuActivity2.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}

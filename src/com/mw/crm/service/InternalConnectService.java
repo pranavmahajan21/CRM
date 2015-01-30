@@ -23,7 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.mw.crm.activity.MenuActivity;
+import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.extra.MyApp;
 
 public class InternalConnectService extends IntentService {
@@ -31,6 +31,7 @@ public class InternalConnectService extends IntentService {
 	MyApp myApp;
 	Gson gson = new Gson();
 	Map<String, String> userMap = new LinkedHashMap<String, String>();
+
 	public InternalConnectService() {
 		super("InternalConnectService");
 	}
@@ -41,17 +42,17 @@ public class InternalConnectService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-//		Toast.makeText(this, "InternalConnectService", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "InternalConnectService",
+		// Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
-		
 		try {
 
 			String url = MyApp.URL + MyApp.USER;
 
 			JSONObject params = new JSONObject();
 			params = MyApp.addParamToJson(params);
-			
+
 			JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
 					Method.POST, url, params,
 					new Response.Listener<JSONArray>() {
@@ -60,19 +61,20 @@ public class InternalConnectService extends IntentService {
 						public void onResponse(JSONArray response) {
 							System.out.println("length2" + response);
 
-//							Type listType = (Type) new TypeToken<ArrayList<InternalConnect>>() {
-//							}.getType();
-//							myApp.setInternalConnectList((List<InternalConnect>) gson
-//									.fromJson(response.toString(), listType));
-							
+							// Type listType = (Type) new
+							// TypeToken<ArrayList<InternalConnect>>() {
+							// }.getType();
+							// myApp.setInternalConnectList((List<InternalConnect>)
+							// gson
+							// .fromJson(response.toString(), listType));
+
 							for (int i = 0; i < response.length(); i++) {
 								try {
-									createUserMap(response
-											.getJSONObject(i));
+									createUserMap(response.getJSONObject(i));
 								} catch (JSONException e) {
 									e.printStackTrace();
 								}
-								
+
 							}
 							// TODO : update preferences as well
 							myApp.setUserMap(userMap);
@@ -83,7 +85,10 @@ public class InternalConnectService extends IntentService {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 							System.out.println("ERROR  : " + error.getMessage());
-							Toast.makeText(InternalConnectService.this, "Error while fetching internal connect data.", Toast.LENGTH_SHORT).show();
+							Toast.makeText(
+									InternalConnectService.this,
+									"Error while fetching internal connect data.",
+									Toast.LENGTH_SHORT).show();
 							error.printStackTrace();
 
 							if (error instanceof NetworkError) {
@@ -112,42 +117,29 @@ public class InternalConnectService extends IntentService {
 	}
 
 	private void onRequestComplete() {
-//		if (ContactAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("internal_connect_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else if (AppointmentAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("owner_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else 
-			if (MenuActivity.isActivityVisible) {
+		if (MenuActivity2.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
 
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		if (ContactAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("internal_connect_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else if (AppointmentAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("owner_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else if (MenuActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("app_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		}
 	}
-	
+
 	private void createUserMap(JSONObject jsonObject) {
 		try {
 
-			System.out.println("[][]" + MyApp.getPerfectString(jsonObject.getString("systemuserid")) + "\n[][]" + MyApp.getPerfectString(jsonObject.getString("lastname")));
-			
-			userMap.put(MyApp.getPerfectString(jsonObject.getString("systemuserid")),
-					MyApp.getPerfectString(jsonObject.getString("lastname")));
+			System.out.println("[][]"
+					+ MyApp.getPerfectString(jsonObject
+							.getString("systemuserid")) + "\n[][]"
+					+ MyApp.getPerfectString(jsonObject.getString("lastname")));
+
+			userMap.put(MyApp.getPerfectString(jsonObject
+					.getString("systemuserid")), MyApp
+					.getPerfectString(jsonObject.getString("lastname")));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
