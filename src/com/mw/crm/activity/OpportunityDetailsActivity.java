@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
@@ -28,8 +29,15 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		myApp.getAccountList();
 		previousIntent = getIntent();
 
-		selectedOpportunity = myApp.getOpportunityList().get(
-				previousIntent.getIntExtra("position", 0));
+		if (previousIntent.hasExtra("contact_dummy")) {
+			selectedOpportunity = new Gson().fromJson(
+					previousIntent.getStringExtra("opportunity_dummy"),
+					Opportunity.class);
+		} else {
+			selectedOpportunity = myApp.getOpportunityList().get(
+					previousIntent.getIntExtra("position", 0));
+		}
+
 	}
 
 	public void findThings() {
@@ -84,87 +92,101 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		super.initView(string, string2);
 		setTypeface();
 
-		oppoName_TV.setText(selectedOpportunity.getName());
-		oppoManager_TV.setText(myApp
-				.getStringNameFromStringJSON(selectedOpportunity.getOwnerId()));
+		if (previousIntent.hasExtra("opportunity_dummy")
+				&& selectedOpportunity != null) {
+			oppoName_TV.setText(selectedOpportunity.getName());
+			oppoManager_TV.setText(selectedOpportunity.getOwnerId());
+			status_TV.setText(selectedOpportunity.getKpmgStatus());
+			probability_TV.setText(selectedOpportunity.getProbability());
+			salesStage_TV.setText(selectedOpportunity.getSalesStage());
+			clientName_TV.setText(selectedOpportunity.getCustomerId());
 
-		Integer temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
-				.getKpmgStatus());
-		if (temp2 != null) {
-			status_TV.setText(myApp.getStatusMap().get(
-					Integer.toString(temp2.intValue())));
-			temp2 = null;
-		}
-		temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
-				.getProbability());
-		if (temp2 != null) {
-			probability_TV.setText(myApp.getProbabilityMap().get(
-					Integer.toString(temp2.intValue())));
-			temp2 = null;
-		}
-
-		temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
-				.getSalesStage());
-		if (temp2 != null) {
-			salesStage_TV.setText(myApp.getSalesStageMap().get(
-					Integer.toString(temp2.intValue())));
-			temp2 = null;
-		}
-
-		// try {
-		// probability_TV.setText(myApp.getProbabilityMap().get(
-		// Integer.toString(new JSONObject(selectedOpportunity
-		// .getProbability()).getInt("Value"))));
-		// status_TV.setText(myApp.getStatusMap().get(
-		// Integer.toString(new JSONObject(selectedOpportunity
-		// .getKpmgStatus()).getInt("Value"))));
-		// salesStage_TV.setText(myApp.getSalesStageMap().get(
-		// Integer.toString(new JSONObject(selectedOpportunity
-		// .getSalesStage()).getInt("Value"))));
-		// } catch (JSONException e) {
-		// e.printStackTrace();
-		// }
-
-		clientName_TV.setText(myApp
-				.getStringNameFromStringJSON(selectedOpportunity
-						.getCustomerId()));
-
-		Account tempAccount = myApp
-				.getAccountById(myApp
-						.getStringIdFromStringJSON(selectedOpportunity
-								.getCustomerId()));
-		if (tempAccount != null) {
-			Integer temp = myApp.getIntValueFromStringJSON(tempAccount
-					.getCountry());
-			if (temp != null) {
-				country_TV.setText(myApp.getCountryMap().get(
-						Integer.toString(temp.intValue())));
-				temp = null;
-			}
-			temp = myApp.getIntValueFromStringJSON(tempAccount.getLob());
-			if (temp != null) {
-				lob_TV.setText(myApp.getLobMap().get(
-						Integer.toString(temp.intValue())));
-				temp = null;
-			}
-			temp = myApp.getIntValueFromStringJSON(tempAccount.getSubLob());
-			if (temp != null) {
-				sublob_TV.setText(myApp.getSubLobMap().get(
-						Integer.toString(temp.intValue())));
-				temp = null;
-			}
-			temp = myApp.getIntValueFromStringJSON(tempAccount.getSector());
-			if (temp != null) {
-				sector_TV.setText(myApp.getSectorMap().get(
-						Integer.toString(temp.intValue())));
-				temp = null;
-			}
+			country_TV.setText(previousIntent.getStringExtra("country"));
+			lob_TV.setText(previousIntent.getStringExtra("lob"));
+			sublob_TV.setText(previousIntent.getStringExtra("sub_lob"));
+			sector_TV.setText(previousIntent.getStringExtra("sector"));
 		} else {
-			Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
-					.show();
+			oppoName_TV.setText(selectedOpportunity.getName());
+			oppoManager_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedOpportunity
+							.getOwnerId()));
 
+			Integer temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+					.getKpmgStatus());
+			if (temp2 != null) {
+				status_TV.setText(myApp.getStatusMap().get(
+						Integer.toString(temp2.intValue())));
+				temp2 = null;
+			}
+			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+					.getProbability());
+			if (temp2 != null) {
+				probability_TV.setText(myApp.getProbabilityMap().get(
+						Integer.toString(temp2.intValue())));
+				temp2 = null;
+			}
+
+			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+					.getSalesStage());
+			if (temp2 != null) {
+				salesStage_TV.setText(myApp.getSalesStageMap().get(
+						Integer.toString(temp2.intValue())));
+				temp2 = null;
+			}
+
+			// try {
+			// probability_TV.setText(myApp.getProbabilityMap().get(
+			// Integer.toString(new JSONObject(selectedOpportunity
+			// .getProbability()).getInt("Value"))));
+			// status_TV.setText(myApp.getStatusMap().get(
+			// Integer.toString(new JSONObject(selectedOpportunity
+			// .getKpmgStatus()).getInt("Value"))));
+			// salesStage_TV.setText(myApp.getSalesStageMap().get(
+			// Integer.toString(new JSONObject(selectedOpportunity
+			// .getSalesStage()).getInt("Value"))));
+			// } catch (JSONException e) {
+			// e.printStackTrace();
+			// }
+
+			clientName_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedOpportunity
+							.getCustomerId()));
+
+			Account tempAccount = myApp.getAccountById(myApp
+					.getStringIdFromStringJSON(selectedOpportunity
+							.getCustomerId()));
+			if (tempAccount != null) {
+				Integer temp = myApp.getIntValueFromStringJSON(tempAccount
+						.getCountry());
+				if (temp != null) {
+					country_TV.setText(myApp.getCountryMap().get(
+							Integer.toString(temp.intValue())));
+					temp = null;
+				}
+				temp = myApp.getIntValueFromStringJSON(tempAccount.getLob());
+				if (temp != null) {
+					lob_TV.setText(myApp.getLobMap().get(
+							Integer.toString(temp.intValue())));
+					temp = null;
+				}
+				temp = myApp.getIntValueFromStringJSON(tempAccount.getSubLob());
+				if (temp != null) {
+					sublob_TV.setText(myApp.getSubLobMap().get(
+							Integer.toString(temp.intValue())));
+					temp = null;
+				}
+				temp = myApp.getIntValueFromStringJSON(tempAccount.getSector());
+				if (temp != null) {
+					sector_TV.setText(myApp.getSectorMap().get(
+							Integer.toString(temp.intValue())));
+					temp = null;
+				}
+			} else {
+				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
+						.show();
+
+			}
 		}
-
 	}
 
 	@Override
@@ -174,7 +196,13 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Opportunity", "Edit");
+
+		if (previousIntent.hasExtra("opportunity_dummy")) {
+			initView("Opportunity Created", null);
+		} else {
+			initView("Opportunity", "Edit");
+		}
+
 	}
 
 	public void onRightButton(View view) {
@@ -193,7 +221,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBackPressed() {
-		setResult(RESULT_OK, new Intent());
+		setResult(RESULT_OK);
 		super.onBackPressed();
 	}
 

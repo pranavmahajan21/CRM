@@ -140,7 +140,7 @@ public class OpportunityService extends IntentService {
 					MyApp.decryptData(jsonObject.getString("customerid")),
 					MyApp.getPerfectString(jsonObject.getString("name")),
 					MyApp.decryptData(jsonObject.getString("pcl_kpmgstatus")),
-					MyApp.decryptData(jsonObject.getString("opportunityid")),
+					MyApp.getPerfectString(jsonObject.getString("opportunityid")),
 					MyApp.decryptData(jsonObject.getString("opportunityratingcode")),
 					MyApp.decryptData(jsonObject.getString("salesstagecode")));
 			return opportunity;

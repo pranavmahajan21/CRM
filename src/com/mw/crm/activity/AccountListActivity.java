@@ -35,9 +35,6 @@ public class AccountListActivity extends CRMActivity {
 
 	Intent nextIntent;
 
-//	CreateDialog createDialog;
-//	ProgressDialog progressDialog;
-
 	RequestQueue queue;
 
 	Gson gson;

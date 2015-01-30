@@ -1,6 +1,8 @@
 package com.mw.crm.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,21 +15,21 @@ import com.example.crm.activity.R;
 import com.mw.crm.extra.MyApp;
 
 public class SearchListAdapter extends BaseAdapter {
-	
+
 	MyApp myApp;
 	Context context;
 
 	LayoutInflater inflater;
-	
+
 	List<String> stringList;
-//	List<Account> tempAccountList;
+	List<String> tempStringList;
 
 	public SearchListAdapter(Context context, List<String> stringList) {
 		super();
 		this.context = context;
 		this.stringList = stringList;
-//		this.tempAccountList = new ArrayList<Account>();
-//		this.tempAccountList.addAll(stringList);
+		this.tempStringList = new ArrayList<String>();
+		this.tempStringList.addAll(stringList);
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
@@ -48,14 +50,14 @@ public class SearchListAdapter extends BaseAdapter {
 			viewHolder.itemTV = (TextView) convertView
 					.findViewById(R.id.item_TV);
 
-			 viewHolder.itemTV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.itemTV.setTypeface(myApp.getTypefaceBoldSans());
 
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-//		Account tempAccount = stringList.get(position);
+		// Account tempAccount = stringList.get(position);
 		viewHolder.itemTV.setText(stringList.get(position));
 
 		return convertView;
@@ -76,22 +78,18 @@ public class SearchListAdapter extends BaseAdapter {
 		return 0;
 	}
 
-//	public void filter(String charText) {
-//		charText = charText.toLowerCase(Locale.getDefault());
-//		stringList.clear();
-//		if (charText.length() == 0) {
-//			stringList.addAll(tempAccountList);
-//		} else {
-//			for (Account tempAccount : tempAccountList) {
-//				if (tempAccount.getName().toLowerCase(Locale.getDefault())
-//						.contains(charText)
-//						|| tempAccount.getCountry()
-//								.toLowerCase(Locale.getDefault())
-//								.contains(charText)) {
-//					stringList.add(tempAccount);
-//				}
-//			}
-//		}
-//		notifyDataSetChanged();
-//	}
+	public void filter(String charText) {
+		charText = charText.toLowerCase(Locale.getDefault());
+		stringList.clear();
+		if (charText.length() == 0) {
+			stringList.addAll(tempStringList);
+		} else {
+			for (String tempString : tempStringList) {
+				if (tempString.toLowerCase(Locale.getDefault()).contains(charText)) {
+					stringList.add(tempString);
+				}
+			}
+		}
+		notifyDataSetChanged();
+	}
 }

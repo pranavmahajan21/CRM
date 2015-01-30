@@ -88,11 +88,6 @@ public class ContactDetailsActivity extends CRMActivity {
 			internalConnect_TV.setText(selectedContact.getInternalConnect());
 			dor_TV.setText(selectedContact.getDegreeOfRelation());
 		} else {
-//			name_TV.setText(myApp.getContactName(selectedContact));
-//			designation_TV.setText(selectedContact.getDesignation());
-//			email_TV.setText(selectedContact.getEmail());
-//			officePhone_TV.setText(selectedContact.getTelephone());
-//			mobile_TV.setText(selectedContact.getMobilePhone());
 			initWithoutMappingFields();
 			
 			organization_TV.setText(myApp
@@ -144,7 +139,7 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBackPressed() {
-		setResult(RESULT_OK, new Intent());
+		setResult(RESULT_OK);
 		super.onBackPressed();
 	}
 

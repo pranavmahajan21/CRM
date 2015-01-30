@@ -156,7 +156,7 @@ public class AccountDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBackPressed() {
-		setResult(RESULT_OK, new Intent());
+		setResult(RESULT_OK);
 		super.onBackPressed();
 	}
 

@@ -157,6 +157,9 @@ public class OpportunityAddActivity extends CRMActivity {
 
 			System.out.println(tempOpportunity.toString());
 
+			Toast.makeText(this, tempOpportunity.getOpportunityId(),
+					Toast.LENGTH_SHORT).show();
+
 			// description_ET.setText(tempOpportunity.getCustomerId());
 
 			Integer temp = myApp.getIntValueFromStringJSON(tempOpportunity
@@ -203,7 +206,8 @@ public class OpportunityAddActivity extends CRMActivity {
 							.getStringIdFromStringJSON(tempOpportunity
 									.getCustomerId()));
 			if (tempAccount != null) {
-				selectedClientName = myApp.getIndexFromAccountList(tempAccount.getAccountId());
+				selectedClientName = myApp.getIndexFromAccountList(tempAccount
+						.getAccountId());
 				Integer temp2 = myApp.getIntValueFromStringJSON(tempAccount
 						.getCountry());
 				if (temp2 != null) {
@@ -217,13 +221,15 @@ public class OpportunityAddActivity extends CRMActivity {
 							Integer.toString(temp2.intValue())));
 					temp2 = null;
 				}
-				temp2 = myApp.getIntValueFromStringJSON(tempAccount.getSubLob());
+				temp2 = myApp
+						.getIntValueFromStringJSON(tempAccount.getSubLob());
 				if (temp2 != null) {
 					sublob_TV.setText(myApp.getSubLobMap().get(
 							Integer.toString(temp2.intValue())));
 					temp2 = null;
 				}
-				temp2 = myApp.getIntValueFromStringJSON(tempAccount.getSector());
+				temp2 = myApp
+						.getIntValueFromStringJSON(tempAccount.getSector());
 				if (temp2 != null) {
 					sector_TV.setText(myApp.getSectorMap().get(
 							Integer.toString(temp2.intValue())));
@@ -233,7 +239,7 @@ public class OpportunityAddActivity extends CRMActivity {
 				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
 						.show();
 			}
-			
+
 			System.out.println("selectedClientName  : " + selectedClientName
 					+ "\nselectedStatus  : " + selectedStatus
 					+ "\nselectedOppoManager  : " + selectedOppoManager
@@ -330,9 +336,6 @@ public class OpportunityAddActivity extends CRMActivity {
 					.put("CstId",
 							myApp.getAccountList().get(selectedClientName)
 									.getAccountId())
-					.put("KPMGStatus",
-							new ArrayList<String>(statusMap.keySet())
-									.get(selectedStatus))
 					.put("Oid",
 							new ArrayList<String>(userMap.keySet())
 									.get(selectedOppoManager))
@@ -354,9 +357,15 @@ public class OpportunityAddActivity extends CRMActivity {
 			/** Update Mode **/
 			String url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
 			try {
+
 				System.out.println("URL : " + url);
 
 				System.out.println("json" + params);
+				params.put(
+						"kpmgstatus",
+						new ArrayList<String>(statusMap.keySet())
+								.get(selectedStatus)).put("oppid",
+						tempOpportunity.getOpportunityId());
 
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,
@@ -405,6 +414,10 @@ public class OpportunityAddActivity extends CRMActivity {
 				System.out.println("URL : " + url);
 
 				System.out.println("json" + params);
+
+				params.put("KPMGStatus",
+						new ArrayList<String>(statusMap.keySet())
+								.get(selectedStatus));
 
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,
@@ -459,8 +472,14 @@ public class OpportunityAddActivity extends CRMActivity {
 						.getText().toString());
 
 		nextIntent = new Intent(this, OpportunityDetailsActivity.class);
+
 		nextIntent.putExtra("opportunity_dummy",
 				new Gson().toJson(aa, Opportunity.class));
+		nextIntent.putExtra("country", country_TV.getText().toString());
+		nextIntent.putExtra("lob", lob_TV.getText().toString());
+		nextIntent.putExtra("sub_lob", sublob_TV.getText().toString());
+		nextIntent.putExtra("sector", sector_TV.getText().toString());
+
 		startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
 	}
 
@@ -507,7 +526,10 @@ public class OpportunityAddActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			int positionItem = data.getIntExtra("position_item", 0);
+			int positionItem = 0;
+			if (data != null) {
+				positionItem = data.getIntExtra("position_item", 0);
+			}
 			if (requestCode == MyApp.SEARCH_ACCOUNT) {
 				selectedClientName = positionItem;
 
@@ -558,6 +580,10 @@ public class OpportunityAddActivity extends CRMActivity {
 				oppoManager_TV.setText(list.get(positionItem));
 
 				selectedOppoManager = positionItem;
+			}
+			if (requestCode == MyApp.DETAILS_OPPORTUNITY) {
+				setResult(RESULT_OK);
+				finish();
 			}
 		}
 	}

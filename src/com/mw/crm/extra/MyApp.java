@@ -68,7 +68,7 @@ public class MyApp extends Application {
 	public static String APPOINTMENTS_UPDATE = "/PostAppointmentUpdate";
 	public static String ACCOUNTS_UPDATE = "/PostAccountUpdate";
 	public static String CONTACTS_UPDATE = "/PostContactUpdate";
-	public static String OPPORTUNITY_UPDATE = "/PostContactUpdate";
+	public static String OPPORTUNITY_UPDATE = "/PostOpportunityUpdate";
 
 	/*
 	 * Used for Internal Connect in CONTACT screen & owner in APPOINTMENT screen

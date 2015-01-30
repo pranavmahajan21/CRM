@@ -10,17 +10,20 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.SearchListAdapter;
-import com.mw.crm.adapter.SearchMapAdapter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
@@ -30,6 +33,8 @@ public class SearchActivity extends Activity {
 	MyApp myApp;
 	Intent previouIntent, nextIntent;
 
+	EditText search_ET;
+
 	int requestCode = -1;
 
 	Map<String, String> searchMap;
@@ -38,11 +43,11 @@ public class SearchActivity extends Activity {
 	List<Opportunity> opportunityList;
 	List<String> stringList;
 
-	SearchMapAdapter adapter;
-	SearchListAdapter adapter2;
+	SearchListAdapter adapterList;
 	ListView search_LV;
 
 	private void findThings() {
+		search_ET = (EditText) findViewById(R.id.search_ET);
 		search_LV = (ListView) findViewById(R.id.search_LV);
 	}
 
@@ -54,19 +59,24 @@ public class SearchActivity extends Activity {
 		switch (requestCode) {
 		case MyApp.SEARCH_SECTOR:
 			searchMap = myApp.getSectorMap();
+			stringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_HQ_COUNTRY:
 			searchMap = myApp.getCountryMap();
+			stringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_SUB_LOB:
 			searchMap = myApp.getSubLobMap();
+			stringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_USER:
 			searchMap = myApp.getUserMap();
+			stringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_ACCOUNT:
 			accountList = myApp.getAccountList();
-			Toast.makeText(this, accountList.size()+"", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, accountList.size() + "", Toast.LENGTH_SHORT)
+					.show();
 			stringList = new ArrayList<String>();
 			for (int i = 0; i < accountList.size(); i++) {
 				stringList.add(accountList.get(i).getName());
@@ -87,21 +97,36 @@ public class SearchActivity extends Activity {
 
 		default:
 			break;
-		}
+		}// switch
 
-		if (searchMap != null) {
-			adapter = new SearchMapAdapter(this, searchMap);
-		} else if (stringList != null && stringList.size() > 0) {
-			adapter2 = new SearchListAdapter(this, stringList);
-		}
+		adapterList = new SearchListAdapter(this, stringList);
 	}
 
 	private void initView() {
-		if (adapter != null) {
-			search_LV.setAdapter(adapter);
-		} else if (adapter2 != null) {
-			search_LV.setAdapter(adapter2);
+		if (stringList != null) {
+			search_LV.setAdapter(adapterList);
 		}
+	}
+
+	private void myOwnOnTextChangeListeners() {
+		search_ET.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence cs, int arg1, int arg2,
+					int arg3) {
+				// On text change call filter function of Adapter
+				SearchActivity.this.adapterList.filter(cs.toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+			}
+		});
 	}
 
 	@Override
@@ -116,11 +141,17 @@ public class SearchActivity extends Activity {
 		findThings();
 		initView();
 
+		myOwnOnTextChangeListeners();
+
 		search_LV.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Toast.makeText(SearchActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+				
+				System.out.println(((TextView)view.findViewById(R.id.item_TV)).getText().toString());
+				
 				Intent intent = new Intent();
 				intent.putExtra("position_item", position);
 				setResult(RESULT_OK, intent);
