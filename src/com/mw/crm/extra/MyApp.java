@@ -173,6 +173,7 @@ public class MyApp extends Application {
 		gson = new Gson();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fetchPreferences() {
 		if (sharedPreferences.contains("account_list")) {
 			String value = sharedPreferences.getString("account_list", null);
@@ -296,110 +297,12 @@ public class MyApp extends Application {
 				.getDrawable(R.drawable.opportunity)));
 	}
 
-	private void staticData() {
-		opportunityList.add(new Opportunity("A, Pradeep", null,
-				"Meher Pudumjee, Pheroz Pudumj...", "Active", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Abhishek, A", null,
-				"Blue Print for development o...", "On Hold", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Abraham, Anil Alex", null,
-				"IvyCap Trust DT-FS-13-14", "Scrapped", null, null, null, null,
-				null));
-		opportunityList.add(new Opportunity("Abraham Philomena", null,
-				"LLP conversion, Profit repat....", "Active", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Adhikari Sawant, Rupali", null,
-				"Macquarie Group Services-IES...", "Delete", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Adhikari, Pratik", null,
-				"Meher Pudumjee, Pheroz Pudumj...", "Scrapped", null, null,
-				null, null, null));
-		opportunityList.add(new Opportunity("Adhikary, Subhendu", null,
-				"Macquarie Group Services IES...", "On Hold", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Administrator, CRM", null,
-				"Regulatory compliance under F...", "Scrapped", null, null,
-				null, null, null));
-		opportunityList.add(new Opportunity("Advani, Harish", null,
-				"Responing to Queries from ta...", "Active", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Advani, Vikram", null,
-				"Security Audit of application...", "Delete", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("Agarwal, Abhijit", null,
-				"Blue Print for development o...", "On Hold", null, null, null,
-				null, null));
-		opportunityList.add(new Opportunity("**Agarwal, Abhishek**", null,
-				"Macquarie Group Services-IES...", "Delete", null, null, null,
-				null, null));
-
-		contactList.add(new Contact("NTPC Limited", null, null, null,
-				"A A Sheikh"));
-		contactList.add(new Contact("Saraswat Bank", null, null, null,
-				"A A Vijayakar"));
-		contactList.add(new Contact("Tata Motors Limited", null, null, null,
-				"A Abhay Phalke"));
-		contactList.add(new Contact("RBS Bank N.V", null, null, null,
-				"A Aditya Sharma"));
-		contactList.add(new Contact("GE Group", null, null, null,
-				"A Afzal Modhak"));
-		contactList.add(new Contact("Sterlite Industries", null, null, null,
-				"A Agarwal"));
-		contactList.add(new Contact("TPG Capital L.P.", null, null, null,
-				"A Agarwal"));
-		contactList.add(new Contact("Hindalco Industries Limited", null, null,
-				null, "Agarwala"));
-		contactList.add(new Contact("Aditya Birla Management Corporation",
-				null, null, null, "Ajaysimha"));
-		contactList.add(new Contact("Arisglobal Software Private Limited",
-				null, null, null, "**A Agarwal**"));
-
-		appointmentList.add(new Appointment("",
-				"Discuss on Access Bank Project", null, null, null, null, null,
-				new Date(), new Date()));
-		appointmentList.add(new Appointment("",
-				"Wedding of Shivali and mahendra", null, null, null, null,
-				null, new Date(), new Date()));
-		appointmentList.add(new Appointment("",
-				"Balanced Score Card Demo:OBIEE", null, null, null, null, null,
-				new Date(), new Date()));
-		appointmentList.add(new Appointment("",
-				"Conference Room Pilot - Advisory Function", null, null, null,
-				null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("",
-				"Conference Room Pilot(CRP) - CRM Application Tax...", null,
-				null, null, null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("", "VC with the Promoters", null,
-				null, null, null, null, new Date(), new Date()));
-		appointmentList.add(new Appointment("", "**Srikanth meeting**", null,
-				null, null, null, null, new Date(), new Date()));
-
-		// accountList.add(new Account("South Asia Clean Energy Fund....",
-		// "4440158", null, null, null));
-		// accountList.add(new Account("(n)Code Solutions", "4440152", null,
-		// null,
-		// null));
-		// accountList.add(new Account("1 MG", "4440157", null, null, null));
-		// accountList.add(new Account("1 MG Road", "4440156", null, null,
-		// null));
-		// accountList.add(new Account("10C India Internet India private Ltd",
-		// "5550158", null, null, null));
-		// accountList.add(new Account("120 Media Collective Private Ltd",
-		// "5550152", null, null, null));
-		// accountList.add(new Account("1FB Support Services Private Ltd",
-		// "5550153", null, null, null));
-		// accountList.add(new Account("**2 Degrees**", "5550155", null, null,
-		// null));
-	}
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
 		initThings();
 		loadMenuItems();
-		// createCountryData();
 
 		readDataFromExcel();
 		// Intent intent2 = new Intent(this, OpportunityService.class);
@@ -414,7 +317,6 @@ public class MyApp extends Application {
 					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
 		}
-		// staticData();
 
 	}
 
@@ -467,7 +369,6 @@ public class MyApp extends Application {
 					.put("appId", "3VciTvXPU/o=")
 					.put("appVersion", "Xtn2GgZpLoo=");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return params;
@@ -666,7 +567,7 @@ public class MyApp extends Application {
 
 		// String aa = new Encrypter(null, null).decrypt(string);
 		// System.out.println("!@!@" + aa);
-		// TODO create an Encrypt object at class level
+
 		return new Encrypter(null, null).decrypt(string);
 	}
 

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,8 +48,6 @@ import com.mw.crm.model.Opportunity;
 public class OpportunityAddActivity extends CRMActivity {
 
 	public static boolean isActivityVisible = false;
-
-	String[] temp = new String[] { "Active", "On Hold", "Delete", "Scrapped" };
 
 	MyApp myApp;
 
@@ -249,6 +248,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	private void hideKeyboardFunctionality() {
 		((RelativeLayout) findViewById(R.id.activity_opportunity_add_RL))
 				.setOnTouchListener(new OnTouchListener() {

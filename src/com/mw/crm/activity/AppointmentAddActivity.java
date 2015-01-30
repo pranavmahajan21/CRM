@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -174,6 +175,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		}
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	private void hideKeyboardFunctionality() {
 		((RelativeLayout) findViewById(R.id.activity_appointment_add_RL))
 				.setOnTouchListener(new OnTouchListener() {
