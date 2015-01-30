@@ -223,8 +223,10 @@ public class AppointmentAddActivity extends CRMActivity {
 					.getDesignationOfClientOfficial());
 			detailsDiscussion_ET.setText(tempAppointment.getDescription());
 
-			// startTime_ET.setText(tempAppointment.getStartTime().toString());
-			// endTime_ET.setText(tempAppointment.getEndTime().toString());
+			dateMeeting_TV.setText(myApp.formatDateToString2(tempAppointment
+					.getStartTime()));
+			endTime_TV.setText(myApp.formatDateToString2(tempAppointment
+					.getEndTime()));
 
 			/** Removed temporarily **/
 			// owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
@@ -361,12 +363,16 @@ public class AppointmentAddActivity extends CRMActivity {
 					.put("describe",
 							MyApp.encryptData(detailsDiscussion_ET.getText()
 									.toString()))
-					.put("startdate", myApp.formatDateToString4(new Date()))
-					.put("enddate", myApp.formatDateToString4(new Date()))
+					.put("startdate", myApp.formatDateToString4(myApp.formatStringToDate2(dateMeeting_TV.getText().toString())))
+					.put("enddate", myApp.formatDateToString4(myApp.formatStringToDate2(endTime_TV.getText().toString())))
 					.put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
 			// .put("ownid",
 			// new ArrayList<String>(userMap.keySet())
 			// .get(selectedOwner))
+			
+//			.put("startdate", myApp.formatDateToString4(new Date()))
+//			.put("enddate", myApp.formatDateToString4(new Date()))
+//			.put("startdate", myApp.formatDateToString4(myApp.formatStringToDate2(dateMeeting_TV.getText().toString())))
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
@@ -478,8 +484,8 @@ public class AppointmentAddActivity extends CRMActivity {
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
 
-		progressDialog = createDialog.createProgressDialog("Updating Appointments",
-				"This may take some time", true, null);
+		progressDialog = createDialog.createProgressDialog(
+				"Updating Appointments", "This may take some time", true, null);
 		progressDialog.show();
 
 		Intent serviceIntent = new Intent(this, AppointmentService.class);
@@ -525,8 +531,6 @@ public class AppointmentAddActivity extends CRMActivity {
 		}
 
 	}
-
-	
 
 	private void aaaaa(View view, String x, boolean isDate) {
 		System.out.println(x);
@@ -591,7 +595,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		dPicker.setCancelable(false);
 		dPicker.show();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

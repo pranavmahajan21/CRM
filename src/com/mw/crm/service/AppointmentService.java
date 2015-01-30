@@ -163,7 +163,7 @@ public class AppointmentService extends IntentService {
 					MyApp.decryptData(jsonObject.getString("ownerid")), myApp
 							.formatStringSpecialToDate(MyApp.getPerfectString(jsonObject
 									.getString("scheduledstart"))), myApp
-							.formatStringToDate(MyApp.decryptData(jsonObject
+							.formatStringSpecialToDate(MyApp.getPerfectString(jsonObject
 									.getString("scheduledend"))));
 			return appointment;
 

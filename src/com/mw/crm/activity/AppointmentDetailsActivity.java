@@ -82,8 +82,8 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 
-		 dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
-		 endTime_TV.setText(selectedAppointment.getEndTime().toString());
+		 dateMeeting_TV.setText(myApp.formatDateToString2(selectedAppointment.getStartTime()));
+		 endTime_TV.setText(myApp.formatDateToString2(selectedAppointment.getEndTime()));
 
 	}
 

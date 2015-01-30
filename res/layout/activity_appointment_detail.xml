@@ -113,7 +113,7 @@
             <TextView
                 android:id="@+id/detailsDiscussionLabel_TV"
                 style="@style/TV_top"
-                android:text="Details of Discussion" />
+                android:text="Details of Discussion:" />
             <!--
                      android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
