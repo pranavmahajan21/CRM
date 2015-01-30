@@ -591,6 +591,15 @@ public class MyApp extends Application {
 		editor.commit();
 	}
 
+	public String formatDateToString(Date date) {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
+
+		String dateStr = formatter.format(date);
+		System.out.println(">><<><><><" + dateStr);
+		return dateStr;
+	}
+	
 	public String formatDateToString2(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM, hh:mmaa");
@@ -638,6 +647,21 @@ public class MyApp extends Application {
 		System.out.println("1212  :  " + dateString);
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"EEE, dd MMM, hh:mmaa");
+
+		Date date = null;
+		try {
+			date = formatter.parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// System.out.println(">><<><><><" + dateStr);
+		return date;
+	}
+	
+	public Date formatStringToDate3(String dateString) {
+		System.out.println("1212  :  " + dateString);
+		SimpleDateFormat formatter = new SimpleDateFormat(
+				"dd-MM-yyyy, hh:mm");
 
 		Date date = null;
 		try {

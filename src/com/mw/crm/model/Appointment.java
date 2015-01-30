@@ -90,6 +90,16 @@ public class Appointment implements Serializable {
 		this.ownerId = ownerId;
 	}
 
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public Appointment(String id, String purposeOfMeeting, String description,
 			String nameOfTheClientOfficial, String typeOfMeeting,
 			String designationOfClientOfficial, String ownerId, Date startTime,

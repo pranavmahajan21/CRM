@@ -201,7 +201,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("position")) {
 			tempOpportunity = myApp.getOpportunityList().get(
 					previousIntent.getIntExtra("position", 0));
-
+			descriptionLabel_TV.setText(tempOpportunity.getName());
 			System.out.println(tempOpportunity.toString());
 
 			Toast.makeText(this, tempOpportunity.getOpportunityId(),

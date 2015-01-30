@@ -195,7 +195,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
-
+		
 		System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
 		System.out.println(new ArrayList<String>(userMap.values()).get(2));
 
@@ -203,6 +203,8 @@ public class AppointmentAddActivity extends CRMActivity {
 			tempAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 
+			Toast.makeText(this, "" + tempAppointment.getId(), Toast.LENGTH_SHORT).show();
+			
 			System.out.println(tempAppointment);
 
 			purpose_ET.setText(tempAppointment.getPurposeOfMeeting());
@@ -223,9 +225,9 @@ public class AppointmentAddActivity extends CRMActivity {
 					.getDesignationOfClientOfficial());
 			detailsDiscussion_ET.setText(tempAppointment.getDescription());
 
-			dateMeeting_TV.setText(myApp.formatDateToString2(tempAppointment
+			dateMeeting_TV.setText(myApp.formatDateToString(tempAppointment
 					.getStartTime()));
-			endTime_TV.setText(myApp.formatDateToString2(tempAppointment
+			endTime_TV.setText(myApp.formatDateToString(tempAppointment
 					.getEndTime()));
 
 			/** Removed temporarily **/
@@ -363,16 +365,24 @@ public class AppointmentAddActivity extends CRMActivity {
 					.put("describe",
 							MyApp.encryptData(detailsDiscussion_ET.getText()
 									.toString()))
-					.put("startdate", myApp.formatDateToString4(myApp.formatStringToDate2(dateMeeting_TV.getText().toString())))
-					.put("enddate", myApp.formatDateToString4(myApp.formatStringToDate2(endTime_TV.getText().toString())))
+					.put("startdate",
+							myApp.formatDateToString4(myApp
+									.formatStringToDate3(dateMeeting_TV
+											.getText().toString())))
+					.put("enddate",
+							myApp.formatDateToString4(myApp
+									.formatStringToDate3(endTime_TV.getText()
+											.toString())))
 					.put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
+			
 			// .put("ownid",
 			// new ArrayList<String>(userMap.keySet())
 			// .get(selectedOwner))
-			
-//			.put("startdate", myApp.formatDateToString4(new Date()))
-//			.put("enddate", myApp.formatDateToString4(new Date()))
-//			.put("startdate", myApp.formatDateToString4(myApp.formatStringToDate2(dateMeeting_TV.getText().toString())))
+
+			// .put("startdate", myApp.formatDateToString4(new Date()))
+			// .put("enddate", myApp.formatDateToString4(new Date()))
+			// .put("startdate",
+			// myApp.formatDateToString4(myApp.formatStringToDate2(dateMeeting_TV.getText().toString())))
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
@@ -387,7 +397,8 @@ public class AppointmentAddActivity extends CRMActivity {
 			try {
 				System.out.println("URL : " + url);
 
-				params.put("apponid", "8d0592e9-79a1-e411-96e8-5cf3fc3f502a");
+//				params.put("apponid", "8d0592e9-79a1-e411-96e8-5cf3fc3f502a");
+				params.put("apponid", tempAppointment.getId());
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,
 						new Response.Listener<JSONObject>() {
@@ -533,21 +544,21 @@ public class AppointmentAddActivity extends CRMActivity {
 	}
 
 	private void aaaaa(View view, String x, boolean isDate) {
-		System.out.println(x);
 		switch (view.getId()) {
 		case R.id.dateMeeting_RL:
+			System.out.println("check");
 			if (isDate) {
 				dateMeeting_TV.setText(x);
 			} else {
 				dateMeeting_TV.setText(dateMeeting_TV.getText().toString()
-						+ " " + x);
+						+ ", " + x);
 			}
 			break;
 		case R.id.endTime_RL:
 			if (isDate) {
 				endTime_TV.setText(x);
 			} else {
-				endTime_TV.setText(endTime_TV.getText().toString() + " " + x);
+				endTime_TV.setText(endTime_TV.getText().toString() + ", " + x);
 			}
 			break;
 
@@ -556,17 +567,35 @@ public class AppointmentAddActivity extends CRMActivity {
 		}
 	}
 
+	int noOfTimesDateCalled = 0;
+	int noOfTimesTimeCalled = 0;
+
 	public void onPickDate(final View view) {
-		System.out.println("1");
 		final TimePickerDialog tPicker = new TimePickerDialog(this,
 				new TimePickerDialog.OnTimeSetListener() {
 
 					@Override
 					public void onTimeSet(TimePicker view2, int hourOfDay,
 							int minute) {
-						// System.out.println(hourOfDay + ":" + minute);
-						String temp = hourOfDay + ":" + minute;
-						aaaaa(view, temp, false);
+						if (noOfTimesTimeCalled % 2 == 0) {
+							// System.out.println(hourOfDay + ":" + minute);
+
+							String temp = "";
+
+							if (hourOfDay < 10) {
+								temp = "0" + hourOfDay;
+							} else {
+								temp = "" + hourOfDay;
+							}
+							if (minute < 10) {
+								temp = temp + ":0" + minute;
+							} else {
+								temp = temp + ":" + minute;
+							}
+
+							aaaaa(view, temp, false);
+						}
+						noOfTimesTimeCalled++;
 					}
 				}, 12, 00, true);
 		tPicker.setCancelable(false);
@@ -578,18 +607,35 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		DatePickerDialog dPicker = new DatePickerDialog(this,
 				new DatePickerDialog.OnDateSetListener() {
-
+					/**
+					 * http://stackoverflow.com/questions/19836210/method-called
+					 * -twice-in-datepicker
+					 **/
 					@Override
 					public void onDateSet(DatePicker view2, int year,
 							int monthOfYear, int dayOfMonth) {
-						// System.out.println(dayOfMonth + "-" + (monthOfYear +
-						// 1)
-						// + "-" + year);
-						String temp = dayOfMonth + "-" + (monthOfYear + 1)
-								+ "-" + year;
-						aaaaa(view, temp, true);
-						tPicker.show();
+						if (noOfTimesDateCalled % 2 == 0) {
+							System.out.println(dayOfMonth + "-"
+									+ (monthOfYear + 1) + "-" + year);
 
+							String temp = "";
+							if (dayOfMonth < 10) {
+								temp = "0" + dayOfMonth;
+							} else {
+								temp = "" + dayOfMonth;
+							}
+
+							if (monthOfYear < 10) {
+								temp = temp + "-0" + (monthOfYear + 1);
+							} else {
+								temp = temp + "-" + (monthOfYear + 1);
+							}
+							temp = temp + "-" + year;
+
+							aaaaa(view, temp, true);
+							tPicker.show();
+						}
+						noOfTimesDateCalled++;
 					}
 				}, mYear, mMonth, mDay);
 		dPicker.setCancelable(false);
