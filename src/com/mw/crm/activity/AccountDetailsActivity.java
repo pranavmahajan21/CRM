@@ -134,7 +134,11 @@ public class AccountDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("account_dummy")) {
-			initView("Account Created", null);
+			if (previousIntent.hasExtra("account_created") && previousIntent.getBooleanExtra("account_created", false)) {
+				initView("Created Account", null);
+			} else {
+				initView("Updated Account", null);
+			}
 		} else {
 			initView("Account", "Edit");
 		}

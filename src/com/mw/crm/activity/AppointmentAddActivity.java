@@ -28,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -46,6 +47,8 @@ import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.InternalConnect;
+import com.mw.crm.service.AppointmentService;
+import com.mw.crm.service.ContactService;
 
 public class AppointmentAddActivity extends CRMActivity {
 
@@ -80,10 +83,25 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	RequestQueue queue;
 
-	private BroadcastReceiver ownerReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver appointmentUpdateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			registerForContextMenu(owner_RL);
+			progressDialog.dismiss();
+
+			Toast.makeText(AppointmentAddActivity.this,
+					"Appointment created successfully.", Toast.LENGTH_SHORT).show();
+
+			Appointment aa = new Appointment(null, purpose_ET.getText().toString(),
+					notes_ET.getText().toString(), nameClient_ET.getText()
+							.toString(), interactionType_TV.getText().toString(),
+					designation_ET.getText().toString(), owner_TV.getText()
+							.toString(), new Date(), new Date());
+
+			nextIntent = new Intent(AppointmentAddActivity.this, AppointmentDetailsActivity.class);
+			nextIntent.putExtra("appointment_dummy",
+					new Gson().toJson(aa, Appointment.class));
+			startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
+		
 		}
 	};
 
@@ -233,45 +251,47 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	public void onOpenContextMenu(View view) {
 		hideKeyboard(this.getCurrentFocus());
-	    openContextMenu(view);
+		openContextMenu(view);
 	}
 
 	private boolean validate() {
-		boolean temp = true;
+		boolean notErrorCase = true;
 		if (purpose_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Purpose of Meeting.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (nameClient_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the Name of Client Official.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedInteraction < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select an interaction type.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (designation_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the designation.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (startTime_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a country.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (endTime_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a LOB.", false);
-			temp = false;
-		} 
-		alertDialogBuilder.setPositiveButton("OK",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-		alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-		return temp;
+			notErrorCase = false;
+		}
+		if (!notErrorCase) {
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+		return notErrorCase;
 	}
 
 	public void onRightButton(View view) {
@@ -412,33 +432,23 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
-		// Contact aa = new Contact(firstName_ET.getText().toString(),
-		// lastName_ET
-		// .getText().toString(), email_ET.getText().toString(),
-		// designation_ET.getText().toString(), mobile_ET.getText()
-		// .toString(), officePhone_ET.getText().toString(),
-		// internalConnect_TV.getText().toString(), organization_TV
-		// .getText().toString(), dor_TV.getText().toString(),
-		// null);
 
-		Appointment aa = new Appointment(null, purpose_ET.getText().toString(),
-				notes_ET.getText().toString(), nameClient_ET.getText()
-						.toString(), interactionType_TV.getText().toString(),
-				designation_ET.getText().toString(), owner_TV.getText()
-						.toString(), new Date(), new Date());
-
-		nextIntent = new Intent(this, AppointmentDetailsActivity.class);
-		nextIntent.putExtra("appointment_dummy",
-				new Gson().toJson(aa, Appointment.class));
-		startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
+		progressDialog = createDialog.createProgressDialog("Updating Contacts",
+				"This may take some time", true, null);
+		progressDialog.show();
+		
+		Intent serviceIntent = new Intent(this, AppointmentService.class);
+		startService(serviceIntent);
+		
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		isActivityVisible = true;
-		LocalBroadcastManager.getInstance(this).registerReceiver(ownerReceiver,
-				new IntentFilter("owner_data"));
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				appointmentUpdateReceiver,
+				new IntentFilter("appointment_update_receiver"));
 
 	}
 
@@ -446,7 +456,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	protected void onPause() {
 		isActivityVisible = false;
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-				ownerReceiver);
+				appointmentUpdateReceiver);
 		super.onPause();
 	}
 

@@ -198,7 +198,11 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("opportunity_dummy")) {
-			initView("Opportunity Created", null);
+			if (previousIntent.hasExtra("opportunity_created")  && previousIntent.getBooleanExtra("opportunity_created", false)) {
+				initView("Created Opportunity", null);
+			} else {
+				initView("Updated Opportunity", null);
+			}
 		} else {
 			initView("Opportunity", "Edit");
 		}

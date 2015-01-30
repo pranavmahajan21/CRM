@@ -47,6 +47,7 @@ import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Contact;
 import com.mw.crm.model.InternalConnect;
+import com.mw.crm.service.ContactService;
 
 public class ContactAddActivity extends CRMActivity {
 
@@ -83,11 +84,27 @@ public class ContactAddActivity extends CRMActivity {
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
 
-	private BroadcastReceiver contactReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver contactUpdateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			registerForContextMenu(internal_RL);
-			registerForContextMenu(organization_RL);
+			progressDialog.dismiss();
+
+			Toast.makeText(ContactAddActivity.this,
+					"Contact created successfully.", Toast.LENGTH_SHORT).show();
+
+			Contact aa = new Contact(firstName_ET.getText().toString(),
+					lastName_ET.getText().toString(), email_ET.getText()
+							.toString(), designation_ET.getText().toString(),
+					mobile_ET.getText().toString(), officePhone_ET.getText()
+							.toString(), internalConnect_TV.getText()
+							.toString(), organization_TV.getText().toString(),
+					dor_TV.getText().toString(), null);
+
+			nextIntent = new Intent(ContactAddActivity.this,
+					ContactDetailsActivity.class);
+			nextIntent
+					.putExtra("contact_dummy", gson.toJson(aa, Contact.class));
+			startActivityForResult(nextIntent, MyApp.DETAILS_CONTACT);
 		}
 	};
 
@@ -214,6 +231,15 @@ public class ContactAddActivity extends CRMActivity {
 				});
 	}
 
+	private void staticNonsense() {
+		firstName_ET.setText("AB");
+		lastName_ET.setText("Devilliers");
+		designation_ET.setText("pool");
+		email_ET.setText("hullo@hullo.com");
+		officePhone_ET.setText("123456");
+		mobile_ET.setText("123123");
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -224,6 +250,8 @@ public class ContactAddActivity extends CRMActivity {
 		initView("Add Contact", "Submit");
 
 		hideKeyboardFunctionality();
+
+		staticNonsense();
 
 		registerForContextMenu(dor_RL);
 	}
@@ -258,53 +286,55 @@ public class ContactAddActivity extends CRMActivity {
 	}
 
 	private boolean validate() {
-		boolean temp = true;
+		boolean notErrorCase = true;
 		if (firstName_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some First Name.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (lastName_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Last Name.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedDOR < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a DOR.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedInternalConnect < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Internal Connect.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedOrganisation < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select an organization.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (designation_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the designation.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (email_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the email.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (officePhone_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter Office Phone.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (lastName_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter Mobile.", false);
-			temp = false;
+			notErrorCase = false;
 		}
-		alertDialogBuilder.setPositiveButton("OK",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-		alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-		return temp;
+		if (!notErrorCase) {
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+		return notErrorCase;
 	}
 
 	public void onRightButton(View view) {
@@ -452,17 +482,13 @@ public class ContactAddActivity extends CRMActivity {
 
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
-		Contact aa = new Contact(firstName_ET.getText().toString(), lastName_ET
-				.getText().toString(), email_ET.getText().toString(),
-				designation_ET.getText().toString(), mobile_ET.getText()
-						.toString(), officePhone_ET.getText().toString(),
-				internalConnect_TV.getText().toString(), organization_TV
-						.getText().toString(), dor_TV.getText().toString(),
-				null);
 
-		nextIntent = new Intent(this, ContactDetailsActivity.class);
-		nextIntent.putExtra("contact_dummy", gson.toJson(aa, Contact.class));
-		startActivityForResult(nextIntent, MyApp.DETAILS_CONTACT);
+		progressDialog = createDialog.createProgressDialog("Updating Contacts",
+				"This may take some time", true, null);
+		progressDialog.show();
+
+		Intent serviceIntent = new Intent(this, ContactService.class);
+		startService(serviceIntent);
 	}
 
 	@Override
@@ -470,7 +496,8 @@ public class ContactAddActivity extends CRMActivity {
 		super.onResume();
 		isActivityVisible = true;
 		LocalBroadcastManager.getInstance(this).registerReceiver(
-				contactReceiver, new IntentFilter("contact_data"));
+				contactUpdateReceiver,
+				new IntentFilter("contact_update_receiver"));
 
 	}
 
@@ -478,7 +505,7 @@ public class ContactAddActivity extends CRMActivity {
 	protected void onPause() {
 		isActivityVisible = false;
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-				contactReceiver);
+				contactUpdateReceiver);
 		super.onPause();
 	}
 

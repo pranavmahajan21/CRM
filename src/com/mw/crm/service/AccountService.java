@@ -23,8 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.mw.crm.activity.AppointmentAddActivity;
-import com.mw.crm.activity.ContactAddActivity;
+import com.mw.crm.activity.AccountAddActivity;
 import com.mw.crm.activity.MenuActivity;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
@@ -78,6 +77,7 @@ public class AccountService extends IntentService {
 								}
 							}
 							myApp.setAccountList(accountList);
+							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
@@ -99,6 +99,7 @@ public class AccountService extends IntentService {
 							if (error instanceof ServerError) {
 								System.out.println("ServerError");
 							}
+							onRequestComplete();
 						}
 					});
 
@@ -113,19 +114,34 @@ public class AccountService extends IntentService {
 
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (ContactAddActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("contact_data");
-			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		} else if (AppointmentAddActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("owner_data");
+	private void onRequestComplete() {
+		// if (ContactAddActivity.isActivityVisible) {
+		// Intent nextIntent = new Intent("contact_data");
+		// LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+		// } else
+			if (AccountAddActivity.isActivityVisible) {
+			Intent nextIntent = new Intent("account_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		} else if (MenuActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		// if (ContactAddActivity.isActivityVisible) {
+		// Intent nextIntent = new Intent("contact_data");
+		// LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+		// } else
+//			if (AccountAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("account_update_receiver");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else if (MenuActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("app_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		}
 	}
 
 	private Account getAccountObject(JSONObject jsonObject) {

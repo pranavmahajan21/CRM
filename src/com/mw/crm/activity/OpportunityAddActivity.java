@@ -46,6 +46,7 @@ import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
+import com.mw.crm.service.OpportunityService;
 
 public class OpportunityAddActivity extends CRMActivity {
 
@@ -84,10 +85,31 @@ public class OpportunityAddActivity extends CRMActivity {
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
 
-	private BroadcastReceiver opportunityReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// registerForContextMenu(client_RL);
+			progressDialog.dismiss();
+
+			Toast.makeText(OpportunityAddActivity.this,
+					"Opportunity created successfully.", Toast.LENGTH_SHORT).show();
+			
+			Opportunity aa = new Opportunity(oppoManager_TV.getText().toString(),
+					null, null, clientName_TV.getText().toString(), description_ET
+							.getText().toString(), status_TV.getText().toString(),
+					null, probability_TV.getText().toString(), salesStage_TV
+							.getText().toString());
+
+			nextIntent = new Intent(OpportunityAddActivity.this, OpportunityDetailsActivity.class);
+
+			nextIntent.putExtra("opportunity_dummy",
+					new Gson().toJson(aa, Opportunity.class));
+			nextIntent.putExtra("country", country_TV.getText().toString());
+			nextIntent.putExtra("lob", lob_TV.getText().toString());
+			nextIntent.putExtra("sub_lob", sublob_TV.getText().toString());
+			nextIntent.putExtra("sector", sector_TV.getText().toString());
+
+			startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
+
 		}
 	};
 
@@ -334,41 +356,43 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	private boolean validate() {
-		boolean temp = true;
+		boolean notErrorCase = true;
 		if (clientName_TV.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Client Name.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (description_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select some description.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedStatus < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a status.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedOppoManager < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select an Opportunity Managaer.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedProbability < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a probability.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedSalesStage < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Sales Stage.", false);
-			temp = false;
+			notErrorCase = false;
 		}
-		alertDialogBuilder.setPositiveButton("OK",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-		alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-		return temp;
+		if (!notErrorCase) {
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+		return notErrorCase;
 	}
 
 	public void onRightButton(View view) {
@@ -511,22 +535,13 @@ public class OpportunityAddActivity extends CRMActivity {
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
 
-		Opportunity aa = new Opportunity(oppoManager_TV.getText().toString(),
-				null, null, clientName_TV.getText().toString(), description_ET
-						.getText().toString(), status_TV.getText().toString(),
-				null, probability_TV.getText().toString(), salesStage_TV
-						.getText().toString());
+		progressDialog = createDialog.createProgressDialog("Updating Opportunity",
+				"This may take some time", true, null);
+		progressDialog.show();
 
-		nextIntent = new Intent(this, OpportunityDetailsActivity.class);
-
-		nextIntent.putExtra("opportunity_dummy",
-				new Gson().toJson(aa, Opportunity.class));
-		nextIntent.putExtra("country", country_TV.getText().toString());
-		nextIntent.putExtra("lob", lob_TV.getText().toString());
-		nextIntent.putExtra("sub_lob", sublob_TV.getText().toString());
-		nextIntent.putExtra("sector", sector_TV.getText().toString());
-
-		startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
+		Intent serviceIntent = new Intent(this, OpportunityService.class);
+		startService(serviceIntent);
+		
 	}
 
 	@Override
@@ -534,7 +549,8 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.onResume();
 		isActivityVisible = true;
 		LocalBroadcastManager.getInstance(this).registerReceiver(
-				opportunityReceiver, new IntentFilter("owner_data"));
+				opportunityUpdateReceiver,
+				new IntentFilter("opportunity_update_receiver"));
 
 	}
 
@@ -542,7 +558,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	protected void onPause() {
 		isActivityVisible = false;
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-				opportunityReceiver);
+				opportunityUpdateReceiver);
 		super.onPause();
 	}
 

@@ -89,7 +89,7 @@ public class ContactDetailsActivity extends CRMActivity {
 			dor_TV.setText(selectedContact.getDegreeOfRelation());
 		} else {
 			initWithoutMappingFields();
-			
+
 			organization_TV.setText(myApp
 					.getStringNameFromStringJSON(selectedContact
 							.getOrganization()));
@@ -117,7 +117,11 @@ public class ContactDetailsActivity extends CRMActivity {
 		initThings();
 		findThings();
 		if (previousIntent.hasExtra("contact_dummy")) {
-			initView("Contact Created", null);
+			if (previousIntent.hasExtra("contact_created") && previousIntent.getBooleanExtra("contact_created", false)) {
+				initView("Created Contact", null);
+			} else {
+				initView("Updated Contact", null);
+			}
 		} else {
 			initView("Contact", "Edit");
 		}

@@ -24,7 +24,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.AppointmentAddActivity;
-import com.mw.crm.activity.ContactAddActivity;
 import com.mw.crm.activity.MenuActivity;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
@@ -72,14 +71,12 @@ public class AppointmentService extends IntentService {
 											.add(getAppointmentObject(response
 													.getJSONObject(i)));
 								} catch (JSONException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 
 							}
 							myApp.setAppointmentList(appointmentList);
-
-							// editor.commit();
+							onRequestComplete();
 						}
 
 						// TODO What is the difference b/w creating this func
@@ -107,6 +104,7 @@ public class AppointmentService extends IntentService {
 							if (error instanceof ServerError) {
 								System.out.println("ServerError");
 							}
+							onRequestComplete();
 						}
 					}) {
 
@@ -134,19 +132,34 @@ public class AppointmentService extends IntentService {
 
 	}
 
+	private void onRequestComplete() {
+//		if (ContactAddActivity.isActivityVisible) {
+//		Intent nextIntent = new Intent("internal_connect_data");
+//		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//	} else 
+		if (AppointmentAddActivity.isActivityVisible) {
+		Intent nextIntent = new Intent("appointment_update_receiver");
+		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+	} else if (MenuActivity.isActivityVisible) {
+		Intent nextIntent = new Intent("app_data");
+		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+	}
+	}
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (ContactAddActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("internal_connect_data");
-			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		} else if (AppointmentAddActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("owner_data");
-			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		} else if (MenuActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("app_data");
-			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		}
+//		if (ContactAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("internal_connect_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else 
+//			if (AppointmentAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("appointment_update_receiver");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else if (MenuActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("app_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		}
 	}
 
 	private Appointment getAppointmentObject(JSONObject jsonObject) {

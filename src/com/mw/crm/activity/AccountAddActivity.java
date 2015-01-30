@@ -10,10 +10,13 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -24,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -41,8 +45,11 @@ import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
+import com.mw.crm.service.AccountService;
 
 public class AccountAddActivity extends CRMActivity {
+
+	public static boolean isActivityVisible = false;
 
 	MyApp myApp;
 
@@ -77,6 +84,28 @@ public class AccountAddActivity extends CRMActivity {
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
+
+	private BroadcastReceiver accountUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			progressDialog.dismiss();
+
+			Toast.makeText(AccountAddActivity.this,
+					"Account created successfully.", Toast.LENGTH_SHORT).show();
+
+			Account aa = new Account(clientName_ET.getText().toString(), null,
+					headquarter_TV.getText().toString(), lob_TV.getText()
+							.toString(), sublob_TV.getText().toString(),
+					accountCategory_TV.getText().toString(), sector_TV.getText()
+							.toString(), leadPartner_TV.getText().toString());
+
+			nextIntent = new Intent(AccountAddActivity.this, AccountDetailsActivity.class);
+			nextIntent.putExtra("account_dummy",
+					new Gson().toJson(aa, Account.class));
+			startActivityForResult(nextIntent, MyApp.DETAILS_ACCOUNT);
+
+		}
+	};
 
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
@@ -297,49 +326,51 @@ public class AccountAddActivity extends CRMActivity {
 
 	public void onOpenContextMenu(View view) {
 		hideKeyboard(this.getCurrentFocus());
-	    openContextMenu(view);
+		openContextMenu(view);
 	}
 
 	private boolean validate() {
-		boolean temp = true;
+		boolean notErrorCase = true;
 		if (clientName_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Client Name.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedSector < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a sector.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedCountry < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a country.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedLob < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a LOB.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedSubLob < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Sub Lob.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedLeadPartner < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Lead Partner.", false);
-			temp = false;
+			notErrorCase = false;
 		} else if (selectedAccountCategory < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select an Account Category.", false);
-			temp = false;
+			notErrorCase = false;
 		}
-		alertDialogBuilder.setPositiveButton("OK",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-		alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-		return temp;
+		if (!notErrorCase) {
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+		return notErrorCase;
 	}
 
 	public void onRightButton(View view) {
@@ -507,16 +538,13 @@ public class AccountAddActivity extends CRMActivity {
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
 
-		Account aa = new Account(clientName_ET.getText().toString(), null,
-				headquarter_TV.getText().toString(), lob_TV.getText()
-						.toString(), sublob_TV.getText().toString(),
-				accountCategory_TV.getText().toString(), sector_TV.getText()
-						.toString(), leadPartner_TV.getText().toString());
+		progressDialog = createDialog.createProgressDialog("Updating Account",
+				"This may take some time", true, null);
+		progressDialog.show();
 
-		nextIntent = new Intent(this, AccountDetailsActivity.class);
-		nextIntent.putExtra("account_dummy",
-				new Gson().toJson(aa, Account.class));
-		startActivityForResult(nextIntent, MyApp.DETAILS_ACCOUNT);
+		Intent serviceIntent = new Intent(this, AccountService.class);
+		startService(serviceIntent);
+
 	}
 
 	@Override
@@ -562,4 +590,21 @@ public class AccountAddActivity extends CRMActivity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				accountUpdateReceiver,
+				new IntentFilter("account_update_receiver"));
+
+	}
+
+	@Override
+	protected void onPause() {
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				accountUpdateReceiver);
+		super.onPause();
+	}
 }

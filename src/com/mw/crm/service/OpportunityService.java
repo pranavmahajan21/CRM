@@ -23,9 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.mw.crm.activity.AppointmentAddActivity;
-import com.mw.crm.activity.ContactAddActivity;
 import com.mw.crm.activity.MenuActivity;
+import com.mw.crm.activity.OpportunityAddActivity;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Opportunity;
 
@@ -80,6 +79,7 @@ public class OpportunityService extends IntentService {
 								// + accountList.get(i).getName());
 							}
 							myApp.setOpportunityList(opportunityList);
+							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
@@ -101,6 +101,7 @@ public class OpportunityService extends IntentService {
 							if (error instanceof ServerError) {
 								System.out.println("ServerError");
 							}
+							onRequestComplete();
 						}
 					});
 
@@ -115,19 +116,33 @@ public class OpportunityService extends IntentService {
 
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (ContactAddActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("internal_connect_data");
-			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		} else if (AppointmentAddActivity.isActivityVisible) {
+	private void onRequestComplete() {
+//		if (ContactAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("internal_connect_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else 
+			if (OpportunityAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("owner_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		} else if (MenuActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+//		if (ContactAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("internal_connect_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else if (AppointmentAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("owner_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else if (MenuActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("app_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		}
 	}
 
 	private Opportunity getOpportunityObject(JSONObject jsonObject) {
