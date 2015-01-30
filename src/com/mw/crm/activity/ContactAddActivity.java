@@ -155,17 +155,26 @@ public class ContactAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		// firstNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// lastNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// organizationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// organization2_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// internalConnect2_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// dor_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// dor2_TV.setTypeface(myApp.getTypefaceRegularSans());
-		//
-		// firstName_ET.setTypeface(myApp.getTypefaceRegularSans());
-		// lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
+		firstNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lastNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		internalConnectLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organizationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		designationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		emailLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		officePhoneLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		mobileLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		dor_TV.setTypeface(myApp.getTypefaceRegularSans());
+		internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organization_TV.setTypeface(myApp.getTypefaceRegularSans());
+		
+		firstName_ET.setTypeface(myApp.getTypefaceRegularSans());
+		lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
+		designation_ET.setTypeface(myApp.getTypefaceRegularSans());
+		email_ET.setTypeface(myApp.getTypefaceRegularSans());
+		officePhone_ET.setTypeface(myApp.getTypefaceRegularSans());
+		mobile_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String title, String title2) {
@@ -251,7 +260,7 @@ public class ContactAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		staticNonsense();
+		// staticNonsense();
 
 		registerForContextMenu(dor_RL);
 	}

@@ -161,8 +161,18 @@ public class AccountAddActivity extends CRMActivity {
 		clientNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		headquarterLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		leadPartnerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		accountCategoryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
+		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
+		headquarter_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
+		accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
+		
 		clientName_ET.setTypeface(myApp.getTypefaceRegularSans());
 
 	}

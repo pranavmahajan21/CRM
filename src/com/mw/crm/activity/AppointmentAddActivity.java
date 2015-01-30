@@ -56,14 +56,20 @@ public class AppointmentAddActivity extends CRMActivity {
 	MyApp myApp;
 
 	TextView purposeLabel_TV, nameClientLabel_TV, interactionTypeLabel_TV,
-			designationLabel_TV, ownerLabel_TV;
+			designationLabel_TV, detailsDiscussionLabel_TV,
+			dateMeetingLabel_TV, endTimeLabel_TV;
+	/** Removed temporarily **/
+	// , ownerLabel_TV
 
-	TextView interactionType_TV, owner_TV;
+	TextView interactionType_TV, dateMeeting_TV, endTime_TV;
+	/** Removed temporarily **/
+	// , owner_TV
 
-	EditText purpose_ET, nameClient_ET, designation_ET, notes_ET, startTime_ET,
-			endTime_ET;
-
-	RelativeLayout interactionType_RL, owner_RL;
+	EditText purpose_ET, nameClient_ET, designation_ET, detailsDiscussion_ET;
+	// startTime_ET, endTime_ET
+	RelativeLayout interactionType_RL;
+	/** Removed temporarily **/
+	// , owner_RL
 
 	Intent previousIntent, nextIntent;
 	Appointment tempAppointment;
@@ -88,19 +94,24 @@ public class AppointmentAddActivity extends CRMActivity {
 			progressDialog.dismiss();
 
 			Toast.makeText(AppointmentAddActivity.this,
-					"Appointment created successfully.", Toast.LENGTH_SHORT).show();
+					"Appointment created successfully.", Toast.LENGTH_SHORT)
+					.show();
 
-			Appointment aa = new Appointment(null, purpose_ET.getText().toString(),
-					notes_ET.getText().toString(), nameClient_ET.getText()
-							.toString(), interactionType_TV.getText().toString(),
-					designation_ET.getText().toString(), owner_TV.getText()
-							.toString(), new Date(), new Date());
+			Appointment aa = new Appointment(null, purpose_ET.getText()
+					.toString(), detailsDiscussion_ET.getText().toString(),
+					nameClient_ET.getText().toString(), interactionType_TV
+							.getText().toString(), designation_ET.getText()
+							.toString(), null, new Date(), new Date());
 
-			nextIntent = new Intent(AppointmentAddActivity.this, AppointmentDetailsActivity.class);
+			/** Removed temporarily **/
+			// owner_TV.getText().toString()
+
+			nextIntent = new Intent(AppointmentAddActivity.this,
+					AppointmentDetailsActivity.class);
 			nextIntent.putExtra("appointment_dummy",
 					new Gson().toJson(aa, Appointment.class));
 			startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
-		
+
 		}
 	};
 
@@ -125,19 +136,28 @@ public class AppointmentAddActivity extends CRMActivity {
 		nameClientLabel_TV = (TextView) findViewById(R.id.nameClientLabel_TV);
 		interactionTypeLabel_TV = (TextView) findViewById(R.id.interactionTypeLabel_TV);
 		designationLabel_TV = (TextView) findViewById(R.id.designationLabel_TV);
-		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		detailsDiscussionLabel_TV = (TextView) findViewById(R.id.detailsDiscussionLabel_TV);
+		dateMeetingLabel_TV = (TextView) findViewById(R.id.dateMeetingLabel_TV);
+		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
+		
+		/** Removed temporarily **/
+		// ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
 
 		interactionType_TV = (TextView) findViewById(R.id.interactionType_TV);
-		owner_TV = (TextView) findViewById(R.id.owner_TV);
+		dateMeeting_TV = (TextView) findViewById(R.id.dateMeeting_TV);
+		endTime_TV = (TextView) findViewById(R.id.endTime_TV);
+		/** Removed temporarily **/
+		// owner_TV = (TextView) findViewById(R.id.owner_TV);
 
 		purpose_ET = (EditText) findViewById(R.id.purpose_ET);
 		nameClient_ET = (EditText) findViewById(R.id.nameClient_ET);
 		designation_ET = (EditText) findViewById(R.id.designation_ET);
-		notes_ET = (EditText) findViewById(R.id.notes_ET);
-		startTime_ET = (EditText) findViewById(R.id.startTime_ET);
-		endTime_ET = (EditText) findViewById(R.id.endTime_ET);
+		detailsDiscussion_ET = (EditText) findViewById(R.id.detailsDiscussion_ET);
+		// startTime_ET = (EditText) findViewById(R.id.startTime_ET);
+		// endTime_ET = (EditText) findViewById(R.id.endTime_ET);
 
-		owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
+		/** Removed temporarily **/
+		// owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
 		interactionType_RL = (RelativeLayout) findViewById(R.id.interactionType_RL);
 	}
 
@@ -146,18 +166,29 @@ public class AppointmentAddActivity extends CRMActivity {
 		nameClientLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		interactionTypeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		designationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		detailsDiscussionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dateMeetingLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		endTimeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
+		interactionType_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
+		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
+		
 		purpose_ET.setTypeface(myApp.getTypefaceRegularSans());
 		nameClient_ET.setTypeface(myApp.getTypefaceRegularSans());
 		designation_ET.setTypeface(myApp.getTypefaceRegularSans());
-		notes_ET.setTypeface(myApp.getTypefaceRegularSans());
-		startTime_ET.setTypeface(myApp.getTypefaceRegularSans());
-		endTime_ET.setTypeface(myApp.getTypefaceRegularSans());
+		detailsDiscussion_ET.setTypeface(myApp.getTypefaceRegularSans());
+
+		// startTime_ET.setTypeface(myApp.getTypefaceRegularSans());
+		// endTime_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
+
+		System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
+		System.out.println(new ArrayList<String>(userMap.values()).get(2));
 
 		if (previousIntent.hasExtra("position")) {
 			tempAppointment = myApp.getAppointmentList().get(
@@ -181,13 +212,14 @@ public class AppointmentAddActivity extends CRMActivity {
 
 			designation_ET.setText(tempAppointment
 					.getDesignationOfClientOfficial());
-			notes_ET.setText(tempAppointment.getDescription());
+			detailsDiscussion_ET.setText(tempAppointment.getDescription());
 
 			// startTime_ET.setText(tempAppointment.getStartTime().toString());
 			// endTime_ET.setText(tempAppointment.getEndTime().toString());
 
-			owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
-					.getOwnerId()));
+			/** Removed temporarily **/
+			// owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
+			// .getOwnerId()));
 			selectedOwner = myApp.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAppointment.getOwnerId()));
 
@@ -222,7 +254,6 @@ public class AppointmentAddActivity extends CRMActivity {
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(interactionType_RL);
-		// registerForContextMenu(owner_RL);
 	}
 
 	@Override
@@ -272,15 +303,15 @@ public class AppointmentAddActivity extends CRMActivity {
 					"Please enter the designation.", false);
 			notErrorCase = false;
 		}
-//		else if (startTime_ET.getText().toString().trim().length() < 1) {
-//			alertDialogBuilder = createDialog.createAlertDialog(null,
-//					"Please select a start time.", false);
-//			notErrorCase = false;
-//		} else if (endTime_ET.getText().toString().trim().length() < 1) {
-//			alertDialogBuilder = createDialog.createAlertDialog(null,
-//					"Please select a end time.", false);
-//			notErrorCase = false;
-//		}
+		// else if (startTime_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select a start time.", false);
+		// notErrorCase = false;
+		// } else if (endTime_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select a end time.", false);
+		// notErrorCase = false;
+		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -316,12 +347,14 @@ public class AppointmentAddActivity extends CRMActivity {
 							MyApp.encryptData(designation_ET.getText()
 									.toString()))
 					.put("describe",
-							MyApp.encryptData(notes_ET.getText().toString()))
+							MyApp.encryptData(detailsDiscussion_ET.getText()
+									.toString()))
 					.put("startdate", myApp.formatDateToString4(new Date()))
 					.put("enddate", myApp.formatDateToString4(new Date()))
-					.put("ownid",
-							new ArrayList<String>(userMap.keySet())
-									.get(selectedOwner));
+					.put("ownid", "");
+			// .put("ownid",
+			// new ArrayList<String>(userMap.keySet())
+			// .get(selectedOwner))
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
@@ -436,10 +469,10 @@ public class AppointmentAddActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Updating Contacts",
 				"This may take some time", true, null);
 		progressDialog.show();
-		
+
 		Intent serviceIntent = new Intent(this, AppointmentService.class);
 		startService(serviceIntent);
-		
+
 	}
 
 	@Override
@@ -470,9 +503,10 @@ public class AppointmentAddActivity extends CRMActivity {
 		nextIntent = new Intent(this, SearchActivity.class);
 
 		switch (view.getId()) {
-		case R.id.owner_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-			break;
+		/** Removed temporarily **/
+		// case R.id.owner_RL:
+		// startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+		// break;
 
 		default:
 			break;
@@ -491,7 +525,8 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (requestCode == MyApp.SEARCH_USER) {
 				userMap = myApp.getUserMap();
 				List<String> list = new ArrayList<String>(userMap.values());
-				owner_TV.setText(list.get(positionItem));
+				/** Removed temporarily **/
+				// owner_TV.setText(list.get(positionItem));
 				selectedOwner = positionItem;
 			}
 			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
@@ -500,6 +535,10 @@ public class AppointmentAddActivity extends CRMActivity {
 			}
 
 		}
+
+	}
+
+	public void onPickDate(View view) {
 
 	}
 }
