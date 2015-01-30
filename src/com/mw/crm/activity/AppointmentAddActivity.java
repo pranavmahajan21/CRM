@@ -9,9 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -70,6 +72,8 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 
 	Map<String, String> userMap;
 	Map<String, String> interactionTypeMap;
@@ -231,7 +235,48 @@ public class AppointmentAddActivity extends CRMActivity {
 		openContextMenu(view);
 	}
 
+	private boolean validate() {
+		boolean temp = true;
+		if (purpose_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some Purpose of Meeting.", false);
+			temp = false;
+		} else if (nameClient_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter the Name of Client Official.", false);
+			temp = false;
+		} else if (selectedInteraction < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an interaction type.", false);
+			temp = false;
+		} else if (designation_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter the designation.", false);
+			temp = false;
+		} else if (startTime_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a country.", false);
+			temp = false;
+		} else if (endTime_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a LOB.", false);
+			temp = false;
+		} 
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+		return temp;
+	}
+
 	public void onRightButton(View view) {
+		if (!validate()) {
+			return;
+		}
 
 		// System.out.println(myApp.formatDateToString4(new Date()));
 

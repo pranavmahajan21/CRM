@@ -46,7 +46,7 @@ public class AppointmentService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Toast.makeText(this, "AppointmentService", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "AppointmentService", Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {

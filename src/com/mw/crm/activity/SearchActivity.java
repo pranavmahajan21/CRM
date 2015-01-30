@@ -148,16 +148,30 @@ public class SearchActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Toast.makeText(SearchActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-				
-				System.out.println(((TextView)view.findViewById(R.id.item_TV)).getText().toString());
-				
+
+				// System.out.println(((TextView)
+				// view.findViewById(R.id.item_TV))
+				// .getText().toString());
+				int exactPosition = getExactPosition(((TextView) view
+						.findViewById(R.id.item_TV)).getText().toString());
+				Toast.makeText(SearchActivity.this, "" + exactPosition,
+						Toast.LENGTH_SHORT).show();
+
 				Intent intent = new Intent();
-				intent.putExtra("position_item", position);
+				intent.putExtra("position_item", exactPosition);
 				setResult(RESULT_OK, intent);
 				finish();
 			}
 		});
+	}
+
+	private int getExactPosition(String text) {
+		for (int i = 0; i < stringList.size(); i++) {
+			if(stringList.get(i).equalsIgnoreCase(text)){
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	public void onBack(View view) {

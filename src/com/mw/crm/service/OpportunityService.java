@@ -46,7 +46,7 @@ public class OpportunityService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Toast.makeText(this, "OpportunityService", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "OpportunityService", Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {

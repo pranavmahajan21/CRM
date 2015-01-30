@@ -46,7 +46,7 @@ public class ContactService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Toast.makeText(this, "ContactService", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "ContactService", Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {
@@ -79,6 +79,7 @@ public class ContactService extends IntentService {
 
 							}
 							myApp.setContactList(contactList);
+							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
@@ -100,6 +101,7 @@ public class ContactService extends IntentService {
 							if (error instanceof ServerError) {
 								System.out.println("ServerError");
 							}
+							onRequestComplete();
 						}
 					});
 
@@ -114,9 +116,7 @@ public class ContactService extends IntentService {
 
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	private void onRequestComplete() {
 		if (ContactAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("internal_connect_data");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
@@ -129,20 +129,39 @@ public class ContactService extends IntentService {
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+//		if (ContactAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("internal_connect_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else if (AppointmentAddActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("owner_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		} else if (MenuActivity.isActivityVisible) {
+//			Intent nextIntent = new Intent("app_data");
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+//		}
+	}
+
 	private Contact getContactObject(JSONObject jsonObject) {
 		try {
 
-			Contact contact = new Contact(MyApp.getPerfectString(jsonObject
-					.getString("firstname")), MyApp.getPerfectString(jsonObject
-					.getString("lastname")), MyApp.getPerfectString(jsonObject
-					.getString("emailaddress1")), MyApp.getPerfectString(jsonObject
-					.getString("pcl_designation")), MyApp.getPerfectString(jsonObject
-					.getString("mobilephone")), MyApp.getPerfectString(jsonObject
-					.getString("telephone1")), MyApp.decryptData(jsonObject
-					.getString("ownerid")), MyApp.decryptData(jsonObject
-					.getString("parentcustomerid")), MyApp.decryptData(jsonObject
-					.getString("customertypecode")), MyApp.getPerfectString(jsonObject
-					.getString("contactid")));
+			Contact contact = new Contact(
+					MyApp.getPerfectString(jsonObject.getString("firstname")),
+					MyApp.getPerfectString(jsonObject.getString("lastname")),
+					MyApp.getPerfectString(jsonObject
+							.getString("emailaddress1")),
+					MyApp.getPerfectString(jsonObject
+							.getString("pcl_designation")),
+					MyApp.getPerfectString(jsonObject.getString("mobilephone")),
+					MyApp.getPerfectString(jsonObject.getString("telephone1")),
+					MyApp.decryptData(jsonObject.getString("ownerid")), MyApp
+							.decryptData(jsonObject
+									.getString("parentcustomerid")), MyApp
+							.decryptData(jsonObject
+									.getString("customertypecode")),
+					MyApp.getPerfectString(jsonObject.getString("contactid")));
 
 			return contact;
 

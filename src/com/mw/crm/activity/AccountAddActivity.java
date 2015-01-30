@@ -8,7 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -72,6 +74,8 @@ public class AccountAddActivity extends CRMActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
@@ -294,7 +298,53 @@ public class AccountAddActivity extends CRMActivity {
 		openContextMenu(view);
 	}
 
+	private boolean validate() {
+		boolean temp = true;
+		if (clientName_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some Client Name.", false);
+			temp = false;
+		} else if (selectedSector < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a sector.", false);
+			temp = false;
+		} else if (selectedCountry < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a country.", false);
+			temp = false;
+		} else if (selectedLob < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a LOB.", false);
+			temp = false;
+		} else if (selectedSubLob < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Sub Lob.", false);
+			temp = false;
+		} else if (selectedLeadPartner < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Lead Partner.", false);
+			temp = false;
+		} else if (selectedAccountCategory < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an Account Category.", false);
+			temp = false;
+		}
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+		return temp;
+	}
+
 	public void onRightButton(View view) {
+		if (!validate()) {
+			return;
+		}
+
 		JSONObject params = new JSONObject();
 
 		try {
@@ -472,7 +522,7 @@ public class AccountAddActivity extends CRMActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			int positionItem = 0;
-			if (data!= null) {
+			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
 			if (requestCode == MyApp.SEARCH_SECTOR) {

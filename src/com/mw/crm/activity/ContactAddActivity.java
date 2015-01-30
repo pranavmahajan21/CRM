@@ -8,9 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -78,6 +81,8 @@ public class ContactAddActivity extends CRMActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 
 	private BroadcastReceiver contactReceiver = new BroadcastReceiver() {
 		@Override
@@ -247,13 +252,67 @@ public class ContactAddActivity extends CRMActivity {
 
 	}
 
+	/** We can put this method in CRMActivity **/
 	public void onOpenContextMenu(View view) {
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		openContextMenu(view);
-		System.out.println(view.getId());
+	}
+
+	private boolean validate() {
+		boolean temp = true;
+		if (firstName_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some First Name.", false);
+			temp = false;
+		} else if (lastName_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some Last Name.", false);
+			temp = false;
+		} else if (selectedDOR < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a DOR.", false);
+			temp = false;
+		} else if (selectedInternalConnect < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Internal Connect.", false);
+			temp = false;
+		} else if (selectedOrganisation < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an organization.", false);
+			temp = false;
+		} else if (designation_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter the designation.", false);
+			temp = false;
+		} else if (email_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter the email.", false);
+			temp = false;
+		} else if (officePhone_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter Office Phone.", false);
+			temp = false;
+		} else if (lastName_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter Mobile.", false);
+			temp = false;
+		}
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+		return temp;
 	}
 
 	public void onRightButton(View view) {
-
+		if (!validate()) {
+			return;
+		}
 		/**
 		 * ctcode - dor ,,,,oid - int conn ,,,,pcid - org
 		 * **/
@@ -453,7 +512,7 @@ public class ContactAddActivity extends CRMActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			int positionItem = 0;
-			if (data!= null) {
+			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
 			if (requestCode == MyApp.SEARCH_USER) {
@@ -480,5 +539,4 @@ public class ContactAddActivity extends CRMActivity {
 		}
 	}
 
-	
 }

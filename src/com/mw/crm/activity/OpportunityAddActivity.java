@@ -8,9 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -79,6 +81,8 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 
 	private BroadcastReceiver opportunityReceiver = new BroadcastReceiver() {
 		@Override
@@ -328,7 +332,48 @@ public class OpportunityAddActivity extends CRMActivity {
 		openContextMenu(view);
 	}
 
+	private boolean validate() {
+		boolean temp = true;
+		if (clientName_TV.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Client Name.", false);
+			temp = false;
+		} else if (description_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select some description.", false);
+			temp = false;
+		} else if (selectedStatus < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a status.", false);
+			temp = false;
+		} else if (selectedOppoManager < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an Opportunity Managaer.", false);
+			temp = false;
+		} else if (selectedProbability < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a probability.", false);
+			temp = false;
+		} else if (selectedSalesStage < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Sales Stage.", false);
+			temp = false;
+		}
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+		return temp;
+	}
+
 	public void onRightButton(View view) {
+		if (!validate()) {
+			return;
+		}
 		JSONObject params = new JSONObject();
 		try {
 			params.put("Name",

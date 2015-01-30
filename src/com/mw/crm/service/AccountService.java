@@ -46,7 +46,7 @@ public class AccountService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Toast.makeText(this, "AccountService", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "AccountService", Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {

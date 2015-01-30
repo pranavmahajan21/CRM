@@ -43,7 +43,7 @@ public class InternalConnectService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Toast.makeText(this, "InternalConnectService", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "InternalConnectService", Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		
