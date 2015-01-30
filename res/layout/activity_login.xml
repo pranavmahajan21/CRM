@@ -25,7 +25,7 @@
         android:paddingTop="40dp" >
 
         <TextView
-            android:id="@+id/editText1"
+            android:id="@+id/loginLabel_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
@@ -48,19 +48,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#FFFFFF"
+            android:inputType="textPassword"
             android:hint="Password"
             android:padding="8dp" />
 
-        <!--
-             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-         </LinearLayout>
-        -->
-
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/login_B"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -73,7 +66,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/forgotLabel_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

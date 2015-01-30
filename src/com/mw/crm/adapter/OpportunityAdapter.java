@@ -34,9 +34,9 @@ public class OpportunityAdapter extends BaseAdapter {
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
-	// public void swapData(List<ParseObject> alertList) {
-	// this.eventPO = alertList;
-	// }
+	 public void swapData(List<Opportunity> opportunityList) {
+	 this.opportunityList = opportunityList;
+	 }
 
 	static class ViewHolder {
 		protected TextView nameTV;
@@ -67,13 +67,7 @@ public class OpportunityAdapter extends BaseAdapter {
 		}
 
 		Opportunity tempOpportunity = opportunityList.get(position);
-		opportunityList.size();
-//		if (viewHolder.nameTV == null) {
-//			System.out.println("111111");
-//		}
-//		if (tempOpportunity == null) {
-//			System.out.println("222222");
-//		}
+		
 		viewHolder.nameTV.setText(myApp
 				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
 		viewHolder.statusTV.setText(tempOpportunity.getName());

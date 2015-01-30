@@ -37,9 +37,9 @@ public class ContactAdapter extends BaseAdapter {
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
-	// public void swapData(List<ParseObject> alertList) {
-	// this.eventPO = alertList;
-	// }
+	 public void swapData(List<Contact> contactList) {
+	 this.contactList = contactList;
+	 }
 
 	static class ViewHolder {
 		protected TextView nameTV;

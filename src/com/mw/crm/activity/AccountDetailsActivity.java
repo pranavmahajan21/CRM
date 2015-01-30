@@ -168,6 +168,9 @@ public class AccountDetailsActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
+			if (data != null) {
+				setResult(RESULT_OK, data);
+			}
 			finish();
 		}
 	}

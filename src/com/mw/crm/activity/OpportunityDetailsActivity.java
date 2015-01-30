@@ -197,7 +197,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("opportunity_dummy")) {
-			if (previousIntent.hasExtra("opportunity_created")  && previousIntent.getBooleanExtra("opportunity_created", false)) {
+			if (previousIntent.hasExtra("opportunity_created")
+					&& previousIntent.getBooleanExtra("opportunity_created",
+							false)) {
 				initView("Created Opportunity", null);
 			} else {
 				initView("Updated Opportunity", null);
@@ -232,6 +234,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
+			if (data != null) {
+				setResult(RESULT_OK, data);
+			}
 			finish();
 		}
 	}

@@ -34,19 +34,12 @@ public class AppointmentListActivity extends CRMActivity {
 
 	Intent nextIntent;
 
-	// CreateDialog createDialog;
-	// ProgressDialog progressDialog;
-
 	RequestQueue queue;
 
 	private void initThings() {
 
 		myApp = (MyApp) getApplicationContext();
 		appointmentList = myApp.getAppointmentList();
-
-		// createDialog = new CreateDialog(this);
-		// progressDialog = createDialog.createProgressDialog(
-		// "Fetching Appointments", "This may take some time", true, null);
 
 		queue = Volley.newRequestQueue(this);
 
@@ -104,8 +97,6 @@ public class AppointmentListActivity extends CRMActivity {
 		initView("Appointment", "Add");
 
 		myOwnOnTextChangeListeners();
-		// progressDialog.show();
-		// JSONObject jsonObject;
 
 		appointmentLV.setOnItemClickListener(new OnItemClickListener() {
 
@@ -114,7 +105,8 @@ public class AppointmentListActivity extends CRMActivity {
 					int position, long id) {
 				nextIntent = new Intent(AppointmentListActivity.this, AppointmentDetailsActivity.class);
 				nextIntent.putExtra("position", position);
-				startActivity(nextIntent);
+				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+//				startActivity(nextIntent);
 			}
 
 		});
@@ -123,6 +115,20 @@ public class AppointmentListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(AppointmentListActivity.this, AppointmentAddActivity.class);
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+//		startActivity(nextIntent);
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (data != null && data.hasExtra("refresh_list")
+					&& data.getBooleanExtra("refresh_list", true)) {
+				adapter.swapData(myApp.getAppointmentList());
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
 }

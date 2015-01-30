@@ -34,9 +34,9 @@ public class AccountAdapter extends BaseAdapter {
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
-	// public void swapData(List<ParseObject> alertList) {
-	// this.eventPO = alertList;
-	// }
+	 public void swapData(List<Account> accountList) {
+	 this.accountList = accountList;
+	 }
 
 	static class ViewHolder {
 		protected TextView nameTV;

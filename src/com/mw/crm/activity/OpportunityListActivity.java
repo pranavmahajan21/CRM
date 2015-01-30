@@ -31,8 +31,6 @@ public class OpportunityListActivity extends CRMActivity {
 	Intent nextIntent;
 
 	EditText searchOpportunity_ET;
-//	CreateDialog createDialog;
-//	ProgressDialog progressDialog;
 
 	RequestQueue queue;
 
@@ -43,10 +41,6 @@ public class OpportunityListActivity extends CRMActivity {
 		opportunityList = myApp.getOpportunityList();
 
 		gson = new Gson();
-
-//		createDialog = new CreateDialog(this);
-//		progressDialog = createDialog.createProgressDialog("Fetching Contacts",
-//				"This may take some time", true, null);
 
 		queue = Volley.newRequestQueue(this);
 
@@ -101,9 +95,6 @@ public class OpportunityListActivity extends CRMActivity {
 		initView("Opportunities", "Add");
 
 		myOwnOnTextChangeListeners();
-//		progressDialog.show();
-		// JSONObject jsonObject;
-		
 
 		opportunityLV.setOnItemClickListener(new OnItemClickListener() {
 
@@ -123,5 +114,16 @@ public class OpportunityListActivity extends CRMActivity {
 		startActivity(nextIntent);
 	}
 
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (data != null && data.hasExtra("refresh_list")
+					&& data.getBooleanExtra("refresh_list", true)) {
+				adapter.swapData(myApp.getOpportunityList());
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
 }

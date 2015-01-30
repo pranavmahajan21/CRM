@@ -599,7 +599,9 @@ public class AccountAddActivity extends CRMActivity {
 						+ selectedLeadPartner);
 			}
 			if (requestCode == MyApp.DETAILS_ACCOUNT) {
-				setResult(RESULT_OK);
+				Intent intent = new Intent();
+				intent.putExtra("refresh_list", true);
+				setResult(RESULT_OK, intent);
 				finish();
 			}
 		}

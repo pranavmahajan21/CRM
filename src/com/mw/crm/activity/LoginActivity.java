@@ -8,17 +8,23 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.MyApp;
 
 public class LoginActivity extends Activity {
+	MyApp myApp;
 
+	TextView loginLabel_TV, forgotLabel_TV;
 	EditText email_ET, password_ET;
+	Button login_B;
 
 	Intent nextIntent;
 
@@ -34,8 +40,7 @@ public class LoginActivity extends Activity {
 
 	private void initThings() {
 
-		// myApp = (MyApp) getApplicationContext();
-		// gson = new Gson();
+		myApp = (MyApp) getApplicationContext();
 
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("LogIn",
@@ -53,13 +58,27 @@ public class LoginActivity extends Activity {
 	}
 
 	public void findThings() {
+		loginLabel_TV = (TextView) findViewById(R.id.loginLabel_TV);
+		forgotLabel_TV = (TextView) findViewById(R.id.forgotLabel_TV);
+
 		email_ET = (EditText) findViewById(R.id.email_ET);
 		password_ET = (EditText) findViewById(R.id.password_ET);
+
+		login_B = (Button) findViewById(R.id.login_B);
+	}
+
+	private void setTypeface() {
+		loginLabel_TV.setTypeface(myApp.getTypefaceBoldSans());
+		forgotLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		email_ET.setTypeface(myApp.getTypefaceRegularSans());
+		password_ET.setTypeface(myApp.getTypefaceRegularSans());
+		login_B.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView() {
-		email_ET.setText("asdf");
-		password_ET.setText("asdf");
+		setTypeface();
+		email_ET.setText("in-fmcrmad1");
+		password_ET.setText("Password01");
 	}
 
 	@Override
@@ -74,8 +93,8 @@ public class LoginActivity extends Activity {
 	}
 
 	public void onLogin(View view) {
-		if (email_ET.getText().toString().equalsIgnoreCase("asdf")
-				&& password_ET.getText().toString().equals("asdf")) {
+		if (email_ET.getText().toString().equalsIgnoreCase("in-fmcrmad1")
+				&& password_ET.getText().toString().equals("Password01")) {
 			progressDialog.dismiss();
 
 			editor.putBoolean("is_user_login", true);

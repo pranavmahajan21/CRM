@@ -50,7 +50,7 @@ public class SearchListAdapter extends BaseAdapter {
 			viewHolder.itemTV = (TextView) convertView
 					.findViewById(R.id.item_TV);
 
-			viewHolder.itemTV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.itemTV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {

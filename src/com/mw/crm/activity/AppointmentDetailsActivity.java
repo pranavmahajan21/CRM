@@ -80,7 +80,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		designationClientOfficial_TV.setText(selectedAppointment
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
-		
+
 		// dateMeeting_TV.setText(selectedAppointment.getStartTime().toString());
 		// endTime_TV.setText(selectedAppointment.getEndTime().toString());
 
@@ -129,7 +129,9 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("appointment_dummy")) {
-			if (previousIntent.hasExtra("appointment_created") && previousIntent.getBooleanExtra("appointment_created", false)) {
+			if (previousIntent.hasExtra("appointment_created")
+					&& previousIntent.getBooleanExtra("appointment_created",
+							false)) {
 				initView("Created Appointment", null);
 			} else {
 				initView("Updated Appointment", null);
@@ -163,6 +165,9 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
+			if (data != null) {
+				setResult(RESULT_OK, data);
+			}
 			finish();
 		}
 	}

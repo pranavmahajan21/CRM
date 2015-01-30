@@ -35,8 +35,6 @@ public class ContactListActivity extends CRMActivity {
 	Intent nextIntent;
 
 	EditText searchContact_ET;
-//	CreateDialog createDialog;
-//	ProgressDialog progressDialog;
 
 	RequestQueue queue;
 
@@ -48,10 +46,6 @@ public class ContactListActivity extends CRMActivity {
 		contactList = myApp.getContactList();
 
 		gson = new Gson();
-
-//		createDialog = new CreateDialog(this);
-//		progressDialog = createDialog.createProgressDialog("Fetching Contacts",
-//				"This may take some time", true, null);
 
 		queue = Volley.newRequestQueue(this);
 
@@ -65,7 +59,7 @@ public class ContactListActivity extends CRMActivity {
 		super.findThings();
 		contactLV = (ListView) findViewById(R.id.contact_LV);
 		errorTV = (TextView) findViewById(R.id.error_TV);
-		
+
 		searchContact_ET = (EditText) findViewById(R.id.searchContact_ET);
 	}
 
@@ -75,7 +69,6 @@ public class ContactListActivity extends CRMActivity {
 		if (adapter != null) {
 			contactLV.setAdapter(adapter);
 		} else {
-			// no tickets
 		}
 	}
 
@@ -99,7 +92,7 @@ public class ContactListActivity extends CRMActivity {
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,9 +109,11 @@ public class ContactListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				nextIntent = new Intent(ContactListActivity.this, ContactDetailsActivity.class);
+				nextIntent = new Intent(ContactListActivity.this,
+						ContactDetailsActivity.class);
 				nextIntent.putExtra("position", position);
-				startActivity(nextIntent);
+				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+//				startActivity(nextIntent);
 			}
 
 		});
@@ -126,8 +121,20 @@ public class ContactListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, ContactAddActivity.class);
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+//		startActivity(nextIntent);
 	}
 
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (data != null && data.hasExtra("refresh_list")
+					&& data.getBooleanExtra("refresh_list", true)) {
+				adapter.swapData(myApp.getContactList());
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
 }

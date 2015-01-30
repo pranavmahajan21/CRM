@@ -49,8 +49,8 @@ import com.mw.crm.service.OpportunityService;
 @SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
 
-	// public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
-	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
+	 public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
+//	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
 
 	/* Used to get List<T> */
 	public static String APPOINTMENTS_DATA = "/PostAppointments";

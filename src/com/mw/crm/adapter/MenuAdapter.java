@@ -30,10 +30,6 @@ public class MenuAdapter extends BaseAdapter {
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
-	// public void swapData(List<ParseObject> alertList) {
-	// this.eventPO = alertList;
-	// }
-
 	static class ViewHolder {
 		protected ImageView menuIV;
 		protected TextView labelTV;

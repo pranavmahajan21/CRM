@@ -117,7 +117,8 @@ public class ContactDetailsActivity extends CRMActivity {
 		initThings();
 		findThings();
 		if (previousIntent.hasExtra("contact_dummy")) {
-			if (previousIntent.hasExtra("contact_created") && previousIntent.getBooleanExtra("contact_created", false)) {
+			if (previousIntent.hasExtra("contact_created")
+					&& previousIntent.getBooleanExtra("contact_created", false)) {
 				initView("Created Contact", null);
 			} else {
 				initView("Updated Contact", null);
@@ -137,6 +138,7 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBack(View view) {
+		/** We have to setResult(RESULT_OK); here because in case of contact creatd successfully scenario **/
 		setResult(RESULT_OK);
 		super.onBack(view);
 	}
@@ -151,6 +153,9 @@ public class ContactDetailsActivity extends CRMActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
+			if (data != null) {
+				setResult(RESULT_OK, data);
+			}
 			finish();
 		}
 	}

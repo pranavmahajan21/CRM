@@ -46,13 +46,8 @@ public class AccountListActivity extends CRMActivity {
 
 		gson = new Gson();
 
-//		createDialog = new CreateDialog(this);
-//		progressDialog = createDialog.createProgressDialog("Fetching Accounts",
-//				"This may take some time", true, null);
-
 		queue = Volley.newRequestQueue(this);
 
-		// progressDialog.show();
 		if (accountList != null && accountList.size() > 0) {
 			adapter = new AccountAdapter(this, accountList);
 		}
@@ -108,9 +103,6 @@ public class AccountListActivity extends CRMActivity {
 		initView("Accounts", "Add");
 
 		myOwnOnTextChangeListeners();
-//		progressDialog.show();
-		// JSONObject jsonObject;
-		
 
 		accountLV.setOnItemClickListener(new OnItemClickListener() {
 
@@ -119,16 +111,28 @@ public class AccountListActivity extends CRMActivity {
 					int position, long id) {
 				nextIntent = new Intent(AccountListActivity.this, AccountDetailsActivity.class);
 				nextIntent.putExtra("position", position);
-				startActivity(nextIntent);
+				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+//				startActivity(nextIntent);
 			}
 
 		});
 	}
 
-	
-
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, AccountAddActivity.class);
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+//		startActivity(nextIntent);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (data != null && data.hasExtra("refresh_list")
+					&& data.getBooleanExtra("refresh_list", true)) {
+				adapter.swapData(myApp.getAccountList());
+				adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }

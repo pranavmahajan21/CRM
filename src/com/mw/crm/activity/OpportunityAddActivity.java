@@ -91,15 +91,18 @@ public class OpportunityAddActivity extends CRMActivity {
 			progressDialog.dismiss();
 
 			Toast.makeText(OpportunityAddActivity.this,
-					"Opportunity created successfully.", Toast.LENGTH_SHORT).show();
-			
-			Opportunity aa = new Opportunity(oppoManager_TV.getText().toString(),
-					null, null, clientName_TV.getText().toString(), description_ET
-							.getText().toString(), status_TV.getText().toString(),
-					null, probability_TV.getText().toString(), salesStage_TV
-							.getText().toString());
+					"Opportunity created successfully.", Toast.LENGTH_SHORT)
+					.show();
 
-			nextIntent = new Intent(OpportunityAddActivity.this, OpportunityDetailsActivity.class);
+			Opportunity aa = new Opportunity(oppoManager_TV.getText()
+					.toString(), null, null,
+					clientName_TV.getText().toString(), description_ET
+							.getText().toString(), status_TV.getText()
+							.toString(), null, probability_TV.getText()
+							.toString(), salesStage_TV.getText().toString());
+
+			nextIntent = new Intent(OpportunityAddActivity.this,
+					OpportunityDetailsActivity.class);
 
 			nextIntent.putExtra("opportunity_dummy",
 					new Gson().toJson(aa, Opportunity.class));
@@ -167,12 +170,28 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		// clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// requiredSolutions_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// currency_TV.setTypeface(myApp.getTypefaceRegularSans());
+		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		oppoManagerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		probabilityLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		salesStageLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		countryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
+		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		status_TV.setTypeface(myApp.getTypefaceRegularSans());
+		oppoManager_TV.setTypeface(myApp.getTypefaceRegularSans());
+		probability_TV.setTypeface(myApp.getTypefaceRegularSans());
+		salesStage_TV.setTypeface(myApp.getTypefaceRegularSans());
+		country_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		description_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String title, String title2) {
@@ -538,13 +557,13 @@ public class OpportunityAddActivity extends CRMActivity {
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
 
-		progressDialog = createDialog.createProgressDialog("Updating Opportunity",
-				"This may take some time", true, null);
+		progressDialog = createDialog.createProgressDialog(
+				"Updating Opportunity", "This may take some time", true, null);
 		progressDialog.show();
 
 		Intent serviceIntent = new Intent(this, OpportunityService.class);
 		startService(serviceIntent);
-		
+
 	}
 
 	@Override
@@ -647,7 +666,9 @@ public class OpportunityAddActivity extends CRMActivity {
 				selectedOppoManager = positionItem;
 			}
 			if (requestCode == MyApp.DETAILS_OPPORTUNITY) {
-				setResult(RESULT_OK);
+				Intent intent = new Intent();
+				intent.putExtra("refresh_list", true);
+				setResult(RESULT_OK, intent);
 				finish();
 			}
 		}

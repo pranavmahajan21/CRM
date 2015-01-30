@@ -264,7 +264,7 @@ public class ContactAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		// staticNonsense();
+		 staticNonsense();
 
 		registerForContextMenu(dor_RL);
 	}
@@ -571,7 +571,9 @@ public class ContactAddActivity extends CRMActivity {
 				selectedOrganisation = positionItem;
 			}
 			if (requestCode == MyApp.DETAILS_CONTACT) {
-				setResult(RESULT_OK);
+				Intent intent = new Intent();
+				intent.putExtra("refresh_list", true);
+				setResult(RESULT_OK, intent);
 				finish();
 			}
 		}

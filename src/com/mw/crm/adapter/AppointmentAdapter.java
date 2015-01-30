@@ -34,9 +34,9 @@ public class AppointmentAdapter extends BaseAdapter {
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
-	// public void swapData(List<ParseObject> alertList) {
-	// this.eventPO = alertList;
-	// }
+	 public void swapData(List<Appointment> appointmentList) {
+	 this.appointmentList = appointmentList;
+	 }
 
 	static class ViewHolder {
 		protected TextView nameTV;
@@ -67,10 +67,6 @@ public class AppointmentAdapter extends BaseAdapter {
 		}
 
 		Appointment tempAppointment = appointmentList.get(position);
-		
-//		System.out.println("purpose  :  "
-//				+ tempAppointment.getNameOfTheClientOfficial());
-//		System.out.println("subject  :  " + tempAppointment.getDescription());
 
 		viewHolder.nameTV.setText(tempAppointment.getDescription());
 		viewHolder.subjectTV.setText(tempAppointment.getPurposeOfMeeting());

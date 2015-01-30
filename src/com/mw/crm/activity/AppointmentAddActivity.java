@@ -526,29 +526,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			int positionItem = 0;
-			if (data != null) {
-				positionItem = data.getIntExtra("position_item", 0);
-			}
-			if (requestCode == MyApp.SEARCH_USER) {
-				userMap = myApp.getUserMap();
-				List<String> list = new ArrayList<String>(userMap.values());
-				/** Removed temporarily **/
-				// owner_TV.setText(list.get(positionItem));
-				selectedOwner = positionItem;
-			}
-			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
-				setResult(RESULT_OK);
-				finish();
-			}
-
-		}
-
-	}
+	
 
 	private void aaaaa(View view, String x, boolean isDate) {
 		System.out.println(x);
@@ -612,5 +590,31 @@ public class AppointmentAddActivity extends CRMActivity {
 				}, mYear, mMonth, mDay);
 		dPicker.setCancelable(false);
 		dPicker.show();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			int positionItem = 0;
+			if (data != null) {
+				positionItem = data.getIntExtra("position_item", 0);
+			}
+			if (requestCode == MyApp.SEARCH_USER) {
+				userMap = myApp.getUserMap();
+				List<String> list = new ArrayList<String>(userMap.values());
+				/** Removed temporarily **/
+				// owner_TV.setText(list.get(positionItem));
+				selectedOwner = positionItem;
+			}
+			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
+				Intent intent = new Intent();
+				intent.putExtra("refresh_list", true);
+				setResult(RESULT_OK, intent);
+				finish();
+			}
+
+		}
+
 	}
 }
