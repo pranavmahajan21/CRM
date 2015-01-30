@@ -59,19 +59,23 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		// myApp.getTypefaceBoldSans()
 
-		// purposeLabel_TV.setTypeface();
-		// interactionTypeLabel_TV.setTypeface();
-		// dateMeetingLabel_TV.setTypeface();
-		// endTimeLabel_TV.setTypeface();
-		// ownerLabel_TV.setTypeface();
-		//
-		// purpose_TV.setTypeface();
-		// interactionType_TV.setTypeface();
-		// dateMeeting_TV.setTypeface();
-		// endTime_TV.setTypeface();
-		// owner_TV.setTypeface();
+		purposeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		interactionTypeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dateMeetingLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		endTimeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		ownerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		detailsDiscussionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		description_TV.setTypeface(myApp.getTypefaceRegularSans());
+		nameClientOfficial_TV.setTypeface(myApp.getTypefaceRegularSans());
+		designationClientOfficial_TV
+				.setTypeface(myApp.getTypefaceRegularSans());
+		purpose_TV.setTypeface(myApp.getTypefaceRegularSans());
+		interactionType_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
+		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
+		owner_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	private void initWithoutMappingFields() {
@@ -82,8 +86,10 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 
-		 dateMeeting_TV.setText(myApp.formatDateToString2(selectedAppointment.getStartTime()));
-		 endTime_TV.setText(myApp.formatDateToString2(selectedAppointment.getEndTime()));
+		dateMeeting_TV.setText(myApp.formatDateToString2(selectedAppointment
+				.getStartTime()));
+		endTime_TV.setText(myApp.formatDateToString2(selectedAppointment
+				.getEndTime()));
 
 	}
 
@@ -95,7 +101,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				&& selectedAppointment != null) {
 			initWithoutMappingFields();
 			interactionType_TV.setText(selectedAppointment.getTypeOfMeeting());
-			owner_TV.setText(selectedAppointment.getOwnerId());
+			owner_TV.setText("CRM Audit Director 1");
 		} else {
 			initWithoutMappingFields();
 

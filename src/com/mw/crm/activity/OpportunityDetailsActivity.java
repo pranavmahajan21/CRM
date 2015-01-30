@@ -65,26 +65,26 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	private void setTypeface() {
 		// myApp.getTypefaceBoldSans()
+		oppoManagerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		probabilityLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		salesStageLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		clientNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		countryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
-		// ownerLabel_TV.setTypeface();
-		// probabilityLabel_TV.setTypeface();
-		// statusLabel_TV.setTypeface();
-		// salesStageLabel_TV.setTypeface();
-		// clientNameLabel_TV.setTypeface();
-		// countryLabel_TV.setTypeface();
-		// lobLabel_TV.setTypeface();
-		// sublobLabel_TV.setTypeface();
-		// sectorLabel_TV.setTypeface();
-		//
-		// owner_TV.setTypeface();
-		// probability_TV.setTypeface();
-		// status_TV.setTypeface();
-		// salesStage_TV.setTypeface();
-		// clientName_TV.setTypeface();
-		// country_TV.setTypeface();
-		// lob_TV.setTypeface();
-		// sublob_TV.setTypeface();
-		// sector_TV.setTypeface();
+		oppoName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		oppoManager_TV.setTypeface(myApp.getTypefaceRegularSans());
+		probability_TV.setTypeface(myApp.getTypefaceRegularSans());
+		status_TV.setTypeface(myApp.getTypefaceRegularSans());
+		salesStage_TV.setTypeface(myApp.getTypefaceRegularSans());
+		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		country_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String string, String string2) {

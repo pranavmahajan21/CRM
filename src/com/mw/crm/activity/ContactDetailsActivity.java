@@ -52,22 +52,21 @@ public class ContactDetailsActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		// myApp.getTypefaceBoldSans()
 
-		// emailLabel_TV.setTypeface();
-		// officePhoneLabel_TV.setTypeface();
-		// mobileLabel_TV.setTypeface();
-		// internalConnectLabel_TV.setTypeface();
-		// dorLabel_TV.setTypeface();
-		//
-		// name_TV.setTypeface();
-		// designation_TV.setTypeface();
-		// organization_TV.setTypeface();
-		// email_TV.setTypeface();
-		// officePhone_TV.setTypeface();
-		// mobile_TV.setTypeface();
-		// internalConnect_TV.setTypeface();
-		// dor_TV.setTypeface();
+		 emailLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 officePhoneLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 mobileLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 internalConnectLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 dorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		
+		 name_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 designation_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 organization_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 email_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 officePhone_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 mobile_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 dor_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	private void initWithoutMappingFields() {

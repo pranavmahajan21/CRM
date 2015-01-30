@@ -103,7 +103,7 @@ public class OpportunityListActivity extends CRMActivity {
 					int position, long id) {
 				nextIntent = new Intent(OpportunityListActivity.this, OpportunityDetailsActivity.class);
 				nextIntent.putExtra("position", position);
-				startActivity(nextIntent);
+				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 
 		});
@@ -111,7 +111,7 @@ public class OpportunityListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, OpportunityAddActivity.class);
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
 	@Override

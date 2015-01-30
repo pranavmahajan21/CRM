@@ -57,19 +57,20 @@ public class AccountDetailsActivity extends CRMActivity {
 	private void setTypeface() {
 		// myApp.getTypefaceBoldSans()
 
-		// leadPartnerLabel_TV.setTypeface();
-		// headquarterCountryLabel_TV.setTypeface();
-		// lobLabel_TV.setTypeface();
-		// sublobLabel_TV.setTypeface();
-		// sectorLabel_TV.setTypeface();
-		// accountCategoryLabel_TV.setTypeface();
-		//
-		// leadPartner_TV.setTypeface();
-		// headquarterCountry_TV.setTypeface();
-		// lob_TV.setTypeface();
-		// sublob_TV.setTypeface();
-		// sector_TV.setTypeface();
-		// accountCategory_TV.setTypeface();
+		 leadPartnerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 headquarterCountryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 accountCategoryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 
+		 accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 headquarterCountry_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 sector_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String string, String string2) {
