@@ -140,7 +140,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.findThings();
 
 		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
-		descriptionLabel_TV = (TextView) findViewById(R.id.description_TV);
+		descriptionLabel_TV = (TextView) findViewById(R.id.descriptionLabel_TV);
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
 		oppoManagerLabel_TV = (TextView) findViewById(R.id.oppoManagerLabel_TV);
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);

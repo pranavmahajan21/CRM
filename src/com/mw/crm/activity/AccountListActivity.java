@@ -110,6 +110,7 @@ public class AccountListActivity extends CRMActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				nextIntent = new Intent(AccountListActivity.this, AccountDetailsActivity.class);
+				System.out.println("position    :  "+position);
 				nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 //				startActivity(nextIntent);

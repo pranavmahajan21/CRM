@@ -68,7 +68,7 @@ public class AppointmentAdapter extends BaseAdapter {
 
 		Appointment tempAppointment = appointmentList.get(position);
 
-		viewHolder.nameTV.setText(tempAppointment.getDescription());
+		viewHolder.nameTV.setText(tempAppointment.getNameOfTheClientOfficial());
 		viewHolder.subjectTV.setText(tempAppointment.getPurposeOfMeeting());
 
 		return convertView;

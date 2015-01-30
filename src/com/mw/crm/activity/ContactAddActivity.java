@@ -264,7 +264,7 @@ public class ContactAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		 staticNonsense();
+//		staticNonsense();
 
 		registerForContextMenu(dor_RL);
 	}

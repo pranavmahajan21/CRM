@@ -19,7 +19,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	Appointment selectedAppointment;
 
 	TextView purposeLabel_TV, interactionTypeLabel_TV, dateMeetingLabel_TV,
-			endTimeLabel_TV, ownerLabel_TV;
+			endTimeLabel_TV, ownerLabel_TV, detailsDiscussionLabel_TV;
 
 	TextView description_TV, nameClientOfficial_TV,
 			designationClientOfficial_TV, purpose_TV, interactionType_TV,
@@ -29,7 +29,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		previousIntent = getIntent();
 		System.out.println("position"
 				+ previousIntent.getIntExtra("position", 0));
-		if (previousIntent.hasExtra("contact_dummy")) {
+		if (previousIntent.hasExtra("appointment_dummy")) {
 			selectedAppointment = new Gson().fromJson(
 					previousIntent.getStringExtra("appointment_dummy"),
 					Appointment.class);
@@ -46,6 +46,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		dateMeetingLabel_TV = (TextView) findViewById(R.id.dateMeetingLabel_TV);
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
 		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		detailsDiscussionLabel_TV = (TextView) findViewById(R.id.detailsDiscussionLabel_TV);
 
 		description_TV = (TextView) findViewById(R.id.description_TV);
 		nameClientOfficial_TV = (TextView) findViewById(R.id.nameClientOfficial_TV);

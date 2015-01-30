@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -42,6 +38,7 @@ public class SearchActivity extends CRMActivity {
 	List<Account> accountList;
 	List<Opportunity> opportunityList;
 	List<String> stringList;
+	List<String> anotherStringList;
 
 	SearchListAdapter adapterList;
 	ListView search_LV;
@@ -60,40 +57,49 @@ public class SearchActivity extends CRMActivity {
 		case MyApp.SEARCH_SECTOR:
 			searchMap = myApp.getSectorMap();
 			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_HQ_COUNTRY:
 			searchMap = myApp.getCountryMap();
 			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_SUB_LOB:
 			searchMap = myApp.getSubLobMap();
 			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_USER:
 			searchMap = myApp.getUserMap();
 			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
 		case MyApp.SEARCH_ACCOUNT:
 			accountList = myApp.getAccountList();
 			Toast.makeText(this, accountList.size() + "", Toast.LENGTH_SHORT)
 					.show();
 			stringList = new ArrayList<String>();
+			anotherStringList = new ArrayList<String>();
 			for (int i = 0; i < accountList.size(); i++) {
 				stringList.add(accountList.get(i).getName());
+				anotherStringList.add(accountList.get(i).getName());
 			}
 			break;
-		case MyApp.SEARCH_OPPORTUNITY:
-			List<Opportunity> opportunityList = myApp.getOpportunityList();
-			stringList = new ArrayList<String>();
-			for (int i = 0; i < opportunityList.size(); i++) {
-				try {
-					stringList.add(new JSONObject(opportunityList.get(i)
-							.getCustomerId()).getString("Name"));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-			break;
+//		case MyApp.SEARCH_OPPORTUNITY:
+//			List<Opportunity> opportunityList = myApp.getOpportunityList();
+//			stringList = new ArrayList<String>();
+//			anotherStringList = new ArrayList<String>();
+//			for (int i = 0; i < opportunityList.size(); i++) {
+//				try {
+//					stringList.add(new JSONObject(opportunityList.get(i)
+//							.getCustomerId()).getString("Name"));
+//					anotherStringList.add(new JSONObject(opportunityList.get(i)
+//							.getCustomerId()).getString("Name"));
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			break;
 
 		default:
 			break;
@@ -154,6 +160,7 @@ public class SearchActivity extends CRMActivity {
 				// .getText().toString());
 				int exactPosition = getExactPosition(((TextView) view
 						.findViewById(R.id.item_TV)).getText().toString());
+				System.out.println("exactPosition  " + exactPosition);
 				Toast.makeText(SearchActivity.this, "" + exactPosition,
 						Toast.LENGTH_SHORT).show();
 
@@ -165,16 +172,24 @@ public class SearchActivity extends CRMActivity {
 		});
 	}
 
+//	private int getExactPosition(String text) {
+//		System.out.println(text + "      "+ stringList.size() );
+//		for (int i = 0; i < stringList.size(); i++) {
+//			if(stringList.get(i).equalsIgnoreCase(text)){
+//				return i;
+//			}
+//		}
+//		return 0;
+//	}
+	
 	private int getExactPosition(String text) {
-		for (int i = 0; i < stringList.size(); i++) {
-			if(stringList.get(i).equalsIgnoreCase(text)){
+		System.out.println(text + "      "+ anotherStringList.size() );
+		for (int i = 0; i < anotherStringList.size(); i++) {
+			if(anotherStringList.get(i).equalsIgnoreCase(text)){
 				return i;
 			}
 		}
 		return 0;
 	}
 
-//	public void onBack(View view) {
-//		finish();
-//	}
 }

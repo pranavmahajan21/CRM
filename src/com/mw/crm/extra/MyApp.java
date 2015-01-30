@@ -33,7 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mw.crm.activity.MenuActivity;
+import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
@@ -81,7 +81,7 @@ public class MyApp extends Application {
 	final public static int SEARCH_SUB_LOB = 10;
 	final public static int SEARCH_USER = 11;
 	final public static int SEARCH_ACCOUNT = 100;
-	final public static int SEARCH_OPPORTUNITY = 101;
+//	final public static int SEARCH_OPPORTUNITY = 101;
 
 	final public static int DETAILS_ACCOUNT = 1100;
 	final public static int DETAILS_APPOINTMENT = 1100;
@@ -312,7 +312,7 @@ public class MyApp extends Application {
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
 			fetchPreferences();
 
-			Intent intent = new Intent(this, MenuActivity.class);
+			Intent intent = new Intent(this, MenuActivity2.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
