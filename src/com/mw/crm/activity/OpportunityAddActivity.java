@@ -204,8 +204,8 @@ public class OpportunityAddActivity extends CRMActivity {
 			descriptionLabel_TV.setText(tempOpportunity.getName());
 			System.out.println(tempOpportunity.toString());
 
-			Toast.makeText(this, tempOpportunity.getOpportunityId(),
-					Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, tempOpportunity.getOpportunityId(),
+//					Toast.LENGTH_SHORT).show();
 
 			// description_ET.setText(tempOpportunity.getCustomerId());
 

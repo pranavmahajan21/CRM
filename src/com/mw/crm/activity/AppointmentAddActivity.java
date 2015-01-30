@@ -106,7 +106,10 @@ public class AppointmentAddActivity extends CRMActivity {
 					.toString(), detailsDiscussion_ET.getText().toString(),
 					nameClient_ET.getText().toString(), interactionType_TV
 							.getText().toString(), designation_ET.getText()
-							.toString(), null, new Date(), new Date());
+							.toString(), null,
+					myApp.formatStringToDate3(dateMeeting_TV.getText()
+							.toString()), myApp.formatStringToDate3(endTime_TV
+							.getText().toString()));
 
 			/** Removed temporarily **/
 			// owner_TV.getText().toString()
@@ -195,7 +198,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		setTypeface();
-		
+
 		System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
 		System.out.println(new ArrayList<String>(userMap.values()).get(2));
 
@@ -203,8 +206,9 @@ public class AppointmentAddActivity extends CRMActivity {
 			tempAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 
-			Toast.makeText(this, "" + tempAppointment.getId(), Toast.LENGTH_SHORT).show();
-			
+			// Toast.makeText(this, "" + tempAppointment.getId(),
+			// Toast.LENGTH_SHORT).show();
+
 			System.out.println(tempAppointment);
 
 			purpose_ET.setText(tempAppointment.getPurposeOfMeeting());
@@ -374,7 +378,7 @@ public class AppointmentAddActivity extends CRMActivity {
 									.formatStringToDate3(endTime_TV.getText()
 											.toString())))
 					.put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
-			
+
 			// .put("ownid",
 			// new ArrayList<String>(userMap.keySet())
 			// .get(selectedOwner))
@@ -397,7 +401,8 @@ public class AppointmentAddActivity extends CRMActivity {
 			try {
 				System.out.println("URL : " + url);
 
-//				params.put("apponid", "8d0592e9-79a1-e411-96e8-5cf3fc3f502a");
+				// params.put("apponid",
+				// "8d0592e9-79a1-e411-96e8-5cf3fc3f502a");
 				params.put("apponid", tempAppointment.getId());
 				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 						Method.POST, url, params,

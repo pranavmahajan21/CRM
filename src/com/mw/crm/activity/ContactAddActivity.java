@@ -189,8 +189,8 @@ public class ContactAddActivity extends CRMActivity {
 
 			tempContact = myApp.getContactList().get(
 					previousIntent.getIntExtra("position", 0));
-			Toast.makeText(this, "asd  :  " + tempContact.getContactId(),
-					Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "asd  :  " + tempContact.getContactId(),
+//					Toast.LENGTH_SHORT).show();
 
 			firstName_ET.setText(tempContact.getFirstName());
 			lastName_ET.setText(tempContact.getLastName());
@@ -263,8 +263,6 @@ public class ContactAddActivity extends CRMActivity {
 		initView("Add Contact", "Save");
 
 		hideKeyboardFunctionality();
-
-//		staticNonsense();
 
 		registerForContextMenu(dor_RL);
 	}

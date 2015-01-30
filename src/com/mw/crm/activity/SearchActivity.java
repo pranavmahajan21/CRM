@@ -161,8 +161,8 @@ public class SearchActivity extends CRMActivity {
 				int exactPosition = getExactPosition(((TextView) view
 						.findViewById(R.id.item_TV)).getText().toString());
 				System.out.println("exactPosition  " + exactPosition);
-				Toast.makeText(SearchActivity.this, "" + exactPosition,
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(SearchActivity.this, "" + exactPosition,
+//						Toast.LENGTH_SHORT).show();
 
 				Intent intent = new Intent();
 				intent.putExtra("position_item", exactPosition);

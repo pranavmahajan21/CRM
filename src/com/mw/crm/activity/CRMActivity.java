@@ -71,10 +71,10 @@ public class CRMActivity extends Activity {
 	}
 
 	public void onHome(View view) {
-		Intent intent = new Intent(this, MenuActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(intent);
+//		Intent intent = new Intent(this, MenuActivity.class);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//		startActivity(intent);
 	}
 	
 	public void hideKeyboard(View view) {
