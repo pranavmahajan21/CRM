@@ -1,6 +1,7 @@
 package com.mw.crm.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,9 +28,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -110,6 +115,10 @@ public class AppointmentAddActivity extends CRMActivity {
 					AppointmentDetailsActivity.class);
 			nextIntent.putExtra("appointment_dummy",
 					new Gson().toJson(aa, Appointment.class));
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				nextIntent.putExtra("appointment_created", true);
+			}
 			startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
 
 		}
@@ -139,7 +148,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		detailsDiscussionLabel_TV = (TextView) findViewById(R.id.detailsDiscussionLabel_TV);
 		dateMeetingLabel_TV = (TextView) findViewById(R.id.dateMeetingLabel_TV);
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
-		
+
 		/** Removed temporarily **/
 		// ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
 
@@ -173,7 +182,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		interactionType_TV.setTypeface(myApp.getTypefaceRegularSans());
 		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
-		
+
 		purpose_ET.setTypeface(myApp.getTypefaceRegularSans());
 		nameClient_ET.setTypeface(myApp.getTypefaceRegularSans());
 		designation_ET.setTypeface(myApp.getTypefaceRegularSans());
@@ -302,16 +311,19 @@ public class AppointmentAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the designation.", false);
 			notErrorCase = false;
+		} else if (detailsDiscussion_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some details for the meeting.", false);
+			notErrorCase = false;
+		} else if (dateMeeting_TV.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a date for meeting.", false);
+			notErrorCase = false;
+		} else if (endTime_TV.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an end time.", false);
+			notErrorCase = false;
 		}
-		// else if (startTime_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a start time.", false);
-		// notErrorCase = false;
-		// } else if (endTime_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a end time.", false);
-		// notErrorCase = false;
-		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -351,7 +363,7 @@ public class AppointmentAddActivity extends CRMActivity {
 									.toString()))
 					.put("startdate", myApp.formatDateToString4(new Date()))
 					.put("enddate", myApp.formatDateToString4(new Date()))
-					.put("ownid", "");
+					.put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
 			// .put("ownid",
 			// new ArrayList<String>(userMap.keySet())
 			// .get(selectedOwner))
@@ -538,7 +550,67 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	}
 
-	public void onPickDate(View view) {
+	private void aaaaa(View view, String x, boolean isDate) {
+		System.out.println(x);
+		switch (view.getId()) {
+		case R.id.dateMeeting_RL:
+			if (isDate) {
+				dateMeeting_TV.setText(x);
+			} else {
+				dateMeeting_TV.setText(dateMeeting_TV.getText().toString()
+						+ " " + x);
+			}
+			break;
+		case R.id.endTime_RL:
+			if (isDate) {
+				endTime_TV.setText(x);
+			} else {
+				endTime_TV.setText(endTime_TV.getText().toString() + " " + x);
+			}
+			break;
 
+		default:
+			break;
+		}
+	}
+
+	public void onPickDate(final View view) {
+		System.out.println("1");
+		final TimePickerDialog tPicker = new TimePickerDialog(this,
+				new TimePickerDialog.OnTimeSetListener() {
+
+					@Override
+					public void onTimeSet(TimePicker view2, int hourOfDay,
+							int minute) {
+						// System.out.println(hourOfDay + ":" + minute);
+						String temp = hourOfDay + ":" + minute;
+						aaaaa(view, temp, false);
+					}
+				}, 12, 00, true);
+		tPicker.setCancelable(false);
+
+		final Calendar c = Calendar.getInstance();
+		int mYear = c.get(Calendar.YEAR);
+		int mMonth = c.get(Calendar.MONTH);
+		int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+		DatePickerDialog dPicker = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+
+					@Override
+					public void onDateSet(DatePicker view2, int year,
+							int monthOfYear, int dayOfMonth) {
+						// System.out.println(dayOfMonth + "-" + (monthOfYear +
+						// 1)
+						// + "-" + year);
+						String temp = dayOfMonth + "-" + (monthOfYear + 1)
+								+ "-" + year;
+						aaaaa(view, temp, true);
+						tPicker.show();
+
+					}
+				}, mYear, mMonth, mDay);
+		dPicker.setCancelable(false);
+		dPicker.show();
 	}
 }

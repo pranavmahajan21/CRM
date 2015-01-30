@@ -96,12 +96,18 @@ public class AccountAddActivity extends CRMActivity {
 			Account aa = new Account(clientName_ET.getText().toString(), null,
 					headquarter_TV.getText().toString(), lob_TV.getText()
 							.toString(), sublob_TV.getText().toString(),
-					accountCategory_TV.getText().toString(), sector_TV.getText()
-							.toString(), leadPartner_TV.getText().toString());
+					accountCategory_TV.getText().toString(), sector_TV
+							.getText().toString(), leadPartner_TV.getText()
+							.toString());
 
-			nextIntent = new Intent(AccountAddActivity.this, AccountDetailsActivity.class);
+			nextIntent = new Intent(AccountAddActivity.this,
+					AccountDetailsActivity.class);
 			nextIntent.putExtra("account_dummy",
 					new Gson().toJson(aa, Account.class));
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				nextIntent.putExtra("account_created", true);
+			}
 			startActivityForResult(nextIntent, MyApp.DETAILS_ACCOUNT);
 
 		}
@@ -172,7 +178,7 @@ public class AccountAddActivity extends CRMActivity {
 		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
 		leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
 		accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
-		
+
 		clientName_ET.setTypeface(myApp.getTypefaceRegularSans());
 
 	}

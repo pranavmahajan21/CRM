@@ -107,7 +107,10 @@ public class OpportunityAddActivity extends CRMActivity {
 			nextIntent.putExtra("lob", lob_TV.getText().toString());
 			nextIntent.putExtra("sub_lob", sublob_TV.getText().toString());
 			nextIntent.putExtra("sector", sector_TV.getText().toString());
-
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				nextIntent.putExtra("opportunity_created", true);
+			}
 			startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
 
 		}

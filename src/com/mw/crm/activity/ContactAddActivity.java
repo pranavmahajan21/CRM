@@ -104,6 +104,10 @@ public class ContactAddActivity extends CRMActivity {
 					ContactDetailsActivity.class);
 			nextIntent
 					.putExtra("contact_dummy", gson.toJson(aa, Contact.class));
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				nextIntent.putExtra("contact_created", true);
+			}
 			startActivityForResult(nextIntent, MyApp.DETAILS_CONTACT);
 		}
 	};
@@ -168,7 +172,7 @@ public class ContactAddActivity extends CRMActivity {
 		dor_TV.setTypeface(myApp.getTypefaceRegularSans());
 		internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
 		organization_TV.setTypeface(myApp.getTypefaceRegularSans());
-		
+
 		firstName_ET.setTypeface(myApp.getTypefaceRegularSans());
 		lastName_ET.setTypeface(myApp.getTypefaceRegularSans());
 		designation_ET.setTypeface(myApp.getTypefaceRegularSans());

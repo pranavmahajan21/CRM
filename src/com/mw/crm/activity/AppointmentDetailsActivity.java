@@ -129,7 +129,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("appointment_dummy")) {
-			if (previousIntent.hasExtra(" appointment_created") && previousIntent.getBooleanExtra("appointment_created", false)) {
+			if (previousIntent.hasExtra("appointment_created") && previousIntent.getBooleanExtra("appointment_created", false)) {
 				initView("Created Appointment", null);
 			} else {
 				initView("Updated Appointment", null);
