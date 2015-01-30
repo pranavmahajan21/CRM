@@ -1,11 +1,13 @@
 package com.mw.crm.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
@@ -52,6 +54,7 @@ public class CRMActivity extends Activity {
 	}
 
 	public void onBack(View view) {
+		hideKeyboard(view);
 		finish();
 	}
 
@@ -72,5 +75,20 @@ public class CRMActivity extends Activity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
+	}
+	
+	public void hideKeyboard(View view) {
+		View view2 = null;
+		if (view == null) {
+			view2 = view;
+		} else {
+			view2 = this.getCurrentFocus();
+		}
+		if (view2 != null) {
+			InputMethodManager inputManager = (InputMethodManager) this
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputManager.hideSoftInputFromWindow(view2.getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 }

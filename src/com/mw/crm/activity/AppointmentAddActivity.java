@@ -232,7 +232,8 @@ public class AppointmentAddActivity extends CRMActivity {
 	}
 
 	public void onOpenContextMenu(View view) {
-		openContextMenu(view);
+		hideKeyboard(this.getCurrentFocus());
+	    openContextMenu(view);
 	}
 
 	private boolean validate() {

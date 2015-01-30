@@ -329,6 +329,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	public void onOpenContextMenu(View view) {
+		hideKeyboard(this.getCurrentFocus());
 		openContextMenu(view);
 	}
 

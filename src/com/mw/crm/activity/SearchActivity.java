@@ -28,7 +28,7 @@ import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends CRMActivity {
 
 	MyApp myApp;
 	Intent previouIntent, nextIntent;
@@ -46,7 +46,7 @@ public class SearchActivity extends Activity {
 	SearchListAdapter adapterList;
 	ListView search_LV;
 
-	private void findThings() {
+	public void findThings() {
 		search_ET = (EditText) findViewById(R.id.search_ET);
 		search_LV = (ListView) findViewById(R.id.search_LV);
 	}
@@ -174,7 +174,7 @@ public class SearchActivity extends Activity {
 		return 0;
 	}
 
-	public void onBack(View view) {
-		finish();
-	}
+//	public void onBack(View view) {
+//		finish();
+//	}
 }

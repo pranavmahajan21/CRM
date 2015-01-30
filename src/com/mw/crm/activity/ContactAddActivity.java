@@ -22,7 +22,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -252,10 +251,9 @@ public class ContactAddActivity extends CRMActivity {
 
 	}
 
-	/** We can put this method in CRMActivity **/
+	/** Maybe we can put this method in CRMActivity **/
 	public void onOpenContextMenu(View view) {
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		hideKeyboard(this.getCurrentFocus());
 		openContextMenu(view);
 	}
 
