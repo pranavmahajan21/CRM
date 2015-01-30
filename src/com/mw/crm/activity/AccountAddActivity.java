@@ -255,7 +255,7 @@ public class AccountAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Add Account", "Submit");
+		initView("Add Account", "Save");
 
 		hideKeyboardFunctionality();
 

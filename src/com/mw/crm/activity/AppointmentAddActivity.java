@@ -48,7 +48,6 @@ import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.InternalConnect;
 import com.mw.crm.service.AppointmentService;
-import com.mw.crm.service.ContactService;
 
 public class AppointmentAddActivity extends CRMActivity {
 
@@ -218,7 +217,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Add Appointment", "Submit");
+		initView("Add Appointment", "Save");
 
 		hideKeyboardFunctionality();
 
@@ -272,15 +271,16 @@ public class AppointmentAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the designation.", false);
 			notErrorCase = false;
-		} else if (startTime_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a country.", false);
-			notErrorCase = false;
-		} else if (endTime_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a LOB.", false);
-			notErrorCase = false;
 		}
+//		else if (startTime_ET.getText().toString().trim().length() < 1) {
+//			alertDialogBuilder = createDialog.createAlertDialog(null,
+//					"Please select a start time.", false);
+//			notErrorCase = false;
+//		} else if (endTime_ET.getText().toString().trim().length() < 1) {
+//			alertDialogBuilder = createDialog.createAlertDialog(null,
+//					"Please select a end time.", false);
+//			notErrorCase = false;
+//		}
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {

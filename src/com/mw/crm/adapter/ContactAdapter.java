@@ -78,7 +78,6 @@ public class ContactAdapter extends BaseAdapter {
 			viewHolder.companyTV.setText(getNameFromJson(new JSONObject(
 					tempContact.getOrganization())));
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -90,7 +89,6 @@ public class ContactAdapter extends BaseAdapter {
 		try {
 			temp = jsonObject.getString("Name");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return temp;

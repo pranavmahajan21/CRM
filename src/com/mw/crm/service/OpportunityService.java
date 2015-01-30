@@ -122,7 +122,7 @@ public class OpportunityService extends IntentService {
 //			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 //		} else 
 			if (OpportunityAddActivity.isActivityVisible) {
-			Intent nextIntent = new Intent("owner_data");
+			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		} else if (MenuActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("app_data");

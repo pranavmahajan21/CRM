@@ -295,7 +295,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Add Opportunity", "Submit");
+		initView("Add Opportunity", "Save");
 
 		hideKeyboardFunctionality();
 

@@ -29,7 +29,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		myApp.getAccountList();
 		previousIntent = getIntent();
 
-		if (previousIntent.hasExtra("contact_dummy")) {
+		if (previousIntent.hasExtra("opportunity_dummy")) {
 			selectedOpportunity = new Gson().fromJson(
 					previousIntent.getStringExtra("opportunity_dummy"),
 					Opportunity.class);
@@ -37,7 +37,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			selectedOpportunity = myApp.getOpportunityList().get(
 					previousIntent.getIntExtra("position", 0));
 		}
-
 	}
 
 	public void findThings() {
