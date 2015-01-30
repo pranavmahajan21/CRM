@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -594,7 +595,8 @@ public class MyApp extends Application {
 	public String formatDateToString(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		String dateStr = formatter.format(date);
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
@@ -603,6 +605,7 @@ public class MyApp extends Application {
 	public String formatDateToString2(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM, hh:mmaa");
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		String dateStr = formatter.format(date);
 		System.out.println(">><<><><><" + dateStr);

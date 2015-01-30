@@ -37,9 +37,10 @@ public class ContactAdapter extends BaseAdapter {
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
-	 public void swapData(List<Contact> contactList) {
-	 this.contactList = contactList;
-	 }
+	public void swapData(List<Contact> contactList) {
+		this.contactList = contactList;
+		tempContactList.addAll(contactList);
+	}
 
 	static class ViewHolder {
 		protected TextView nameTV;
@@ -53,8 +54,8 @@ public class ContactAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(
-					R.layout.element_common, parent, false);
+			convertView = inflater.inflate(R.layout.element_common, parent,
+					false);
 
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);

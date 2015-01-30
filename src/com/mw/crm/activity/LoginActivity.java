@@ -51,7 +51,7 @@ public class LoginActivity extends Activity {
 
 		queue = Volley.newRequestQueue(this);
 
-		nextIntent = new Intent(this, MenuActivity.class);
+		nextIntent = new Intent(this, MenuActivity2.class);
 		nextIntent.putExtra("is_first_time_login", true);
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -36,6 +36,7 @@ public class AppointmentAdapter extends BaseAdapter {
 
 	 public void swapData(List<Appointment> appointmentList) {
 	 this.appointmentList = appointmentList;
+	 this.tempAppointmentList.addAll(appointmentList);
 	 }
 
 	static class ViewHolder {
