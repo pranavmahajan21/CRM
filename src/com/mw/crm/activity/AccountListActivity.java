@@ -109,11 +109,15 @@ public class AccountListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Account tempAccount = accountList.get(position);
+				searchAccount_ET.setText("");
+				int index = myApp.getAccountIndexFromAccountId(tempAccount
+						.getAccountId());
+				
 				nextIntent = new Intent(AccountListActivity.this, AccountDetailsActivity.class);
-				System.out.println("position    :  "+position);
-				nextIntent.putExtra("position", position);
+				nextIntent.putExtra("position", index);
+				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
-//				startActivity(nextIntent);
 			}
 
 		});
@@ -122,7 +126,30 @@ public class AccountListActivity extends CRMActivity {
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, AccountAddActivity.class);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
-//		startActivity(nextIntent);
+	}
+	
+	@Override
+	public void onBack(View view) {
+		searchAccount_ET.setText("");
+		super.onBack(view);
+	}
+
+	@Override
+	public void onHome(View view) {
+		searchAccount_ET.setText("");
+		super.onHome(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		searchAccount_ET.setText("");
+		super.onBackPressed();
+	}
+
+	@Override
+	protected void onPause() {
+		searchAccount_ET.setText("");
+		super.onPause();
 	}
 	
 	@Override

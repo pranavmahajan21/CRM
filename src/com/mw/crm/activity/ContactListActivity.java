@@ -109,11 +109,16 @@ public class ContactListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Contact tempContact = contactList.get(position);
+				searchContact_ET.setText("");
+				int index = myApp.getContactIndexFromContactId(tempContact
+						.getContactId());
+
 				nextIntent = new Intent(ContactListActivity.this,
 						ContactDetailsActivity.class);
-				nextIntent.putExtra("position", position);
+				nextIntent.putExtra("position", index);
+				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
-//				startActivity(nextIntent);
 			}
 
 		});
@@ -122,7 +127,30 @@ public class ContactListActivity extends CRMActivity {
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, ContactAddActivity.class);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
-//		startActivity(nextIntent);
+	}
+
+	@Override
+	public void onBack(View view) {
+		searchContact_ET.setText("");
+		super.onBack(view);
+	}
+
+	@Override
+	public void onHome(View view) {
+		searchContact_ET.setText("");
+		super.onHome(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		searchContact_ET.setText("");
+		super.onBackPressed();
+	}
+
+	@Override
+	protected void onPause() {
+		searchContact_ET.setText("");
+		super.onPause();
 	}
 
 	@Override

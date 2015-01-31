@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -308,8 +307,8 @@ public class MyApp extends Application {
 		loadMenuItems();
 
 		readDataFromExcel();
-//		 Intent intent2 = new Intent(this, AppointmentService.class);
-//		 startService(intent2);
+		// Intent intent2 = new Intent(this, AppointmentService.class);
+		// startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
@@ -595,23 +594,24 @@ public class MyApp extends Application {
 	public String formatDateToString(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-		
+		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+
 		String dateStr = formatter.format(date);
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
 	}
-	
+
 	public String formatDateToString2(Date date) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM, hh:mmaa");
-		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+		SimpleDateFormat formatter = new SimpleDateFormat(
+				"EEE, dd MMM, hh:mmaa");
+		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		String dateStr = formatter.format(date);
 		System.out.println(">><<><><><" + dateStr);
 		return dateStr;
 	}
-	
+
 	public String formatDateToString3(Date date) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
@@ -645,7 +645,7 @@ public class MyApp extends Application {
 		// System.out.println(">><<><><><" + dateStr);
 		return date;
 	}
-	
+
 	public Date formatStringToDate2(String dateString) {
 		System.out.println("1212  :  " + dateString);
 		SimpleDateFormat formatter = new SimpleDateFormat(
@@ -660,11 +660,34 @@ public class MyApp extends Application {
 		// System.out.println(">><<><><><" + dateStr);
 		return date;
 	}
-	
+
 	public Date formatStringToDate3(String dateString) {
 		System.out.println("1212  :  " + dateString);
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"dd-MM-yyyy, hh:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
+		// formatter.setTimeZone(TimeZone.getTimeZone("GMT+5"));
+
+		Date date = null;
+		try {
+			date = formatter.parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		/** Just a temporary fix **/
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.HOUR, -5);
+		cal.add(Calendar.MINUTE, -30);
+		Date dateMinus530 = cal.getTime();
+		/** Just a temporary fix **/
+
+		// return date;
+		return dateMinus530;
+	}
+
+	public Date formatStringToDate3Copy(String dateString) {
+		System.out.println("1212  :  " + dateString);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
 
 		Date date = null;
 		try {
@@ -675,16 +698,22 @@ public class MyApp extends Application {
 		// System.out.println(">><<><><><" + dateStr);
 		return date;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public Date formatStringSpecialToDate(String dateString) {
+		/**
+		 * http://stackoverflow.com/questions/20036075/json-datetime-parsing-in-
+		 * android
+		 **/
 		System.out.println("1212  : " + dateString);
-//		String ackwardDate = "/Date(1376841597000)/";
-		
+		// String ackwardDate = "/Date(1376841597000)/";
+
 		Calendar calendar = Calendar.getInstance();
-		String ackwardRipOff = dateString.replace("\\/Date(", "").replace(")\\/", "");
+		String ackwardRipOff = dateString.replace("\\/Date(", "").replace(
+				")\\/", "");
 		Long timeInMillis = Long.valueOf(ackwardRipOff);
 		calendar.setTimeInMillis(timeInMillis);
+		// calendar.setTimeZone(TimeZone.get);
 		System.out.println(calendar.getTime().toGMTString());
 		System.out.println(calendar.getTime());
 		return calendar.getTime();
@@ -1102,4 +1131,41 @@ public class MyApp extends Application {
 			return null;
 		}
 	}
+	
+	public int getAccountIndexFromAccountId(String id) {
+		for (int i = 0; i < accountList.size(); i++) {
+			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	public int getAppointmentIndexFromAppointmentId(String id) {
+		for (int i = 0; i < appointmentList.size(); i++) {
+			if (appointmentList.get(i).getId().equalsIgnoreCase(id)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	public int getContactIndexFromContactId(String id) {
+		for (int i = 0; i < contactList.size(); i++) {
+			if (contactList.get(i).getContactId().equalsIgnoreCase(id)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	public int getOpportunityIndexFromOpportunityId(String id) {
+		for (int i = 0; i < opportunityList.size(); i++) {
+			if (opportunityList.get(i).getOpportunityId().equalsIgnoreCase(id)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 }

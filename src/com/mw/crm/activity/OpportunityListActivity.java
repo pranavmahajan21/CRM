@@ -101,8 +101,14 @@ public class OpportunityListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Opportunity tempOpportunity = opportunityList.get(position);
+				searchOpportunity_ET.setText("");
+				int index = myApp.getOpportunityIndexFromOpportunityId(tempOpportunity
+						.getOpportunityId());
+				
 				nextIntent = new Intent(OpportunityListActivity.this, OpportunityDetailsActivity.class);
-				nextIntent.putExtra("position", position);
+				nextIntent.putExtra("position", index);
+				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 
@@ -114,6 +120,30 @@ public class OpportunityListActivity extends CRMActivity {
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
+	@Override
+	public void onBack(View view) {
+		searchOpportunity_ET.setText("");
+		super.onBack(view);
+	}
+
+	@Override
+	public void onHome(View view) {
+		searchOpportunity_ET.setText("");
+		super.onHome(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		searchOpportunity_ET.setText("");
+		super.onBackPressed();
+	}
+
+	@Override
+	protected void onPause() {
+		searchOpportunity_ET.setText("");
+		super.onPause();
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

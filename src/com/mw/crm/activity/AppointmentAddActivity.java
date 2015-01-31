@@ -106,9 +106,10 @@ public class AppointmentAddActivity extends CRMActivity {
 					nameClient_ET.getText().toString(), interactionType_TV
 							.getText().toString(), designation_ET.getText()
 							.toString(), null,
-					myApp.formatStringToDate3(dateMeeting_TV.getText()
-							.toString()), myApp.formatStringToDate3(endTime_TV
-							.getText().toString()));
+					myApp.formatStringToDate3Copy(dateMeeting_TV.getText()
+							.toString()),
+					myApp.formatStringToDate3Copy(endTime_TV.getText()
+							.toString()));
 
 			/** Removed temporarily **/
 			// owner_TV.getText().toString()
@@ -349,7 +350,8 @@ public class AppointmentAddActivity extends CRMActivity {
 			return;
 		}
 
-		// System.out.println(myApp.formatDateToString4(new Date()));
+		System.out.println("check  :  " + myApp.formatStringToDate3(dateMeeting_TV.getText()
+				.toString()));
 
 		JSONObject params = new JSONObject();
 
@@ -596,6 +598,11 @@ public class AppointmentAddActivity extends CRMActivity {
 							} else {
 								temp = temp + ":" + minute;
 							}
+							// if (hourOfDay < 12) {
+							// temp = temp + "AM";
+							// } else {
+							// temp = temp + "PM";
+							// }
 
 							aaaaa(view, temp, false);
 						}

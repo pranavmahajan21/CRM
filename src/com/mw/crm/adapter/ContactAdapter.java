@@ -27,6 +27,8 @@ public class ContactAdapter extends BaseAdapter {
 
 	List<Contact> contactList;
 	List<Contact> tempContactList;
+	
+	List<String> organizationList;
 
 	public ContactAdapter(Context context, List<Contact> contactList) {
 		super();
@@ -34,6 +36,16 @@ public class ContactAdapter extends BaseAdapter {
 		this.contactList = contactList;
 		this.tempContactList = new ArrayList<Contact>();
 		tempContactList.addAll(contactList);
+		
+		organizationList = new ArrayList<String>();
+		for (int i = 0; i < this.contactList.size(); i++) {
+			try {
+				organizationList.add(getNameFromJson(new JSONObject(
+						this.contactList.get(i).getOrganization())));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
@@ -119,6 +131,9 @@ public class ContactAdapter extends BaseAdapter {
 			for (Contact tempContact : tempContactList) {
 				if (tempContact.getLastName().toLowerCase(Locale.getDefault())
 						.contains(charText)
+//						|| tempContact.getFirstName()
+//								.toLowerCase(Locale.getDefault())
+//								.contains(charText)
 						|| tempContact.getOrganization()
 								.toLowerCase(Locale.getDefault())
 								.contains(charText)) {

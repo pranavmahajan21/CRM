@@ -103,10 +103,15 @@ public class AppointmentListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Appointment tempAppointment = appointmentList.get(position);
+				searchAppointment_ET.setText("");
+				int index = myApp.getAppointmentIndexFromAppointmentId(tempAppointment
+						.getId());
+				
 				nextIntent = new Intent(AppointmentListActivity.this, AppointmentDetailsActivity.class);
-				nextIntent.putExtra("position", position);
+				nextIntent.putExtra("position", index);
+				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
-//				startActivity(nextIntent);
 			}
 
 		});
@@ -116,7 +121,30 @@ public class AppointmentListActivity extends CRMActivity {
 	public void onRightButton(View view) {
 		nextIntent = new Intent(AppointmentListActivity.this, AppointmentAddActivity.class);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
-//		startActivity(nextIntent);
+	}
+	
+	@Override
+	public void onBack(View view) {
+		searchAppointment_ET.setText("");
+		super.onBack(view);
+	}
+
+	@Override
+	public void onHome(View view) {
+		searchAppointment_ET.setText("");
+		super.onHome(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		searchAppointment_ET.setText("");
+		super.onBackPressed();
+	}
+
+	@Override
+	protected void onPause() {
+		searchAppointment_ET.setText("");
+		super.onPause();
 	}
 	
 	@Override
