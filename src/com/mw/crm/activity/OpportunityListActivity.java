@@ -150,7 +150,11 @@ public class OpportunityListActivity extends CRMActivity {
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				adapter.swapData(myApp.getOpportunityList());
+				
+				opportunityList = myApp.getOpportunityList();
+				
+//				adapter.swapData(myApp.getOpportunityList());
+				adapter.swapData(opportunityList);
 				adapter.notifyDataSetChanged();
 			}
 		}

@@ -159,7 +159,11 @@ public class ContactListActivity extends CRMActivity {
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				adapter.swapData(myApp.getContactList());
+				
+				contactList = myApp.getContactList();
+				
+//				adapter.swapData(myApp.getContactList());
+				adapter.swapData(contactList);
 				adapter.notifyDataSetChanged();
 			}
 		}

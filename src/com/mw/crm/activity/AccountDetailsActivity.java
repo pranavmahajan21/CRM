@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
@@ -57,26 +58,29 @@ public class AccountDetailsActivity extends CRMActivity {
 	private void setTypeface() {
 		// myApp.getTypefaceBoldSans()
 
-		 leadPartnerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 headquarterCountryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 accountCategoryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 
-		 accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 headquarterCountry_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 lob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 sector_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
+		leadPartnerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		headquarterCountryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		accountCategoryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
+		headquarterCountry_TV.setTypeface(myApp.getTypefaceRegularSans());
+		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
+		accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
 
+		System.out.println("acc id  : " + selectedAccount.getAccountId());
+//		Toast.makeText(this, "id  : " + selectedAccount.getAccountId(), Toast.LENGTH_LONG).show();
+		
 		if (previousIntent.hasExtra("account_dummy") && selectedAccount != null) {
 			accountName_TV.setText(selectedAccount.getName());
 			headquarterCountry_TV.setText(selectedAccount.getCountry());
@@ -130,12 +134,14 @@ public class AccountDetailsActivity extends CRMActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_account_detail);
-
+		Toast.makeText(this, "AccountDetailsActivity onCreate",
+				Toast.LENGTH_SHORT).show();
 		initThings();
 		findThings();
 
 		if (previousIntent.hasExtra("account_dummy")) {
-			if (previousIntent.hasExtra("account_created") && previousIntent.getBooleanExtra("account_created", false)) {
+			if (previousIntent.hasExtra("account_created")
+					&& previousIntent.getBooleanExtra("account_created", false)) {
 				initView("Created Account", null);
 			} else {
 				initView("Updated Account", null);

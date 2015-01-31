@@ -153,7 +153,11 @@ public class AppointmentListActivity extends CRMActivity {
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				adapter.swapData(myApp.getAppointmentList());
+				
+				appointmentList = myApp.getAppointmentList();
+				
+//				adapter.swapData(myApp.getAppointmentList());
+				adapter.swapData(appointmentList);
 				adapter.notifyDataSetChanged();
 			}
 		}

@@ -32,6 +32,7 @@ public class AccountService extends IntentService {
 
 	MyApp myApp;
 	Gson gson = new Gson();
+	int x = 0;
 
 	List<Account> accountList = new ArrayList<Account>();
 
@@ -45,7 +46,7 @@ public class AccountService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-//		Toast.makeText(this, "AccountService", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "AccountService", Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {
@@ -72,6 +73,9 @@ public class AccountService extends IntentService {
 								try {
 									accountList.add(getAccountObject(response
 											.getJSONObject(i)));
+//									Toast.makeText(AccountService.this,
+//											"x : " + x, Toast.LENGTH_SHORT)
+//											.show();
 								} catch (JSONException e) {
 									e.printStackTrace();
 								}
@@ -115,11 +119,7 @@ public class AccountService extends IntentService {
 	}
 
 	private void onRequestComplete() {
-		// if (ContactAddActivity.isActivityVisible) {
-		// Intent nextIntent = new Intent("contact_data");
-		// LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		// } else
-			if (AccountAddActivity.isActivityVisible) {
+		if (AccountAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("account_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		} else if (MenuActivity2.isActivityVisible) {
@@ -127,21 +127,10 @@ public class AccountService extends IntentService {
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		// if (ContactAddActivity.isActivityVisible) {
-		// Intent nextIntent = new Intent("contact_data");
-		// LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		// } else
-//			if (AccountAddActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("account_update_receiver");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		} else if (MenuActivity.isActivityVisible) {
-//			Intent nextIntent = new Intent("app_data");
-//			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-//		}
 	}
 
 	private Account getAccountObject(JSONObject jsonObject) {
@@ -156,6 +145,11 @@ public class AccountService extends IntentService {
 					.getString("pcl_accountcategory1")),
 					MyApp.decryptData(jsonObject.getString("pcl_sectorlist")),
 					MyApp.decryptData(jsonObject.getString("pcl_leadpartner")));
+
+			if (account.getName().toLowerCase().contains(("rillian").toLowerCase())) {
+				x++;
+				System.out.println("sdf");
+			}
 
 			System.out.println("#$#$" + account.getName());
 			return account;

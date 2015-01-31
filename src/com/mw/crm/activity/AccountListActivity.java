@@ -60,7 +60,7 @@ public class AccountListActivity extends CRMActivity {
 		super.findThings();
 		accountLV = (ListView) findViewById(R.id.account_LV);
 		errorTV = (TextView) findViewById(R.id.error_TV);
-		searchAccount_ET= (EditText) findViewById(R.id.searchAccount_ET);
+		searchAccount_ET = (EditText) findViewById(R.id.searchAccount_ET);
 	}
 
 	public void initView(String title, String title2) {
@@ -92,7 +92,7 @@ public class AccountListActivity extends CRMActivity {
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,8 +113,9 @@ public class AccountListActivity extends CRMActivity {
 				searchAccount_ET.setText("");
 				int index = myApp.getAccountIndexFromAccountId(tempAccount
 						.getAccountId());
-				
-				nextIntent = new Intent(AccountListActivity.this, AccountDetailsActivity.class);
+
+				nextIntent = new Intent(AccountListActivity.this,
+						AccountDetailsActivity.class);
 				nextIntent.putExtra("position", index);
 				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
@@ -127,7 +128,7 @@ public class AccountListActivity extends CRMActivity {
 		nextIntent = new Intent(this, AccountAddActivity.class);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
-	
+
 	@Override
 	public void onBack(View view) {
 		searchAccount_ET.setText("");
@@ -151,15 +152,26 @@ public class AccountListActivity extends CRMActivity {
 		searchAccount_ET.setText("");
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				adapter.swapData(myApp.getAccountList());
+				/**
+				 * Step1 is required because accountList still holds reference
+				 * to the old list. So updating the reference of the list to
+				 * just the adapter is not sufficient.
+				 **/
+				/** Step1 **/
+				accountList = myApp.getAccountList();
+				/** Step2 **/
+//				adapter.swapData(myApp.getAccountList());
+				adapter.swapData(accountList);
 				adapter.notifyDataSetChanged();
+				
+				
 			}
 		}
 	}

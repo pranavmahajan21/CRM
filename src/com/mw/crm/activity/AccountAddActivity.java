@@ -430,6 +430,8 @@ public class AccountAddActivity extends CRMActivity {
 			String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
 
 			try {
+				System.out.println("acc id  : " + tempAccount.getAccountId());
+//				Toast.makeText(AccountAddActivity.this, "id  : " + tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
 				params.put("accid", tempAccount.getAccountId());
 
 				System.out.println("URL : " + url);
