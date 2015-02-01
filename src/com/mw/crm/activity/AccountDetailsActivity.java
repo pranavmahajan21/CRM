@@ -79,7 +79,6 @@ public class AccountDetailsActivity extends CRMActivity {
 		setTypeface();
 
 		System.out.println("acc id  : " + selectedAccount.getAccountId());
-//		Toast.makeText(this, "id  : " + selectedAccount.getAccountId(), Toast.LENGTH_LONG).show();
 		
 		if (previousIntent.hasExtra("account_dummy") && selectedAccount != null) {
 			accountName_TV.setText(selectedAccount.getName());

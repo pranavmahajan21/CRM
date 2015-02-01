@@ -73,12 +73,18 @@ public class MenuActivity2 extends Activity {
 		lastSync_LL = (LinearLayout) findViewById(R.id.lastSync_LL);
 	}
 
+	private void setTypeface() {
+		syncDate_TV.setTypeface(myApp.getTypefaceRegularSans());
+	}
+
 	public void initView(String title, String title2) {
+		setTypeface();
 		if (sharedPreferences.contains("last_sync_date")) {
 			syncDate_TV.setText(sharedPreferences.getString("last_sync_date",
 					"-"));
 		}
 	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

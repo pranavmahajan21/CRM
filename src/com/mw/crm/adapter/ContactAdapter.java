@@ -51,6 +51,7 @@ public class ContactAdapter extends BaseAdapter {
 
 	public void swapData(List<Contact> contactList) {
 		this.contactList = contactList;
+		this.tempContactList = new ArrayList<Contact>();
 		tempContactList.addAll(contactList);
 	}
 

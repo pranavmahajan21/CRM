@@ -16,7 +16,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.SearchListAdapter;
@@ -76,8 +75,6 @@ public class SearchActivity extends CRMActivity {
 			break;
 		case MyApp.SEARCH_ACCOUNT:
 			accountList = myApp.getAccountList();
-			Toast.makeText(this, accountList.size() + "", Toast.LENGTH_SHORT)
-					.show();
 			stringList = new ArrayList<String>();
 			anotherStringList = new ArrayList<String>();
 			for (int i = 0; i < accountList.size(); i++) {
@@ -85,22 +82,6 @@ public class SearchActivity extends CRMActivity {
 				anotherStringList.add(accountList.get(i).getName());
 			}
 			break;
-//		case MyApp.SEARCH_OPPORTUNITY:
-//			List<Opportunity> opportunityList = myApp.getOpportunityList();
-//			stringList = new ArrayList<String>();
-//			anotherStringList = new ArrayList<String>();
-//			for (int i = 0; i < opportunityList.size(); i++) {
-//				try {
-//					stringList.add(new JSONObject(opportunityList.get(i)
-//							.getCustomerId()).getString("Name"));
-//					anotherStringList.add(new JSONObject(opportunityList.get(i)
-//							.getCustomerId()).getString("Name"));
-//				} catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			break;
-
 		default:
 			break;
 		}// switch
@@ -154,15 +135,9 @@ public class SearchActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
-				// System.out.println(((TextView)
-				// view.findViewById(R.id.item_TV))
-				// .getText().toString());
 				int exactPosition = getExactPosition(((TextView) view
 						.findViewById(R.id.item_TV)).getText().toString());
 				System.out.println("exactPosition  " + exactPosition);
-//				Toast.makeText(SearchActivity.this, "" + exactPosition,
-//						Toast.LENGTH_SHORT).show();
 
 				Intent intent = new Intent();
 				intent.putExtra("position_item", exactPosition);

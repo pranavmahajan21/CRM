@@ -36,6 +36,7 @@ public class OpportunityAdapter extends BaseAdapter {
 
 	 public void swapData(List<Opportunity> opportunityList) {
 	 this.opportunityList = opportunityList;
+	 this.tempOpportunityList = new ArrayList<Opportunity>();
 	 this.tempOpportunityList.addAll(opportunityList);
 	 }
 

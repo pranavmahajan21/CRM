@@ -32,7 +32,6 @@ public class AccountService extends IntentService {
 
 	MyApp myApp;
 	Gson gson = new Gson();
-	int x = 0;
 
 	List<Account> accountList = new ArrayList<Account>();
 
@@ -73,9 +72,6 @@ public class AccountService extends IntentService {
 								try {
 									accountList.add(getAccountObject(response
 											.getJSONObject(i)));
-//									Toast.makeText(AccountService.this,
-//											"x : " + x, Toast.LENGTH_SHORT)
-//											.show();
 								} catch (JSONException e) {
 									e.printStackTrace();
 								}
@@ -146,10 +142,6 @@ public class AccountService extends IntentService {
 					MyApp.decryptData(jsonObject.getString("pcl_sectorlist")),
 					MyApp.decryptData(jsonObject.getString("pcl_leadpartner")));
 
-			if (account.getName().toLowerCase().contains(("rillian").toLowerCase())) {
-				x++;
-				System.out.println("sdf");
-			}
 
 			System.out.println("#$#$" + account.getName());
 			return account;

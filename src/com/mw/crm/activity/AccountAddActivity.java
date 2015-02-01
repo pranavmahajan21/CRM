@@ -89,10 +89,17 @@ public class AccountAddActivity extends CRMActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
-
-			Toast.makeText(AccountAddActivity.this,
-					"Account created successfully.", Toast.LENGTH_SHORT).show();
-
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				Toast.makeText(AccountAddActivity.this,
+						"Account updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				Toast.makeText(AccountAddActivity.this,
+						"Account created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
+			
 			Account aa = new Account(clientName_ET.getText().toString(), null,
 					headquarter_TV.getText().toString(), lob_TV.getText()
 							.toString(), sublob_TV.getText().toString(),
@@ -431,7 +438,8 @@ public class AccountAddActivity extends CRMActivity {
 
 			try {
 				System.out.println("acc id  : " + tempAccount.getAccountId());
-//				Toast.makeText(AccountAddActivity.this, "id  : " + tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
+				// Toast.makeText(AccountAddActivity.this, "id  : " +
+				// tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
 				params.put("accid", tempAccount.getAccountId());
 
 				System.out.println("URL : " + url);

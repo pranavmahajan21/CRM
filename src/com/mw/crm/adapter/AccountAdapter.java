@@ -36,6 +36,12 @@ public class AccountAdapter extends BaseAdapter {
 
 	public void swapData(List<Account> accountList) {
 		this.accountList = accountList;
+
+		/**
+		 * This list must be refreshed as it used for search functionality. Also
+		 * we must re-initialize so as to clear the existing list.
+		 **/
+		this.tempAccountList = new ArrayList<Account>();
 		this.tempAccountList.addAll(accountList);
 	}
 

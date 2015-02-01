@@ -89,8 +89,16 @@ public class ContactAddActivity extends CRMActivity {
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			Toast.makeText(ContactAddActivity.this,
-					"Contact created successfully.", Toast.LENGTH_SHORT).show();
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				Toast.makeText(ContactAddActivity.this,
+						"Contact updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				Toast.makeText(ContactAddActivity.this,
+						"Contact created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
 
 			Contact aa = new Contact(firstName_ET.getText().toString(),
 					lastName_ET.getText().toString(), email_ET.getText()
@@ -189,8 +197,8 @@ public class ContactAddActivity extends CRMActivity {
 
 			tempContact = myApp.getContactList().get(
 					previousIntent.getIntExtra("position", 0));
-//			Toast.makeText(this, "asd  :  " + tempContact.getContactId(),
-//					Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "asd  :  " + tempContact.getContactId(),
+			// Toast.LENGTH_SHORT).show();
 
 			firstName_ET.setText(tempContact.getFirstName());
 			lastName_ET.setText(tempContact.getLastName());
@@ -215,7 +223,7 @@ public class ContactAddActivity extends CRMActivity {
 			organization_TV
 					.setText(myApp.getStringNameFromStringJSON(tempContact
 							.getOrganization()));
-			selectedOrganisation = myApp.getIndexFromAccountList(myApp
+			selectedOrganisation = myApp.getAccountIndexFromAccountId(myApp
 					.getStringIdFromStringJSON(tempContact.getOrganization()));
 
 			designation_ET.setText(tempContact.getDesignation());

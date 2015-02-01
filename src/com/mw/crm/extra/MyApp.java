@@ -83,7 +83,6 @@ public class MyApp extends Application {
 	final public static int SEARCH_SUB_LOB = 10;
 	final public static int SEARCH_USER = 11;
 	final public static int SEARCH_ACCOUNT = 100;
-	// final public static int SEARCH_OPPORTUNITY = 101;
 
 	final public static int DETAILS_ACCOUNT = 1100;
 	final public static int DETAILS_APPOINTMENT = 1100;
@@ -99,8 +98,8 @@ public class MyApp extends Application {
 	List<Appointment> appointmentList;// = new ArrayList<Appointment>();
 	List<Account> accountList;// = new ArrayList<Account>();
 
-	List<InternalConnect> internalConnectList;// = new
-												// ArrayList<InternalConnect>();
+//	List<InternalConnect> internalConnectList;// = new
+//												// ArrayList<InternalConnect>();
 
 	private static String ACCOUNT_CATEGORY_PATH = "excels/account_category.xls";
 	private static String COUNTRY_PATH = "excels/country.xls";
@@ -580,16 +579,16 @@ public class MyApp extends Application {
 		return new Encrypter(null, null).encrypt(string);
 	}
 
-	public List<InternalConnect> getInternalConnectList() {
-		return internalConnectList;
-	}
-
-	public void setInternalConnectList(List<InternalConnect> internalConnectList) {
-		this.internalConnectList = internalConnectList;
-		String json = gson.toJson(internalConnectList);
-		editor.putString("internal_connect_list", json);
-		editor.commit();
-	}
+//	public List<InternalConnect> getInternalConnectList() {
+//		return internalConnectList;
+//	}
+//
+//	public void setInternalConnectList(List<InternalConnect> internalConnectList) {
+//		this.internalConnectList = internalConnectList;
+//		String json = gson.toJson(internalConnectList);
+//		editor.putString("internal_connect_list", json);
+//		editor.commit();
+//	}
 
 	public String formatDateToString(Date date) {
 
@@ -974,18 +973,6 @@ public class MyApp extends Application {
 		return null;
 	}
 
-	public int getIndexFromAccountList(String key) {
-		// System.out.println("1111  " + key);
-
-		for (int i = 0; i < accountList.size(); i++) {
-			// System.out.println("2222  " + accountList.get(i).getAccountId());
-			if (accountList.get(i).getAccountId().equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
 	public int getIndexFromKeyAccountMap(String key) {
 		// System.out.println("1111  " + key);
 		List<String> aa = new ArrayList<String>(accountCategoryMap.keySet());
@@ -1131,7 +1118,7 @@ public class MyApp extends Application {
 			return null;
 		}
 	}
-	
+
 	public int getAccountIndexFromAccountId(String id) {
 		for (int i = 0; i < accountList.size(); i++) {
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
@@ -1140,7 +1127,7 @@ public class MyApp extends Application {
 		}
 		return 0;
 	}
-	
+
 	public int getAppointmentIndexFromAppointmentId(String id) {
 		for (int i = 0; i < appointmentList.size(); i++) {
 			if (appointmentList.get(i).getId().equalsIgnoreCase(id)) {
@@ -1149,7 +1136,7 @@ public class MyApp extends Application {
 		}
 		return 0;
 	}
-	
+
 	public int getContactIndexFromContactId(String id) {
 		for (int i = 0; i < contactList.size(); i++) {
 			if (contactList.get(i).getContactId().equalsIgnoreCase(id)) {
@@ -1158,7 +1145,7 @@ public class MyApp extends Application {
 		}
 		return 0;
 	}
-	
+
 	public int getOpportunityIndexFromOpportunityId(String id) {
 		for (int i = 0; i < opportunityList.size(); i++) {
 			if (opportunityList.get(i).getOpportunityId().equalsIgnoreCase(id)) {
@@ -1167,5 +1154,5 @@ public class MyApp extends Application {
 		}
 		return 0;
 	}
-	
+
 }

@@ -97,9 +97,16 @@ public class AppointmentAddActivity extends CRMActivity {
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			Toast.makeText(AppointmentAddActivity.this,
-					"Appointment created successfully.", Toast.LENGTH_SHORT)
-					.show();
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				Toast.makeText(AppointmentAddActivity.this,
+						"Appointment updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				Toast.makeText(AppointmentAddActivity.this,
+						"Appointment created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
 
 			Appointment aa = new Appointment(null, purpose_ET.getText()
 					.toString(), detailsDiscussion_ET.getText().toString(),
@@ -350,8 +357,10 @@ public class AppointmentAddActivity extends CRMActivity {
 			return;
 		}
 
-		System.out.println("check  :  " + myApp.formatStringToDate3(dateMeeting_TV.getText()
-				.toString()));
+		System.out
+				.println("check  :  "
+						+ myApp.formatStringToDate3(dateMeeting_TV.getText()
+								.toString()));
 
 		JSONObject params = new JSONObject();
 

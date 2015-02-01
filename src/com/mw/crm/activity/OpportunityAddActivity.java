@@ -90,9 +90,16 @@ public class OpportunityAddActivity extends CRMActivity {
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			Toast.makeText(OpportunityAddActivity.this,
-					"Opportunity created successfully.", Toast.LENGTH_SHORT)
-					.show();
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				Toast.makeText(OpportunityAddActivity.this,
+						"Opportunity updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				Toast.makeText(OpportunityAddActivity.this,
+						"Opportunity created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
 
 			Opportunity aa = new Opportunity(oppoManager_TV.getText()
 					.toString(), null, null,
@@ -201,11 +208,11 @@ public class OpportunityAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("position")) {
 			tempOpportunity = myApp.getOpportunityList().get(
 					previousIntent.getIntExtra("position", 0));
-			descriptionLabel_TV.setText(tempOpportunity.getName());
+			description_ET.setText(tempOpportunity.getName());
 			System.out.println(tempOpportunity.toString());
 
-//			Toast.makeText(this, tempOpportunity.getOpportunityId(),
-//					Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, tempOpportunity.getOpportunityId(),
+			// Toast.LENGTH_SHORT).show();
 
 			// description_ET.setText(tempOpportunity.getCustomerId());
 
@@ -253,8 +260,9 @@ public class OpportunityAddActivity extends CRMActivity {
 							.getStringIdFromStringJSON(tempOpportunity
 									.getCustomerId()));
 			if (tempAccount != null) {
-				selectedClientName = myApp.getIndexFromAccountList(tempAccount
-						.getAccountId());
+				selectedClientName = myApp
+						.getAccountIndexFromAccountId(tempAccount
+								.getAccountId());
 				Integer temp2 = myApp.getIntValueFromStringJSON(tempAccount
 						.getCountry());
 				if (temp2 != null) {
