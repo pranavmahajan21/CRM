@@ -38,7 +38,6 @@ import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
-import com.mw.crm.model.InternalConnect;
 import com.mw.crm.model.MenuItem;
 import com.mw.crm.model.Opportunity;
 import com.mw.crm.service.AccountService;

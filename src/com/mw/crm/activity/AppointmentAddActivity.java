@@ -207,19 +207,13 @@ public class AppointmentAddActivity extends CRMActivity {
 		setTypeface();
 
 		System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
-		System.out.println(new ArrayList<String>(userMap.values()).get(2));
 
 		if (previousIntent.hasExtra("position")) {
 			tempAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 
-			// Toast.makeText(this, "" + tempAppointment.getId(),
-			// Toast.LENGTH_SHORT).show();
-
-			System.out.println(tempAppointment);
 
 			purpose_ET.setText(tempAppointment.getPurposeOfMeeting());
-
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
 
 			Integer temp = myApp.getIntValueFromStringJSON(tempAppointment
@@ -607,11 +601,6 @@ public class AppointmentAddActivity extends CRMActivity {
 							} else {
 								temp = temp + ":" + minute;
 							}
-							// if (hourOfDay < 12) {
-							// temp = temp + "AM";
-							// } else {
-							// temp = temp + "PM";
-							// }
 
 							aaaaa(view, temp, false);
 						}
