@@ -77,7 +77,7 @@ public class InternalConnectService extends IntentService {
 
 							}
 							// TODO : update preferences as well
-							myApp.setUserMap(userMap);
+							myApp.setUserMap(userMap, true);
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {

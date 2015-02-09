@@ -75,7 +75,7 @@ public class AppointmentService extends IntentService {
 								}
 
 							}
-							myApp.setAppointmentList(appointmentList);
+							myApp.setAppointmentList(appointmentList, true);
 							onRequestComplete();
 						}
 

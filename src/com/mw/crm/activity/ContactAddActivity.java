@@ -306,11 +306,12 @@ public class ContactAddActivity extends CRMActivity {
 
 	private boolean validate() {
 		boolean notErrorCase = true;
-		if (firstName_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please enter some First Name.", false);
-			notErrorCase = false;
-		} else if (lastName_ET.getText().toString().trim().length() < 1) {
+		// if (firstName_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please enter some First Name.", false);
+		// notErrorCase = false;
+		// } else
+		if (lastName_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Last Name.", false);
 			notErrorCase = false;
@@ -326,23 +327,24 @@ public class ContactAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select an organization.", false);
 			notErrorCase = false;
-		} else if (designation_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please enter the designation.", false);
-			notErrorCase = false;
-		} else if (email_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please enter the email.", false);
-			notErrorCase = false;
-		} else if (officePhone_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please enter Office Phone.", false);
-			notErrorCase = false;
-		} else if (lastName_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please enter Mobile.", false);
-			notErrorCase = false;
 		}
+		// else if (designation_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please enter the designation.", false);
+		// notErrorCase = false;
+		// } else if (email_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please enter the email.", false);
+		// notErrorCase = false;
+		// } else if (officePhone_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please enter Office Phone.", false);
+		// notErrorCase = false;
+		// } else if (lastName_ET.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please enter Mobile.", false);
+		// notErrorCase = false;
+		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -375,33 +377,63 @@ public class ContactAddActivity extends CRMActivity {
 							accountList.get(selectedOrganisation)
 									.getAccountId())
 					.put("LastName",
-							MyApp.encryptData(lastName_ET.getText().toString()))
-					.put("FirstName",
-							MyApp.encryptData(firstName_ET.getText().toString()))
-					.put("Designation",
-							MyApp.encryptData(designation_ET.getText()
-									.toString()))
-					.put("Telephone1",
-							MyApp.encryptData(officePhone_ET.getText()
-									.toString()))
-					.put("MobilePhone",
-							MyApp.encryptData(mobile_ET.getText().toString()));
+							MyApp.encryptData(lastName_ET.getText().toString()));
+
+			if (firstName_ET.getText().toString().trim().length() > 1) {
+				params.put("FirstName",
+						MyApp.encryptData(firstName_ET.getText().toString()));
+			}
+			if (designation_ET.getText().toString().trim().length() > 1) {
+				params.put("Designation",
+						MyApp.encryptData(designation_ET.getText().toString()));
+			}
+			if (officePhone_ET.getText().toString().trim().length() > 1) {
+				params.put("Telephone1",
+						MyApp.encryptData(officePhone_ET.getText().toString()));
+			}
+			if (mobile_ET.getText().toString().trim().length() > 1) {
+				params.put("MobilePhone",
+						MyApp.encryptData(mobile_ET.getText().toString()));
+			}
+			if (email_ET.getText().toString().trim().length() > 1) {
+				if (previousIntent.hasExtra("is_edit_mode")
+						&& previousIntent
+								.getBooleanExtra("is_edit_mode", false)) {
+					params.put("EmailAddress1",
+							MyApp.encryptData(email_ET.getText().toString()));
+				} else {
+					params.put("EMailAddress1",
+							MyApp.encryptData(email_ET.getText().toString()));
+				}
+			}
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+				params.put("conid", tempContact.getContactId());
+			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
 
+		String url;
+		if (previousIntent.hasExtra("is_edit_mode")
+				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+			/** Update Mode **/
+			url = MyApp.URL + MyApp.CONTACTS_UPDATE;
+		} else {
+			url = MyApp.URL + MyApp.CONTACTS_ADD;
+		}
 		System.out.println("json" + params);
 
 		params = MyApp.addParamToJson(params);
 		progressDialog.show();
-		if (previousIntent.hasExtra("is_edit_mode")
-				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
-			/** Update Mode **/
-			String url = MyApp.URL + MyApp.CONTACTS_UPDATE;
+//		if (previousIntent.hasExtra("is_edit_mode")
+//				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+//			/** Update Mode **/
+//			String url = MyApp.URL + MyApp.CONTACTS_UPDATE;
 			try {
-				params.put("EmailAddress1",
-						MyApp.encryptData(email_ET.getText().toString())).put(
-						"conid", tempContact.getContactId());
+//				params.put("EmailAddress1",
+//						MyApp.encryptData(email_ET.getText().toString())).put(
+//						"conid", tempContact.getContactId());
 
 				System.out.println("URL : " + url);
 				System.out.println("params : " + params);
@@ -446,57 +478,57 @@ public class ContactAddActivity extends CRMActivity {
 				e.printStackTrace();
 				progressDialog.hide();
 			}
-		} else {
-			/** Create Mode **/
-			String url = MyApp.URL + MyApp.CONTACTS_ADD;
-
-			try {
-				params.put("EMailAddress1",
-						MyApp.encryptData(email_ET.getText().toString()));
-
-				System.out.println("URL : " + url);
-
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
-
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
-							}
-						}, new Response.ErrorListener() {
-
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								progressDialog.hide();
-								System.out.println("ERROR  : "
-										+ error.getMessage());
-								error.printStackTrace();
-
-								if (error instanceof NetworkError) {
-									System.out.println("NetworkError");
-								}
-								if (error instanceof NoConnectionError) {
-									System.out
-											.println("NoConnectionError you are now offline.");
-								}
-								if (error instanceof ServerError) {
-									System.out.println("ServerError");
-								}
-							}
-						});
-
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				e.printStackTrace();
-				progressDialog.dismiss();
-			}
-		}
+//		} else {
+//			/** Create Mode **/
+//			String url = MyApp.URL + MyApp.CONTACTS_ADD;
+//
+//			try {
+//				params.put("EMailAddress1",
+//						MyApp.encryptData(email_ET.getText().toString()));
+//
+//				System.out.println("URL : " + url);
+//
+//				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+//						Method.POST, url, params,
+//						new Response.Listener<JSONObject>() {
+//
+//							@Override
+//							public void onResponse(JSONObject response) {
+//								System.out.println("length2" + response);
+//								onPositiveResponse();
+//							}
+//						}, new Response.ErrorListener() {
+//
+//							@Override
+//							public void onErrorResponse(VolleyError error) {
+//								progressDialog.hide();
+//								System.out.println("ERROR  : "
+//										+ error.getMessage());
+//								error.printStackTrace();
+//
+//								if (error instanceof NetworkError) {
+//									System.out.println("NetworkError");
+//								}
+//								if (error instanceof NoConnectionError) {
+//									System.out
+//											.println("NoConnectionError you are now offline.");
+//								}
+//								if (error instanceof ServerError) {
+//									System.out.println("ServerError");
+//								}
+//							}
+//						});
+//
+//				RetryPolicy policy = new DefaultRetryPolicy(30000,
+//						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//				jsonArrayRequest.setRetryPolicy(policy);
+//				queue.add(jsonArrayRequest);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				progressDialog.dismiss();
+//			}
+//		}
 	}
 
 	private void onPositiveResponse() {

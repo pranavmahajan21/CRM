@@ -78,7 +78,7 @@ public class OpportunityService extends IntentService {
 								// System.out.println("<><>"
 								// + accountList.get(i).getName());
 							}
-							myApp.setOpportunityList(opportunityList);
+							myApp.setOpportunityList(opportunityList, true);
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {

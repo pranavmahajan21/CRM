@@ -212,7 +212,6 @@ public class AppointmentAddActivity extends CRMActivity {
 			tempAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 
-
 			purpose_ET.setText(tempAppointment.getPurposeOfMeeting());
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
 
@@ -381,124 +380,134 @@ public class AppointmentAddActivity extends CRMActivity {
 							myApp.formatDateToString4(myApp
 									.formatStringToDate3(endTime_TV.getText()
 											.toString())))
-					.put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
+					// .put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
+//											myApp.getLoginUserId()
+					.put("ownid", myApp.getLoginUserId());
 
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+				params.put("apponid", tempAppointment.getId());
+			}
 			// .put("ownid",
 			// new ArrayList<String>(userMap.keySet())
 			// .get(selectedOwner))
 
-			// .put("startdate", myApp.formatDateToString4(new Date()))
-			// .put("enddate", myApp.formatDateToString4(new Date()))
-			// .put("startdate",
-			// myApp.formatDateToString4(myApp.formatStringToDate2(dateMeeting_TV.getText().toString())))
 		} catch (JSONException e1) {
 			e1.printStackTrace();
+		}
+
+		String url;
+		if (previousIntent.hasExtra("is_edit_mode")
+				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+			/** Update Mode **/
+			url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
+		} else {
+			url = MyApp.URL + MyApp.APPOINTMENTS_ADD;
 		}
 
 		params = MyApp.addParamToJson(params);
 
 		progressDialog.show();
 
-		if (previousIntent.getBooleanExtra("is_edit_mode", false)) {
-			/** Update Mode **/
-			String url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
-			try {
-				System.out.println("URL : " + url);
+		// if (previousIntent.getBooleanExtra("is_edit_mode", false)) {
+		// /** Update Mode **/
+		// String url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
+		try {
+			System.out.println("URL : " + url);
 
-				// params.put("apponid",
-				// "8d0592e9-79a1-e411-96e8-5cf3fc3f502a");
-				params.put("apponid", tempAppointment.getId());
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
+			System.out.println("params : " + params);
 
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
+			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+					Method.POST, url, params,
+					new Response.Listener<JSONObject>() {
+
+						@Override
+						public void onResponse(JSONObject response) {
+							System.out.println("length2" + response);
+							onPositiveResponse();
+						}
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							progressDialog.hide();
+							System.out.println("ERROR  : " + error.getMessage());
+							error.printStackTrace();
+
+							if (error instanceof NetworkError) {
+								System.out.println("NetworkError");
 							}
-						}, new Response.ErrorListener() {
-
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								progressDialog.hide();
-								System.out.println("ERROR  : "
-										+ error.getMessage());
-								error.printStackTrace();
-
-								if (error instanceof NetworkError) {
-									System.out.println("NetworkError");
-								}
-								if (error instanceof NoConnectionError) {
-									System.out
-											.println("NoConnectionError you are now offline.");
-								}
-								if (error instanceof ServerError) {
-									System.out.println("ServerError");
-								}
+							if (error instanceof NoConnectionError) {
+								System.out
+										.println("NoConnectionError you are now offline.");
 							}
-						});
-
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				progressDialog.hide();
-				e.printStackTrace();
-			}
-		} else {
-			/** Create Mode **/
-			try {
-
-				String url = MyApp.URL + MyApp.APPOINTMENTS_ADD;
-
-				System.out.println("URL : " + url);
-
-				System.out.println("json" + params);
-
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
-
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
+							if (error instanceof ServerError) {
+								System.out.println("ServerError");
+								Toast.makeText(AppointmentAddActivity.this, "Permissions error.", Toast.LENGTH_LONG).show();
 							}
-						}, new Response.ErrorListener() {
+						}
+					});
 
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								progressDialog.hide();
-								System.out.println("ERROR  : "
-										+ error.getMessage());
-								error.printStackTrace();
-
-								if (error instanceof NetworkError) {
-									System.out.println("NetworkError");
-								}
-								if (error instanceof NoConnectionError) {
-									System.out
-											.println("NoConnectionError you are now offline.");
-								}
-								if (error instanceof ServerError) {
-									System.out.println("ServerError");
-								}
-							}
-						});
-
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				progressDialog.hide();
-				e.printStackTrace();
-			}
+			RetryPolicy policy = new DefaultRetryPolicy(30000,
+					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+			jsonArrayRequest.setRetryPolicy(policy);
+			queue.add(jsonArrayRequest);
+		} catch (Exception e) {
+			progressDialog.hide();
+			e.printStackTrace();
 		}
+		// } else {
+		// /** Create Mode **/
+		// try {
+		//
+		// String url = MyApp.URL + MyApp.APPOINTMENTS_ADD;
+		//
+		// System.out.println("URL : " + url);
+		//
+		// System.out.println("json" + params);
+		//
+		// JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+		// Method.POST, url, params,
+		// new Response.Listener<JSONObject>() {
+		//
+		// @Override
+		// public void onResponse(JSONObject response) {
+		// System.out.println("length2" + response);
+		// onPositiveResponse();
+		// }
+		// }, new Response.ErrorListener() {
+		//
+		// @Override
+		// public void onErrorResponse(VolleyError error) {
+		// progressDialog.hide();
+		// System.out.println("ERROR  : "
+		// + error.getMessage());
+		// error.printStackTrace();
+		//
+		// if (error instanceof NetworkError) {
+		// System.out.println("NetworkError");
+		// }
+		// if (error instanceof NoConnectionError) {
+		// System.out
+		// .println("NoConnectionError you are now offline.");
+		// }
+		// if (error instanceof ServerError) {
+		// System.out.println("ServerError");
+		// }
+		// }
+		// });
+		//
+		// RetryPolicy policy = new DefaultRetryPolicy(30000,
+		// DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+		// DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+		// jsonArrayRequest.setRetryPolicy(policy);
+		// queue.add(jsonArrayRequest);
+		// } catch (Exception e) {
+		// progressDialog.hide();
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
 	private void onPositiveResponse() {

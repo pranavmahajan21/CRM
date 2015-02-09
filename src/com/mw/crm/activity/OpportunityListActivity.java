@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.mw.crm.adapter.OpportunityAdapter;
+import com.mw.crm.adapter.OpportunitySearchAdapter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Opportunity;
 
@@ -24,13 +26,15 @@ public class OpportunityListActivity extends CRMActivity {
 
 	MyApp myApp;
 
+	EditText searchOpportunity_ET;
+//	AutoCompleteTextView searchOpportunity_ET;
+
 	ListView opportunityLV;
 	List<Opportunity> opportunityList;
 	OpportunityAdapter adapter;
+//	OpportunitySearchAdapter adapter2;
 
 	Intent nextIntent;
-
-	EditText searchOpportunity_ET;
 
 	RequestQueue queue;
 
@@ -46,6 +50,8 @@ public class OpportunityListActivity extends CRMActivity {
 
 		if (opportunityList != null && opportunityList.size() > 0) {
 			adapter = new OpportunityAdapter(this, opportunityList);
+			
+//			adapter2 = new OpportunitySearchAdapter(this, opportunityList);
 		}
 	}
 
@@ -53,12 +59,16 @@ public class OpportunityListActivity extends CRMActivity {
 		super.findThings();
 		opportunityLV = (ListView) findViewById(R.id.opportunity_LV);
 		searchOpportunity_ET = (EditText) findViewById(R.id.searchOpportunity_ET);
+
+		
+//		searchOpportunity_ET.setThreshold(1);
 	}
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		if (adapter != null) {
 			opportunityLV.setAdapter(adapter);
+//			searchOpportunity_ET.setAdapter(adapter2);
 		} else {
 			// no tickets
 		}
@@ -84,7 +94,7 @@ public class OpportunityListActivity extends CRMActivity {
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,10 +113,12 @@ public class OpportunityListActivity extends CRMActivity {
 					int position, long id) {
 				Opportunity tempOpportunity = opportunityList.get(position);
 				searchOpportunity_ET.setText("");
-				int index = myApp.getOpportunityIndexFromOpportunityId(tempOpportunity
-						.getOpportunityId());
-				
-				nextIntent = new Intent(OpportunityListActivity.this, OpportunityDetailsActivity.class);
+				int index = myApp
+						.getOpportunityIndexFromOpportunityId(tempOpportunity
+								.getOpportunityId());
+
+				nextIntent = new Intent(OpportunityListActivity.this,
+						OpportunityDetailsActivity.class);
 				nextIntent.putExtra("position", index);
 				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
@@ -143,17 +155,17 @@ public class OpportunityListActivity extends CRMActivity {
 		searchOpportunity_ET.setText("");
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				
+
 				opportunityList = myApp.getOpportunityList();
-				
-//				adapter.swapData(myApp.getOpportunityList());
+
+				// adapter.swapData(myApp.getOpportunityList());
 				adapter.swapData(opportunityList);
 				adapter.notifyDataSetChanged();
 			}

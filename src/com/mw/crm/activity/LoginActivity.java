@@ -1,7 +1,12 @@
 package com.mw.crm.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +17,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.android.volley.Request.Method;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
@@ -30,6 +44,8 @@ public class LoginActivity extends Activity {
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 
 	RequestQueue queue;
 
@@ -92,17 +108,120 @@ public class LoginActivity extends Activity {
 		initView();
 	}
 
-	public void onLogin(View view) {
-		if (email_ET.getText().toString().equalsIgnoreCase("in-fmcrmad1")
-				&& password_ET.getText().toString().equals("Password01")) {
-			progressDialog.dismiss();
-
-			editor.putBoolean("is_user_login", true);
-			editor.commit();
-			// TODO put user information in preferences
-
-			startActivity(nextIntent);
+	private boolean validate() {
+		boolean notErrorCase = true;
+		if (email_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some username.", false);
+			notErrorCase = false;
+		} else if (password_ET.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please enter some password.", false);
+			notErrorCase = false;
 		}
+		if (!notErrorCase) {
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+		return notErrorCase;
+	}
+
+	private void onPositiveResponse(JSONObject response) {
+		progressDialog.dismiss();
+
+		editor.putBoolean("is_user_login", true);
+		editor.commit();
+		try {
+			myApp.setLoginUserId(response.getString("id"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		startActivity(nextIntent);
+	}
+
+	public void onLogin(View view) {
+		if (!validate()) {
+			return;
+		}
+
+		JSONObject params = new JSONObject();
+
+		try {
+			params.put("username",
+					MyApp.encryptData(email_ET.getText().toString())).put(
+					"password",
+					MyApp.encryptData(password_ET.getText().toString()));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		String url = MyApp.URL + MyApp.LOGIN;
+
+		progressDialog.show();
+
+		try {
+			System.out.println("URL : " + url);
+
+			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+					Method.POST, url, params,
+					new Response.Listener<JSONObject>() {
+
+						@Override
+						public void onResponse(JSONObject response) {
+							System.out.println("length2" + response);
+							if (response.has("id")) {
+								onPositiveResponse(response);
+							}
+						}
+
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							progressDialog.hide();
+							System.out.println("ERROR  : " + error.getMessage());
+							error.printStackTrace();
+
+							if (error instanceof NetworkError) {
+								System.out.println("NetworkError");
+							}
+							if (error instanceof NoConnectionError) {
+								System.out
+										.println("NoConnectionError you are now offline.");
+							}
+							if (error instanceof ServerError) {
+								System.out.println("ServerError");
+							}
+						}
+					});
+
+			RetryPolicy policy = new DefaultRetryPolicy(30000,
+					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+			jsonArrayRequest.setRetryPolicy(policy);
+			queue.add(jsonArrayRequest);
+		} catch (Exception e) {
+			progressDialog.hide();
+			e.printStackTrace();
+		}
+
+		// if (email_ET.getText().toString().equalsIgnoreCase("in-fmcrmad1")
+		// && password_ET.getText().toString().equals("Password01")) {
+		// progressDialog.dismiss();
+		//
+		// editor.putBoolean("is_user_login", true);
+		// editor.commit();
+		// // TODO put user information in preferences
+		//
+		// startActivity(nextIntent);
+		// }
 
 	}
 

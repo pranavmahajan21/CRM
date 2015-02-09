@@ -69,9 +69,9 @@ public class AccountAddActivity extends CRMActivity {
 
 	RequestQueue queue;
 
-	int selectedSector = -1, selectedCountry = -1, selectedLob = -1,
-			selectedSubLob = -1, selectedLeadPartner = -1,
-			selectedAccountCategory = -1;
+	int selectedCountry = -1;
+	int selectedSector = -1, selectedLob = -1, selectedSubLob = -1,
+			selectedLeadPartner = -1, selectedAccountCategory = -1;
 
 	Map<String, String> sectorMap;
 	Map<String, String> countryMap;
@@ -89,8 +89,8 @@ public class AccountAddActivity extends CRMActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
-			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-					.getBooleanExtra("is_edit_mode", false))) {
+			if (previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false)) {
 				Toast.makeText(AccountAddActivity.this,
 						"Account updated successfully.", Toast.LENGTH_SHORT)
 						.show();
@@ -99,7 +99,7 @@ public class AccountAddActivity extends CRMActivity {
 						"Account created successfully.", Toast.LENGTH_SHORT)
 						.show();
 			}
-			
+
 			Account aa = new Account(clientName_ET.getText().toString(), null,
 					headquarter_TV.getText().toString(), lob_TV.getText()
 							.toString(), sublob_TV.getText().toString(),
@@ -325,17 +325,6 @@ public class AccountAddActivity extends CRMActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
-		/** important code for mapping. DO NOT DELETE. **/
-		// if (item.getGroupId() == 0) {
-		// headquarter_TV.setText(item.getTitle());
-		// List<String> keys = new ArrayList<String>(countryMap.keySet());
-		// keys.get(item.getOrder());
-		//
-		// Toast.makeText(AccountAddActivity.this,
-		// countryMap.get(keys.get(item.getOrder())),
-		// Toast.LENGTH_SHORT).show();
-		// }
-
 		if (item.getGroupId() == 0) {
 			selectedLob = item.getOrder();
 			lob_TV.setText(item.getTitle());
@@ -358,31 +347,32 @@ public class AccountAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Client Name.", false);
 			notErrorCase = false;
-		} else if (selectedSector < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a sector.", false);
-			notErrorCase = false;
 		} else if (selectedCountry < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a country.", false);
 			notErrorCase = false;
-		} else if (selectedLob < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a LOB.", false);
-			notErrorCase = false;
-		} else if (selectedSubLob < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a Sub Lob.", false);
-			notErrorCase = false;
-		} else if (selectedLeadPartner < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a Lead Partner.", false);
-			notErrorCase = false;
-		} else if (selectedAccountCategory < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select an Account Category.", false);
-			notErrorCase = false;
 		}
+		// else if (selectedSector < 0) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select a sector.", false);
+		// notErrorCase = false;
+		// } else if (selectedLob < 0) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select a LOB.", false);
+		// notErrorCase = false;
+		// } else if (selectedSubLob < 0) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select a Sub Lob.", false);
+		// notErrorCase = false;
+		// } else if (selectedLeadPartner < 0) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select a Lead Partner.", false);
+		// notErrorCase = false;
+		// } else if (selectedAccountCategory < 0) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select an Account Category.", false);
+		// notErrorCase = false;
+		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -405,88 +395,125 @@ public class AccountAddActivity extends CRMActivity {
 
 		try {
 			params.put("Name",
-					MyApp.encryptData(clientName_ET.getText().toString()))
-					.put("sectors",
-							new ArrayList<String>(sectorMap.keySet())
-									.get(selectedSector))
-					.put("cty",
-							new ArrayList<String>(countryMap.keySet())
-									.get(selectedCountry))
-					.put("lobusiness",
-							new ArrayList<String>(lobMap.keySet())
-									.get(selectedLob))
-					.put("slob",
-							new ArrayList<String>(subLobMap.keySet())
-									.get(selectedSubLob))
-					.put("leadpartner",
-							new ArrayList<String>(userMap.keySet())
-									.get(selectedLeadPartner))
-					.put("accountCategoryOnes",
-							new ArrayList<String>(accountCategoryMap.keySet())
-									.get(selectedAccountCategory));
+					MyApp.encryptData(clientName_ET.getText().toString())).put(
+					"cty",
+					new ArrayList<String>(countryMap.keySet())
+							.get(selectedCountry));
+			// .put("sectors",
+			// new ArrayList<String>(sectorMap.keySet())
+			// .get(selectedSector))
+			//
+			// .put("lobusiness",
+			// new ArrayList<String>(lobMap.keySet())
+			// .get(selectedLob))
+			// .put("slob",
+			// new ArrayList<String>(subLobMap.keySet())
+			// .get(selectedSubLob))
+			// .put("leadpartner",
+			// new ArrayList<String>(userMap.keySet())
+			// .get(selectedLeadPartner))
+			// .put("accountCategoryOnes",
+			// new ArrayList<String>(accountCategoryMap.keySet())
+			// .get(selectedAccountCategory));
+
+			if (selectedSector > -1) {
+				params.put("sectors", new ArrayList<String>(sectorMap.keySet())
+						.get(selectedSector));
+			}
+			if (selectedLob > -1) {
+				params.put("lobusiness",
+						new ArrayList<String>(lobMap.keySet()).get(selectedLob));
+			}
+			if (selectedSubLob > -1) {
+				params.put("slob", new ArrayList<String>(subLobMap.keySet())
+						.get(selectedSubLob));
+			}
+			if (selectedLeadPartner > -1) {
+				params.put("leadpartner",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedLeadPartner));
+			}
+			if (selectedAccountCategory > -1) {
+				params.put("accountCategoryOnes", new ArrayList<String>(
+						accountCategoryMap.keySet())
+						.get(selectedAccountCategory));
+			}
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+				params.put("accid", tempAccount.getAccountId());
+			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
+		}
+
+		String url;
+		if (previousIntent.hasExtra("is_edit_mode")
+				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+			/** Update Mode **/
+			url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
+		} else {
+			url = MyApp.URL + MyApp.ACCOUNTS_ADD;
 		}
 
 		params = MyApp.addParamToJson(params);
 		System.out.println("json" + params);
 		progressDialog.show();
-		if (previousIntent.hasExtra("is_edit_mode")
-				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
-			/** Update Mode **/
-			String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
-
-			try {
-				System.out.println("acc id  : " + tempAccount.getAccountId());
-				// Toast.makeText(AccountAddActivity.this, "id  : " +
-				// tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
-				params.put("accid", tempAccount.getAccountId());
-
-				System.out.println("URL : " + url);
-
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
-
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
-							}
-						}, new Response.ErrorListener() {
-
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								progressDialog.hide();
-								System.out.println("ERROR  : "
-										+ error.getMessage());
-								error.printStackTrace();
-
-								if (error instanceof NetworkError) {
-									System.out.println("NetworkError");
-								}
-								if (error instanceof NoConnectionError) {
-									System.out
-											.println("NoConnectionError you are now offline.");
-								}
-								if (error instanceof ServerError) {
-									System.out.println("ServerError");
-								}
-							}
-						});
-
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				e.printStackTrace();
-				progressDialog.hide();
-			}
-		} else {
-			/** Create Mode **/
-			String url = MyApp.URL + MyApp.ACCOUNTS_ADD;
+//		if (previousIntent.hasExtra("is_edit_mode")
+//				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+//			/** Update Mode **/
+//			String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
+//
+//			try {
+//				System.out.println("acc id  : " + tempAccount.getAccountId());
+//				// Toast.makeText(AccountAddActivity.this, "id  : " +
+//				// tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
+//				params.put("accid", tempAccount.getAccountId());
+//
+//				System.out.println("URL : " + url);
+//
+//				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+//						Method.POST, url, params,
+//						new Response.Listener<JSONObject>() {
+//
+//							@Override
+//							public void onResponse(JSONObject response) {
+//								System.out.println("length2" + response);
+//								onPositiveResponse();
+//							}
+//						}, new Response.ErrorListener() {
+//
+//							@Override
+//							public void onErrorResponse(VolleyError error) {
+//								progressDialog.hide();
+//								System.out.println("ERROR  : "
+//										+ error.getMessage());
+//								error.printStackTrace();
+//
+//								if (error instanceof NetworkError) {
+//									System.out.println("NetworkError");
+//								}
+//								if (error instanceof NoConnectionError) {
+//									System.out
+//											.println("NoConnectionError you are now offline.");
+//								}
+//								if (error instanceof ServerError) {
+//									System.out.println("ServerError");
+//								}
+//							}
+//						});
+//
+//				RetryPolicy policy = new DefaultRetryPolicy(30000,
+//						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//				jsonArrayRequest.setRetryPolicy(policy);
+//				queue.add(jsonArrayRequest);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				progressDialog.hide();
+//			}
+//		} else {
+//			/** Create Mode **/
+//			String url = MyApp.URL + MyApp.ACCOUNTS_ADD;
 			try {
 				System.out.println("URL : " + url);
 
@@ -529,7 +556,7 @@ public class AccountAddActivity extends CRMActivity {
 				e.printStackTrace();
 			}
 		}
-	}
+//	}
 
 	@Override
 	public void startActivityForResult(Intent intent, int requestCode) {

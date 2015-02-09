@@ -34,6 +34,12 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <!-- <AutoCompleteTextView
+        android:id="@+id/ACTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_LL" /> -->
+
     <ListView
         android:id="@+id/opportunity_LV"
         android:layout_width="match_parent"

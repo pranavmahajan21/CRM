@@ -76,7 +76,7 @@ public class AccountService extends IntentService {
 									e.printStackTrace();
 								}
 							}
-							myApp.setAccountList(accountList);
+							myApp.setAccountList(accountList, true);
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {

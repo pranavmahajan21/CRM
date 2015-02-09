@@ -49,9 +49,8 @@ import com.mw.crm.service.OpportunityService;
 @SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
 
-	public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
-	// public static String URL =
-	// "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
+//	 public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
+	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
 
 	/* Used to get List<T> */
 	public static String APPOINTMENTS_DATA = "/PostAppointments";
@@ -71,11 +70,15 @@ public class MyApp extends Application {
 	public static String CONTACTS_UPDATE = "/PostContactUpdate";
 	public static String OPPORTUNITY_UPDATE = "/PostOpportunityUpdate";
 
+	public static String LOGIN = "/PostCurrentUser";
+
 	/*
 	 * Used for Internal Connect in CONTACT screen & owner in APPOINTMENT screen
 	 * & LeadPartner in ACCOUNT screen
 	 */
 	public static String USER = "/PostUser";
+
+	String loginUserId;
 
 	final public static int SEARCH_SECTOR = 0;
 	final public static int SEARCH_HQ_COUNTRY = 1;
@@ -93,12 +96,13 @@ public class MyApp extends Application {
 	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
 
 	List<Opportunity> opportunityList;// = new ArrayList<Opportunity>();
+	List<Opportunity> opportunityMyList;
 	List<Contact> contactList;// = new ArrayList<Contact>();
 	List<Appointment> appointmentList;// = new ArrayList<Appointment>();
 	List<Account> accountList;// = new ArrayList<Account>();
 
-//	List<InternalConnect> internalConnectList;// = new
-//												// ArrayList<InternalConnect>();
+	// List<InternalConnect> internalConnectList;// = new
+	// // ArrayList<InternalConnect>();
 
 	private static String ACCOUNT_CATEGORY_PATH = "excels/account_category.xls";
 	private static String COUNTRY_PATH = "excels/country.xls";
@@ -180,7 +184,8 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
 				}.getType();
-				setAccountList((List<Account>) gson.fromJson(value, listType));
+				setAccountList((List<Account>) gson.fromJson(value, listType),
+						false);
 				System.out
 						.println("Account size  : " + getAccountList().size());
 			}
@@ -192,8 +197,9 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Appointment>>() {
 				}.getType();
-				setAppointmentList((List<Appointment>) gson.fromJson(value,
-						listType));
+				setAppointmentList(
+						(List<Appointment>) gson.fromJson(value, listType),
+						false);
 				System.out.println("Appointment size  : "
 						+ getAppointmentList().size());
 			}
@@ -204,7 +210,8 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
 				}.getType();
-				setContactList((List<Contact>) gson.fromJson(value, listType));
+				setContactList((List<Contact>) gson.fromJson(value, listType),
+						false);
 				System.out
 						.println("Contact size  : " + getContactList().size());
 			}
@@ -216,8 +223,9 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Opportunity>>() {
 				}.getType();
-				setOpportunityList((List<Opportunity>) gson.fromJson(value,
-						listType));
+				setOpportunityList(
+						(List<Opportunity>) gson.fromJson(value, listType),
+						false);
 				System.out.println("Opportunity size  : "
 						+ getOpportunityList().size());
 			}
@@ -243,11 +251,15 @@ public class MyApp extends Application {
 				}.getType();
 				// setInternalConnectList((List<InternalConnect>) gson.fromJson(
 				// value, mapType));
-				setUserMap((Map<String, String>) gson.fromJson(value, mapType));
+				setUserMap((Map<String, String>) gson.fromJson(value, mapType),
+						false);
 				System.out.println("User map size  : " + getUserMap().size());
 			}
 		}
 
+		if (sharedPreferences.contains("login_user_id")) {
+			setLoginUserId(sharedPreferences.getString("login_user_id", null));
+		}
 		loadUnloadedData();
 	}
 
@@ -378,54 +390,85 @@ public class MyApp extends Application {
 		return contactList;
 	}
 
-	public void setContactList(List<Contact> contactList) {
+	public void setContactList(List<Contact> contactList,
+			boolean updatePreferences) {
 		this.contactList = contactList;
-		String json = gson.toJson(contactList);
-		editor.putString("contact_list", json);
-		editor.commit();
+		if (updatePreferences) {
+			String json = gson.toJson(contactList);
+			editor.putString("contact_list", json);
+			editor.commit();
+		}
 	}
 
 	public List<Appointment> getAppointmentList() {
 		return appointmentList;
 	}
 
-	public void setAppointmentList(List<Appointment> appointmentList) {
+	public void setAppointmentList(List<Appointment> appointmentList,
+			boolean updatePreferences) {
 		this.appointmentList = appointmentList;
-		String json = gson.toJson(appointmentList);
-		editor.putString("appointment_list", json);
-		editor.commit();
+		if (updatePreferences) {
+			String json = gson.toJson(appointmentList);
+			editor.putString("appointment_list", json);
+			editor.commit();
+		}
 	}
 
 	public List<Account> getAccountList() {
 		return accountList;
 	}
 
-	public void setAccountList(List<Account> accountList) {
+	public void setAccountList(List<Account> accountList,
+			boolean updatePreferences) {
 		this.accountList = accountList;
-		String json = gson.toJson(accountList);
-		editor.putString("account_list", json);
-		editor.commit();
+		if (updatePreferences) {
+			String json = gson.toJson(accountList);
+			editor.putString("account_list", json);
+			editor.commit();
+		}
 	}
 
 	public List<Opportunity> getOpportunityList() {
 		return opportunityList;
 	}
 
-	public void setOpportunityList(List<Opportunity> opportunityList) {
+	public void setOpportunityList(List<Opportunity> opportunityList,
+			boolean updatePreferences) {
 		this.opportunityList = opportunityList;
-		String json = gson.toJson(opportunityList);
-		editor.putString("opportunity_list", json);
-		editor.commit();
+		if (updatePreferences) {
+			String json = gson.toJson(opportunityList);
+			editor.putString("opportunity_list", json);
+			editor.commit();
+		}
 	}
 
 	public Map<String, String> getUserMap() {
 		return userMap;
 	}
 
-	public void setUserMap(Map<String, String> userMap) {
+	// TODO : replicate boolean everywhere
+	public void setUserMap(Map<String, String> userMap,
+			boolean updatePreferences) {
 		this.userMap = userMap;
-		String json = gson.toJson(userMap);
-		editor.putString("user_map", json);
+
+		if (updatePreferences) {
+			String json = gson.toJson(userMap);
+			editor.putString("user_map", json);
+			editor.commit();
+		}
+	}
+
+	public String getLoginUserId() {
+		return loginUserId;
+	}
+
+	public void setLoginUserId(String loginUserId) {
+		this.loginUserId = loginUserId;
+		
+//		Toast.makeText(this, loginUserId, Toast.LENGTH_SHORT).show();
+		System.out.println("!@!@  " + loginUserId);
+		
+		editor.putString("login_user_id", loginUserId);
 		editor.commit();
 	}
 
@@ -578,16 +621,17 @@ public class MyApp extends Application {
 		return new Encrypter(null, null).encrypt(string);
 	}
 
-//	public List<InternalConnect> getInternalConnectList() {
-//		return internalConnectList;
-//	}
-//
-//	public void setInternalConnectList(List<InternalConnect> internalConnectList) {
-//		this.internalConnectList = internalConnectList;
-//		String json = gson.toJson(internalConnectList);
-//		editor.putString("internal_connect_list", json);
-//		editor.commit();
-//	}
+	// public List<InternalConnect> getInternalConnectList() {
+	// return internalConnectList;
+	// }
+	//
+	// public void setInternalConnectList(List<InternalConnect>
+	// internalConnectList) {
+	// this.internalConnectList = internalConnectList;
+	// String json = gson.toJson(internalConnectList);
+	// editor.putString("internal_connect_list", json);
+	// editor.commit();
+	// }
 
 	public String formatDateToString(Date date) {
 

@@ -77,7 +77,7 @@ public class ContactService extends IntentService {
 								}
 
 							}
-							myApp.setContactList(contactList);
+							myApp.setContactList(contactList, true);
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
