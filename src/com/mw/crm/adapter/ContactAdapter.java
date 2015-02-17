@@ -27,7 +27,7 @@ public class ContactAdapter extends BaseAdapter {
 
 	List<Contact> contactList;
 	List<Contact> tempContactList;
-	
+
 	List<String> organizationList;
 
 	public ContactAdapter(Context context, List<Contact> contactList) {
@@ -36,7 +36,7 @@ public class ContactAdapter extends BaseAdapter {
 		this.contactList = contactList;
 		this.tempContactList = new ArrayList<Contact>();
 		tempContactList.addAll(contactList);
-		
+
 		organizationList = new ArrayList<String>();
 		for (int i = 0; i < this.contactList.size(); i++) {
 			try {
@@ -57,7 +57,10 @@ public class ContactAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		protected TextView nameTV;
-		protected TextView companyTV;
+		protected TextView designationTV;
+		protected TextView organisationTV;
+		protected TextView internalConnectTV;
+		protected TextView dorTV;
 	}
 
 	@Override
@@ -67,16 +70,27 @@ public class ContactAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.element_common, parent,
+			convertView = inflater.inflate(R.layout.element_contact, parent,
 					false);
 
 			viewHolder.nameTV = (TextView) convertView
 					.findViewById(R.id.name_TV);
-			viewHolder.companyTV = (TextView) convertView
-					.findViewById(R.id.company_TV);
+			viewHolder.designationTV = (TextView) convertView
+					.findViewById(R.id.designation_TV);
+			viewHolder.organisationTV = (TextView) convertView
+					.findViewById(R.id.organisation_TV);
+			viewHolder.internalConnectTV = (TextView) convertView
+					.findViewById(R.id.internalConnect_TV);
+			viewHolder.dorTV = (TextView) convertView.findViewById(R.id.dor_TV);
 
 			viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
-			viewHolder.companyTV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.designationTV
+					.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.organisationTV.setTypeface(myApp
+					.getTypefaceRegularSans());
+			viewHolder.internalConnectTV.setTypeface(myApp
+					.getTypefaceRegularSans());
+			viewHolder.dorTV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -85,19 +99,29 @@ public class ContactAdapter extends BaseAdapter {
 
 		Contact tempContact = contactList.get(position);
 
-		String temp = myApp.getContactName(tempContact);
-		viewHolder.nameTV.setText(temp);
+		String tempName = myApp.getContactName(tempContact);
+		viewHolder.nameTV.setText(tempName);
+		viewHolder.designationTV.setText(tempContact.getDesignation());
 
 		try {
-			viewHolder.companyTV.setText(getNameFromJson(new JSONObject(
+			viewHolder.organisationTV.setText(getNameFromJson(new JSONObject(
 					tempContact.getOrganization())));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		viewHolder.internalConnectTV.setText(myApp
+				.getStringNameFromStringJSON(tempContact.getInternalConnect()));
 
+		Integer temp = myApp.getIntValueFromStringJSON(tempContact
+				.getDegreeOfRelation());
+		if (temp != null) {
+			viewHolder.dorTV.setText(myApp.getDorMap().get(
+					Integer.toString(temp.intValue())));
+		}
 		return convertView;
 	}
 
+	//TODO: remove this
 	private String getNameFromJson(JSONObject jsonObject) {
 		String temp = "-";
 		try {
@@ -132,9 +156,9 @@ public class ContactAdapter extends BaseAdapter {
 			for (Contact tempContact : tempContactList) {
 				if (tempContact.getLastName().toLowerCase(Locale.getDefault())
 						.contains(charText)
-//						|| tempContact.getFirstName()
-//								.toLowerCase(Locale.getDefault())
-//								.contains(charText)
+						// || tempContact.getFirstName()
+						// .toLowerCase(Locale.getDefault())
+						// .contains(charText)
 						|| tempContact.getOrganization()
 								.toLowerCase(Locale.getDefault())
 								.contains(charText)) {

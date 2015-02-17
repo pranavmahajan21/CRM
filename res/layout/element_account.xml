@@ -7,15 +7,6 @@
     android:padding="7dp" >
 
     <TextView
-        android:id="@+id/description_TV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Opportunity Description"
-        android:textColor="@color/blue_dark"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/nameClient_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,24 +25,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="5dp"
+        android:orientation="horizontal"
         android:weightSum="2" >
 
         <TextView
-            android:id="@+id/status_TV"
+            android:id="@+id/sector_TV"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="(NA) Status"
+            android:text="(NA) Sector"
             android:textColor="@color/blue_dark" />
 
         <TextView
-            android:id="@+id/cost_TV"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="(NA) Cost"
+            android:clickable="true"
+            android:onClick="onOpportunity"
+            android:text="@string/opportunity_link"
+            android:textColor="@color/blue_dark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <TextView
+            android:id="@+id/country_TV"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="(NA) Country"
+            android:textColor="@color/blue_dark" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="onContact"
+            android:text="@string/contact_link"
             android:textColor="@color/blue_dark" />
     </LinearLayout>
 

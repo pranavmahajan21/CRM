@@ -1,32 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="7dp" >
 
-    <TextView
-        android:id="@+id/name_TV"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/date_TV"
+        android:layout_toRightOf="@+id/checkBox1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/purpose_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(NA) Purpose"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nameClient_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="(NA) Client Name"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+    <!-- android:text="CheckBox" -->
 
     <TextView
-        android:id="@+id/startTime_TV"
+        android:id="@+id/date_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_marginTop="5dp"
-        android:text="Start Time"
-        android:textColor="@color/grey" />
+        android:layout_alignBaseline="@+id/checkBox1"
+        android:layout_alignBottom="@+id/checkBox1"
+        android:layout_alignParentRight="true"
+        android:text="TextView" />
 
-    <TextView
-        android:id="@+id/endTime_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="End Time"
-        android:textColor="@color/grey" />
-
-</LinearLayout>
+</RelativeLayout>

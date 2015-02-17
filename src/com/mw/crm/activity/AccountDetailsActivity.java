@@ -97,27 +97,32 @@ public class AccountDetailsActivity extends CRMActivity {
 			if (temp != null) {
 				headquarterCountry_TV.setText(myApp.getCountryMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
 			temp = myApp.getIntValueFromStringJSON(selectedAccount.getLob());
 			if (temp != null) {
 				lob_TV.setText(myApp.getLobMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
 			temp = myApp.getIntValueFromStringJSON(selectedAccount.getSubLob());
 			if (temp != null) {
 				sublob_TV.setText(myApp.getSubLobMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
 			temp = myApp.getIntValueFromStringJSON(selectedAccount.getSector());
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
 			temp = myApp.getIntValueFromStringJSON(selectedAccount
 					.getAccountCategory());
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
 						Integer.toString(temp.intValue())));
+				temp = null;
 			}
 
 			try {

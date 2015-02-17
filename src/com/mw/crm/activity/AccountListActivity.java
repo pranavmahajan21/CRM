@@ -129,6 +129,12 @@ public class AccountListActivity extends CRMActivity {
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
+	public void onOpportunity(View view) {
+	}
+
+	public void onContact(View view) {
+	}
+
 	@Override
 	public void onBack(View view) {
 		searchAccount_ET.setText("");
@@ -167,11 +173,10 @@ public class AccountListActivity extends CRMActivity {
 				/** Step1 **/
 				accountList = myApp.getAccountList();
 				/** Step2 **/
-//				adapter.swapData(myApp.getAccountList());
+				// adapter.swapData(myApp.getAccountList());
 				adapter.swapData(accountList);
 				adapter.notifyDataSetChanged();
-				
-				
+
 			}
 		}
 	}

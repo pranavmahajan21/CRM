@@ -61,17 +61,19 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	TextView purposeLabel_TV, nameClientLabel_TV, interactionTypeLabel_TV,
 			designationLabel_TV, detailsDiscussionLabel_TV,
-			dateMeetingLabel_TV, endTimeLabel_TV;
+			dateMeetingLabel_TV, endTimeLabel_TV, ownerLabel_TV,
+			organizerLabel_TV;
 	/** Removed temporarily **/
 	// , ownerLabel_TV
 
-	TextView interactionType_TV, dateMeeting_TV, endTime_TV;
+	TextView interactionType_TV, dateMeeting_TV, endTime_TV, owner_TV,
+			organizer_TV;
 	/** Removed temporarily **/
 	// , owner_TV
 
 	EditText purpose_ET, nameClient_ET, designation_ET, detailsDiscussion_ET;
 	// startTime_ET, endTime_ET
-	RelativeLayout interactionType_RL;
+	RelativeLayout interactionType_RL, owner_RL, organizer_RL;
 	/** Removed temporarily **/
 	// , owner_RL
 
@@ -158,15 +160,16 @@ public class AppointmentAddActivity extends CRMActivity {
 		detailsDiscussionLabel_TV = (TextView) findViewById(R.id.detailsDiscussionLabel_TV);
 		dateMeetingLabel_TV = (TextView) findViewById(R.id.dateMeetingLabel_TV);
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
-
 		/** Removed temporarily **/
-		// ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		organizerLabel_TV = (TextView) findViewById(R.id.organizerLabel_TV);
 
 		interactionType_TV = (TextView) findViewById(R.id.interactionType_TV);
 		dateMeeting_TV = (TextView) findViewById(R.id.dateMeeting_TV);
 		endTime_TV = (TextView) findViewById(R.id.endTime_TV);
 		/** Removed temporarily **/
-		// owner_TV = (TextView) findViewById(R.id.owner_TV);
+		owner_TV = (TextView) findViewById(R.id.owner_TV);
+		organizer_TV = (TextView) findViewById(R.id.organizer_TV);
 
 		purpose_ET = (EditText) findViewById(R.id.purpose_ET);
 		nameClient_ET = (EditText) findViewById(R.id.nameClient_ET);
@@ -176,7 +179,8 @@ public class AppointmentAddActivity extends CRMActivity {
 		// endTime_ET = (EditText) findViewById(R.id.endTime_ET);
 
 		/** Removed temporarily **/
-		// owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
+		owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
+		organizer_RL = (RelativeLayout) findViewById(R.id.organizer_RL);
 		interactionType_RL = (RelativeLayout) findViewById(R.id.interactionType_RL);
 	}
 
@@ -188,10 +192,14 @@ public class AppointmentAddActivity extends CRMActivity {
 		detailsDiscussionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		dateMeetingLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTimeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		ownerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organizerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		interactionType_TV.setTypeface(myApp.getTypefaceRegularSans());
 		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
+		owner_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organizer_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		purpose_ET.setTypeface(myApp.getTypefaceRegularSans());
 		nameClient_ET.setTypeface(myApp.getTypefaceRegularSans());
@@ -381,7 +389,7 @@ public class AppointmentAddActivity extends CRMActivity {
 									.formatStringToDate3(endTime_TV.getText()
 											.toString())))
 					// .put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
-//											myApp.getLoginUserId()
+					// myApp.getLoginUserId()
 					.put("ownid", myApp.getLoginUserId());
 
 			if (previousIntent.hasExtra("is_edit_mode")
@@ -443,7 +451,9 @@ public class AppointmentAddActivity extends CRMActivity {
 							}
 							if (error instanceof ServerError) {
 								System.out.println("ServerError");
-								Toast.makeText(AppointmentAddActivity.this, "Permissions error.", Toast.LENGTH_LONG).show();
+								Toast.makeText(AppointmentAddActivity.this,
+										"Permissions error.", Toast.LENGTH_LONG)
+										.show();
 							}
 						}
 					});
@@ -551,10 +561,12 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		/** Removed temporarily **/
-		// case R.id.owner_RL:
-		// startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-		// break;
-
+		 case R.id.owner_RL:
+		 startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+		 break;
+		 case R.id.organizer_RL:
+			 startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			 break;
 		default:
 			break;
 		}

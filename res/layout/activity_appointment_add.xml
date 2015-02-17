@@ -87,19 +87,12 @@
                 android:id="@+id/dateMeetingLabel_TV"
                 style="@style/style_TV2"
                 android:text="Date of Meeting" />
-            
-            <!-- <EditText
-                android:id="@+id/startTime_ET"
-                style="@style/style_ET2"
-                android:layout_marginTop="6dp"
-                android:gravity="center_horizontal"
-                android:hint="Start Time" /> -->
-             
-                <RelativeLayout
+
+            <RelativeLayout
                 android:id="@+id/dateMeeting_RL"
                 style="@style/RL"
-                android:onClick="onPickDate"
-                android:layout_marginTop="10dp" >
+                android:layout_marginTop="10dp"
+                android:onClick="onPickDate" >
 
                 <TextView
                     android:id="@+id/dateMeeting_TV"
@@ -112,20 +105,13 @@
             <TextView
                 android:id="@+id/endTimeLabel_TV"
                 style="@style/style_TV2"
-                android:text="End Time:" />
-            
-            <!-- <EditText
-                android:id="@+id/endTime_ET"
-                style="@style/style_ET2"
-                android:layout_marginTop="6dp"
-                android:gravity="center_horizontal"
-                android:hint="End Time" /> -->
-            
+                android:text="End Time" />
+
             <RelativeLayout
                 android:id="@+id/endTime_RL"
                 style="@style/RL"
-                android:onClick="onPickDate"
-                android:layout_marginTop="10dp" >
+                android:layout_marginTop="10dp"
+                android:onClick="onPickDate" >
 
                 <TextView
                     android:id="@+id/endTime_TV"
@@ -135,7 +121,7 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
-            <!-- <TextView
+            <TextView
                 android:id="@+id/ownerLabel_TV"
                 style="@style/style_TV2"
                 android:text="Owner" />
@@ -149,10 +135,29 @@
                 <TextView
                     android:id="@+id/owner_TV"
                     style="@style/TV"
-                    android:text="Owner" />
+                    android:hint="Owner" />
 
                 <ImageView style="@style/IV" />
-            </RelativeLayout> -->
+            </RelativeLayout>
+            
+            <TextView
+                android:id="@+id/organizerLabel_TV"
+                style="@style/style_TV2"
+                android:text="Organizer" />
+
+            <RelativeLayout
+                android:id="@+id/organizer_RL"
+                style="@style/RL"
+                android:layout_marginTop="10dp"
+                android:onClick="onSearchItem" >
+
+                <TextView
+                    android:id="@+id/organizer_TV"
+                    style="@style/TV"
+                    android:hint="Organizer" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

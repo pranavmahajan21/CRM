@@ -7,7 +7,7 @@ public class Opportunity implements Serializable {
 	private static final long serialVersionUID = -1622121450891551591L;
 
 	String opportunityId;
-	String name;
+	String description;
 	String totalAmount;
 	String ownerId;
 	String transactionCurrencyId;
@@ -18,7 +18,7 @@ public class Opportunity implements Serializable {
 	String salesStage;
 
 	public Opportunity(String ownerId, String transactionCurrencyId,
-			String totalAmount, String customerId, String name,
+			String totalAmount, String customerId, String description,
 			String kpmgStatus, String opportunityId, String probability,
 			String salesStage) {
 		super();
@@ -26,7 +26,7 @@ public class Opportunity implements Serializable {
 		this.transactionCurrencyId = transactionCurrencyId;
 		this.totalAmount = totalAmount;
 		this.customerId = customerId;
-		this.name = name;
+		this.description = description;
 		this.kpmgStatus = kpmgStatus;
 		this.opportunityId = opportunityId;
 		this.probability = probability;
@@ -69,12 +69,12 @@ public class Opportunity implements Serializable {
 		this.customerId = customerId;
 	}
 
-	public String getName() {
-		return name;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getKpmgStatus() {
@@ -111,7 +111,7 @@ public class Opportunity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Opportunity [name=" + name + ", totalAmount=" + totalAmount
+		return "Opportunity [name=" + description + ", totalAmount=" + totalAmount
 				+ ", ownerId=" + ownerId + ", transactionCurrencyId="
 				+ transactionCurrencyId + ", customerId=" + customerId
 				+ ", kpmgStatus=" + kpmgStatus + ", opportunityId="

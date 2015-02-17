@@ -78,7 +78,7 @@ public class OpportunitySearchAdapter extends BaseAdapter implements Filterable 
 		
 		viewHolder.nameTV.setText(myApp
 				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
-		viewHolder.statusTV.setText(tempOpportunity.getName());
+		viewHolder.statusTV.setText(tempOpportunity.getDescription());
 		return convertView;
 	}
 
@@ -139,7 +139,7 @@ public class OpportunitySearchAdapter extends BaseAdapter implements Filterable 
 			if (charSequence != null) {
 				if (copyOpportunityList != null && copyOpportunityList.size() > 0) {
 					for (Opportunity tempOpportunity : copyOpportunityList) {
-						if (tempOpportunity.getName().toLowerCase(Locale.getDefault()).contains(charSequence) || tempOpportunity.getKpmgStatus()
+						if (tempOpportunity.getDescription().toLowerCase(Locale.getDefault()).contains(charSequence) || tempOpportunity.getKpmgStatus()
 								.toLowerCase(Locale.getDefault())
 								.contains(charSequence))
 							results.add(tempOpportunity);

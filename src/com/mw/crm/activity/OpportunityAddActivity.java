@@ -208,7 +208,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("position")) {
 			tempOpportunity = myApp.getOpportunityList().get(
 					previousIntent.getIntExtra("position", 0));
-			description_ET.setText(tempOpportunity.getName());
+			description_ET.setText(tempOpportunity.getDescription());
 			System.out.println(tempOpportunity.toString());
 
 			// Toast.makeText(this, tempOpportunity.getOpportunityId(),
@@ -632,6 +632,9 @@ public class OpportunityAddActivity extends CRMActivity {
 		nextIntent = new Intent(this, SearchActivity.class);
 
 		switch (view.getId()) {
+		case R.id.leadPartner_RL:
+//			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
 		case R.id.client_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
 			break;

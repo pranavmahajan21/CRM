@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +49,11 @@ public class AccountAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		protected TextView nameTV;
-		protected TextView countryTV;
+		protected TextView nameClient_TV;
+		protected TextView leadPartner_TV;
+		protected TextView sector_TV;
+		protected TextView country_TV;
+		
 	}
 
 	@Override
@@ -57,16 +63,20 @@ public class AccountAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.element_common, parent,
+			convertView = inflater.inflate(R.layout.element_account, parent,
 					false);
 
-			viewHolder.nameTV = (TextView) convertView
-					.findViewById(R.id.name_TV);
-			viewHolder.countryTV = (TextView) convertView
-					.findViewById(R.id.company_TV);
+			viewHolder.nameClient_TV = (TextView) convertView
+					.findViewById(R.id.nameClient_TV);
+			viewHolder.leadPartner_TV = (TextView) convertView
+					.findViewById(R.id.leadPartner_TV);
+			viewHolder.sector_TV = (TextView) convertView
+					.findViewById(R.id.sector_TV);
+			viewHolder.country_TV = (TextView) convertView
+					.findViewById(R.id.country_TV);
 
-			viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
-			viewHolder.countryTV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.nameClient_TV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.country_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -74,17 +84,29 @@ public class AccountAdapter extends BaseAdapter {
 		}
 
 		Account tempAccount = accountList.get(position);
-		viewHolder.nameTV.setText(tempAccount.getName());
-		Integer temp = myApp
-				.getIntValueFromStringJSON(tempAccount.getCountry());
-
+		viewHolder.nameClient_TV.setText(tempAccount.getName());
+		
+		Integer temp = null;
+		temp = myApp.getIntValueFromStringJSON(tempAccount.getSector());
 		if (temp != null) {
-			// headquarterCountry_TV.setText(myApp.getCountryMap().get(
-			// Integer.toString(temp.intValue())));
-			viewHolder.countryTV.setText(myApp.getCountryMap().get(
+			viewHolder.sector_TV.setText(myApp.getSectorMap().get(
+					Integer.toString(temp.intValue())));
+			temp = null;
+		}
+		
+		temp = myApp
+				.getIntValueFromStringJSON(tempAccount.getCountry());
+		if (temp != null) {
+			viewHolder.country_TV.setText(myApp.getCountryMap().get(
 					Integer.toString(temp.intValue())));
 		}
 
+		try {
+			viewHolder.leadPartner_TV.setText(new JSONObject(tempAccount
+					.getLeadPartner()).getString("Name"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return convertView;
 	}
 

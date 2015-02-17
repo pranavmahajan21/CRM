@@ -7,51 +7,59 @@
     android:padding="7dp" >
 
     <TextView
-        android:id="@+id/description_TV"
+        android:id="@+id/name_TV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Opportunity Description"
+        android:text="Name"
         android:textColor="@color/blue_dark"
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/nameClient_TV"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Client Name"
-        android:textColor="@color/blue_dark" />
+        android:orientation="horizontal"
+        android:weightSum="2" >
 
-    <TextView
-        android:id="@+id/leadPartner_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="(NA) Lead Partner"
-        android:textColor="@color/blue_dark" />
+        <TextView
+            android:id="@+id/designation_TV"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="(NA) Designation"
+            android:textColor="@color/blue_dark" />
+
+        <TextView
+            android:id="@+id/organisation_TV"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="(NA) Organisation"
+            android:textColor="@color/blue_dark" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="5dp"
+        android:orientation="horizontal"
         android:weightSum="2" >
 
         <TextView
-            android:id="@+id/status_TV"
+            android:id="@+id/internalConnect_TV"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="(NA) Status"
+            android:text="(NA) Internal Connect"
             android:textColor="@color/blue_dark" />
 
         <TextView
-            android:id="@+id/cost_TV"
+            android:id="@+id/dor_TV"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="(NA) Cost"
+            android:text="(NA) DOR"
             android:textColor="@color/blue_dark" />
     </LinearLayout>
 

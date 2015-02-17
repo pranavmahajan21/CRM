@@ -41,8 +41,9 @@ public class AppointmentAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		protected TextView nameTV;
-		protected TextView subjectTV;
+		protected TextView purpose_TV;
+		protected TextView nameClient_TV;
+		protected TextView date_TV;
 	}
 
 	@Override
@@ -52,16 +53,19 @@ public class AppointmentAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.element_common, parent,
+			convertView = inflater.inflate(R.layout.element_appointment, parent,
 					false);
 
-			viewHolder.nameTV = (TextView) convertView
-					.findViewById(R.id.name_TV);
-			viewHolder.subjectTV = (TextView) convertView
-					.findViewById(R.id.company_TV);
+			viewHolder.purpose_TV = (TextView) convertView
+					.findViewById(R.id.purpose_TV);
+			viewHolder.nameClient_TV = (TextView) convertView
+					.findViewById(R.id.nameClient_TV);
+			viewHolder.date_TV = (TextView) convertView
+					.findViewById(R.id.date_TV);
 
-			viewHolder.nameTV.setTypeface(myApp.getTypefaceBoldSans());
-			viewHolder.subjectTV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.purpose_TV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.nameClient_TV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.date_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -70,8 +74,9 @@ public class AppointmentAdapter extends BaseAdapter {
 
 		Appointment tempAppointment = appointmentList.get(position);
 
-		viewHolder.nameTV.setText(tempAppointment.getNameOfTheClientOfficial());
-		viewHolder.subjectTV.setText(tempAppointment.getPurposeOfMeeting());
+		viewHolder.purpose_TV.setText(tempAppointment.getNameOfTheClientOfficial());
+		viewHolder.nameClient_TV.setText(tempAppointment.getPurposeOfMeeting());
+		viewHolder.date_TV.setText(myApp.formatDateToString(tempAppointment.getStartTime()));
 
 		return convertView;
 	}
