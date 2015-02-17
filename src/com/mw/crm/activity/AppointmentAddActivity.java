@@ -59,21 +59,21 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView purposeLabel_TV, nameClientLabel_TV, interactionTypeLabel_TV,
-			designationLabel_TV, detailsDiscussionLabel_TV,
-			dateMeetingLabel_TV, endTimeLabel_TV, ownerLabel_TV,
-			organizerLabel_TV;
+	TextView purposeLabel_TV, accountLabel_TV, nameClientLabel_TV,
+			interactionTypeLabel_TV, designationLabel_TV,
+			detailsDiscussionLabel_TV, dateMeetingLabel_TV, endTimeLabel_TV,
+			ownerLabel_TV, organizerLabel_TV;
 	/** Removed temporarily **/
 	// , ownerLabel_TV
 
-	TextView interactionType_TV, dateMeeting_TV, endTime_TV, owner_TV,
-			organizer_TV;
+	TextView account_TV, interactionType_TV, dateMeeting_TV, endTime_TV,
+			owner_TV, organizer_TV;
 	/** Removed temporarily **/
 	// , owner_TV
 
 	EditText purpose_ET, nameClient_ET, designation_ET, detailsDiscussion_ET;
 	// startTime_ET, endTime_ET
-	RelativeLayout interactionType_RL, owner_RL, organizer_RL;
+	RelativeLayout account_RL, interactionType_RL, owner_RL, organizer_RL;
 	/** Removed temporarily **/
 	// , owner_RL
 
@@ -154,6 +154,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		super.findThings();
 
 		purposeLabel_TV = (TextView) findViewById(R.id.purposeLabel_TV);
+		accountLabel_TV = (TextView) findViewById(R.id.accountLabel_TV);
 		nameClientLabel_TV = (TextView) findViewById(R.id.nameClientLabel_TV);
 		interactionTypeLabel_TV = (TextView) findViewById(R.id.interactionTypeLabel_TV);
 		designationLabel_TV = (TextView) findViewById(R.id.designationLabel_TV);
@@ -164,6 +165,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
 		organizerLabel_TV = (TextView) findViewById(R.id.organizerLabel_TV);
 
+		account_TV = (TextView) findViewById(R.id.account_TV);
 		interactionType_TV = (TextView) findViewById(R.id.interactionType_TV);
 		dateMeeting_TV = (TextView) findViewById(R.id.dateMeeting_TV);
 		endTime_TV = (TextView) findViewById(R.id.endTime_TV);
@@ -179,13 +181,15 @@ public class AppointmentAddActivity extends CRMActivity {
 		// endTime_ET = (EditText) findViewById(R.id.endTime_ET);
 
 		/** Removed temporarily **/
+		account_RL = (RelativeLayout) findViewById(R.id.account_RL);
+		interactionType_RL = (RelativeLayout) findViewById(R.id.interactionType_RL);
 		owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
 		organizer_RL = (RelativeLayout) findViewById(R.id.organizer_RL);
-		interactionType_RL = (RelativeLayout) findViewById(R.id.interactionType_RL);
 	}
 
 	private void setTypeface() {
 		purposeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		accountLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		nameClientLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		interactionTypeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		designationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -195,6 +199,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		ownerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		organizerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
+		account_TV.setTypeface(myApp.getTypefaceRegularSans());
 		interactionType_TV.setTypeface(myApp.getTypefaceRegularSans());
 		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -560,13 +565,16 @@ public class AppointmentAddActivity extends CRMActivity {
 		nextIntent = new Intent(this, SearchActivity.class);
 
 		switch (view.getId()) {
+		case R.id.account_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			break;
 		/** Removed temporarily **/
-		 case R.id.owner_RL:
-		 startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-		 break;
-		 case R.id.organizer_RL:
-			 startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-			 break;
+		case R.id.owner_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+		case R.id.organizer_RL:
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
 		default:
 			break;
 		}

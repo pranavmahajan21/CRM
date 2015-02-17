@@ -18,10 +18,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header_logo_IV"
         android:orientation="vertical"
-        android:paddingTop="40dp"
         android:paddingLeft="40dp"
-        android:paddingRight="40dp" >
-
+        android:paddingRight="40dp"
+        android:paddingTop="40dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,8 +32,112 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onContact"
-                android:gravity="center_horizontal" >
+                android:gravity="center_horizontal"
+                android:onClick="onAccount" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/LL2"
+                    android:layout_alignLeft="@+id/LL2"
+                    android:layout_alignRight="@+id/LL2"
+                    android:layout_alignTop="@+id/LL2"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bt_background" />
+
+                <LinearLayout
+                    android:id="@+id/LL2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp" >
+
+                    <ImageView
+                        android:id="@+id/menu_item_IV2"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/account" />
+
+                    <!-- android:layout_marginTop="8dp" -->
+
+                    <TextView
+                        android:id="@+id/menu_item_TV2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Account"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:onClick="onOpportunity" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/LL4"
+                    android:layout_alignLeft="@+id/LL4"
+                    android:layout_alignRight="@+id/LL4"
+                    android:layout_alignTop="@+id/LL4"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bt_background" />
+
+                <LinearLayout
+                    android:id="@+id/LL4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp" >
+
+                    <ImageView
+                        android:id="@+id/menu_item_IV4"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/opportunity" />
+
+                    <!-- android:layout_marginTop="8dp" -->
+
+                    <TextView
+                        android:id="@+id/menu_item_TV4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Opportunity"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
+            <!-- android:layout_gravity="center_horizontal" -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:onClick="onContact" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -76,69 +179,12 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <!-- android:layout_gravity="center_horizontal" -->
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onAccount"
-                android:gravity="center_horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/LL2"
-                    android:layout_alignLeft="@+id/LL2"
-                    android:layout_alignRight="@+id/LL2"
-                    android:layout_alignTop="@+id/LL2"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" />
-
-                <LinearLayout
-                    android:id="@+id/LL2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp" >
-
-                    <ImageView
-                        android:id="@+id/menu_item_IV2"
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/account" />
-
-                    <!-- android:layout_marginTop="8dp" -->
-
-                    <TextView
-                        android:id="@+id/menu_item_TV2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Account"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:orientation="horizontal"
-            android:weightSum="2" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onAppointment"
-                android:gravity="center_horizontal" >
+                android:gravity="center_horizontal"
+                android:onClick="onAppointment" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -182,52 +228,6 @@
 
             <!-- android:layout_gravity="center_horizontal" -->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onOpportunity"
-                android:gravity="center_horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/LL4"
-                    android:layout_alignLeft="@+id/LL4"
-                    android:layout_alignRight="@+id/LL4"
-                    android:layout_alignTop="@+id/LL4"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" />
-
-                <LinearLayout
-                    android:id="@+id/LL4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp" >
-
-                    <ImageView
-                        android:id="@+id/menu_item_IV4"
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/opportunity" />
-
-                    <!-- android:layout_marginTop="8dp" -->
-
-                    <TextView
-                        android:id="@+id/menu_item_TV4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Opportunity"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -265,7 +265,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Sync"
-            android:textColor="@android:color/white"
+            android:textColor="@color/blue_dark"
             android:textStyle="bold" />
 
         <TextView

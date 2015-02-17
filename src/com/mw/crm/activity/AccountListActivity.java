@@ -1,5 +1,6 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -30,6 +31,7 @@ public class AccountListActivity extends CRMActivity {
 	AccountAdapter adapter;
 
 	List<Account> accountList;
+	List<Account> subAccountList;
 	TextView errorTV;
 	EditText searchAccount_ET;
 
@@ -49,6 +51,10 @@ public class AccountListActivity extends CRMActivity {
 		queue = Volley.newRequestQueue(this);
 
 		if (accountList != null && accountList.size() > 0) {
+//			subAccountList = new ArrayList<Account>();
+//			for (int i = 0; i < accountList.size(); i++) {
+//				sub
+//			}
 			adapter = new AccountAdapter(this, accountList);
 		}
 
@@ -100,7 +106,7 @@ public class AccountListActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Accounts", "Add");
+		initView("Client History", "Add");
 
 		myOwnOnTextChangeListeners();
 
@@ -129,11 +135,25 @@ public class AccountListActivity extends CRMActivity {
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
-	public void onOpportunity(View view) {
+	public void onContact(View view) {
+		int position = accountLV.getPositionForView(view);
+		System.out.println("position  :  " + position);
+		nextIntent = new Intent(this, ContactListActivity.class);
+		nextIntent.putExtra("is_my_contact", false);
+		nextIntent.putExtra("account_id", accountList.get(position).getAccountId());
+		startActivity(nextIntent);
 	}
 
-	public void onContact(View view) {
+	public void onOpportunity(View view) {
+		int position = accountLV.getPositionForView(view);
+		nextIntent = new Intent(this, ContactListActivity.class);
+		nextIntent.putExtra("is_my_opportunity", false);
+		nextIntent.putExtra("account_id", accountList.get(position).getAccountId());
+		startActivity(nextIntent);
 	}
+
+	// public void onAppointment(View view) {
+	// }
 
 	@Override
 	public void onBack(View view) {

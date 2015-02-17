@@ -1153,7 +1153,7 @@ public class MyApp extends Application {
 	}
 
 	public String getStringIdFromStringJSON(String x) {
-		System.out.println("getStringFromStringJSON  :  " + x);
+		System.out.println("getStringIdFromStringJSON  :  " + x);
 		try {
 			return new JSONObject(x).getString("Id");
 		} catch (JSONException e) {

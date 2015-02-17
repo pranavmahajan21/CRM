@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="(NA) Purpose"
+            android:textColor="@color/blue_dark"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -26,25 +27,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="(NA) Client Name"
-            android:textColor="@color/grey" />
+            android:textColor="@color/blue_dark" />
     </LinearLayout>
 
     <CheckBox
         android:id="@+id/checkBox1"
-        android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true" />
-    <!-- android:text="CheckBox" -->
+        android:layout_centerVertical="true"
+        android:focusable="false" />
 
     <TextView
         android:id="@+id/date_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/checkBox1"
-        android:layout_alignBottom="@+id/checkBox1"
         android:layout_alignParentRight="true"
-        android:text="TextView" />
+        android:layout_centerVertical="true"
+        android:text="TextView"
+        android:textColor="@color/blue_dark" />
 
 </RelativeLayout>

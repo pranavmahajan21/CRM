@@ -1,5 +1,6 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -30,9 +31,10 @@ public class ContactListActivity extends CRMActivity {
 	ContactAdapter adapter;
 
 	List<Contact> contactList;
+	List<Contact> subContactList;
 	TextView errorTV;
 
-	Intent nextIntent;
+	Intent previousIntent, nextIntent;
 
 	EditText searchContact_ET;
 
@@ -43,6 +45,7 @@ public class ContactListActivity extends CRMActivity {
 	private void initThings() {
 
 		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
 		contactList = myApp.getContactList();
 
 		gson = new Gson();
@@ -50,7 +53,30 @@ public class ContactListActivity extends CRMActivity {
 		queue = Volley.newRequestQueue(this);
 
 		if (contactList != null && contactList.size() > 0) {
-			adapter = new ContactAdapter(this, contactList);
+			if (previousIntent.hasExtra("is_my_contact")
+					&& previousIntent.getBooleanExtra("is_my_contact", false)) {
+				subContactList = new ArrayList<Contact>(contactList);
+			} else if (previousIntent.hasExtra("account_id")) {
+				subContactList = new ArrayList<Contact>();
+				for (int i = 0; i < contactList.size(); i++) {
+					System.out.println("#$#$  : "
+							+ contactList.get(i).getOrganization());
+					
+					// TODO : try to remove the 2nd check from if(check1 && check2 && check3)
+					if (contactList.get(i).getOrganization() != null
+							&& contactList.get(i).getOrganization().length() > 0
+							&& myApp.getStringIdFromStringJSON(
+									contactList.get(i).getOrganization())
+									.equals(previousIntent
+											.getStringExtra("account_id"))) {
+						subContactList.add(contactList.get(i));
+					}
+				}
+
+			}
+		}
+		if (subContactList != null && subContactList.size() > 0) {
+			adapter = new ContactAdapter(this, subContactList);
 		}
 
 	}
@@ -100,7 +126,7 @@ public class ContactListActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Contacts", "Add");
+		initView("Client Contacts", "Add");
 
 		myOwnOnTextChangeListeners();
 
@@ -117,7 +143,6 @@ public class ContactListActivity extends CRMActivity {
 				nextIntent = new Intent(ContactListActivity.this,
 						ContactDetailsActivity.class);
 				nextIntent.putExtra("position", index);
-				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 
@@ -159,10 +184,9 @@ public class ContactListActivity extends CRMActivity {
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				
+
 				contactList = myApp.getContactList();
-				
-//				adapter.swapData(myApp.getContactList());
+
 				adapter.swapData(contactList);
 				adapter.notifyDataSetChanged();
 			}

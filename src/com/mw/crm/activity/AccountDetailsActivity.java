@@ -19,11 +19,18 @@ public class AccountDetailsActivity extends CRMActivity {
 	Intent nextIntent, previousIntent;
 	Account selectedAccount;
 
-	TextView leadPartnerLabel_TV, headquarterCountryLabel_TV, lobLabel_TV,
-			sublobLabel_TV, sectorLabel_TV, accountCategoryLabel_TV;
+	TextView leadPartnerLabel_TV, headquarterCountryLabel_TV, sectorLabel_TV,
+			accountCategoryLabel_TV, relPartner1Label_TV, relPartner2Label_TV,
+			relPartner3Label_TV, bdmLabel_TV;
+	// lobLabel_TV,sublobLabel_TV,
 
-	TextView accountName_TV, leadPartner_TV, headquarterCountry_TV, lob_TV,
-			sublob_TV, sector_TV, accountCategory_TV;
+	TextView accountName_TV, leadPartner_TV, headquarterCountry_TV, sector_TV,
+			accountCategory_TV, relPartner1_TV, relPartner2_TV, relPartner3_TV,
+			bdm_TV;
+
+	// lob_TV,sublob_TV,
+
+	TextView contactLink_TV, opportunityLink_TV, appointmentLink_TV;
 
 	private void initThings() {
 		previousIntent = getIntent();
@@ -32,6 +39,7 @@ public class AccountDetailsActivity extends CRMActivity {
 					previousIntent.getStringExtra("account_dummy"),
 					Account.class);
 		} else {
+			Toast.makeText(this, previousIntent.getIntExtra("position", 0) + "", Toast.LENGTH_SHORT).show();
 			selectedAccount = myApp.getAccountList().get(
 					previousIntent.getIntExtra("position", 0));
 		}
@@ -41,37 +49,59 @@ public class AccountDetailsActivity extends CRMActivity {
 		super.findThings();
 		leadPartnerLabel_TV = (TextView) findViewById(R.id.leadPartnerLabel_TV);
 		headquarterCountryLabel_TV = (TextView) findViewById(R.id.headquarterCountryLabel_TV);
-		lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
-		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
+		// lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
+		// sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
 		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
 		accountCategoryLabel_TV = (TextView) findViewById(R.id.accountCategoryLabel_TV);
+		relPartner1Label_TV = (TextView) findViewById(R.id.relPartner1Label_TV);
+		relPartner2Label_TV = (TextView) findViewById(R.id.relPartner2Label_TV);
+		relPartner3Label_TV = (TextView) findViewById(R.id.relPartner3Label_TV);
+		bdmLabel_TV = (TextView) findViewById(R.id.bdmLabel_TV);
 
 		accountName_TV = (TextView) findViewById(R.id.accountName_TV);
 		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
 		headquarterCountry_TV = (TextView) findViewById(R.id.headquarterCountry_TV);
-		lob_TV = (TextView) findViewById(R.id.lob_TV);
-		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
+		// lob_TV = (TextView) findViewById(R.id.lob_TV);
+		// sublob_TV = (TextView) findViewById(R.id.sublob_TV);
 		sector_TV = (TextView) findViewById(R.id.sector_TV);
 		accountCategory_TV = (TextView) findViewById(R.id.accountCategory_TV);
+		relPartner1_TV = (TextView) findViewById(R.id.relPartner1_TV);
+		relPartner2_TV = (TextView) findViewById(R.id.relPartner2_TV);
+		relPartner3_TV = (TextView) findViewById(R.id.relPartner3_TV);
+		bdm_TV = (TextView) findViewById(R.id.bdm_TV);
+
+		contactLink_TV = (TextView) findViewById(R.id.contactLink_TV);
+		opportunityLink_TV = (TextView) findViewById(R.id.opportunityLink_TV);
+		appointmentLink_TV = (TextView) findViewById(R.id.appointmentLink_TV);
 	}
 
 	private void setTypeface() {
-		// myApp.getTypefaceBoldSans()
-
 		leadPartnerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		headquarterCountryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		accountCategoryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner1Label_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner2Label_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner3Label_TV.setTypeface(myApp.getTypefaceRegularSans());
+		bdmLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
 		leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
 		headquarterCountry_TV.setTypeface(myApp.getTypefaceRegularSans());
-		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
 		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
 		accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner1_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner2_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner3_TV.setTypeface(myApp.getTypefaceRegularSans());
+		bdm_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+		opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+		appointmentLink_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String string, String string2) {
@@ -79,12 +109,12 @@ public class AccountDetailsActivity extends CRMActivity {
 		setTypeface();
 
 		System.out.println("acc id  : " + selectedAccount.getAccountId());
-		
+
 		if (previousIntent.hasExtra("account_dummy") && selectedAccount != null) {
 			accountName_TV.setText(selectedAccount.getName());
 			headquarterCountry_TV.setText(selectedAccount.getCountry());
-			lob_TV.setText(selectedAccount.getLob());
-			sublob_TV.setText(selectedAccount.getSubLob());
+			// lob_TV.setText(selectedAccount.getLob());
+			// sublob_TV.setText(selectedAccount.getSubLob());
 			sector_TV.setText(selectedAccount.getSector());
 			accountCategory_TV.setText(selectedAccount.getAccountCategory());
 			leadPartner_TV.setText(selectedAccount.getLeadPartner());
@@ -99,18 +129,19 @@ public class AccountDetailsActivity extends CRMActivity {
 						Integer.toString(temp.intValue())));
 				temp = null;
 			}
-			temp = myApp.getIntValueFromStringJSON(selectedAccount.getLob());
-			if (temp != null) {
-				lob_TV.setText(myApp.getLobMap().get(
-						Integer.toString(temp.intValue())));
-				temp = null;
-			}
-			temp = myApp.getIntValueFromStringJSON(selectedAccount.getSubLob());
-			if (temp != null) {
-				sublob_TV.setText(myApp.getSubLobMap().get(
-						Integer.toString(temp.intValue())));
-				temp = null;
-			}
+			// temp = myApp.getIntValueFromStringJSON(selectedAccount.getLob());
+			// if (temp != null) {
+			// lob_TV.setText(myApp.getLobMap().get(
+			// Integer.toString(temp.intValue())));
+			// temp = null;
+			// }
+			// temp =
+			// myApp.getIntValueFromStringJSON(selectedAccount.getSubLob());
+			// if (temp != null) {
+			// sublob_TV.setText(myApp.getSubLobMap().get(
+			// Integer.toString(temp.intValue())));
+			// temp = null;
+			// }
 			temp = myApp.getIntValueFromStringJSON(selectedAccount.getSector());
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
@@ -161,6 +192,16 @@ public class AccountDetailsActivity extends CRMActivity {
 				previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+	}
+
+	public void onContact(View view) {
+//int position = rightListView.getPositionForView(view);
+	}
+
+	public void onOpportunity(View view) {
+	}
+
+	public void onAppointment(View view) {
 	}
 
 	@Override

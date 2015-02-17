@@ -1,5 +1,6 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -17,9 +17,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
+import com.mw.crm.adapter.ContactAdapter;
 import com.mw.crm.adapter.OpportunityAdapter;
-import com.mw.crm.adapter.OpportunitySearchAdapter;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Contact;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityListActivity extends CRMActivity {
@@ -27,14 +28,15 @@ public class OpportunityListActivity extends CRMActivity {
 	MyApp myApp;
 
 	EditText searchOpportunity_ET;
-//	AutoCompleteTextView searchOpportunity_ET;
+	// AutoCompleteTextView searchOpportunity_ET;
 
 	ListView opportunityLV;
 	List<Opportunity> opportunityList;
+	List<Opportunity> subOpportunityList;
 	OpportunityAdapter adapter;
-//	OpportunitySearchAdapter adapter2;
+	// OpportunitySearchAdapter adapter2;
 
-	Intent nextIntent;
+	Intent previousIntent, nextIntent;
 
 	RequestQueue queue;
 
@@ -42,6 +44,7 @@ public class OpportunityListActivity extends CRMActivity {
 
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
 		opportunityList = myApp.getOpportunityList();
 
 		gson = new Gson();
@@ -49,9 +52,31 @@ public class OpportunityListActivity extends CRMActivity {
 		queue = Volley.newRequestQueue(this);
 
 		if (opportunityList != null && opportunityList.size() > 0) {
-			adapter = new OpportunityAdapter(this, opportunityList);
-			
-//			adapter2 = new OpportunitySearchAdapter(this, opportunityList);
+			if (previousIntent.hasExtra("is_my_opportunity")
+					&& previousIntent.getBooleanExtra("is_my_opportunity", false)) {
+				subOpportunityList = new ArrayList<Opportunity>(opportunityList);
+			} else if (previousIntent.hasExtra("account_id")) {
+				subOpportunityList = new ArrayList<Opportunity>();
+				for (int i = 0; i < opportunityList.size(); i++) {
+					System.out.println("#$#$  : "
+							+ opportunityList.get(i).getCustomerId());
+					
+					// TODO : try to remove the 2nd check from if(check1 && check2 && check3)
+					if (opportunityList.get(i).getCustomerId() != null
+							&& opportunityList.get(i).getCustomerId().length() > 0
+							&& myApp.getStringIdFromStringJSON(
+									opportunityList.get(i).getCustomerId())
+									.equals(previousIntent
+											.getStringExtra("account_id"))) {
+						subOpportunityList.add(opportunityList.get(i));
+					}
+				}
+
+			}
+		}
+		if (subOpportunityList != null && subOpportunityList.size() > 0) {
+			adapter = new OpportunityAdapter(this, subOpportunityList);
+			// adapter2 = new OpportunitySearchAdapter(this, opportunityList);
 		}
 	}
 
@@ -60,15 +85,14 @@ public class OpportunityListActivity extends CRMActivity {
 		opportunityLV = (ListView) findViewById(R.id.opportunity_LV);
 		searchOpportunity_ET = (EditText) findViewById(R.id.searchOpportunity_ET);
 
-		
-//		searchOpportunity_ET.setThreshold(1);
+		// searchOpportunity_ET.setThreshold(1);
 	}
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
 		if (adapter != null) {
 			opportunityLV.setAdapter(adapter);
-//			searchOpportunity_ET.setAdapter(adapter2);
+			// searchOpportunity_ET.setAdapter(adapter2);
 		} else {
 			// no tickets
 		}

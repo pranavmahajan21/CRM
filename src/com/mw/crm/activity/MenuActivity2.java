@@ -166,6 +166,7 @@ public class MenuActivity2 extends Activity {
 	public void onContact(View view) {
 		nextIntent = new Intent(MenuActivity2.this,
 				ContactListActivity.class);
+		nextIntent.putExtra("is_my_contacts", true);
 		startActivity(nextIntent);
 	}
 
@@ -185,6 +186,7 @@ public class MenuActivity2 extends Activity {
 	public void onOpportunity(View view) {
 		nextIntent = new Intent(MenuActivity2.this,
 				OpportunityListActivity.class);
+		nextIntent.putExtra("is_my_opportunity", true);
 		startActivity(nextIntent);
 	}
 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/header2" />
+        layout="@layout/header" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,6 +34,25 @@
             <EditText
                 android:id="@+id/purpose_ET"
                 style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/accountLabel_TV"
+                style="@style/style_TV2"
+                android:text="Account" />
+
+            <RelativeLayout
+                android:id="@+id/account_RL"
+                style="@style/RL"
+                android:layout_marginTop="10dp"
+                android:onClick="onSearchItem" >
+
+                <TextView
+                    android:id="@+id/account_TV"
+                    style="@style/TV"
+                    android:hint="Account" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/nameClientLabel_TV"
@@ -139,7 +158,7 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-            
+
             <TextView
                 android:id="@+id/organizerLabel_TV"
                 style="@style/style_TV2"

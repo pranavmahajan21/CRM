@@ -53,7 +53,8 @@ public class AccountAdapter extends BaseAdapter {
 		protected TextView leadPartner_TV;
 		protected TextView sector_TV;
 		protected TextView country_TV;
-		
+		protected TextView opportunityLink_TV;
+		protected TextView contactLink_TV;
 	}
 
 	@Override
@@ -74,9 +75,17 @@ public class AccountAdapter extends BaseAdapter {
 					.findViewById(R.id.sector_TV);
 			viewHolder.country_TV = (TextView) convertView
 					.findViewById(R.id.country_TV);
+			viewHolder.opportunityLink_TV = (TextView) convertView
+					.findViewById(R.id.opportunityLink_TV);
+			viewHolder.contactLink_TV = (TextView) convertView
+					.findViewById(R.id.contactLink_TV);
 
 			viewHolder.nameClient_TV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.sector_TV.setTypeface(myApp.getTypefaceRegularSans());
 			viewHolder.country_TV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {

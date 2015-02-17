@@ -53,8 +53,8 @@ public class AppointmentAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.element_appointment, parent,
-					false);
+			convertView = inflater.inflate(R.layout.element_appointment,
+					parent, false);
 
 			viewHolder.purpose_TV = (TextView) convertView
 					.findViewById(R.id.purpose_TV);
@@ -64,7 +64,8 @@ public class AppointmentAdapter extends BaseAdapter {
 					.findViewById(R.id.date_TV);
 
 			viewHolder.purpose_TV.setTypeface(myApp.getTypefaceBoldSans());
-			viewHolder.nameClient_TV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.nameClient_TV
+					.setTypeface(myApp.getTypefaceRegularSans());
 			viewHolder.date_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
@@ -74,9 +75,11 @@ public class AppointmentAdapter extends BaseAdapter {
 
 		Appointment tempAppointment = appointmentList.get(position);
 
-		viewHolder.purpose_TV.setText(tempAppointment.getNameOfTheClientOfficial());
+		viewHolder.purpose_TV.setText(tempAppointment
+				.getNameOfTheClientOfficial());
 		viewHolder.nameClient_TV.setText(tempAppointment.getPurposeOfMeeting());
-		viewHolder.date_TV.setText(myApp.formatDateToString(tempAppointment.getStartTime()));
+		viewHolder.date_TV.setText(myApp.formatDateToString(tempAppointment
+				.getStartTime()));
 
 		return convertView;
 	}
