@@ -103,6 +103,7 @@ public class Encrypter {
 			// Decode using utf-8
 			return new String(utf8, "UTF8");
 		} catch (Exception e) {
+			System.out.println("Error while decrypting.");
 			e.printStackTrace();
 		}
 		return "";

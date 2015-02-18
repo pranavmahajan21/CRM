@@ -1,8 +1,5 @@
 package com.mw.crm.activity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +27,7 @@ public class AccountDetailsActivity extends CRMActivity {
 
 	// lob_TV,sublob_TV,
 
-	TextView contactLink_TV, opportunityLink_TV, appointmentLink_TV;
+//	TextView contactLink_TV, opportunityLink_TV, appointmentLink_TV;
 
 	private void initThings() {
 		previousIntent = getIntent();
@@ -39,7 +36,9 @@ public class AccountDetailsActivity extends CRMActivity {
 					previousIntent.getStringExtra("account_dummy"),
 					Account.class);
 		} else {
-			Toast.makeText(this, previousIntent.getIntExtra("position", 0) + "", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this,
+					previousIntent.getIntExtra("position", 0) + "",
+					Toast.LENGTH_SHORT).show();
 			selectedAccount = myApp.getAccountList().get(
 					previousIntent.getIntExtra("position", 0));
 		}
@@ -70,9 +69,9 @@ public class AccountDetailsActivity extends CRMActivity {
 		relPartner3_TV = (TextView) findViewById(R.id.relPartner3_TV);
 		bdm_TV = (TextView) findViewById(R.id.bdm_TV);
 
-		contactLink_TV = (TextView) findViewById(R.id.contactLink_TV);
-		opportunityLink_TV = (TextView) findViewById(R.id.opportunityLink_TV);
-		appointmentLink_TV = (TextView) findViewById(R.id.appointmentLink_TV);
+//		contactLink_TV = (TextView) findViewById(R.id.contactLink_TV);
+//		opportunityLink_TV = (TextView) findViewById(R.id.opportunityLink_TV);
+//		appointmentLink_TV = (TextView) findViewById(R.id.appointmentLink_TV);
 	}
 
 	private void setTypeface() {
@@ -99,9 +98,9 @@ public class AccountDetailsActivity extends CRMActivity {
 		relPartner3_TV.setTypeface(myApp.getTypefaceRegularSans());
 		bdm_TV.setTypeface(myApp.getTypefaceRegularSans());
 
-		contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
-		opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
-		appointmentLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		appointmentLink_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String string, String string2) {
@@ -118,6 +117,10 @@ public class AccountDetailsActivity extends CRMActivity {
 			sector_TV.setText(selectedAccount.getSector());
 			accountCategory_TV.setText(selectedAccount.getAccountCategory());
 			leadPartner_TV.setText(selectedAccount.getLeadPartner());
+			relPartner1_TV.setText(selectedAccount.getRelationshipPartner1());
+			relPartner2_TV.setText(selectedAccount.getRelationshipPartner2());
+			relPartner3_TV.setText(selectedAccount.getRelationshipPartner3());
+			bdm_TV.setText(selectedAccount.getBusinessDevelopmentManager());
 		} else {
 			accountName_TV.setText(selectedAccount.getName());
 
@@ -156,12 +159,18 @@ public class AccountDetailsActivity extends CRMActivity {
 				temp = null;
 			}
 
-			try {
-				leadPartner_TV.setText(new JSONObject(selectedAccount
-						.getLeadPartner()).getString("Name"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			leadPartner_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedAccount
+							.getLeadPartner()));
+			relPartner1_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedAccount
+							.getRelationshipPartner1()));
+			relPartner2_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedAccount
+							.getRelationshipPartner2()));
+			bdm_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedAccount
+							.getBusinessDevelopmentManager()));
 		}
 	}
 
@@ -195,7 +204,7 @@ public class AccountDetailsActivity extends CRMActivity {
 	}
 
 	public void onContact(View view) {
-//int position = rightListView.getPositionForView(view);
+		// int position = rightListView.getPositionForView(view);
 	}
 
 	public void onOpportunity(View view) {

@@ -70,9 +70,8 @@ public class ContactListActivity extends CRMActivity {
 				}
 
 			}
-		} else {
-			// show error msg
 		}
+
 		if (subContactList != null && subContactList.size() > 0) {
 			adapter = new ContactAdapter(this, subContactList);
 		}
@@ -93,6 +92,8 @@ public class ContactListActivity extends CRMActivity {
 		if (adapter != null) {
 			contactLV.setAdapter(adapter);
 		} else {
+			errorTV.setVisibility(View.VISIBLE);
+			errorTV.setTypeface(myApp.getTypefaceRegularSans());
 		}
 	}
 
@@ -102,7 +103,10 @@ public class ContactListActivity extends CRMActivity {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				// On text change call filter function of Adapter
+				if (ContactListActivity.this.adapter == null) {
+					return;
+				}
+
 				ContactListActivity.this.adapter.filter(cs.toString());
 			}
 

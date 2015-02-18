@@ -141,26 +141,30 @@ public class SearchActivity extends CRMActivity {
 
 				Intent intent = new Intent();
 				intent.putExtra("position_item", exactPosition);
+				if (previouIntent.hasExtra("user_value")) {
+					intent.putExtra("user_value",
+							previouIntent.getIntExtra("user_value", 0));
+				}
 				setResult(RESULT_OK, intent);
 				finish();
 			}
 		});
 	}
 
-//	private int getExactPosition(String text) {
-//		System.out.println(text + "      "+ stringList.size() );
-//		for (int i = 0; i < stringList.size(); i++) {
-//			if(stringList.get(i).equalsIgnoreCase(text)){
-//				return i;
-//			}
-//		}
-//		return 0;
-//	}
-	
+	// private int getExactPosition(String text) {
+	// System.out.println(text + "      "+ stringList.size() );
+	// for (int i = 0; i < stringList.size(); i++) {
+	// if(stringList.get(i).equalsIgnoreCase(text)){
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+
 	private int getExactPosition(String text) {
-		System.out.println(text + "      "+ anotherStringList.size() );
+		System.out.println(text + "      " + anotherStringList.size());
 		for (int i = 0; i < anotherStringList.size(); i++) {
-			if(anotherStringList.get(i).equalsIgnoreCase(text)){
+			if (anotherStringList.get(i).equalsIgnoreCase(text)) {
 				return i;
 			}
 		}

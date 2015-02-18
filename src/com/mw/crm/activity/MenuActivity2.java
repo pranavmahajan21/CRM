@@ -166,7 +166,7 @@ public class MenuActivity2 extends Activity {
 	public void onContact(View view) {
 		nextIntent = new Intent(MenuActivity2.this,
 				ContactListActivity.class);
-		nextIntent.putExtra("is_my_contacts", true);
+		nextIntent.putExtra("is_my_contact", true);
 		startActivity(nextIntent);
 	}
 

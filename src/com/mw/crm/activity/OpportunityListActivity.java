@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -27,6 +28,7 @@ public class OpportunityListActivity extends CRMActivity {
 
 	EditText searchOpportunity_ET;
 	// AutoCompleteTextView searchOpportunity_ET;
+	TextView errorTV;
 
 	ListView opportunityLV;
 	List<Opportunity> opportunityList;
@@ -84,6 +86,7 @@ public class OpportunityListActivity extends CRMActivity {
 		searchOpportunity_ET = (EditText) findViewById(R.id.searchOpportunity_ET);
 
 		// searchOpportunity_ET.setThreshold(1);
+		errorTV = (TextView) findViewById(R.id.error_TV);
 	}
 
 	public void initView(String title, String title2) {
@@ -92,7 +95,8 @@ public class OpportunityListActivity extends CRMActivity {
 			opportunityLV.setAdapter(adapter);
 			// searchOpportunity_ET.setAdapter(adapter2);
 		} else {
-			// no tickets
+			errorTV.setVisibility(View.VISIBLE);
+			errorTV.setTypeface(myApp.getTypefaceRegularSans());
 		}
 	}
 
@@ -102,7 +106,10 @@ public class OpportunityListActivity extends CRMActivity {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				// On text change call filter function of Adapter
+				if (OpportunityListActivity.this.adapter == null) {
+					return;
+				}
+
 				OpportunityListActivity.this.adapter.filter(cs.toString());
 			}
 

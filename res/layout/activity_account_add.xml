@@ -123,6 +123,45 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/relPartner1_RL"
+                style="@style/RL"
+                android:onClick="onSearchItem" >
+
+                <TextView
+                    android:id="@+id/relPartner1_TV"
+                    style="@style/TV"
+                    android:hint="Relationship Partner1" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/relPartner2_RL"
+                style="@style/RL"
+                android:onClick="onSearchItem" >
+
+                <TextView
+                    android:id="@+id/relPartner2_TV"
+                    style="@style/TV"
+                    android:hint="Relationship Partner2" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/bdm_RL"
+                style="@style/RL"
+                android:onClick="onSearchItem" >
+
+                <TextView
+                    android:id="@+id/bdm_TV"
+                    style="@style/TV"
+                    android:hint="Business Development Manager" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/accountCategoryLabel_TV"

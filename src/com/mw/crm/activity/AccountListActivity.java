@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -54,6 +55,7 @@ public class AccountListActivity extends CRMActivity {
 			// for (int i = 0; i < accountList.size(); i++) {
 			// sub
 			// }
+			Toast.makeText(this, accountList.size() + "", Toast.LENGTH_SHORT).show();
 			adapter = new AccountAdapter(this, accountList);
 		}
 
@@ -73,7 +75,8 @@ public class AccountListActivity extends CRMActivity {
 		if (adapter != null) {
 			accountLV.setAdapter(adapter);
 		} else {
-			// no tickets
+			errorTV.setVisibility(View.VISIBLE);
+			errorTV.setTypeface(myApp.getTypefaceRegularSans());
 		}
 	}
 
@@ -83,7 +86,16 @@ public class AccountListActivity extends CRMActivity {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				// On text change call filter function of Adapter
+				if (AccountListActivity.this.adapter == null) {
+					/**
+					 * This check is required in case when List<E> is null or
+					 * size of List<E> is 0. In that case adapter will be
+					 * uninitialized i.e. null.
+					 **/
+					return;
+				}
+
+				/** On text change call filter function of Adapter **/
 				AccountListActivity.this.adapter.filter(cs.toString());
 			}
 

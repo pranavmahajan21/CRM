@@ -57,21 +57,24 @@ public class AccountAddActivity extends CRMActivity {
 			lobLabel_TV, sublobLabel_TV, leadPartnerLabel_TV,
 			accountCategoryLabel_TV;
 	TextView sector_TV, headquarter_TV, lob_TV, sublob_TV, leadPartner_TV,
-			accountCategory_TV;
+			relPartner1_TV, relPartner2_TV, bdm_TV, accountCategory_TV;
 
 	EditText clientName_ET;
 
 	RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
-			leadPartner_RL, accountCategory_RL;
+			leadPartner_RL, relPartner1_RL, relPartner2_RL, bdm_RL,
+			accountCategory_RL;
 
 	Intent previousIntent, nextIntent;
 	Account tempAccount;
 
 	RequestQueue queue;
 
-	int selectedCountry = -1;
-	int selectedSector = -1, selectedLob = -1, selectedSubLob = -1,
-			selectedLeadPartner = -1, selectedAccountCategory = -1;
+	// int ;
+	int selectedCountry = -1, selectedSector = -1, selectedLob = -1,
+			selectedSubLob = -1, selectedLeadPartner = -1,
+			selectedAccountCategory = -1, selectedRelPartner1 = -1,
+			selectedRelPartner2 = -1, selectedBDM = -1;
 
 	Map<String, String> sectorMap;
 	Map<String, String> countryMap;
@@ -105,6 +108,8 @@ public class AccountAddActivity extends CRMActivity {
 							.toString(), sublob_TV.getText().toString(),
 					accountCategory_TV.getText().toString(), sector_TV
 							.getText().toString(), leadPartner_TV.getText()
+							.toString(), relPartner1_TV.getText().toString(),
+					relPartner2_TV.getText().toString(), null, bdm_TV.getText()
 							.toString());
 
 			nextIntent = new Intent(AccountAddActivity.this,
@@ -159,6 +164,9 @@ public class AccountAddActivity extends CRMActivity {
 		lob_TV = (TextView) findViewById(R.id.lob_TV);
 		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
 		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
+		relPartner1_TV = (TextView) findViewById(R.id.relPartner1_TV);
+		relPartner2_TV = (TextView) findViewById(R.id.relPartner2_TV);
+		bdm_TV = (TextView) findViewById(R.id.bdm_TV);
 		accountCategory_TV = (TextView) findViewById(R.id.accountCategory_TV);
 
 		clientName_ET = (EditText) findViewById(R.id.clientName_ET);
@@ -168,6 +176,9 @@ public class AccountAddActivity extends CRMActivity {
 		lob_RL = (RelativeLayout) findViewById(R.id.lob_RL);
 		sublob_RL = (RelativeLayout) findViewById(R.id.sublob_RL);
 		leadPartner_RL = (RelativeLayout) findViewById(R.id.leadPartner_RL);
+		relPartner1_RL = (RelativeLayout) findViewById(R.id.relPartner1_RL);
+		relPartner2_RL = (RelativeLayout) findViewById(R.id.relPartner2_RL);
+		bdm_RL = (RelativeLayout) findViewById(R.id.bdm_RL);
 		accountCategory_RL = (RelativeLayout) findViewById(R.id.accountCategory_RL);
 
 	}
@@ -186,6 +197,9 @@ public class AccountAddActivity extends CRMActivity {
 		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
 		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
 		leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner1_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner2_TV.setTypeface(myApp.getTypefaceRegularSans());
+		bdm_TV.setTypeface(myApp.getTypefaceRegularSans());
 		accountCategory_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		clientName_ET.setTypeface(myApp.getTypefaceRegularSans());
@@ -289,11 +303,11 @@ public class AccountAddActivity extends CRMActivity {
 		hideKeyboardFunctionality();
 
 		// registerForContextMenu(corridor_RL);
-		registerForContextMenu(sector_RL);
-		registerForContextMenu(headquarter_RL);
+		// registerForContextMenu(sector_RL);
+		// registerForContextMenu(headquarter_RL);
+		// registerForContextMenu(sublob_RL);
+		// registerForContextMenu(leadPartner_RL);
 		registerForContextMenu(lob_RL);
-		registerForContextMenu(sublob_RL);
-		registerForContextMenu(leadPartner_RL);
 		registerForContextMenu(accountCategory_RL);
 
 	}
@@ -405,22 +419,6 @@ public class AccountAddActivity extends CRMActivity {
 					"cty",
 					new ArrayList<String>(countryMap.keySet())
 							.get(selectedCountry));
-			// .put("sectors",
-			// new ArrayList<String>(sectorMap.keySet())
-			// .get(selectedSector))
-			//
-			// .put("lobusiness",
-			// new ArrayList<String>(lobMap.keySet())
-			// .get(selectedLob))
-			// .put("slob",
-			// new ArrayList<String>(subLobMap.keySet())
-			// .get(selectedSubLob))
-			// .put("leadpartner",
-			// new ArrayList<String>(userMap.keySet())
-			// .get(selectedLeadPartner))
-			// .put("accountCategoryOnes",
-			// new ArrayList<String>(accountCategoryMap.keySet())
-			// .get(selectedAccountCategory));
 
 			if (selectedSector > -1) {
 				params.put("sectors", new ArrayList<String>(sectorMap.keySet())
@@ -438,6 +436,21 @@ public class AccountAddActivity extends CRMActivity {
 				params.put("leadpartner",
 						new ArrayList<String>(userMap.keySet())
 								.get(selectedLeadPartner));
+			}
+			if (selectedRelPartner1 > -1) {
+				params.put("leadpartnertwo",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedRelPartner1));
+			}
+			if (selectedRelPartner2 > -1) {
+				params.put("leadpartnerthree",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedRelPartner2));
+			}
+			if (selectedBDM > -1) {
+				params.put("bdmanager",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedBDM));
 			}
 			if (selectedAccountCategory > -1) {
 				params.put("accountCategoryOnes", new ArrayList<String>(
@@ -464,62 +477,6 @@ public class AccountAddActivity extends CRMActivity {
 		params = MyApp.addParamToJson(params);
 		System.out.println("json" + params);
 		progressDialog.show();
-		// if (previousIntent.hasExtra("is_edit_mode")
-		// && previousIntent.getBooleanExtra("is_edit_mode", false)) {
-		// /** Update Mode **/
-		// String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
-		//
-		// try {
-		// System.out.println("acc id  : " + tempAccount.getAccountId());
-		// // Toast.makeText(AccountAddActivity.this, "id  : " +
-		// // tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
-		// params.put("accid", tempAccount.getAccountId());
-		//
-		// System.out.println("URL : " + url);
-		//
-		// JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-		// Method.POST, url, params,
-		// new Response.Listener<JSONObject>() {
-		//
-		// @Override
-		// public void onResponse(JSONObject response) {
-		// System.out.println("length2" + response);
-		// onPositiveResponse();
-		// }
-		// }, new Response.ErrorListener() {
-		//
-		// @Override
-		// public void onErrorResponse(VolleyError error) {
-		// progressDialog.hide();
-		// System.out.println("ERROR  : "
-		// + error.getMessage());
-		// error.printStackTrace();
-		//
-		// if (error instanceof NetworkError) {
-		// System.out.println("NetworkError");
-		// }
-		// if (error instanceof NoConnectionError) {
-		// System.out
-		// .println("NoConnectionError you are now offline.");
-		// }
-		// if (error instanceof ServerError) {
-		// System.out.println("ServerError");
-		// }
-		// }
-		// });
-		//
-		// RetryPolicy policy = new DefaultRetryPolicy(30000,
-		// DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-		// DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-		// jsonArrayRequest.setRetryPolicy(policy);
-		// queue.add(jsonArrayRequest);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// progressDialog.hide();
-		// }
-		// } else {
-		// /** Create Mode **/
-		// String url = MyApp.URL + MyApp.ACCOUNTS_ADD;
 		try {
 			System.out.println("URL : " + url);
 
@@ -585,6 +542,19 @@ public class AccountAddActivity extends CRMActivity {
 			startActivityForResult(nextIntent, MyApp.SEARCH_SUB_LOB);
 			break;
 		case R.id.leadPartner_RL:
+			nextIntent.putExtra("user_value", 0);
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+		case R.id.relPartner1_RL:
+			nextIntent.putExtra("user_value", 1);
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+		case R.id.relPartner2_RL:
+			nextIntent.putExtra("user_value", 2);
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+		case R.id.bdm_RL:
+			nextIntent.putExtra("user_value", 3);
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 
@@ -627,15 +597,35 @@ public class AccountAddActivity extends CRMActivity {
 				System.out.println("selectedCountry  :  " + selectedCountry);
 			}
 			if (requestCode == MyApp.SEARCH_SUB_LOB) {
-				// subLobMap = myApp.getSubLobMap();
 				List<String> list = new ArrayList<String>(subLobMap.values());
-				// System.out.println("asdsad  :  " + list.get(positionItem));
 				sublob_TV.setText(list.get(positionItem));
 				selectedSubLob = positionItem;
 				System.out.println("selectedSubLob  :  " + selectedSubLob);
 			}
 			if (requestCode == MyApp.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
+				String text = list.get(positionItem);
+				switch (data.getIntExtra("user_value", -1)) {
+				case 0:
+					leadPartner_TV.setText(text);
+					selectedLeadPartner = positionItem;
+					break;
+				case 1:
+					relPartner1_TV.setText(text);
+					selectedRelPartner1 = positionItem;
+					break;
+				case 2:
+					relPartner2_TV.setText(text);
+					selectedRelPartner2 = positionItem;
+					break;
+				case 3:
+					bdm_TV.setText(text);
+					selectedBDM = positionItem;
+					break;
+
+				default:
+					break;
+				}
 				leadPartner_TV.setText(list.get(positionItem));
 				selectedLeadPartner = positionItem;
 				System.out.println("selectedLeadPartner  :  "

@@ -49,7 +49,7 @@ import com.mw.crm.service.OpportunityService;
 @SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
 
-//	 public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
+	// public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
 	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
 
 	/* Used to get List<T> */
@@ -317,8 +317,8 @@ public class MyApp extends Application {
 		loadMenuItems();
 
 		readDataFromExcel();
-		// Intent intent2 = new Intent(this, AppointmentService.class);
-		// startService(intent2);
+//		Intent intent2 = new Intent(this, AccountService.class);
+//		startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
@@ -464,10 +464,10 @@ public class MyApp extends Application {
 
 	public void setLoginUserId(String loginUserId) {
 		this.loginUserId = loginUserId;
-		
-//		Toast.makeText(this, loginUserId, Toast.LENGTH_SHORT).show();
+
+		// Toast.makeText(this, loginUserId, Toast.LENGTH_SHORT).show();
 		System.out.println("!@!@  " + loginUserId);
-		
+
 		editor.putString("login_user_id", loginUserId);
 		editor.commit();
 	}
@@ -589,8 +589,9 @@ public class MyApp extends Application {
 		// return MyApp.removeQuotesFromString(MyApp.decryptData(string));
 
 		String s = MyApp.decryptData(string);
-		System.out.println("After decryption : " + s.length() + "  asdsd  :  "
-				+ (s == null));
+		System.out.println((s == null) + "   After decryption : " + s
+				+ "  asdsd  :  " + s.length());
+		
 		String s2 = MyApp.removeQuotesFromString(s);
 		System.out.println("After removing quotes  : " + s2);
 
@@ -609,7 +610,7 @@ public class MyApp extends Application {
 	public static String decryptData(String string) {
 
 		String aa = new Encrypter(null, null).decrypt(string);
-		System.out.println("!@!@" + aa);
+		// System.out.println("!@!@" + aa);
 
 		return new Encrypter(null, null).decrypt(string);
 	}
@@ -990,16 +991,16 @@ public class MyApp extends Application {
 
 	public String getContactName(Contact tempContact) {
 		String temp = null;
-		if (tempContact.getFirstName() != null
-				&& tempContact.getFirstName().length() > 0) {
-			temp = tempContact.getFirstName();
-		}
 		if (tempContact.getLastName() != null
 				&& tempContact.getLastName().length() > 0) {
+			temp = tempContact.getLastName();
+		}
+		if (tempContact.getFirstName() != null
+				&& tempContact.getFirstName().length() > 0) {
 			if (temp != null) {
-				temp = temp + ", " + tempContact.getLastName();
+				temp = temp + ", " + tempContact.getFirstName();
 			} else {
-				temp = tempContact.getLastName();
+				temp = tempContact.getFirstName();
 			}
 		}
 		return temp;
@@ -1150,10 +1151,14 @@ public class MyApp extends Application {
 			e.printStackTrace();
 			return null;
 		}
+		// catch (Exception e) {
+		// e.printStackTrace();
+		// return null;
+		// }
 	}
 
 	public String getStringIdFromStringJSON(String x) {
-//		System.out.println("getStringIdFromStringJSON  :  " + x);
+		// System.out.println("getStringIdFromStringJSON  :  " + x);
 		try {
 			return new JSONObject(x).getString("Id");
 		} catch (JSONException e) {

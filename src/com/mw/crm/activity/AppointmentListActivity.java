@@ -55,8 +55,8 @@ public class AppointmentListActivity extends CRMActivity {
 							false)) {
 				subAppointmentList = new ArrayList<Appointment>(appointmentList);
 			} else if (previousIntent.hasExtra("account_id")) {
-				System.out.println("acc ID is : " + previousIntent
-											.getStringExtra("account_id"));
+				System.out.println("acc ID is : "
+						+ previousIntent.getStringExtra("account_id"));
 				subAppointmentList = new ArrayList<Appointment>();
 				for (int i = 0; i < appointmentList.size(); i++) {
 					System.out.println("#$#$  : "
@@ -78,9 +78,6 @@ public class AppointmentListActivity extends CRMActivity {
 		}
 		if (subAppointmentList != null && subAppointmentList.size() > 0) {
 			adapter = new AppointmentAdapter(this, subAppointmentList);
-		} else {
-			errorTV.setVisibility(View.VISIBLE);
-			errorTV.setTypeface(myApp.getTypefaceRegularSans());
 		}
 	}
 
@@ -96,7 +93,8 @@ public class AppointmentListActivity extends CRMActivity {
 		if (adapter != null) {
 			appointmentLV.setAdapter(adapter);
 		} else {
-			// no tickets
+			errorTV.setVisibility(View.VISIBLE);
+			errorTV.setTypeface(myApp.getTypefaceRegularSans());
 		}
 	}
 
@@ -106,7 +104,10 @@ public class AppointmentListActivity extends CRMActivity {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				// On text change call filter function of Adapter
+				if (AppointmentListActivity.this.adapter == null) {
+					return;
+				}
+
 				AppointmentListActivity.this.adapter.filter(cs.toString());
 			}
 
@@ -126,8 +127,8 @@ public class AppointmentListActivity extends CRMActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_appointment_list);
 
-		findThings();
 		initThings();
+		findThings();
 		initView("My Appointments", "Add");
 
 		myOwnOnTextChangeListeners();
