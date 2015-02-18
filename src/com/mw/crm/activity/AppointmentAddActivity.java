@@ -279,8 +279,14 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Add Appointment", "Save");
 
+		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
+				.getBooleanExtra("is_edit_mode", false))) {
+			initView("Edit Appointment", "Update");
+		} else {
+			initView("Add Appointment", "Save");
+		}
+		
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(interactionType_RL);

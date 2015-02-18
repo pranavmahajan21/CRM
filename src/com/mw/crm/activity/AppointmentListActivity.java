@@ -1,5 +1,6 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -29,25 +30,58 @@ public class AppointmentListActivity extends CRMActivity {
 	AppointmentAdapter adapter;
 
 	List<Appointment> appointmentList;
+	List<Appointment> subAppointmentList;
 	TextView errorTV;
 	EditText searchAppointment_ET;
 
-	Intent nextIntent;
+	Intent previousIntent, nextIntent;
 
 	RequestQueue queue;
 
 	private void initThings() {
 
 		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
 		appointmentList = myApp.getAppointmentList();
 
 		queue = Volley.newRequestQueue(this);
 
+		// if (appointmentList != null && appointmentList.size() > 0) {
+		// adapter = new AppointmentAdapter(this, appointmentList);
+		// }
 		if (appointmentList != null && appointmentList.size() > 0) {
-			adapter = new AppointmentAdapter(this, appointmentList);
-		}
+			if (previousIntent.hasExtra("is_my_appointment")
+					&& previousIntent.getBooleanExtra("is_my_appointment",
+							false)) {
+				subAppointmentList = new ArrayList<Appointment>(appointmentList);
+			} else if (previousIntent.hasExtra("account_id")) {
+				System.out.println("acc ID is : " + previousIntent
+											.getStringExtra("account_id"));
+				subAppointmentList = new ArrayList<Appointment>();
+				for (int i = 0; i < appointmentList.size(); i++) {
+					System.out.println("#$#$  : "
+							+ appointmentList.get(i).getOwnerId());
 
-		
+					// TODO : try to remove the 2nd check from if(check1 &&
+					// check2 && check3)
+					if (appointmentList.get(i).getOwnerId() != null
+							&& appointmentList.get(i).getOwnerId().length() > 0
+							&& myApp.getStringIdFromStringJSON(
+									appointmentList.get(i).getOwnerId())
+									.equals(previousIntent
+											.getStringExtra("account_id"))) {
+						subAppointmentList.add(appointmentList.get(i));
+					}
+				}
+
+			}
+		}
+		if (subAppointmentList != null && subAppointmentList.size() > 0) {
+			adapter = new AppointmentAdapter(this, subAppointmentList);
+		} else {
+			errorTV.setVisibility(View.VISIBLE);
+			errorTV.setTypeface(myApp.getTypefaceRegularSans());
+		}
 	}
 
 	public void findThings() {
@@ -92,9 +126,9 @@ public class AppointmentListActivity extends CRMActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_appointment_list);
 
-		initThings();
 		findThings();
-		initView("Appointment", "Add");
+		initThings();
+		initView("My Appointments", "Add");
 
 		myOwnOnTextChangeListeners();
 
@@ -105,10 +139,12 @@ public class AppointmentListActivity extends CRMActivity {
 					int position, long id) {
 				Appointment tempAppointment = appointmentList.get(position);
 				searchAppointment_ET.setText("");
-				int index = myApp.getAppointmentIndexFromAppointmentId(tempAppointment
-						.getId());
-				
-				nextIntent = new Intent(AppointmentListActivity.this, AppointmentDetailsActivity.class);
+				int index = myApp
+						.getAppointmentIndexFromAppointmentId(tempAppointment
+								.getId());
+
+				nextIntent = new Intent(AppointmentListActivity.this,
+						AppointmentDetailsActivity.class);
 				nextIntent.putExtra("position", index);
 				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
@@ -119,10 +155,11 @@ public class AppointmentListActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
-		nextIntent = new Intent(AppointmentListActivity.this, AppointmentAddActivity.class);
+		nextIntent = new Intent(AppointmentListActivity.this,
+				AppointmentAddActivity.class);
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
-	
+
 	@Override
 	public void onBack(View view) {
 		searchAppointment_ET.setText("");
@@ -146,17 +183,17 @@ public class AppointmentListActivity extends CRMActivity {
 		searchAppointment_ET.setText("");
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
-				
+
 				appointmentList = myApp.getAppointmentList();
-				
-//				adapter.swapData(myApp.getAppointmentList());
+
+				// adapter.swapData(myApp.getAppointmentList());
 				adapter.swapData(appointmentList);
 				adapter.notifyDataSetChanged();
 			}

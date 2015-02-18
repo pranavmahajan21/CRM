@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
-import com.google.gson.Gson;
 import com.mw.crm.adapter.ContactAdapter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Contact;
@@ -40,15 +39,11 @@ public class ContactListActivity extends CRMActivity {
 
 	RequestQueue queue;
 
-	Gson gson;
-
 	private void initThings() {
 
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
 		contactList = myApp.getContactList();
-
-		gson = new Gson();
 
 		queue = Volley.newRequestQueue(this);
 
@@ -61,8 +56,9 @@ public class ContactListActivity extends CRMActivity {
 				for (int i = 0; i < contactList.size(); i++) {
 					System.out.println("#$#$  : "
 							+ contactList.get(i).getOrganization());
-					
-					// TODO : try to remove the 2nd check from if(check1 && check2 && check3)
+
+					// TODO : try to remove the 2nd check from if(check1 &&
+					// check2 && check3)
 					if (contactList.get(i).getOrganization() != null
 							&& contactList.get(i).getOrganization().length() > 0
 							&& myApp.getStringIdFromStringJSON(
@@ -74,6 +70,8 @@ public class ContactListActivity extends CRMActivity {
 				}
 
 			}
+		} else {
+			// show error msg
 		}
 		if (subContactList != null && subContactList.size() > 0) {
 			adapter = new ContactAdapter(this, subContactList);

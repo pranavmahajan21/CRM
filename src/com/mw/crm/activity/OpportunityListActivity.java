@@ -17,10 +17,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
-import com.mw.crm.adapter.ContactAdapter;
 import com.mw.crm.adapter.OpportunityAdapter;
 import com.mw.crm.extra.MyApp;
-import com.mw.crm.model.Contact;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityListActivity extends CRMActivity {
@@ -126,7 +124,7 @@ public class OpportunityListActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Opportunities", "Add");
+		initView("My Opportunities", "Add");
 
 		myOwnOnTextChangeListeners();
 

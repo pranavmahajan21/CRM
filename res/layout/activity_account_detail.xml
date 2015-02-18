@@ -171,6 +171,47 @@
                     android:textColor="@color/blue_dark"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Related Entities"
+                android:textSize="20sp"
+                />
+            
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/contactLink_IB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/ic_launcher"
+                    android:onClick="onContact"
+                    android:text="@string/contact_link" />
+
+                <Button
+                    android:id="@+id/opportunityLink_IB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/ic_launcher"
+                    android:onClick="onOpportunity"
+                    android:text="@string/opportunity_link" />
+
+                <Button
+                    android:id="@+id/appointmentLink_IB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/ic_launcher"
+                    android:onClick="onAppointment"
+                    android:text="@string/appointment_link"  />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

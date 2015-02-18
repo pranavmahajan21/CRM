@@ -89,8 +89,8 @@ public class AccountAddActivity extends CRMActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
-			if (previousIntent.hasExtra("is_edit_mode") && previousIntent
-					.getBooleanExtra("is_edit_mode", false)) {
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 				Toast.makeText(AccountAddActivity.this,
 						"Account updated successfully.", Toast.LENGTH_SHORT)
 						.show();
@@ -111,6 +111,8 @@ public class AccountAddActivity extends CRMActivity {
 					AccountDetailsActivity.class);
 			nextIntent.putExtra("account_dummy",
 					new Gson().toJson(aa, Account.class));
+
+			// TODO: should we remove 2nd check. What is good practice??
 			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
 					.getBooleanExtra("is_edit_mode", false))) {
 				nextIntent.putExtra("account_created", true);
@@ -278,8 +280,12 @@ public class AccountAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Add Account", "Save");
-
+		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
+				.getBooleanExtra("is_edit_mode", false))) {
+			initView("Edit Account", "Update");
+		} else {
+			initView("Add Account", "Save");
+		}
 		hideKeyboardFunctionality();
 
 		// registerForContextMenu(corridor_RL);
@@ -458,105 +464,105 @@ public class AccountAddActivity extends CRMActivity {
 		params = MyApp.addParamToJson(params);
 		System.out.println("json" + params);
 		progressDialog.show();
-//		if (previousIntent.hasExtra("is_edit_mode")
-//				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
-//			/** Update Mode **/
-//			String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
-//
-//			try {
-//				System.out.println("acc id  : " + tempAccount.getAccountId());
-//				// Toast.makeText(AccountAddActivity.this, "id  : " +
-//				// tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
-//				params.put("accid", tempAccount.getAccountId());
-//
-//				System.out.println("URL : " + url);
-//
-//				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-//						Method.POST, url, params,
-//						new Response.Listener<JSONObject>() {
-//
-//							@Override
-//							public void onResponse(JSONObject response) {
-//								System.out.println("length2" + response);
-//								onPositiveResponse();
-//							}
-//						}, new Response.ErrorListener() {
-//
-//							@Override
-//							public void onErrorResponse(VolleyError error) {
-//								progressDialog.hide();
-//								System.out.println("ERROR  : "
-//										+ error.getMessage());
-//								error.printStackTrace();
-//
-//								if (error instanceof NetworkError) {
-//									System.out.println("NetworkError");
-//								}
-//								if (error instanceof NoConnectionError) {
-//									System.out
-//											.println("NoConnectionError you are now offline.");
-//								}
-//								if (error instanceof ServerError) {
-//									System.out.println("ServerError");
-//								}
-//							}
-//						});
-//
-//				RetryPolicy policy = new DefaultRetryPolicy(30000,
-//						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-//				jsonArrayRequest.setRetryPolicy(policy);
-//				queue.add(jsonArrayRequest);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				progressDialog.hide();
-//			}
-//		} else {
-//			/** Create Mode **/
-//			String url = MyApp.URL + MyApp.ACCOUNTS_ADD;
-			try {
-				System.out.println("URL : " + url);
+		// if (previousIntent.hasExtra("is_edit_mode")
+		// && previousIntent.getBooleanExtra("is_edit_mode", false)) {
+		// /** Update Mode **/
+		// String url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
+		//
+		// try {
+		// System.out.println("acc id  : " + tempAccount.getAccountId());
+		// // Toast.makeText(AccountAddActivity.this, "id  : " +
+		// // tempAccount.getAccountId(), Toast.LENGTH_LONG).show();
+		// params.put("accid", tempAccount.getAccountId());
+		//
+		// System.out.println("URL : " + url);
+		//
+		// JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+		// Method.POST, url, params,
+		// new Response.Listener<JSONObject>() {
+		//
+		// @Override
+		// public void onResponse(JSONObject response) {
+		// System.out.println("length2" + response);
+		// onPositiveResponse();
+		// }
+		// }, new Response.ErrorListener() {
+		//
+		// @Override
+		// public void onErrorResponse(VolleyError error) {
+		// progressDialog.hide();
+		// System.out.println("ERROR  : "
+		// + error.getMessage());
+		// error.printStackTrace();
+		//
+		// if (error instanceof NetworkError) {
+		// System.out.println("NetworkError");
+		// }
+		// if (error instanceof NoConnectionError) {
+		// System.out
+		// .println("NoConnectionError you are now offline.");
+		// }
+		// if (error instanceof ServerError) {
+		// System.out.println("ServerError");
+		// }
+		// }
+		// });
+		//
+		// RetryPolicy policy = new DefaultRetryPolicy(30000,
+		// DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+		// DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+		// jsonArrayRequest.setRetryPolicy(policy);
+		// queue.add(jsonArrayRequest);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// progressDialog.hide();
+		// }
+		// } else {
+		// /** Create Mode **/
+		// String url = MyApp.URL + MyApp.ACCOUNTS_ADD;
+		try {
+			System.out.println("URL : " + url);
 
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
+			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+					Method.POST, url, params,
+					new Response.Listener<JSONObject>() {
 
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
+						@Override
+						public void onResponse(JSONObject response) {
+							System.out.println("length2" + response);
+							onPositiveResponse();
+						}
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							System.out.println("ERROR  : " + error.getMessage());
+							error.printStackTrace();
+
+							if (error instanceof NetworkError) {
+								System.out.println("NetworkError");
 							}
-						}, new Response.ErrorListener() {
-
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								System.out.println("ERROR  : "
-										+ error.getMessage());
-								error.printStackTrace();
-
-								if (error instanceof NetworkError) {
-									System.out.println("NetworkError");
-								}
-								if (error instanceof NoConnectionError) {
-									System.out
-											.println("NoConnectionError you are now offline.");
-								}
-								if (error instanceof ServerError) {
-									System.out.println("ServerError");
-								}
+							if (error instanceof NoConnectionError) {
+								System.out
+										.println("NoConnectionError you are now offline.");
 							}
-						});
+							if (error instanceof ServerError) {
+								System.out.println("ServerError");
+							}
+						}
+					});
 
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			RetryPolicy policy = new DefaultRetryPolicy(30000,
+					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+			jsonArrayRequest.setRetryPolicy(policy);
+			queue.add(jsonArrayRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-//	}
+	}
+
+	// }
 
 	@Override
 	public void startActivityForResult(Intent intent, int requestCode) {

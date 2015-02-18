@@ -14,64 +14,46 @@
         android:text="Client Name"
         android:textColor="@color/blue_dark" />
 
-    <TextView
-        android:id="@+id/leadPartner_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="(NA) Lead Partner"
-        android:textColor="@color/blue_dark" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+    <LinearLayout style="@style/LL2" >
 
         <TextView
-            android:id="@+id/sector_TV"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="(NA) Sector"
-            android:textColor="@color/blue_dark" />
+            android:id="@+id/leadPartner_TV"
+            style="@style/TV_left2"
+            android:text="(NA) Lead Partner" />
 
         <TextView
             android:id="@+id/opportunityLink_TV"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
+            style="@style/TV_link"
             android:onClick="onOpportunity"
-            android:text="@string/opportunity_link"
-            android:textColor="@color/blue_dark" />
+            android:text="@string/opportunity_link" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+    <LinearLayout style="@style/LL2" >
 
         <TextView
-            android:id="@+id/country_TV"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="(NA) Country"
-            android:textColor="@color/blue_dark" />
+            android:id="@+id/sector_TV"
+            style="@style/TV_left2"
+            android:text="(NA) Sector" />
 
         <TextView
             android:id="@+id/contactLink_TV"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
+            style="@style/TV_link"
             android:onClick="onContact"
-            android:text="@string/contact_link"
-            android:textColor="@color/blue_dark" />
+            android:text="@string/contact_link" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LL2" >
+
+        <TextView
+            android:id="@+id/country_TV"
+            style="@style/TV_left2"
+            android:text="(NA) Country" />
+
+        <TextView
+            android:id="@+id/appointmentLink_TV"
+            style="@style/TV_link"
+            android:onClick="onAppointment"
+            android:text="@string/appointment_link" />
     </LinearLayout>
 
 </LinearLayout>

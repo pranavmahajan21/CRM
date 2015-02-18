@@ -325,7 +325,14 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Add Opportunity", "Save");
+//		initView("Add Opportunity", "Save");
+		
+		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
+				.getBooleanExtra("is_edit_mode", false))) {
+			initView("Edit Opportunity", "Update");
+		} else {
+			initView("Add Opportunity", "Save");
+		}
 
 		hideKeyboardFunctionality();
 

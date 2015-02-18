@@ -179,6 +179,7 @@ public class MenuActivity2 extends Activity {
 	public void onAppointment(View view) {
 		nextIntent = new Intent(MenuActivity2.this,
 				AppointmentListActivity.class);
+		nextIntent.putExtra("is_my_appointment", true);
 		startActivity(nextIntent);
 		
 	}
