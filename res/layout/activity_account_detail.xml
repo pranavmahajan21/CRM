@@ -149,7 +149,7 @@
 
                 <ImageView
                     style="@style/IV2"
-                    android:src="@drawable/contact" />
+                    android:src="@drawable/contact2" />
 
                 <TextView
                     android:id="@+id/contactLink_TV"
@@ -163,7 +163,7 @@
 
                 <ImageView
                     style="@style/IV2"
-                    android:src="@drawable/opportunity" />
+                    android:src="@drawable/opportunity2" />
 
                 <TextView
                     android:id="@+id/opportunityLink_TV"
@@ -177,7 +177,7 @@
 
                 <ImageView
                     style="@style/IV2"
-                    android:src="@drawable/appointment" />
+                    android:src="@drawable/appointment2" />
 
                 <TextView
                     android:id="@+id/appointmentLink_TV"

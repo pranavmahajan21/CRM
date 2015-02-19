@@ -97,7 +97,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
-    <!-- used in details screens -->
+    <!-- ****used in details screens**** -->
 
 
     <!-- used in related entities -->
@@ -110,7 +110,7 @@
     <style name="IV2">
         <item name="android:background">@null</item>
         <item name="android:scaleType">fitXY</item>
-        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_width">45dp</item>
         <item name="android:layout_height">45dp</item>
     </style>
 
@@ -121,10 +121,10 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <!-- **used in related entities** -->
+    <!-- ****used in related entities**** -->
 
 
-    <!-- used in context menu textfield -->
+    <!-- ****used in context menu textfield**** -->
     <style name="RL" parent="dimensions">
         <item name="android:background">@drawable/custom_bg_solid_radius</item>
         <item name="android:layout_marginTop">4dp</item>
@@ -145,7 +145,7 @@
         <item name="android:background">@null</item>
         <item name="android:src">@drawable/arrow_right</item>
     </style>
-    <!-- used in context menu -->
+    <!-- ****used in context menu**** -->
 
 
     <!-- used in rows ao account -->
@@ -165,6 +165,40 @@
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:weightSum">5</item>
     </style>
-    <!-- used in rows ao account -->
+    <!-- ****used in rows of account**** -->
+
+
+    <!-- used in menu2 screen -->
+    <style name="RL2" parent="dimensions2">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="IV3" parent="dimensions3">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/bt_background</item>
+    </style>
+
+    <style name="LL4" parent="dimensions3">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+    <style name="IV4">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">90dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:background">@null</item>
+    </style>
+    
+    <style name="TV4" parent="dimensions3">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- ****used in menu2 screen**** -->
 
 </resources>

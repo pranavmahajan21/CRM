@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/date_TV"
-        android:layout_toRightOf="@+id/checkBox1"
         android:orientation="vertical" >
+<!--         android:layout_toRightOf="@+id/checkBox1" -->
 
         <TextView
             android:id="@+id/purpose_TV"
@@ -30,13 +30,13 @@
             android:textColor="@color/blue_dark" />
     </LinearLayout>
 
-    <CheckBox
+    <!-- <CheckBox
         android:id="@+id/checkBox1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:focusable="false" />
+        android:focusable="false" /> -->
 
     <TextView
         android:id="@+id/date_TV"

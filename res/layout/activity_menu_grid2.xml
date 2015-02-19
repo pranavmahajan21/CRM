@@ -29,100 +29,58 @@
             android:weightSum="2" >
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                style="@style/RL2"
                 android:onClick="onAccount" >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/IV3"
                     android:layout_alignBottom="@+id/LL2"
                     android:layout_alignLeft="@+id/LL2"
                     android:layout_alignRight="@+id/LL2"
-                    android:layout_alignTop="@+id/LL2"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" />
+                    android:layout_alignTop="@+id/LL2" />
 
                 <LinearLayout
                     android:id="@+id/LL2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp" >
+                    style="@style/LL4" >
 
                     <ImageView
                         android:id="@+id/menu_item_IV2"
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/account" />
-
-                    <!-- android:layout_marginTop="8dp" -->
+                        style="@style/IV4"
+                        android:src="@drawable/account2" />
 
                     <TextView
                         android:id="@+id/menu_item_TV2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Account"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
+                        style="@style/TV4"
+                        android:text="Account" />
                 </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                style="@style/RL2"
                 android:onClick="onOpportunity" >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/IV3"
                     android:layout_alignBottom="@+id/LL4"
                     android:layout_alignLeft="@+id/LL4"
                     android:layout_alignRight="@+id/LL4"
-                    android:layout_alignTop="@+id/LL4"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" />
+                    android:layout_alignTop="@+id/LL4" />
 
                 <LinearLayout
                     android:id="@+id/LL4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp" >
+                    style="@style/LL4" >
 
                     <ImageView
                         android:id="@+id/menu_item_IV4"
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/opportunity" />
-
-                    <!-- android:layout_marginTop="8dp" -->
+                        style="@style/IV4"
+                        android:src="@drawable/opportunity2" />
 
                     <TextView
                         android:id="@+id/menu_item_TV4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Opportunity"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
+                        style="@style/TV4"
+                        android:text="Opportunity" />
                 </LinearLayout>
             </RelativeLayout>
-            <!-- android:layout_gravity="center_horizontal" -->
-
         </LinearLayout>
 
         <LinearLayout
@@ -133,96 +91,104 @@
             android:weightSum="2" >
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                style="@style/RL2"
                 android:onClick="onContact" >
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <!-- android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bt_background"  -->
+                <ImageView
+                    style="@style/IV3"
                     android:layout_alignBottom="@+id/LL"
                     android:layout_alignLeft="@+id/LL"
                     android:layout_alignRight="@+id/LL"
                     android:layout_alignTop="@+id/LL"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" />
+                    />
 
                 <LinearLayout
                     android:id="@+id/LL"
-                    android:layout_width="wrap_content"
+                    style="@style/LL4"
+                    >
+<!--                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingBottom="15dp" >
+                    android:paddingBottom="15dp"  -->
 
                     <ImageView
                         android:id="@+id/menu_item_IV"
-                        android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/contact" />
+                       style="@style/IV4"
+                        android:src="@drawable/contact2" />
 
                     <!-- android:layout_marginTop="8dp" -->
 
                     <TextView
                         android:id="@+id/menu_item_TV"
+                        style="@style/TV4"
+                        android:text="Contact"
+                        />
+<!--                         android:textColor="@android:color/white"
+                        android:textSize="14sp" 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Contact"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
+ -->                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                style="@style/RL2"
+                android:onClick="onAppointment" 
+                >
+<!--                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onAppointment" >
+                android:gravity="center_horizontal" -->
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                     style="@style/IV3"
                     android:layout_alignBottom="@+id/LL3"
                     android:layout_alignLeft="@+id/LL3"
                     android:layout_alignRight="@+id/LL3"
                     android:layout_alignTop="@+id/LL3"
-                    android:adjustViewBounds="true"
+                    />
+<!--                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" />
+                    android:src="@drawable/bt_background" 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" -->
 
                 <LinearLayout
                     android:id="@+id/LL3"
-                    android:layout_width="wrap_content"
+                    style="@style/LL4"
+                    >
+<!--                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingBottom="15dp" >
+                    android:paddingBottom="15dp"  -->
 
                     <ImageView
                         android:id="@+id/menu_item_IV3"
-                        android:layout_width="120dp"
+                         style="@style/IV4"
+                        android:src="@drawable/appointment2" />
+<!--                         android:layout_width="120dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center_horizontal"
                         android:background="@null"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/appointment" />
+                        android:scaleType="fitXY" -->
 
                     <!-- android:layout_marginTop="8dp" -->
 
                     <TextView
                         android:id="@+id/menu_item_TV3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="Appointment"
+                        style="@style/TV4"
+                        />
+<!--                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"  -->
                 </LinearLayout>
             </RelativeLayout>
 
