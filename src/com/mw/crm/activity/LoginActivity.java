@@ -132,20 +132,6 @@ public class LoginActivity extends Activity {
 		return notErrorCase;
 	}
 
-	private void onPositiveResponse(JSONObject response) {
-		progressDialog.dismiss();
-
-		editor.putBoolean("is_user_login", true);
-		editor.commit();
-		try {
-			myApp.setLoginUserId(response.getString("id"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		startActivity(nextIntent);
-	}
-
 	public void onLogin(View view) {
 		if (!validate()) {
 			return;
@@ -212,17 +198,19 @@ public class LoginActivity extends Activity {
 			e.printStackTrace();
 		}
 
-		// if (email_ET.getText().toString().equalsIgnoreCase("in-fmcrmad1")
-		// && password_ET.getText().toString().equals("Password01")) {
-		// progressDialog.dismiss();
-		//
-		// editor.putBoolean("is_user_login", true);
-		// editor.commit();
-		// // TODO put user information in preferences
-		//
-		// startActivity(nextIntent);
-		// }
-
 	}
 
+	private void onPositiveResponse(JSONObject response) {
+		progressDialog.dismiss();
+
+		editor.putBoolean("is_user_login", true);
+		editor.commit();
+		try {
+			myApp.setLoginUserId(response.getString("id"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		startActivity(nextIntent);
+	}
 }

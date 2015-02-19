@@ -423,6 +423,10 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (selectedOwner > -1) {
 				params.put("ownid", new ArrayList<String>(userMap.keySet())
 						.get(selectedOwner));
+//				params.put("ownid", myApp.getLoginUserId());
+				System.out.println("111  : " + new ArrayList<String>(userMap.keySet())
+						.get(selectedOwner));
+				System.out.println("222  : " + myApp.getLoginUserId());
 			}
 			if (selectedOrganizer > -1) {
 				params.put("organizer", new ArrayList<String>(userMap.keySet())

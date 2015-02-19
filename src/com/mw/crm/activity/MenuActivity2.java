@@ -1,6 +1,9 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -51,6 +54,14 @@ public class MenuActivity2 extends Activity {
 			if (X == 0) {
 				progressDialog.dismiss();
 			}
+			Map<String, String> userMap = myApp.getUserMap();
+			List<String> keys = new ArrayList<String>(userMap.keySet());
+			for (int i = 0; i < keys.size(); i++) {
+				System.out.println("***** " + keys.get(i));
+				if (myApp.getLoginUserId().equals(keys.get(i))) {
+					System.out.println("hurray  " + userMap.get(keys.get(i)));
+				}
+			}
 		}
 	};
 
@@ -85,7 +96,6 @@ public class MenuActivity2 extends Activity {
 		}
 	}
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,7 +106,6 @@ public class MenuActivity2 extends Activity {
 		findThings();
 		initView("Menu", null);
 
-		
 		if (previousIntent.hasExtra("is_first_time_login")
 				&& previousIntent.getBooleanExtra("is_first_time_login", true)) {
 			loadAppData();
@@ -127,6 +136,7 @@ public class MenuActivity2 extends Activity {
 		X++;
 		startService(intent);
 
+		// TODO: do this in broadcaster
 		String temp = myApp.formatDateToString3(new Date());
 		syncDate_TV.setText(temp);
 		editor.putString("last_sync_date", temp);
@@ -164,15 +174,13 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void onContact(View view) {
-		nextIntent = new Intent(MenuActivity2.this,
-				ContactListActivity.class);
+		nextIntent = new Intent(MenuActivity2.this, ContactListActivity.class);
 		nextIntent.putExtra("is_my_contact", true);
 		startActivity(nextIntent);
 	}
 
 	public void onAccount(View view) {
-		nextIntent = new Intent(MenuActivity2.this,
-				AccountListActivity.class);
+		nextIntent = new Intent(MenuActivity2.this, AccountListActivity.class);
 		startActivity(nextIntent);
 	}
 
@@ -181,7 +189,7 @@ public class MenuActivity2 extends Activity {
 				AppointmentListActivity.class);
 		nextIntent.putExtra("is_my_appointment", true);
 		startActivity(nextIntent);
-		
+
 	}
 
 	public void onOpportunity(View view) {

@@ -61,13 +61,6 @@ public class InternalConnectService extends IntentService {
 						public void onResponse(JSONArray response) {
 							System.out.println("length2" + response);
 
-							// Type listType = (Type) new
-							// TypeToken<ArrayList<InternalConnect>>() {
-							// }.getType();
-							// myApp.setInternalConnectList((List<InternalConnect>)
-							// gson
-							// .fromJson(response.toString(), listType));
-
 							for (int i = 0; i < response.length(); i++) {
 								try {
 									createUserMap(response.getJSONObject(i));

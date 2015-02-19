@@ -101,9 +101,6 @@ public class MyApp extends Application {
 	List<Appointment> appointmentList;// = new ArrayList<Appointment>();
 	List<Account> accountList;// = new ArrayList<Account>();
 
-	// List<InternalConnect> internalConnectList;// = new
-	// // ArrayList<InternalConnect>();
-
 	private static String ACCOUNT_CATEGORY_PATH = "excels/account_category.xls";
 	private static String COUNTRY_PATH = "excels/country.xls";
 	private static String DOR_PATH = "excels/dor.xls";
@@ -127,9 +124,8 @@ public class MyApp extends Application {
 	Map<String, String> statusMap;
 	Map<String, String> subLobMap;
 
-	/** Coming from excels **/
+	/** Coming from Internal Connect **/
 	Map<String, String> userMap;
-	// Map<String, String> countryMap;
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
@@ -230,19 +226,6 @@ public class MyApp extends Application {
 						+ getOpportunityList().size());
 			}
 		}
-
-		// if (sharedPreferences.contains("internal_connect_list")) {
-		// String value = sharedPreferences.getString("internal_connect_list",
-		// null);
-		// if (value != null) {
-		// Type listType = (Type) new TypeToken<ArrayList<InternalConnect>>() {
-		// }.getType();
-		// setInternalConnectList((List<InternalConnect>) gson.fromJson(
-		// value, listType));
-		// System.out.println("InternalConnect size  : "
-		// + getInternalConnectList().size());
-		// }
-		// }
 
 		if (sharedPreferences.contains("user_map")) {
 			String value = sharedPreferences.getString("user_map", null);
@@ -621,18 +604,6 @@ public class MyApp extends Application {
 		// System.out.println("!@!@" + aa);
 		return new Encrypter(null, null).encrypt(string);
 	}
-
-	// public List<InternalConnect> getInternalConnectList() {
-	// return internalConnectList;
-	// }
-	//
-	// public void setInternalConnectList(List<InternalConnect>
-	// internalConnectList) {
-	// this.internalConnectList = internalConnectList;
-	// String json = gson.toJson(internalConnectList);
-	// editor.putString("internal_connect_list", json);
-	// editor.commit();
-	// }
 
 	public String formatDateToString(Date date) {
 
