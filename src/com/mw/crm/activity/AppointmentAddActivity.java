@@ -49,8 +49,8 @@ import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
-import com.mw.crm.model.InternalConnect;
 import com.mw.crm.service.AppointmentService;
 
 public class AppointmentAddActivity extends CRMActivity {
@@ -60,29 +60,25 @@ public class AppointmentAddActivity extends CRMActivity {
 	MyApp myApp;
 
 	TextView purposeLabel_TV, accountLabel_TV, nameClientLabel_TV,
-			interactionTypeLabel_TV, designationLabel_TV,
+			designationLabel_TV, interactionTypeLabel_TV,
 			detailsDiscussionLabel_TV, dateMeetingLabel_TV, endTimeLabel_TV,
 			ownerLabel_TV, organizerLabel_TV;
-	/** Removed temporarily **/
-	// , ownerLabel_TV
 
 	TextView account_TV, interactionType_TV, dateMeeting_TV, endTime_TV,
 			owner_TV, organizer_TV;
-	/** Removed temporarily **/
-	// , owner_TV
 
 	EditText purpose_ET, nameClient_ET, designation_ET, detailsDiscussion_ET;
 	// startTime_ET, endTime_ET
 	RelativeLayout account_RL, interactionType_RL, owner_RL, organizer_RL;
-	/** Removed temporarily **/
-	// , owner_RL
 
 	Intent previousIntent, nextIntent;
 	Appointment tempAppointment;
 
-	List<InternalConnect> ownerList;
+	// List<InternalConnect> ownerList;
+	List<Account> accountList;
 
-	int selectedInteraction = -1, selectedOwner = -1;
+	int selectedAccount = -1, selectedInteraction = -1, selectedOwner = -1,
+			selectedOrganizer = -1;
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -110,23 +106,21 @@ public class AppointmentAddActivity extends CRMActivity {
 						.show();
 			}
 
-			Appointment aa = new Appointment(null, purpose_ET.getText()
-					.toString(), detailsDiscussion_ET.getText().toString(),
-					nameClient_ET.getText().toString(), interactionType_TV
-							.getText().toString(), designation_ET.getText()
-							.toString(), null,
+			Appointment dummyAppointment = new Appointment(null, purpose_ET.getText()
+					.toString(), account_TV.getText().toString(), nameClient_ET.getText().toString(),
+					designation_ET.getText().toString(), detailsDiscussion_ET
+							.getText().toString(), interactionType_TV.getText()
+							.toString(), owner_TV.getText().toString(),
+					organizer_TV.getText().toString(),
 					myApp.formatStringToDate3Copy(dateMeeting_TV.getText()
 							.toString()),
 					myApp.formatStringToDate3Copy(endTime_TV.getText()
 							.toString()));
 
-			/** Removed temporarily **/
-			// owner_TV.getText().toString()
-
 			nextIntent = new Intent(AppointmentAddActivity.this,
 					AppointmentDetailsActivity.class);
 			nextIntent.putExtra("appointment_dummy",
-					new Gson().toJson(aa, Appointment.class));
+					new Gson().toJson(dummyAppointment, Appointment.class));
 			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
 					.getBooleanExtra("is_edit_mode", false))) {
 				nextIntent.putExtra("appointment_created", true);
@@ -140,6 +134,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
 
+		accountList = myApp.getAccountList();
 		interactionTypeMap = myApp.getInteractionTypeMap();
 		userMap = myApp.getUserMap();
 
@@ -221,12 +216,28 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
 
+		/** if(edit_mode) **/
 		if (previousIntent.hasExtra("position")) {
 			tempAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 
 			purpose_ET.setText(tempAppointment.getPurposeOfMeeting());
+
+			Account tempAccount = myApp.getAccountById(myApp
+					.getStringIdFromStringJSON(tempAppointment.getAccount()));
+			if (tempAccount != null) {
+				selectedAccount = myApp
+						.getAccountIndexFromAccountId(tempAccount
+								.getAccountId());
+
+			} else {
+				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
+						.show();
+			}
+
 			nameClient_ET.setText(tempAppointment.getNameOfTheClientOfficial());
+			designation_ET.setText(tempAppointment
+					.getDesignationOfClientOfficial());
 
 			Integer temp = myApp.getIntValueFromStringJSON(tempAppointment
 					.getTypeOfMeeting());
@@ -238,8 +249,6 @@ public class AppointmentAddActivity extends CRMActivity {
 								.intValue()));
 			}
 
-			designation_ET.setText(tempAppointment
-					.getDesignationOfClientOfficial());
 			detailsDiscussion_ET.setText(tempAppointment.getDescription());
 
 			dateMeeting_TV.setText(myApp.formatDateToString(tempAppointment
@@ -248,10 +257,16 @@ public class AppointmentAddActivity extends CRMActivity {
 					.getEndTime()));
 
 			/** Removed temporarily **/
-			// owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
-			// .getOwnerId()));
+			owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
+					.getOwner()));
 			selectedOwner = myApp.getIndexFromKeyUserMap(myApp
-					.getStringIdFromStringJSON(tempAppointment.getOwnerId()));
+					.getStringIdFromStringJSON(tempAppointment.getOwner()));
+
+			organizer_TV
+					.setText(myApp.getStringNameFromStringJSON(tempAppointment
+							.getOrganizer()));
+			selectedOrganizer = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempAppointment.getOrganizer()));
 
 			System.out.println("selectedInteraction  : " + selectedInteraction
 					+ "\nselectedOwner  : " + selectedOwner);
@@ -286,7 +301,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		} else {
 			initView("Add Appointment", "Save");
 		}
-		
+
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(interactionType_RL);
@@ -398,18 +413,26 @@ public class AppointmentAddActivity extends CRMActivity {
 					.put("enddate",
 							myApp.formatDateToString4(myApp
 									.formatStringToDate3(endTime_TV.getText()
-											.toString())))
-					// .put("ownid", "db843bfb-9a8a-e411-96e8-5cf3fc3f502a");
-					// myApp.getLoginUserId()
-					.put("ownid", myApp.getLoginUserId());
+											.toString())));
+			// .put("ownid", myApp.getLoginUserId());
+
+			if (selectedAccount > -1) {
+				params.put("accId", accountList.get(selectedAccount)
+						.getAccountId());
+			}
+			if (selectedOwner > -1) {
+				params.put("ownid", new ArrayList<String>(userMap.keySet())
+						.get(selectedOwner));
+			}
+			if (selectedOrganizer > -1) {
+				params.put("organizer", new ArrayList<String>(userMap.keySet())
+						.get(selectedOrganizer));
+			}
 
 			if (previousIntent.hasExtra("is_edit_mode")
 					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 				params.put("apponid", tempAppointment.getId());
 			}
-			// .put("ownid",
-			// new ArrayList<String>(userMap.keySet())
-			// .get(selectedOwner))
 
 		} catch (JSONException e1) {
 			e1.printStackTrace();
@@ -428,9 +451,6 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		progressDialog.show();
 
-		// if (previousIntent.getBooleanExtra("is_edit_mode", false)) {
-		// /** Update Mode **/
-		// String url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
 		try {
 			System.out.println("URL : " + url);
 
@@ -478,57 +498,6 @@ public class AppointmentAddActivity extends CRMActivity {
 			progressDialog.hide();
 			e.printStackTrace();
 		}
-		// } else {
-		// /** Create Mode **/
-		// try {
-		//
-		// String url = MyApp.URL + MyApp.APPOINTMENTS_ADD;
-		//
-		// System.out.println("URL : " + url);
-		//
-		// System.out.println("json" + params);
-		//
-		// JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-		// Method.POST, url, params,
-		// new Response.Listener<JSONObject>() {
-		//
-		// @Override
-		// public void onResponse(JSONObject response) {
-		// System.out.println("length2" + response);
-		// onPositiveResponse();
-		// }
-		// }, new Response.ErrorListener() {
-		//
-		// @Override
-		// public void onErrorResponse(VolleyError error) {
-		// progressDialog.hide();
-		// System.out.println("ERROR  : "
-		// + error.getMessage());
-		// error.printStackTrace();
-		//
-		// if (error instanceof NetworkError) {
-		// System.out.println("NetworkError");
-		// }
-		// if (error instanceof NoConnectionError) {
-		// System.out
-		// .println("NoConnectionError you are now offline.");
-		// }
-		// if (error instanceof ServerError) {
-		// System.out.println("ServerError");
-		// }
-		// }
-		// });
-		//
-		// RetryPolicy policy = new DefaultRetryPolicy(30000,
-		// DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-		// DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-		// jsonArrayRequest.setRetryPolicy(policy);
-		// queue.add(jsonArrayRequest);
-		// } catch (Exception e) {
-		// progressDialog.hide();
-		// e.printStackTrace();
-		// }
-		// }
 	}
 
 	private void onPositiveResponse() {
@@ -574,11 +543,12 @@ public class AppointmentAddActivity extends CRMActivity {
 		case R.id.account_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
 			break;
-		/** Removed temporarily **/
 		case R.id.owner_RL:
+			nextIntent.putExtra("user_value", 0);
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		case R.id.organizer_RL:
+			nextIntent.putExtra("user_value", 1);
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		default:
@@ -587,7 +557,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	}
 
-	private void aaaaa(View view, String x, boolean isDate) {
+	private void getDateTimeString(View view, String x, boolean isDate) {
 		switch (view.getId()) {
 		case R.id.dateMeeting_RL:
 			System.out.println("check");
@@ -637,7 +607,7 @@ public class AppointmentAddActivity extends CRMActivity {
 								temp = temp + ":" + minute;
 							}
 
-							aaaaa(view, temp, false);
+							getDateTimeString(view, temp, false);
 						}
 						noOfTimesTimeCalled++;
 					}
@@ -676,7 +646,7 @@ public class AppointmentAddActivity extends CRMActivity {
 							}
 							temp = temp + "-" + year;
 
-							aaaaa(view, temp, true);
+							getDateTimeString(view, temp, true);
 							tPicker.show();
 						}
 						noOfTimesDateCalled++;
@@ -695,12 +665,26 @@ public class AppointmentAddActivity extends CRMActivity {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
 			if (requestCode == MyApp.SEARCH_USER) {
-				userMap = myApp.getUserMap();
 				List<String> list = new ArrayList<String>(userMap.values());
-				/** Removed temporarily **/
-				// owner_TV.setText(list.get(positionItem));
-				selectedOwner = positionItem;
+				String text = list.get(positionItem);
+				switch (data.getIntExtra("user_value", -1)) {
+				case 0:
+					owner_TV.setText(text);
+					selectedOwner = positionItem;
+					break;
+				case 1:
+					organizer_TV.setText(text);
+					selectedOrganizer = positionItem;
+					break;
+				default:
+					break;
+				}
 			}
+			if (requestCode == MyApp.SEARCH_ACCOUNT) {
+				account_TV.setText(accountList.get(positionItem).getName());
+				selectedAccount = positionItem;
+			}
+
 			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);

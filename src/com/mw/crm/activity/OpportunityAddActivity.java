@@ -205,16 +205,11 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.initView(title, title2);
 		setTypeface();
 
+		/** if(edit_mode) **/
 		if (previousIntent.hasExtra("position")) {
 			tempOpportunity = myApp.getOpportunityList().get(
 					previousIntent.getIntExtra("position", 0));
 			description_ET.setText(tempOpportunity.getDescription());
-			System.out.println(tempOpportunity.toString());
-
-			// Toast.makeText(this, tempOpportunity.getOpportunityId(),
-			// Toast.LENGTH_SHORT).show();
-
-			// description_ET.setText(tempOpportunity.getCustomerId());
 
 			Integer temp = myApp.getIntValueFromStringJSON(tempOpportunity
 					.getKpmgStatus());
@@ -252,17 +247,21 @@ public class OpportunityAddActivity extends CRMActivity {
 			selectedOppoManager = myApp.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempOpportunity.getOwnerId()));
 
-			clientName_TV.setText(myApp
-					.getStringNameFromStringJSON(tempOpportunity
-							.getCustomerId()));
+//			clientName_TV.setText(myApp
+//					.getStringNameFromStringJSON(tempOpportunity
+//							.getCustomerId()));
+
 			Account tempAccount = myApp
 					.getAccountById(myApp
 							.getStringIdFromStringJSON(tempOpportunity
 									.getCustomerId()));
 			if (tempAccount != null) {
+				clientName_TV.setText(tempAccount
+								.getName());
 				selectedClientName = myApp
 						.getAccountIndexFromAccountId(tempAccount
 								.getAccountId());
+				
 				Integer temp2 = myApp.getIntValueFromStringJSON(tempAccount
 						.getCountry());
 				if (temp2 != null) {

@@ -15,8 +15,9 @@ public class ContactDetailsActivity extends CRMActivity {
 	Intent nextIntent, previousIntent;
 	Contact selectedContact;
 
-	TextView emailLabel_TV, officePhoneLabel_TV, mobileLabel_TV,
-			internalConnectLabel_TV, dorLabel_TV;
+	TextView nameLabel_TV,designationLabel_TV, organizationLabel_TV, emailLabel_TV,
+			officePhoneLabel_TV, mobileLabel_TV, internalConnectLabel_TV,
+			dorLabel_TV;
 
 	TextView name_TV, designation_TV, organization_TV, email_TV,
 			officePhone_TV, mobile_TV, internalConnect_TV, dor_TV;
@@ -35,6 +36,9 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	public void findThings() {
 		super.findThings();
+		nameLabel_TV = (TextView) findViewById(R.id.nameLabel_TV);
+		designationLabel_TV  = (TextView) findViewById(R.id.designationLabel_TV);
+		organizationLabel_TV = (TextView) findViewById(R.id.organizationLabel_TV);
 		emailLabel_TV = (TextView) findViewById(R.id.emailLabel_TV);
 		officePhoneLabel_TV = (TextView) findViewById(R.id.officePhoneLabel_TV);
 		mobileLabel_TV = (TextView) findViewById(R.id.mobileLabel_TV);
@@ -53,20 +57,23 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	private void setTypeface() {
 
-		 emailLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 officePhoneLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 mobileLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 internalConnectLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 dorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		
-		 name_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 designation_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 organization_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 email_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 officePhone_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 mobile_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 dor_TV.setTypeface(myApp.getTypefaceRegularSans());
+		nameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		designationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organizationLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		emailLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		officePhoneLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		mobileLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		internalConnectLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		name_TV.setTypeface(myApp.getTypefaceRegularSans());
+		designation_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organization_TV.setTypeface(myApp.getTypefaceRegularSans());
+		email_TV.setTypeface(myApp.getTypefaceRegularSans());
+		officePhone_TV.setTypeface(myApp.getTypefaceRegularSans());
+		mobile_TV.setTypeface(myApp.getTypefaceRegularSans());
+		internalConnect_TV.setTypeface(myApp.getTypefaceRegularSans());
+		dor_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	private void initWithoutMappingFields() {
@@ -137,7 +144,10 @@ public class ContactDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBack(View view) {
-		/** We have to setResult(RESULT_OK); here because in case of contact creatd successfully scenario **/
+		/**
+		 * We have to setResult(RESULT_OK); here because in case of contact
+		 * creatd successfully scenario
+		 **/
 		setResult(RESULT_OK);
 		super.onBack(view);
 	}

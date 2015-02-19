@@ -17,13 +17,33 @@ public class Appointment implements Serializable {
 
 	String id;
 	String purposeOfMeeting;
-	String description;
+	String account;// PostAccounts
 	String nameOfTheClientOfficial;
-	String typeOfMeeting;
 	String designationOfClientOfficial;
-	String ownerId;
+	String description;
+	String typeOfMeeting;
+	String owner;
+	String organizer;
 	Date startTime;
 	Date endTime;
+
+	public Appointment(String id, String purposeOfMeeting, String account,
+			String nameOfTheClientOfficial, String designationOfClientOfficial,
+			String description, String typeOfMeeting, String owner,
+			String organizer, Date startTime, Date endTime) {
+		super();
+		this.id = id;
+		this.purposeOfMeeting = purposeOfMeeting;
+		this.account = account;
+		this.nameOfTheClientOfficial = nameOfTheClientOfficial;
+		this.designationOfClientOfficial = designationOfClientOfficial;
+		this.description = description;
+		this.typeOfMeeting = typeOfMeeting;
+		this.owner = owner;
+		this.organizer = organizer;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
 
 	public String getPurposeOfMeeting() {
 		return purposeOfMeeting;
@@ -82,16 +102,22 @@ public class Appointment implements Serializable {
 		this.endTime = endTime;
 	}
 
-	public String getOwnerId() {
-		return ownerId;
+	public String getOwner() {
+		return owner;
 	}
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
-	
-	
+	public String getOrganizer() {
+		return organizer;
+	}
+
+	public void setOrganizer(String organizer) {
+		this.organizer = organizer;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -100,20 +126,12 @@ public class Appointment implements Serializable {
 		this.id = id;
 	}
 
-	public Appointment(String id, String purposeOfMeeting, String description,
-			String nameOfTheClientOfficial, String typeOfMeeting,
-			String designationOfClientOfficial, String ownerId, Date startTime,
-			Date endTime) {
-		super();
-		this.id = id;
-		this.purposeOfMeeting = purposeOfMeeting;
-		this.description = description;
-		this.nameOfTheClientOfficial = nameOfTheClientOfficial;
-		this.typeOfMeeting = typeOfMeeting;
-		this.designationOfClientOfficial = designationOfClientOfficial;
-		this.ownerId = ownerId;
-		this.startTime = startTime;
-		this.endTime = endTime;
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	@Override

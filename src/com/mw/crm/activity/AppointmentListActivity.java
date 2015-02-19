@@ -60,14 +60,14 @@ public class AppointmentListActivity extends CRMActivity {
 				subAppointmentList = new ArrayList<Appointment>();
 				for (int i = 0; i < appointmentList.size(); i++) {
 					System.out.println("#$#$  : "
-							+ appointmentList.get(i).getOwnerId());
+							+ appointmentList.get(i).getOwner());
 
 					// TODO : try to remove the 2nd check from if(check1 &&
 					// check2 && check3)
-					if (appointmentList.get(i).getOwnerId() != null
-							&& appointmentList.get(i).getOwnerId().length() > 0
+					if (appointmentList.get(i).getOwner() != null
+							&& appointmentList.get(i).getOwner().length() > 0
 							&& myApp.getStringIdFromStringJSON(
-									appointmentList.get(i).getOwnerId())
+									appointmentList.get(i).getOwner())
 									.equals(previousIntent
 											.getStringExtra("account_id"))) {
 						subAppointmentList.add(appointmentList.get(i));

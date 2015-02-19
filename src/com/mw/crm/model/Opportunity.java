@@ -11,7 +11,7 @@ public class Opportunity implements Serializable {
 	String totalAmount;
 	String ownerId;
 	String transactionCurrencyId;
-	String customerId;
+	String customerId;// PostAccounts
 
 	String probability;
 	String kpmgStatus;
@@ -32,7 +32,7 @@ public class Opportunity implements Serializable {
 		this.probability = probability;
 		this.salesStage = salesStage;
 	}
-	
+
 	public Opportunity() {
 		super();
 	}
@@ -111,11 +111,11 @@ public class Opportunity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Opportunity [name=" + description + ", totalAmount=" + totalAmount
-				+ ", ownerId=" + ownerId + ", transactionCurrencyId="
-				+ transactionCurrencyId + ", customerId=" + customerId
-				+ ", kpmgStatus=" + kpmgStatus + ", opportunityId="
-				+ opportunityId + "]";
+		return "Opportunity [name=" + description + ", totalAmount="
+				+ totalAmount + ", ownerId=" + ownerId
+				+ ", transactionCurrencyId=" + transactionCurrencyId
+				+ ", customerId=" + customerId + ", kpmgStatus=" + kpmgStatus
+				+ ", opportunityId=" + opportunityId + "]";
 	}
 
 }

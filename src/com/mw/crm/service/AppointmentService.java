@@ -45,7 +45,8 @@ public class AppointmentService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-//		Toast.makeText(this, "AppointmentService", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "AppointmentService",
+		// Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {
@@ -134,14 +135,14 @@ public class AppointmentService extends IntentService {
 
 	private void onRequestComplete() {
 		if (AppointmentAddActivity.isActivityVisible) {
-		Intent nextIntent = new Intent("appointment_update_receiver");
-		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-	} else if (MenuActivity2.isActivityVisible) {
-		Intent nextIntent = new Intent("app_data");
-		LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+			Intent nextIntent = new Intent("appointment_update_receiver");
+			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+		} else if (MenuActivity2.isActivityVisible) {
+			Intent nextIntent = new Intent("app_data");
+			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+		}
 	}
-	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -150,20 +151,25 @@ public class AppointmentService extends IntentService {
 	private Appointment getAppointmentObject(JSONObject jsonObject) {
 		try {
 
-			Appointment appointment = new Appointment(MyApp
-					.getPerfectString(jsonObject.getString("activityid")), MyApp
-					.getPerfectString(jsonObject.getString("subject")), MyApp
-					.getPerfectString(jsonObject.getString("description")),
+			Appointment appointment = new Appointment(
+					MyApp.getPerfectString(jsonObject.getString("activityid")),
+					MyApp.getPerfectString(jsonObject.getString("subject")),
+					MyApp.decryptData(jsonObject.getString("regardingobjectid")),
 					MyApp.getPerfectString(jsonObject
-							.getString("pcl_nameoftheclientofficial")), MyApp
-							.decryptData(jsonObject
-									.getString("pcl_typeofmeeting")),
+							.getString("pcl_nameoftheclientofficial")),
 					MyApp.getPerfectString(jsonObject
 							.getString("pcl_designationofclientofficial")),
-					MyApp.decryptData(jsonObject.getString("ownerid")), myApp
-							.formatStringSpecialToDate(MyApp.getPerfectString(jsonObject
-									.getString("scheduledstart"))), myApp
-							.formatStringSpecialToDate(MyApp.getPerfectString(jsonObject
+					MyApp.getPerfectString(jsonObject.getString("description")),
+					MyApp.decryptData(jsonObject.getString("pcl_typeofmeeting")),
+
+					MyApp.decryptData(jsonObject.getString("ownerid")), MyApp
+							.decryptData(jsonObject
+									.getString("organizer")), myApp
+							.formatStringSpecialToDate(MyApp
+									.getPerfectString(jsonObject
+											.getString("scheduledstart"))),
+					myApp.formatStringSpecialToDate(MyApp
+							.getPerfectString(jsonObject
 									.getString("scheduledend"))));
 			return appointment;
 

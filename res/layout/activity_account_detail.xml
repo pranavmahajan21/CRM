@@ -25,7 +25,7 @@
 
             <TextView
                 android:id="@+id/accountName_TV"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Account Name"
                 android:textColor="@color/blue_dark"
@@ -139,9 +139,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Related Entities"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 style="@style/LL3"
@@ -149,60 +149,42 @@
 
                 <ImageView
                     style="@style/IV2"
-                    android:src="@drawable/contact3" />
+                    android:src="@drawable/contact" />
 
                 <TextView
                     android:id="@+id/contactLink_TV"
                     style="@style/TV3"
                     android:text="Contact" />
             </LinearLayout>
-            
+
             <LinearLayout
                 style="@style/LL3"
                 android:onClick="onOpportunity" >
 
                 <ImageView
                     style="@style/IV2"
-                    android:src="@drawable/opportunity3" />
+                    android:src="@drawable/opportunity" />
 
                 <TextView
                     android:id="@+id/opportunityLink_TV"
                     style="@style/TV3"
                     android:text="Opportunity" />
             </LinearLayout>
-            
+
             <LinearLayout
                 style="@style/LL3"
                 android:onClick="onAppointment" >
 
                 <ImageView
                     style="@style/IV2"
-                    android:src="@drawable/appointment3" />
+                    android:src="@drawable/appointment" />
 
                 <TextView
                     android:id="@+id/appointmentLink_TV"
                     style="@style/TV3"
                     android:text="Appointment" />
             </LinearLayout>
-
-            <!-- <Button
-                android:id="@+id/opportunityLink_IB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableLeft="@drawable/ic_launcher"
-                android:onClick="onOpportunity"
-                android:text="@string/opportunity_link" />
-
-            <Button
-                android:id="@+id/appointmentLink_IB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableLeft="@drawable/ic_launcher"
-                android:onClick="onAppointment"
-                android:text="@string/appointment_link" />
- -->        </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

@@ -19,11 +19,12 @@ public class AppointmentDetailsActivity extends CRMActivity {
 	Appointment selectedAppointment;
 
 	TextView purposeLabel_TV, interactionTypeLabel_TV, dateMeetingLabel_TV,
-			endTimeLabel_TV, ownerLabel_TV, detailsDiscussionLabel_TV;
+			endTimeLabel_TV, ownerLabel_TV, organizerLabel_TV,
+			detailsDiscussionLabel_TV;
 
 	TextView description_TV, nameClientOfficial_TV,
 			designationClientOfficial_TV, purpose_TV, interactionType_TV,
-			dateMeeting_TV, endTime_TV, owner_TV;
+			dateMeeting_TV, endTime_TV, owner_TV, organizer_TV;
 
 	private void initThings() {
 		previousIntent = getIntent();
@@ -46,6 +47,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		dateMeetingLabel_TV = (TextView) findViewById(R.id.dateMeetingLabel_TV);
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
 		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		organizerLabel_TV = (TextView) findViewById(R.id.organizerLabel_TV);
 		detailsDiscussionLabel_TV = (TextView) findViewById(R.id.detailsDiscussionLabel_TV);
 
 		description_TV = (TextView) findViewById(R.id.description_TV);
@@ -56,6 +58,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		dateMeeting_TV = (TextView) findViewById(R.id.dateMeeting_TV);
 		endTime_TV = (TextView) findViewById(R.id.endTime_TV);
 		owner_TV = (TextView) findViewById(R.id.owner_TV);
+		organizer_TV = (TextView) findViewById(R.id.organizer_TV);
 	}
 
 	private void setTypeface() {
@@ -65,6 +68,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		dateMeetingLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTimeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		ownerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organizerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		detailsDiscussionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		description_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -76,6 +80,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
 		owner_TV.setTypeface(myApp.getTypefaceRegularSans());
+		organizer_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	private void initWithoutMappingFields() {
@@ -101,7 +106,8 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				&& selectedAppointment != null) {
 			initWithoutMappingFields();
 			interactionType_TV.setText(selectedAppointment.getTypeOfMeeting());
-			owner_TV.setText("CRM Audit Director 1");
+			owner_TV.setText(selectedAppointment.getOwner());
+			organizer_TV.setText(selectedAppointment.getOwner());
 		} else {
 			initWithoutMappingFields();
 
@@ -114,11 +120,15 @@ public class AppointmentDetailsActivity extends CRMActivity {
 			}
 
 			try {
-				owner_TV.setText(new JSONObject(selectedAppointment
-						.getOwnerId()).getString("Name"));
+				owner_TV.setText(new JSONObject(selectedAppointment.getOwner())
+						.getString("Name"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+
+			organizer_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedAppointment
+							.getOrganizer()));
 		}
 	}
 

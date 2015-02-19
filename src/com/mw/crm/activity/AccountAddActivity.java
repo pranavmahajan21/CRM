@@ -642,10 +642,10 @@ public class AccountAddActivity extends CRMActivity {
 				default:
 					break;
 				}
-				leadPartner_TV.setText(list.get(positionItem));
-				selectedLeadPartner = positionItem;
-				System.out.println("selectedLeadPartner  :  "
-						+ selectedLeadPartner);
+//				leadPartner_TV.setText(list.get(positionItem));
+//				selectedLeadPartner = positionItem;
+//				System.out.println("selectedLeadPartner  :  "
+//						+ selectedLeadPartner);
 			}
 			if (requestCode == MyApp.DETAILS_ACCOUNT) {
 				Intent intent = new Intent();
