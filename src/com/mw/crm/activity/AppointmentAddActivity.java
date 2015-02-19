@@ -282,7 +282,7 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
 				.getBooleanExtra("is_edit_mode", false))) {
-			initView("Edit Appointment", "Update");
+			initView("Modify Appointment", "Save");
 		} else {
 			initView("Add Appointment", "Save");
 		}

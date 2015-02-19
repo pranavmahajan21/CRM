@@ -329,7 +329,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		
 		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
 				.getBooleanExtra("is_edit_mode", false))) {
-			initView("Edit Opportunity", "Update");
+			initView("Modify Opportunity", "Save");
 		} else {
 			initView("Add Opportunity", "Save");
 		}

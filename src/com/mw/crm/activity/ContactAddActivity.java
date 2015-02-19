@@ -272,7 +272,7 @@ public class ContactAddActivity extends CRMActivity {
 		
 		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
 				.getBooleanExtra("is_edit_mode", false))) {
-			initView("Edit Contact", "Update");
+			initView("Modify Contact", "Save");
 		} else {
 			initView("Add Contact", "Save");
 		}

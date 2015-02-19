@@ -100,10 +100,34 @@
     <!-- used in details screens -->
 
 
+    <!-- used in related entities -->
+    <style name="LL3" parent="dimensions3">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="IV2">
+        <item name="android:background">@null</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+    </style>
+
+    <style name="TV3" parent="dimensions3">
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- **used in related entities** -->
+
+
     <!-- used in context menu textfield -->
     <style name="RL" parent="dimensions">
-        <item name="android:layout_marginTop">4dp</item>
         <item name="android:background">@drawable/custom_bg_solid_radius</item>
+        <item name="android:layout_marginTop">4dp</item>
         <item name="android:clickable">true</item>
         <item name="android:onClick">onOpenContextMenu</item>
     </style>
@@ -135,7 +159,7 @@
         <item name="android:layout_weight">3</item>
         <item name="android:textColor">@color/blue_dark</item>
     </style>
-    
+
     <style name="LL2" parent="dimensions">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_marginTop">5dp</item>

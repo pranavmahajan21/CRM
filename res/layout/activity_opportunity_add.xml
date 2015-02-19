@@ -26,6 +26,15 @@
             android:padding="10dp" >
 
             <TextView
+                android:id="@+id/descriptionLabel_TV"
+                style="@style/style_TV2"
+                android:text="Opportunity Description" />
+
+            <EditText
+                android:id="@+id/description_ET"
+                style="@style/style_ET2" />
+
+            <TextView
                 android:id="@+id/clientNameLabel_TV"
                 style="@style/style_TV2"
                 android:layout_marginTop="1dp"
@@ -44,15 +53,7 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/descriptionLabel_TV"
-                style="@style/style_TV2"
-                android:text="Description" />
-
-            <EditText
-                android:id="@+id/description_ET"
-                style="@style/style_ET2" />
-
+            <!--
             <TextView
                 android:id="@+id/leadPartnerLabel_TV"
                 style="@style/style_TV2"
@@ -70,23 +71,7 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-            
-            <TextView
-                android:id="@+id/statusLabel_TV"
-                style="@style/style_TV2"
-                android:text="Status" />
-
-            <RelativeLayout
-                android:id="@+id/status_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/status_TV"
-                    style="@style/TV"
-                    android:hint="Status" />
-
-                <ImageView style="@style/IV" />
-            </RelativeLayout>
+            -->
 
             <TextView
                 android:id="@+id/oppoManagerLabel_TV"
@@ -102,6 +87,40 @@
                     android:id="@+id/oppoManager_TV"
                     style="@style/TV"
                     android:hint="Opportunity Manager" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/partnerLabel_TV"
+                style="@style/style_TV2"
+                android:text="Partner" />
+
+            <RelativeLayout
+                android:id="@+id/partner_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/partner_TV"
+                    style="@style/TV"
+                    android:hint="Partner // TODO" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/statusLabel_TV"
+                style="@style/style_TV2"
+                android:text="Status" />
+
+            <RelativeLayout
+                android:id="@+id/status_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/status_TV"
+                    style="@style/TV"
+                    android:hint="Status" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -136,23 +155,6 @@
                     android:id="@+id/salesStage_TV"
                     style="@style/TV"
                     android:hint="Sales Stage" />
-
-                <ImageView style="@style/IV" />
-            </RelativeLayout>
-            
-            <TextView
-                android:id="@+id/partnerLabel_TV"
-                style="@style/style_TV2"
-                android:text="Partner" />
-
-            <RelativeLayout
-                android:id="@+id/partner_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/partner_TV"
-                    style="@style/TV"
-                    android:hint="Partner // TODO" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>

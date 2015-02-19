@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
@@ -21,13 +20,16 @@ public class AccountDetailsActivity extends CRMActivity {
 			relPartner3Label_TV, bdmLabel_TV;
 	// lobLabel_TV,sublobLabel_TV,
 
-	TextView accountName_TV, leadPartner_TV, headquarterCountry_TV, sector_TV,
+	TextView leadPartner_TV, headquarterCountry_TV, sector_TV,
 			accountCategory_TV, relPartner1_TV, relPartner2_TV, relPartner3_TV,
 			bdm_TV;
-
 	// lob_TV,sublob_TV,
 
-//	TextView contactLink_TV, opportunityLink_TV, appointmentLink_TV;
+	TextView accountName_TV;
+
+	TextView relatedEntitiesLabel_TV;
+	
+	TextView contactLink_TV, opportunityLink_TV, appointmentLink_TV;
 
 	private void initThings() {
 		previousIntent = getIntent();
@@ -36,9 +38,6 @@ public class AccountDetailsActivity extends CRMActivity {
 					previousIntent.getStringExtra("account_dummy"),
 					Account.class);
 		} else {
-			Toast.makeText(this,
-					previousIntent.getIntExtra("position", 0) + "",
-					Toast.LENGTH_SHORT).show();
 			selectedAccount = myApp.getAccountList().get(
 					previousIntent.getIntExtra("position", 0));
 		}
@@ -57,7 +56,6 @@ public class AccountDetailsActivity extends CRMActivity {
 		relPartner3Label_TV = (TextView) findViewById(R.id.relPartner3Label_TV);
 		bdmLabel_TV = (TextView) findViewById(R.id.bdmLabel_TV);
 
-		accountName_TV = (TextView) findViewById(R.id.accountName_TV);
 		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
 		headquarterCountry_TV = (TextView) findViewById(R.id.headquarterCountry_TV);
 		// lob_TV = (TextView) findViewById(R.id.lob_TV);
@@ -69,9 +67,13 @@ public class AccountDetailsActivity extends CRMActivity {
 		relPartner3_TV = (TextView) findViewById(R.id.relPartner3_TV);
 		bdm_TV = (TextView) findViewById(R.id.bdm_TV);
 
-//		contactLink_TV = (TextView) findViewById(R.id.contactLink_TV);
-//		opportunityLink_TV = (TextView) findViewById(R.id.opportunityLink_TV);
-//		appointmentLink_TV = (TextView) findViewById(R.id.appointmentLink_TV);
+		accountName_TV = (TextView) findViewById(R.id.accountName_TV);
+
+		relatedEntitiesLabel_TV = (TextView) findViewById(R.id.relatedEntitiesLabel_TV);
+		
+		contactLink_TV = (TextView) findViewById(R.id.contactLink_TV);
+		opportunityLink_TV = (TextView) findViewById(R.id.opportunityLink_TV);
+		appointmentLink_TV = (TextView) findViewById(R.id.appointmentLink_TV);
 	}
 
 	private void setTypeface() {
@@ -86,7 +88,6 @@ public class AccountDetailsActivity extends CRMActivity {
 		relPartner3Label_TV.setTypeface(myApp.getTypefaceRegularSans());
 		bdmLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
-		accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
 		leadPartner_TV.setTypeface(myApp.getTypefaceRegularSans());
 		headquarterCountry_TV.setTypeface(myApp.getTypefaceRegularSans());
 		// lob_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -98,9 +99,13 @@ public class AccountDetailsActivity extends CRMActivity {
 		relPartner3_TV.setTypeface(myApp.getTypefaceRegularSans());
 		bdm_TV.setTypeface(myApp.getTypefaceRegularSans());
 
-//		contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
-//		opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
-//		appointmentLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+		accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		relatedEntitiesLabel_TV.setTypeface(myApp.getTypefaceBoldSans());
+		
+		contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+		opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
+		appointmentLink_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String string, String string2) {
@@ -168,9 +173,8 @@ public class AccountDetailsActivity extends CRMActivity {
 			relPartner2_TV.setText(myApp
 					.getStringNameFromStringJSON(selectedAccount
 							.getRelationshipPartner2()));
-			bdm_TV.setText(myApp
-					.getStringNameFromStringJSON(selectedAccount
-							.getBusinessDevelopmentManager()));
+			bdm_TV.setText(myApp.getStringNameFromStringJSON(selectedAccount
+					.getBusinessDevelopmentManager()));
 		}
 	}
 
@@ -178,8 +182,6 @@ public class AccountDetailsActivity extends CRMActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_account_detail);
-		Toast.makeText(this, "AccountDetailsActivity onCreate",
-				Toast.LENGTH_SHORT).show();
 		initThings();
 		findThings();
 

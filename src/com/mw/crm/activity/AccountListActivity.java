@@ -12,7 +12,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -21,6 +20,7 @@ import com.google.gson.Gson;
 import com.mw.crm.adapter.AccountAdapter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
+//import android.widget.Toast;
 
 public class AccountListActivity extends CRMActivity {
 
@@ -55,7 +55,6 @@ public class AccountListActivity extends CRMActivity {
 			// for (int i = 0; i < accountList.size(); i++) {
 			// sub
 			// }
-			Toast.makeText(this, accountList.size() + "", Toast.LENGTH_SHORT).show();
 			adapter = new AccountAdapter(this, accountList);
 		}
 

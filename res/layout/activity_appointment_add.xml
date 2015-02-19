@@ -57,10 +57,19 @@
             <TextView
                 android:id="@+id/nameClientLabel_TV"
                 style="@style/style_TV2"
-                android:text="Name of the client Official" />
+                android:text="Client Official Name" />
 
             <EditText
                 android:id="@+id/nameClient_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/designationLabel_TV"
+                style="@style/style_TV2"
+                android:text="Designation of the client Official" />
+
+            <EditText
+                android:id="@+id/designation_ET"
                 style="@style/style_ET2" />
 
             <TextView
@@ -80,15 +89,6 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/designationLabel_TV"
-                style="@style/style_TV2"
-                android:text="Designation of the client Official" />
-
-            <EditText
-                android:id="@+id/designation_ET"
-                style="@style/style_ET2" />
 
             <TextView
                 android:id="@+id/detailsDiscussionLabel_TV"

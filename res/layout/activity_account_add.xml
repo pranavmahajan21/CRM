@@ -124,6 +124,11 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
             
+            <TextView
+                android:id="@+id/relPartner1Label_TV"
+                style="@style/style_TV2"
+                android:text="Relationship Partner 1:" />
+            
             <RelativeLayout
                 android:id="@+id/relPartner1_RL"
                 style="@style/RL"
@@ -137,6 +142,11 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
             
+            <TextView
+                android:id="@+id/relPartner2Label_TV"
+                style="@style/style_TV2"
+                android:text="Relationship Partner 2:" />
+            
             <RelativeLayout
                 android:id="@+id/relPartner2_RL"
                 style="@style/RL"
@@ -149,6 +159,11 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
+            
+            <TextView
+                android:id="@+id/bdmLabel_TV"
+                style="@style/style_TV2"
+                android:text="Business Development Manager" />
             
             <RelativeLayout
                 android:id="@+id/bdm_RL"

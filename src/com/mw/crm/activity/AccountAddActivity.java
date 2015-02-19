@@ -55,6 +55,7 @@ public class AccountAddActivity extends CRMActivity {
 
 	TextView clientNameLabel_TV, sectorLabel_TV, headquarterLabel_TV,
 			lobLabel_TV, sublobLabel_TV, leadPartnerLabel_TV,
+			relPartner1Label_TV, relPartner2Label_TV, bdmLabel_TV,
 			accountCategoryLabel_TV;
 	TextView sector_TV, headquarter_TV, lob_TV, sublob_TV, leadPartner_TV,
 			relPartner1_TV, relPartner2_TV, bdm_TV, accountCategory_TV;
@@ -157,6 +158,9 @@ public class AccountAddActivity extends CRMActivity {
 		lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
 		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
 		leadPartnerLabel_TV = (TextView) findViewById(R.id.leadPartnerLabel_TV);
+		relPartner1Label_TV = (TextView) findViewById(R.id.relPartner1Label_TV);
+		relPartner2Label_TV = (TextView) findViewById(R.id.relPartner2Label_TV);
+		bdmLabel_TV = (TextView) findViewById(R.id.bdmLabel_TV);
 		accountCategoryLabel_TV = (TextView) findViewById(R.id.accountCategoryLabel_TV);
 
 		sector_TV = (TextView) findViewById(R.id.sector_TV);
@@ -190,6 +194,9 @@ public class AccountAddActivity extends CRMActivity {
 		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		leadPartnerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner1Label_TV.setTypeface(myApp.getTypefaceRegularSans());
+		relPartner2Label_TV.setTypeface(myApp.getTypefaceRegularSans());
+		bdmLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		accountCategoryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -261,6 +268,16 @@ public class AccountAddActivity extends CRMActivity {
 			selectedLeadPartner = myApp.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAccount.getLeadPartner()));
 
+			relPartner1_TV.setText(myApp
+					.getStringNameFromStringJSON(tempAccount.getRelationshipPartner1()));
+			selectedRelPartner1 = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempAccount.getRelationshipPartner1()));
+			
+			relPartner2_TV.setText(myApp
+					.getStringNameFromStringJSON(tempAccount.getRelationshipPartner2()));
+			selectedRelPartner2 = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempAccount.getRelationshipPartner2()));
+			
 			System.out
 					.println("selectedSector  : " + selectedSector
 							+ "\nselectedCountry  : " + selectedCountry
@@ -296,7 +313,7 @@ public class AccountAddActivity extends CRMActivity {
 		findThings();
 		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
 				.getBooleanExtra("is_edit_mode", false))) {
-			initView("Edit Account", "Update");
+			initView("Modify Account", "Save");
 		} else {
 			initView("Add Account", "Save");
 		}
@@ -448,9 +465,8 @@ public class AccountAddActivity extends CRMActivity {
 								.get(selectedRelPartner2));
 			}
 			if (selectedBDM > -1) {
-				params.put("bdmanager",
-						new ArrayList<String>(userMap.keySet())
-								.get(selectedBDM));
+				params.put("bdmanager", new ArrayList<String>(userMap.keySet())
+						.get(selectedBDM));
 			}
 			if (selectedAccountCategory > -1) {
 				params.put("accountCategoryOnes", new ArrayList<String>(

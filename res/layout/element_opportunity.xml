@@ -37,24 +37,12 @@
             android:id="@+id/status_TV"
             style="@style/TV_left2"
             android:text="(NA) Status" />
-        <!--
-                 android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/blue_dark"
-        -->
 
         <TextView
             android:id="@+id/cost_TV"
             style="@style/TV_link"
             android:clickable="false"
             android:text="(NA) Cost" />
-        <!--
-                 android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/blue_dark"
-        -->
     </LinearLayout>
 
 </LinearLayout>
