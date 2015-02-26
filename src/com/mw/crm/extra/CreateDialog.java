@@ -16,7 +16,7 @@ public class CreateDialog {
 
 	public AlertDialog.Builder createAlertDialog(String title, String message,
 			boolean cancel) {
-		System.out.println("creating dialog");
+//		System.out.println("createAlertDialog");
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				context);
 		if (title != null)

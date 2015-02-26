@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_android"
-    tools:context="com.mw.crm.activity.MenuActivity" >
+    tools:context="com.mw.crm.activity.MenuActivity2" >
 
     <ImageView
         android:id="@+id/header_logo_IV"
@@ -32,24 +32,25 @@
                 style="@style/RL2"
                 android:onClick="onAccount" >
 
-                <ImageView
+                <!--
+                     <ImageView
                     style="@style/IV3"
                     android:layout_alignBottom="@+id/LL2"
                     android:layout_alignLeft="@+id/LL2"
                     android:layout_alignRight="@+id/LL2"
                     android:layout_alignTop="@+id/LL2" />
+                -->
 
                 <LinearLayout
                     android:id="@+id/LL2"
                     style="@style/LL4" >
 
                     <ImageView
-                        android:id="@+id/menu_item_IV2"
                         style="@style/IV4"
                         android:src="@drawable/account2" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV2"
+                        android:id="@+id/menu_item_TV1"
                         style="@style/TV4"
                         android:text="Account" />
                 </LinearLayout>
@@ -57,28 +58,20 @@
 
             <RelativeLayout
                 style="@style/RL2"
-                android:onClick="onOpportunity" >
-
-                <ImageView
-                    style="@style/IV3"
-                    android:layout_alignBottom="@+id/LL4"
-                    android:layout_alignLeft="@+id/LL4"
-                    android:layout_alignRight="@+id/LL4"
-                    android:layout_alignTop="@+id/LL4" />
+                android:onClick="onContact" >
 
                 <LinearLayout
-                    android:id="@+id/LL4"
+                    android:id="@+id/LL"
                     style="@style/LL4" >
 
                     <ImageView
-                        android:id="@+id/menu_item_IV4"
                         style="@style/IV4"
-                        android:src="@drawable/opportunity2" />
+                        android:src="@drawable/contact2" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV4"
+                        android:id="@+id/menu_item_TV2"
                         style="@style/TV4"
-                        android:text="Opportunity" />
+                        android:text="Contact" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -92,108 +85,41 @@
 
             <RelativeLayout
                 style="@style/RL2"
-                android:onClick="onContact" >
-
-                    <!-- android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background"  -->
-                <ImageView
-                    style="@style/IV3"
-                    android:layout_alignBottom="@+id/LL"
-                    android:layout_alignLeft="@+id/LL"
-                    android:layout_alignRight="@+id/LL"
-                    android:layout_alignTop="@+id/LL"
-                    />
+                android:onClick="onAppointment" >
 
                 <LinearLayout
-                    android:id="@+id/LL"
-                    style="@style/LL4"
-                    >
-<!--                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"  -->
+                    android:id="@+id/LL3"
+                    style="@style/LL4" >
 
                     <ImageView
-                        android:id="@+id/menu_item_IV"
-                       style="@style/IV4"
-                        android:src="@drawable/contact2" />
-
-                    <!-- android:layout_marginTop="8dp" -->
+                        style="@style/IV4"
+                        android:src="@drawable/appointment2" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV"
+                        android:id="@+id/menu_item_TV3"
                         style="@style/TV4"
-                        android:text="Contact"
-                        />
-<!--                         android:textColor="@android:color/white"
-                        android:textSize="14sp" 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
- -->                </LinearLayout>
+                        android:text="Appointment" />
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
                 style="@style/RL2"
-                android:onClick="onAppointment" 
-                >
-<!--                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal" -->
-
-                <ImageView
-                     style="@style/IV3"
-                    android:layout_alignBottom="@+id/LL3"
-                    android:layout_alignLeft="@+id/LL3"
-                    android:layout_alignRight="@+id/LL3"
-                    android:layout_alignTop="@+id/LL3"
-                    />
-<!--                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bt_background" 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" -->
+                android:onClick="onService" >
 
                 <LinearLayout
-                    android:id="@+id/LL3"
-                    style="@style/LL4"
-                    >
-<!--                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"  -->
+                    android:id="@+id/LL4"
+                    style="@style/LL4" >
 
                     <ImageView
-                        android:id="@+id/menu_item_IV3"
-                         style="@style/IV4"
-                        android:src="@drawable/appointment2" />
-<!--                         android:layout_width="120dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:scaleType="fitXY" -->
-
-                    <!-- android:layout_marginTop="8dp" -->
+                        style="@style/IV4"
+                        android:src="@drawable/service_connect" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV3"
-                        android:text="Appointment"
+                        android:id="@+id/menu_item_TV4"
                         style="@style/TV4"
-                        />
-<!--                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"  -->
+                        android:text="Service Connect" />
                 </LinearLayout>
             </RelativeLayout>
-
-            <!-- android:layout_gravity="center_horizontal" -->
-
         </LinearLayout>
 
         <LinearLayout

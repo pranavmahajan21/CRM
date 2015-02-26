@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.mw.crm.adapter.AccountAdapter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
-//import android.widget.Toast;
 
 public class AccountListActivity extends CRMActivity {
 

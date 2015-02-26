@@ -197,7 +197,8 @@
     
     <style name="TV4" parent="dimensions3">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
     <!-- ****used in menu2 screen**** -->
 

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_account_add_RL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_android"
+    tools:context="com.mw.crm.activity.ServiceAddActivity" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/ownerLabel_TV"
+                style="@style/style_TV2"
+                android:text="Owner:" />
+
+            <RelativeLayout
+                android:id="@+id/owner_RL"
+                style="@style/RL"
+                android:onClick="onSearchItem" >
+
+                <TextView
+                    android:id="@+id/owner_TV"
+                    style="@style/TV"
+                    android:hint="Owner" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/supportTypeLabel_TV"
+                style="@style/style_TV2"
+                android:text="Support Type:" />
+
+            <RelativeLayout
+                android:id="@+id/supportType_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/supportType_TV"
+                    style="@style/TV"
+                    android:hint="Support Type" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/nameLabel_TV"
+                style="@style/style_TV2"
+                android:text="Name:" />
+
+            <EditText
+                android:id="@+id/name_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/descriptionLabel_TV"
+                style="@style/style_TV2"
+                android:text="Description:" />
+
+            <EditText
+                android:id="@+id/description_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/priorityLevelLabel_TV"
+                style="@style/style_TV2"
+                android:text="Priority Level:" />
+
+            <RelativeLayout
+                android:id="@+id/priorityLevel_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/priorityLevel_TV"
+                    style="@style/TV"
+                    android:hint="Priority Level" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

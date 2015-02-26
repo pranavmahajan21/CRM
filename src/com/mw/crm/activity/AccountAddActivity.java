@@ -269,15 +269,19 @@ public class AccountAddActivity extends CRMActivity {
 					.getStringIdFromStringJSON(tempAccount.getLeadPartner()));
 
 			relPartner1_TV.setText(myApp
-					.getStringNameFromStringJSON(tempAccount.getRelationshipPartner1()));
+					.getStringNameFromStringJSON(tempAccount
+							.getRelationshipPartner1()));
 			selectedRelPartner1 = myApp.getIndexFromKeyUserMap(myApp
-					.getStringIdFromStringJSON(tempAccount.getRelationshipPartner1()));
-			
+					.getStringIdFromStringJSON(tempAccount
+							.getRelationshipPartner1()));
+
 			relPartner2_TV.setText(myApp
-					.getStringNameFromStringJSON(tempAccount.getRelationshipPartner2()));
+					.getStringNameFromStringJSON(tempAccount
+							.getRelationshipPartner2()));
 			selectedRelPartner2 = myApp.getIndexFromKeyUserMap(myApp
-					.getStringIdFromStringJSON(tempAccount.getRelationshipPartner2()));
-			
+					.getStringIdFromStringJSON(tempAccount
+							.getRelationshipPartner2()));
+
 			System.out
 					.println("selectedSector  : " + selectedSector
 							+ "\nselectedCountry  : " + selectedCountry
@@ -319,11 +323,6 @@ public class AccountAddActivity extends CRMActivity {
 		}
 		hideKeyboardFunctionality();
 
-		// registerForContextMenu(corridor_RL);
-		// registerForContextMenu(sector_RL);
-		// registerForContextMenu(headquarter_RL);
-		// registerForContextMenu(sublob_RL);
-		// registerForContextMenu(leadPartner_RL);
 		registerForContextMenu(lob_RL);
 		registerForContextMenu(accountCategory_RL);
 
@@ -343,9 +342,9 @@ public class AccountAddActivity extends CRMActivity {
 			}
 
 		}
-		if (v.getId() == R.id.leadPartner_RL) {
-
-		}
+//		if (v.getId() == R.id.leadPartner_RL) {
+//
+//		}
 		if (v.getId() == R.id.accountCategory_RL) {
 			accountCategoryMap = myApp.getAccountCategoryMap();
 
@@ -539,6 +538,12 @@ public class AccountAddActivity extends CRMActivity {
 
 	@Override
 	public void startActivityForResult(Intent intent, int requestCode) {
+		/**
+		 * We need to put requestCode as extra because it is used in
+		 * SearchActivity to determine the search list. It is also required as
+		 * requestCode because it is used in onActivityResult() to filter
+		 * results.
+		 **/
 		intent.putExtra("request_code", requestCode);
 		super.startActivityForResult(intent, requestCode);
 	}
@@ -642,10 +647,10 @@ public class AccountAddActivity extends CRMActivity {
 				default:
 					break;
 				}
-//				leadPartner_TV.setText(list.get(positionItem));
-//				selectedLeadPartner = positionItem;
-//				System.out.println("selectedLeadPartner  :  "
-//						+ selectedLeadPartner);
+				// leadPartner_TV.setText(list.get(positionItem));
+				// selectedLeadPartner = positionItem;
+				// System.out.println("selectedLeadPartner  :  "
+				// + selectedLeadPartner);
 			}
 			if (requestCode == MyApp.DETAILS_ACCOUNT) {
 				Intent intent = new Intent();

@@ -34,6 +34,7 @@ public class MenuActivity2 extends Activity {
 	public static int X = 0;
 	public static boolean isActivityVisible = false;
 
+	TextView menu_item_TV1, menu_item_TV2, menu_item_TV3, menu_item_TV4;
 	TextView syncDate_TV;
 	LinearLayout lastSync_LL;
 
@@ -80,11 +81,21 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void findThings() {
+		menu_item_TV1 = (TextView)findViewById(R.id.menu_item_TV1);
+		menu_item_TV2 = (TextView)findViewById(R.id.menu_item_TV2);
+		menu_item_TV3 = (TextView)findViewById(R.id.menu_item_TV3);
+		menu_item_TV4 = (TextView)findViewById(R.id.menu_item_TV4);
+		
 		syncDate_TV = (TextView) findViewById(R.id.syncDate_TV);
 		lastSync_LL = (LinearLayout) findViewById(R.id.lastSync_LL);
 	}
 
 	private void setTypeface() {
+		menu_item_TV1.setTypeface(myApp.getTypefaceBoldSans());
+		menu_item_TV2.setTypeface(myApp.getTypefaceBoldSans());
+		menu_item_TV3.setTypeface(myApp.getTypefaceBoldSans());
+		menu_item_TV4.setTypeface(myApp.getTypefaceBoldSans());
+		
 		syncDate_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
@@ -196,6 +207,12 @@ public class MenuActivity2 extends Activity {
 		nextIntent = new Intent(MenuActivity2.this,
 				OpportunityListActivity.class);
 		nextIntent.putExtra("is_my_opportunity", true);
+		startActivity(nextIntent);
+	}
+	
+	public void onService(View view) {
+		nextIntent = new Intent(MenuActivity2.this,
+				ServiceAddActivity.class);
 		startActivity(nextIntent);
 	}
 }

@@ -20,6 +20,7 @@ import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.mw.crm.adapter.OpportunityAdapter;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityListActivity extends CRMActivity {
@@ -52,16 +53,17 @@ public class OpportunityListActivity extends CRMActivity {
 		queue = Volley.newRequestQueue(this);
 
 		if (opportunityList != null && opportunityList.size() > 0) {
-			if (previousIntent.hasExtra("is_my_opportunity")
-					&& previousIntent.getBooleanExtra("is_my_opportunity", false)) {
+			if (previousIntent.getBooleanExtra("is_my_opportunity", true)) {
 				subOpportunityList = new ArrayList<Opportunity>(opportunityList);
-			} else if (previousIntent.hasExtra("account_id")) {
+			} else if (!(previousIntent.getBooleanExtra("is_my_opportunity",
+					true)) && previousIntent.hasExtra("account_id")) {
 				subOpportunityList = new ArrayList<Opportunity>();
 				for (int i = 0; i < opportunityList.size(); i++) {
 					System.out.println("#$#$  : "
 							+ opportunityList.get(i).getCustomerId());
-					
-					// TODO : try to remove the 2nd check from if(check1 && check2 && check3)
+
+					// TODO : try to remove the 2nd check from if(check1 &&
+					// check2 && check3)
 					if (opportunityList.get(i).getCustomerId() != null
 							&& opportunityList.get(i).getCustomerId().length() > 0
 							&& myApp.getStringIdFromStringJSON(
@@ -131,8 +133,15 @@ public class OpportunityListActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("My Opportunities", "Add");
 
+		if (previousIntent.getBooleanExtra("is_my_opportunity", false)) {
+			initView("My Opportunities", "Add");
+		} else if(!(previousIntent.getBooleanExtra("is_my_opportunity",
+				true)) && previousIntent.hasExtra("account_id")){
+			String accountID = previousIntent.getStringExtra("account_id");
+			Account tempAccount = myApp.getAccountById(accountID);
+			initView(tempAccount.getName() + "My Opportunities", "Add");
+		}
 		myOwnOnTextChangeListeners();
 
 		opportunityLV.setOnItemClickListener(new OnItemClickListener() {

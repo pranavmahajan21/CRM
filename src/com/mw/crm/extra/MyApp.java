@@ -52,19 +52,20 @@ public class MyApp extends Application {
 	// public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
 	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
 
-	/* Used to get List<T> */
+	/** Used to get List<T> **/
 	public static String APPOINTMENTS_DATA = "/PostAppointments";
 	public static String ACCOUNTS_DATA = "/PostAccounts";
 	public static String CONTACTS_DATA = "/PostContacts";
 	public static String OPPORTUNITY_DATA = "/PostOpportunities";
 
-	/* Used to create <T> */
+	/** Used to create <T> **/
 	public static String APPOINTMENTS_ADD = "/appointments";
 	public static String ACCOUNTS_ADD = "/accounts";
 	public static String CONTACTS_ADD = "/contacts";
 	public static String OPPORTUNITY_ADD = "/opportunities";
+	public static String SERVICE_ADD = "/serviceconnect";
 
-	/* Used to update <T> */
+	/** Used to update <T> **/
 	public static String APPOINTMENTS_UPDATE = "/PostAppointmentUpdate";
 	public static String ACCOUNTS_UPDATE = "/PostAccountUpdate";
 	public static String CONTACTS_UPDATE = "/PostContactUpdate";
@@ -106,11 +107,13 @@ public class MyApp extends Application {
 	private static String DOR_PATH = "excels/dor.xls";
 	private static String INTERACTION_TYPE_PATH = "excels/interaction_type.xls";
 	private static String LOB_PATH = "excels/lob.xls";
+	private static String PRIORITY_LEVEL_PATH = "excels/priority_level.xls";
 	private static String PROBABILITY_PATH = "excels/probability.xls";
 	private static String SALES_STAGE_PATH = "excels/sales_stage.xls";
 	private static String SECTOR_PATH = "excels/sector.xls";
 	private static String STATUS_PATH = "excels/status.xls";
 	private static String SUB_LOP_PATH = "excels/sub_lob.xls";
+	private static String SUPPORT_TYPE_PATH = "excels/support_type.xls";
 
 	/** Coming from excels **/
 	Map<String, String> accountCategoryMap;
@@ -118,11 +121,13 @@ public class MyApp extends Application {
 	Map<String, String> dorMap;
 	Map<String, String> interactionTypeMap;
 	Map<String, String> lobMap;
+	Map<String, String> priorityLevelMap;
 	Map<String, String> probabilityMap;
 	Map<String, String> salesStageMap;
 	Map<String, String> sectorMap;
 	Map<String, String> statusMap;
 	Map<String, String> subLobMap;
+	Map<String, String> supportTypeMap;
 
 	/** Coming from Internal Connect **/
 	Map<String, String> userMap;
@@ -160,11 +165,13 @@ public class MyApp extends Application {
 		dorMap = new LinkedHashMap<String, String>();
 		interactionTypeMap = new LinkedHashMap<String, String>();
 		lobMap = new LinkedHashMap<String, String>();
+		priorityLevelMap = new LinkedHashMap<String, String>();
 		probabilityMap = new LinkedHashMap<String, String>();
 		salesStageMap = new LinkedHashMap<String, String>();
 		sectorMap = new LinkedHashMap<String, String>();
 		statusMap = new LinkedHashMap<String, String>();
 		subLobMap = new LinkedHashMap<String, String>();
+		supportTypeMap = new LinkedHashMap<String, String>();
 
 		userMap = new LinkedHashMap<String, String>();
 
@@ -300,8 +307,8 @@ public class MyApp extends Application {
 		loadMenuItems();
 
 		readDataFromExcel();
-//		Intent intent2 = new Intent(this, AccountService.class);
-//		startService(intent2);
+		// Intent intent2 = new Intent(this, AccountService.class);
+		// startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
@@ -527,6 +534,14 @@ public class MyApp extends Application {
 		this.lobMap = lobMap;
 	}
 
+	public Map<String, String> getPriorityLevelMap() {
+		return priorityLevelMap;
+	}
+
+	public void setPriorityLevelMap(Map<String, String> priorityLevelMap) {
+		this.priorityLevelMap = priorityLevelMap;
+	}
+
 	public Map<String, String> getProbabilityMap() {
 		return probabilityMap;
 	}
@@ -567,6 +582,14 @@ public class MyApp extends Application {
 		this.subLobMap = subLobMap;
 	}
 
+	public Map<String, String> getSupportTypeMap() {
+		return supportTypeMap;
+	}
+
+	public void setSupportTypeMap(Map<String, String> supportTypeMap) {
+		this.supportTypeMap = supportTypeMap;
+	}
+
 	public static String getPerfectString(String string) {
 		// Does both of 1. removes Quotes 2. Decrypt Data
 		// return MyApp.removeQuotesFromString(MyApp.decryptData(string));
@@ -574,7 +597,7 @@ public class MyApp extends Application {
 		String s = MyApp.decryptData(string);
 		System.out.println((s == null) + "   After decryption : " + s
 				+ "  asdsd  :  " + s.length());
-		
+
 		String s2 = MyApp.removeQuotesFromString(s);
 		System.out.println("After removing quotes  : " + s2);
 
@@ -739,11 +762,13 @@ public class MyApp extends Application {
 		readDorExcel();
 		readInteractionTypeExcel();
 		readLobExcel();
+		readPriorityLevelExcel();
 		readProbabilityExcel();
 		readSalesStageExcel();
 		readSectorExcel();
 		readStatusExcel();
-		readSubLopExcel();
+		readSubLobExcel();
+		readSupportTypeExcel();
 	}
 
 	public void readAccountCategoryExcel() {
@@ -855,6 +880,27 @@ public class MyApp extends Application {
 
 	}
 
+	public void readPriorityLevelExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(PRIORITY_LEVEL_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Priority Level data.",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			priorityLevelMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
+		}
+
+	}
+
 	public void readProbabilityExcel() {
 		Workbook w = null;
 		try {
@@ -939,13 +985,13 @@ public class MyApp extends Application {
 
 	}
 
-	public void readSubLopExcel() {
+	public void readSubLobExcel() {
 		Workbook w = null;
 		try {
 			w = Workbook.getWorkbook(getAssets().open(SUB_LOP_PATH));
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sub Lop data.",
+			Toast.makeText(this, "Unable to load Sub Lob data.",
 					Toast.LENGTH_LONG).show();
 			return;
 		}
@@ -955,6 +1001,27 @@ public class MyApp extends Application {
 
 		for (int i = 0; i < sheet.getRows(); i++) {
 			subLobMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
+		}
+
+	}
+
+	public void readSupportTypeExcel() {
+		Workbook w = null;
+		try {
+			w = Workbook.getWorkbook(getAssets().open(SUPPORT_TYPE_PATH));
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "Unable to load Support Type data.",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			supportTypeMap.put(sheet.getCell(0, i).getContents(), sheet
 					.getCell(1, i).getContents());
 		}
 
