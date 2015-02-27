@@ -117,6 +117,27 @@ public class AccountListActivity extends CRMActivity {
 		findThings();
 		initView("Client History", "Add");
 
+		// ViewTreeObserver viewTreeObserver =
+		// rightButtonTV.getViewTreeObserver();
+		// if (viewTreeObserver.isAlive()) {
+		// viewTreeObserver
+		// .addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		// @Override
+		// public void onGlobalLayout() {
+		// rightButtonTV.getViewTreeObserver()
+		// .removeOnGlobalLayoutListener(this);
+		// viewWidth = rightButtonTV.getWidth();
+		// viewHeight = rightButtonTV.getHeight();
+		// }
+		// });
+		// }
+		// System.out.println("width  : " + viewWidth + "height  : " +
+		// viewHeight);
+		//
+		// int width = rightButtonTV.getLayoutParams().width;
+		// int height = rightButtonTV.getLayoutParams().height;
+		// System.out.println("width  : " + width + "height  : " + height);
+
 		myOwnOnTextChangeListeners();
 
 		accountLV.setOnItemClickListener(new OnItemClickListener() {
@@ -205,12 +226,14 @@ public class AccountListActivity extends CRMActivity {
 				/**
 				 * Step1 is required because accountList still holds reference
 				 * to the old list. So updating the reference of the list to
-				 * just the adapter is not sufficient.
+				 * just the adapter is not sufficient. The list reference in the
+				 * adapter & list reference in AccountListActivity should point
+				 * to the same object, otherwise we will see discrepancies on
+				 * selecting an item from list.
 				 **/
 				/** Step1 **/
 				accountList = myApp.getAccountList();
 				/** Step2 **/
-				// adapter.swapData(myApp.getAccountList());
 				adapter.swapData(accountList);
 				adapter.notifyDataSetChanged();
 

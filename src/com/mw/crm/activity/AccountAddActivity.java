@@ -55,27 +55,28 @@ public class AccountAddActivity extends CRMActivity {
 
 	TextView clientNameLabel_TV, sectorLabel_TV, headquarterLabel_TV,
 			lobLabel_TV, sublobLabel_TV, leadPartnerLabel_TV,
-			relPartner1Label_TV, relPartner2Label_TV, bdmLabel_TV,
-			accountCategoryLabel_TV;
+			relPartner1Label_TV, relPartner2Label_TV, relPartner3Label_TV,
+			bdmLabel_TV, accountCategoryLabel_TV;
 	TextView sector_TV, headquarter_TV, lob_TV, sublob_TV, leadPartner_TV,
-			relPartner1_TV, relPartner2_TV, bdm_TV, accountCategory_TV;
+			relPartner1_TV, relPartner2_TV, relPartner3_TV, bdm_TV,
+			accountCategory_TV;
 
 	EditText clientName_ET;
 
-	RelativeLayout sector_RL, headquarter_RL, lob_RL, sublob_RL,
-			leadPartner_RL, relPartner1_RL, relPartner2_RL, bdm_RL,
-			accountCategory_RL;
-
+	RelativeLayout lob_RL, accountCategory_RL;
+	// RelativeLayout
+	// sector_RL,leadPartner_RL,sublob_RL,headquarter_RL,relPartner1_RL,
+	// relPartner2_RL, relPartner3_RL,bdm_RL;
 	Intent previousIntent, nextIntent;
 	Account tempAccount;
 
 	RequestQueue queue;
 
-	// int ;
 	int selectedCountry = -1, selectedSector = -1, selectedLob = -1,
 			selectedSubLob = -1, selectedLeadPartner = -1,
 			selectedAccountCategory = -1, selectedRelPartner1 = -1,
-			selectedRelPartner2 = -1, selectedBDM = -1;
+			selectedRelPartner2 = -1, selectedRelPartner3 = -1,
+			selectedBDM = -1;
 
 	Map<String, String> sectorMap;
 	Map<String, String> countryMap;
@@ -160,6 +161,7 @@ public class AccountAddActivity extends CRMActivity {
 		leadPartnerLabel_TV = (TextView) findViewById(R.id.leadPartnerLabel_TV);
 		relPartner1Label_TV = (TextView) findViewById(R.id.relPartner1Label_TV);
 		relPartner2Label_TV = (TextView) findViewById(R.id.relPartner2Label_TV);
+		relPartner3Label_TV = (TextView) findViewById(R.id.relPartner3Label_TV);
 		bdmLabel_TV = (TextView) findViewById(R.id.bdmLabel_TV);
 		accountCategoryLabel_TV = (TextView) findViewById(R.id.accountCategoryLabel_TV);
 
@@ -170,19 +172,21 @@ public class AccountAddActivity extends CRMActivity {
 		leadPartner_TV = (TextView) findViewById(R.id.leadPartner_TV);
 		relPartner1_TV = (TextView) findViewById(R.id.relPartner1_TV);
 		relPartner2_TV = (TextView) findViewById(R.id.relPartner2_TV);
+		relPartner3_TV = (TextView) findViewById(R.id.relPartner3_TV);
 		bdm_TV = (TextView) findViewById(R.id.bdm_TV);
 		accountCategory_TV = (TextView) findViewById(R.id.accountCategory_TV);
 
 		clientName_ET = (EditText) findViewById(R.id.clientName_ET);
 
-		sector_RL = (RelativeLayout) findViewById(R.id.sector_RL);
-		headquarter_RL = (RelativeLayout) findViewById(R.id.headquarter_RL);
+		// sector_RL = (RelativeLayout) findViewById(R.id.sector_RL);
+		// headquarter_RL = (RelativeLayout) findViewById(R.id.headquarter_RL);
 		lob_RL = (RelativeLayout) findViewById(R.id.lob_RL);
-		sublob_RL = (RelativeLayout) findViewById(R.id.sublob_RL);
-		leadPartner_RL = (RelativeLayout) findViewById(R.id.leadPartner_RL);
-		relPartner1_RL = (RelativeLayout) findViewById(R.id.relPartner1_RL);
-		relPartner2_RL = (RelativeLayout) findViewById(R.id.relPartner2_RL);
-		bdm_RL = (RelativeLayout) findViewById(R.id.bdm_RL);
+		// sublob_RL = (RelativeLayout) findViewById(R.id.sublob_RL);
+		// leadPartner_RL = (RelativeLayout) findViewById(R.id.leadPartner_RL);
+		// relPartner1_RL = (RelativeLayout) findViewById(R.id.relPartner1_RL);
+		// relPartner2_RL = (RelativeLayout) findViewById(R.id.relPartner2_RL);
+		// relPartner3_RL = (RelativeLayout) findViewById(R.id.relPartner3_RL);
+		// bdm_RL = (RelativeLayout) findViewById(R.id.bdm_RL);
 		accountCategory_RL = (RelativeLayout) findViewById(R.id.accountCategory_RL);
 
 	}
@@ -282,6 +286,13 @@ public class AccountAddActivity extends CRMActivity {
 					.getStringIdFromStringJSON(tempAccount
 							.getRelationshipPartner2()));
 
+			relPartner3_TV.setText(myApp
+					.getStringNameFromStringJSON(tempAccount
+							.getRelationshipPartner3()));
+			selectedRelPartner3 = myApp.getIndexFromKeyUserMap(myApp
+					.getStringIdFromStringJSON(tempAccount
+							.getRelationshipPartner3()));
+
 			System.out
 					.println("selectedSector  : " + selectedSector
 							+ "\nselectedCountry  : " + selectedCountry
@@ -342,9 +353,6 @@ public class AccountAddActivity extends CRMActivity {
 			}
 
 		}
-//		if (v.getId() == R.id.leadPartner_RL) {
-//
-//		}
 		if (v.getId() == R.id.accountCategory_RL) {
 			accountCategoryMap = myApp.getAccountCategoryMap();
 
@@ -454,14 +462,16 @@ public class AccountAddActivity extends CRMActivity {
 								.get(selectedLeadPartner));
 			}
 			if (selectedRelPartner1 > -1) {
-				params.put("leadpartnertwo",
-						new ArrayList<String>(userMap.keySet())
-								.get(selectedRelPartner1));
+				params.put("relationshippartnerone", new ArrayList<String>(
+						userMap.keySet()).get(selectedRelPartner1));
 			}
 			if (selectedRelPartner2 > -1) {
-				params.put("leadpartnerthree",
-						new ArrayList<String>(userMap.keySet())
-								.get(selectedRelPartner2));
+				params.put("relationshippartnertwo", new ArrayList<String>(
+						userMap.keySet()).get(selectedRelPartner2));
+			}
+			if (selectedRelPartner3 > -1) {
+				params.put("relationshippartnerthree", new ArrayList<String>(
+						userMap.keySet()).get(selectedRelPartner3));
 			}
 			if (selectedBDM > -1) {
 				params.put("bdmanager", new ArrayList<String>(userMap.keySet())

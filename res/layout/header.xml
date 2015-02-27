@@ -32,17 +32,25 @@
             android:onClick="onHome" />
     </LinearLayout>
 
-    <!-- android:ellipsize="end" -->
+    <View
+        android:id="@+id/aa"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/header_logo_IV"
+        android:layout_alignParentLeft="true" />
 
     <TextView
-        android:layout_alignBaseline="@+id/right_button_TV"
         android:id="@+id/title_header_TV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/right_button_TV"
         android:layout_alignBottom="@+id/header_logo_IV"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
+        android:layout_toLeftOf="@+id/right_button_TV"
+        android:layout_toRightOf="@+id/aa"
         android:gravity="center"
+        android:singleLine="true"
         android:text="TextView"
         android:textColor="@color/blue"
         android:textSize="20sp" />
@@ -62,7 +70,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="4dp"
-        android:text="TextView"
+        android:text="Button"
         android:textColor="@color/blue"
         android:textSize="20sp" />
 

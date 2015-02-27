@@ -5,29 +5,38 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.mw.crm.extra.MyApp;
 
+//import android.view.ViewGroup.LayoutParams;
+
 public class CRMActivity extends Activity {
 
 	TextView headerTitleTV, rightButtonTV;
+	View view;
+
 	MyApp myApp;
 
 	public void findThings() {
 		headerTitleTV = (TextView) findViewById(R.id.title_header_TV);
 		rightButtonTV = (TextView) findViewById(R.id.right_button_TV);
-
+		view = (View) findViewById(R.id.aa);
 	}
 
 	private void setTypeface() {
 		headerTitleTV.setTypeface(myApp.getTypefaceBoldSans());
 		rightButtonTV.setTypeface(myApp.getTypefaceBoldSans());
 	}
+
+	int viewWidth, viewHeight;
 
 	public void initView(String title, String title2) {
 		setTypeface();
@@ -37,6 +46,32 @@ public class CRMActivity extends Activity {
 		} else {
 			rightButtonTV.setVisibility(View.GONE);
 		}
+
+		/** To get header title in center of view **/
+//		ViewTreeObserver viewTreeObserver = rightButtonTV.getViewTreeObserver();
+//		if (viewTreeObserver.isAlive()) {
+//			viewTreeObserver
+//					.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+//						@Override
+//						public void onGlobalLayout() {
+//							rightButtonTV.getViewTreeObserver()
+//									.removeOnGlobalLayoutListener(this);
+//							viewWidth = rightButtonTV.getWidth();
+//							viewHeight = rightButtonTV.getHeight();
+//						}
+//					});
+//		}
+//		System.out.println("width  : " + viewWidth + "height  : " + viewHeight);
+//		
+//		int width = rightButtonTV.getLayoutParams().width;
+//		int height = rightButtonTV.getLayoutParams().height;
+//		System.out.println("width  : " + width + "height  : " + height);
+//
+//		int width2 = rightButtonTV.getMeasuredWidth();
+//		int height2 = rightButtonTV.getMeasuredHeight();
+//		System.out.println("width  : " + width2 + "height  : " + height2);
+//
+//		view.setLayoutParams(new LayoutParams(width, height));
 	}
 
 	@Override
@@ -76,7 +111,7 @@ public class CRMActivity extends Activity {
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
 	}
-	
+
 	public void hideKeyboard(View view) {
 		View view2 = null;
 		if (view == null) {
@@ -91,4 +126,5 @@ public class CRMActivity extends Activity {
 					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 	}
+
 }

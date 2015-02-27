@@ -132,19 +132,22 @@ public class AccountService extends IntentService {
 	private Account getAccountObject(JSONObject jsonObject) {
 		try {
 			System.out.println("*******         START      **********");
-			Account account = new Account(
-					MyApp.getPerfectString(jsonObject.getString("name")),
-					MyApp.getPerfectString(jsonObject.getString("accountid")),
-					MyApp.decryptData(jsonObject.getString("pcl_country1")),
-					MyApp.decryptData(jsonObject.getString("pcl_lob")),
-					MyApp.decryptData(jsonObject.getString("pcl_sublob")),
-					MyApp.decryptData(jsonObject
-							.getString("pcl_accountcategory1")),
+			Account account = new Account(MyApp.getPerfectString(jsonObject
+					.getString("name")), MyApp.getPerfectString(jsonObject
+					.getString("accountid")), MyApp.decryptData(jsonObject
+					.getString("pcl_country1")), MyApp.decryptData(jsonObject
+					.getString("pcl_lob")), MyApp.decryptData(jsonObject
+					.getString("pcl_sublob")), MyApp.decryptData(jsonObject
+					.getString("pcl_accountcategory1")),
 					MyApp.decryptData(jsonObject.getString("pcl_sectorlist")),
 					MyApp.decryptData(jsonObject.getString("pcl_leadpartner")),
-					MyApp.decryptData(jsonObject.getString("pcl_leadpartner2")),
-					MyApp.decryptData(jsonObject.getString("pcl_leadpartner3")),
-					null, MyApp.decryptData(jsonObject
+					MyApp.decryptData(jsonObject
+							.getString("pcl_relationshippartner1")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_relationshippartner2")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_relationshippartner3")),
+					MyApp.decryptData(jsonObject
 							.getString("pcl_businessdevelopmentmanager")));
 			System.out.println("*******         END      **********");
 			// System.out.println("#$#$" + account.getName());
