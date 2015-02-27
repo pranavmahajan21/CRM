@@ -32,7 +32,7 @@ public class AccountListActivity extends CRMActivity {
 	List<Account> accountList;
 	List<Account> subAccountList;
 	TextView errorTV;
-	EditText searchAccount_ET;
+	EditText search_ET;
 
 	Intent nextIntent;
 
@@ -65,7 +65,7 @@ public class AccountListActivity extends CRMActivity {
 		super.findThings();
 		accountLV = (ListView) findViewById(R.id.account_LV);
 		errorTV = (TextView) findViewById(R.id.error_TV);
-		searchAccount_ET = (EditText) findViewById(R.id.searchAccount_ET);
+		search_ET = (EditText) findViewById(R.id.search_ET);
 	}
 
 	public void initView(String title, String title2) {
@@ -79,7 +79,7 @@ public class AccountListActivity extends CRMActivity {
 	}
 
 	private void myOwnOnTextChangeListeners() {
-		searchAccount_ET.addTextChangedListener(new TextWatcher() {
+		search_ET.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
@@ -146,7 +146,7 @@ public class AccountListActivity extends CRMActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Account tempAccount = accountList.get(position);
-				searchAccount_ET.setText("");
+				search_ET.setText("");
 				int index = myApp.getAccountIndexFromAccountId(tempAccount
 						.getAccountId());
 
@@ -195,25 +195,25 @@ public class AccountListActivity extends CRMActivity {
 
 	@Override
 	public void onBack(View view) {
-		searchAccount_ET.setText("");
+		search_ET.setText("");
 		super.onBack(view);
 	}
 
 	@Override
 	public void onHome(View view) {
-		searchAccount_ET.setText("");
+		search_ET.setText("");
 		super.onHome(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		searchAccount_ET.setText("");
+		search_ET.setText("");
 		super.onBackPressed();
 	}
 
 	@Override
 	protected void onPause() {
-		searchAccount_ET.setText("");
+		search_ET.setText("");
 		super.onPause();
 	}
 
@@ -238,6 +238,9 @@ public class AccountListActivity extends CRMActivity {
 				adapter.notifyDataSetChanged();
 
 			}
+//			if (data != null && data.hasExtra("search_text")) {
+//				search_ET.setText(data.getStringExtra("search_text"));
+//			}
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class AccountDetailsActivity extends CRMActivity {
 	TextView accountName_TV;
 
 	TextView relatedEntitiesLabel_TV;
-	
+
 	TextView contactLink_TV, opportunityLink_TV, appointmentLink_TV;
 
 	private void initThings() {
@@ -70,7 +70,7 @@ public class AccountDetailsActivity extends CRMActivity {
 		accountName_TV = (TextView) findViewById(R.id.accountName_TV);
 
 		relatedEntitiesLabel_TV = (TextView) findViewById(R.id.relatedEntitiesLabel_TV);
-		
+
 		contactLink_TV = (TextView) findViewById(R.id.contactLink_TV);
 		opportunityLink_TV = (TextView) findViewById(R.id.opportunityLink_TV);
 		appointmentLink_TV = (TextView) findViewById(R.id.appointmentLink_TV);
@@ -102,7 +102,7 @@ public class AccountDetailsActivity extends CRMActivity {
 		accountName_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		relatedEntitiesLabel_TV.setTypeface(myApp.getTypefaceBoldSans());
-		
+
 		contactLink_TV.setTypeface(myApp.getTypefaceRegularSans());
 		opportunityLink_TV.setTypeface(myApp.getTypefaceRegularSans());
 		appointmentLink_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -173,6 +173,9 @@ public class AccountDetailsActivity extends CRMActivity {
 			relPartner2_TV.setText(myApp
 					.getStringNameFromStringJSON(selectedAccount
 							.getRelationshipPartner2()));
+			relPartner3_TV.setText(myApp
+					.getStringNameFromStringJSON(selectedAccount
+							.getRelationshipPartner2()));
 			bdm_TV.setText(myApp.getStringNameFromStringJSON(selectedAccount
 					.getBusinessDevelopmentManager()));
 		}
@@ -206,13 +209,24 @@ public class AccountDetailsActivity extends CRMActivity {
 	}
 
 	public void onContact(View view) {
-		// int position = rightListView.getPositionForView(view);
+		nextIntent = new Intent(this, ContactListActivity.class);
+		nextIntent.putExtra("is_my_contact", false);
+		nextIntent.putExtra("account_id", selectedAccount.getAccountId());
+		startActivity(nextIntent);
 	}
 
 	public void onOpportunity(View view) {
+		nextIntent = new Intent(this, OpportunityListActivity.class);
+		nextIntent.putExtra("is_my_opportunity", false);
+		nextIntent.putExtra("account_id", selectedAccount.getAccountId());
+		startActivity(nextIntent);
 	}
 
 	public void onAppointment(View view) {
+		nextIntent = new Intent(this, AppointmentListActivity.class);
+		nextIntent.putExtra("is_my_appointment", false);
+		nextIntent.putExtra("account_id", selectedAccount.getAccountId());
+		startActivity(nextIntent);
 	}
 
 	@Override

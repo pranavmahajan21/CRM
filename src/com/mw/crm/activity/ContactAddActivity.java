@@ -30,13 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -268,8 +265,8 @@ public class ContactAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-//		initView("Add Contact", "Save");
-		
+		// initView("Add Contact", "Save");
+
 		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
 				.getBooleanExtra("is_edit_mode", false))) {
 			initView("Modify Contact", "Save");
@@ -433,51 +430,55 @@ public class ContactAddActivity extends CRMActivity {
 
 		params = MyApp.addParamToJson(params);
 		progressDialog.show();
-			try {
+		try {
 
-				System.out.println("URL : " + url);
-				System.out.println("params : " + params);
+			System.out.println("URL : " + url);
+			System.out.println("params : " + params);
 
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
+			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+					Method.POST, url, params,
+					new Response.Listener<JSONObject>() {
 
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
-							}
-						}, new Response.ErrorListener() {
+						@Override
+						public void onResponse(JSONObject response) {
+							System.out.println("length2" + response);
+							onPositiveResponse();
+						}
+					}, new Response.ErrorListener() {
 
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								progressDialog.hide();
-								System.out.println("ERROR  : "
-										+ error.getMessage());
-								error.printStackTrace();
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							progressDialog.dismiss();
 
-								if (error instanceof NetworkError) {
-									System.out.println("NetworkError");
-								}
-								if (error instanceof NoConnectionError) {
-									System.out
-											.println("NoConnectionError you are now offline.");
-								}
-								if (error instanceof ServerError) {
-									System.out.println("ServerError");
-								}
-							}
-						});
+							AlertDialog alertDialog = myApp.handleError(
+									createDialog, error);
+							alertDialog.show();
+							
+//							System.out.println("ERROR  : " + error.getMessage());
+//							error.printStackTrace();
+//
+//							if (error instanceof NetworkError) {
+//								System.out.println("NetworkError");
+//							}
+//							if (error instanceof NoConnectionError) {
+//								System.out
+//										.println("NoConnectionError you are now offline.");
+//							}
+//							if (error instanceof ServerError) {
+//								System.out.println("ServerError");
+//							}
+						}
+					});
 
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				e.printStackTrace();
-				progressDialog.hide();
-			}
+			RetryPolicy policy = new DefaultRetryPolicy(30000,
+					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+			jsonArrayRequest.setRetryPolicy(policy);
+			queue.add(jsonArrayRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
+			progressDialog.hide();
+		}
 	}
 
 	private void onPositiveResponse() {
@@ -533,6 +534,28 @@ public class ContactAddActivity extends CRMActivity {
 	}
 
 	@Override
+	public void onBack(View view) {
+		Intent intent = new Intent();
+		if (previousIntent.hasExtra("search_text")) {
+			intent.putExtra("search_text",
+					previousIntent.getStringExtra("search_text"));
+		}
+		setResult(RESULT_OK, intent);
+		super.onBack(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		if (previousIntent.hasExtra("search_text")) {
+			intent.putExtra("search_text",
+					previousIntent.getStringExtra("search_text"));
+		}
+		setResult(RESULT_OK, intent);
+		super.onBackPressed();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
@@ -560,10 +583,13 @@ public class ContactAddActivity extends CRMActivity {
 			if (requestCode == MyApp.DETAILS_CONTACT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
+				if (previousIntent.hasExtra("search_text")) {
+					intent.putExtra("search_text",
+							previousIntent.getStringExtra("search_text"));
+				}
 				setResult(RESULT_OK, intent);
 				finish();
 			}
 		}
 	}
-
 }

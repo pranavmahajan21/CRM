@@ -35,7 +35,7 @@
             <TextView
                 android:id="@+id/leadPartnerLabel_TV"
                 style="@style/TV_top"
-                android:text="Lead Partner1:" />
+                android:text="Lead Partner:" />
 
             <TextView
                 android:id="@+id/leadPartner_TV"
@@ -138,24 +138,11 @@
                 android:id="@+id/relatedEntitiesLabel_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Related Entities"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                style="@style/LL3"
-                android:onClick="onContact" >
-
-                <ImageView
-                    style="@style/IV2"
-                    android:src="@drawable/contact2" />
-
-                <TextView
-                    android:id="@+id/contactLink_TV"
-                    style="@style/TV3"
-                    android:text="Contact" />
-            </LinearLayout>
 
             <LinearLayout
                 style="@style/LL3"
@@ -169,6 +156,20 @@
                     android:id="@+id/opportunityLink_TV"
                     style="@style/TV3"
                     android:text="Opportunity" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LL3"
+                android:onClick="onContact" >
+
+                <ImageView
+                    style="@style/IV2"
+                    android:src="@drawable/contact2" />
+
+                <TextView
+                    android:id="@+id/contactLink_TV"
+                    style="@style/TV3"
+                    android:text="Contact" />
             </LinearLayout>
 
             <LinearLayout

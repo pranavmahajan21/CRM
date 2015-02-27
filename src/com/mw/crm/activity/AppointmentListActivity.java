@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.AppointmentAdapter;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 
 public class AppointmentListActivity extends CRMActivity {
@@ -32,7 +33,7 @@ public class AppointmentListActivity extends CRMActivity {
 	List<Appointment> appointmentList;
 	List<Appointment> subAppointmentList;
 	TextView errorTV;
-	EditText searchAppointment_ET;
+	EditText search_ET;
 
 	Intent previousIntent, nextIntent;
 
@@ -64,10 +65,10 @@ public class AppointmentListActivity extends CRMActivity {
 
 					// TODO : try to remove the 2nd check from if(check1 &&
 					// check2 && check3)
-					if (appointmentList.get(i).getOwner() != null
-							&& appointmentList.get(i).getOwner().length() > 0
+					if (appointmentList.get(i).getAccount() != null
+							&& appointmentList.get(i).getAccount().length() > 0
 							&& myApp.getStringIdFromStringJSON(
-									appointmentList.get(i).getOwner())
+									appointmentList.get(i).getAccount())
 									.equals(previousIntent
 											.getStringExtra("account_id"))) {
 						subAppointmentList.add(appointmentList.get(i));
@@ -85,7 +86,7 @@ public class AppointmentListActivity extends CRMActivity {
 		super.findThings();
 		appointmentLV = (ListView) findViewById(R.id.appointment_LV);
 		errorTV = (TextView) findViewById(R.id.error_TV);
-		searchAppointment_ET = (EditText) findViewById(R.id.searchAppointment_ET);
+		search_ET = (EditText) findViewById(R.id.search_ET);
 	}
 
 	public void initView(String title, String title2) {
@@ -99,7 +100,7 @@ public class AppointmentListActivity extends CRMActivity {
 	}
 
 	private void myOwnOnTextChangeListeners() {
-		searchAppointment_ET.addTextChangedListener(new TextWatcher() {
+		search_ET.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
@@ -129,8 +130,21 @@ public class AppointmentListActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("My Appointments", "Add");
 
+		if (previousIntent.getBooleanExtra("is_my_appointment", false)) {
+			initView("My Appointments", "Add");
+		} else if (!(previousIntent.getBooleanExtra("is_my_appointment", true))
+				&& previousIntent.hasExtra("account_id")) {
+			String accountID = previousIntent.getStringExtra("account_id");
+			Account tempAccount = myApp.getAccountById(accountID);
+			initView(tempAccount.getName() + "-Appointments", "Add");
+		}
+
+		for (int i = 0; i < appointmentList.size(); i++) {
+			System.out.println("{}{}" + appointmentList.get(i).getOrganizer());
+			
+		}
+		
 		myOwnOnTextChangeListeners();
 
 		appointmentLV.setOnItemClickListener(new OnItemClickListener() {
@@ -138,16 +152,18 @@ public class AppointmentListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				nextIntent = new Intent(AppointmentListActivity.this,
+						AppointmentDetailsActivity.class);
+				nextIntent.putExtra("search_text", search_ET.getText()
+						.toString());
+
 				Appointment tempAppointment = appointmentList.get(position);
-				searchAppointment_ET.setText("");
+				search_ET.setText("");
 				int index = myApp
 						.getAppointmentIndexFromAppointmentId(tempAppointment
 								.getId());
 
-				nextIntent = new Intent(AppointmentListActivity.this,
-						AppointmentDetailsActivity.class);
 				nextIntent.putExtra("position", index);
-				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 
@@ -158,30 +174,31 @@ public class AppointmentListActivity extends CRMActivity {
 	public void onRightButton(View view) {
 		nextIntent = new Intent(AppointmentListActivity.this,
 				AppointmentAddActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
 	@Override
 	public void onBack(View view) {
-		searchAppointment_ET.setText("");
+		search_ET.setText("");
 		super.onBack(view);
 	}
 
 	@Override
 	public void onHome(View view) {
-		searchAppointment_ET.setText("");
+		search_ET.setText("");
 		super.onHome(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		searchAppointment_ET.setText("");
+		search_ET.setText("");
 		super.onBackPressed();
 	}
 
 	@Override
 	protected void onPause() {
-		searchAppointment_ET.setText("");
+		search_ET.setText("");
 		super.onPause();
 	}
 
@@ -197,6 +214,9 @@ public class AppointmentListActivity extends CRMActivity {
 				// adapter.swapData(myApp.getAppointmentList());
 				adapter.swapData(appointmentList);
 				adapter.notifyDataSetChanged();
+			}
+			if (data != null && data.hasExtra("search_text")) {
+				search_ET.setText(data.getStringExtra("search_text"));
 			}
 		}
 	}

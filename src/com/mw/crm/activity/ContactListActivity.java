@@ -13,12 +13,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.ContactAdapter;
 import com.mw.crm.extra.MyApp;
+import com.mw.crm.model.Account;
 import com.mw.crm.model.Contact;
 
 public class ContactListActivity extends CRMActivity {
@@ -35,7 +37,7 @@ public class ContactListActivity extends CRMActivity {
 
 	Intent previousIntent, nextIntent;
 
-	EditText searchContact_ET;
+	EditText search_ET;
 
 	RequestQueue queue;
 
@@ -83,12 +85,13 @@ public class ContactListActivity extends CRMActivity {
 		contactLV = (ListView) findViewById(R.id.contact_LV);
 		errorTV = (TextView) findViewById(R.id.error_TV);
 
-		searchContact_ET = (EditText) findViewById(R.id.searchContact_ET);
+		search_ET = (EditText) findViewById(R.id.search_ET);
 	}
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
-
+		Toast.makeText(this, "" + contactList.size(), Toast.LENGTH_SHORT)
+				.show();
 		if (adapter != null) {
 			contactLV.setAdapter(adapter);
 		} else {
@@ -98,7 +101,7 @@ public class ContactListActivity extends CRMActivity {
 	}
 
 	private void myOwnOnTextChangeListeners() {
-		searchContact_ET.addTextChangedListener(new TextWatcher() {
+		search_ET.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
@@ -128,7 +131,15 @@ public class ContactListActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-		initView("Client Contacts", "Add");
+
+		if (previousIntent.getBooleanExtra("is_my_contact", false)) {
+			initView("Client Contacts", "Add");
+		} else if (!(previousIntent.getBooleanExtra("is_my_contact", true))
+				&& previousIntent.hasExtra("account_id")) {
+			String accountID = previousIntent.getStringExtra("account_id");
+			Account tempAccount = myApp.getAccountById(accountID);
+			initView(tempAccount.getName() + "-Client Contacts", "Add");
+		}
 
 		myOwnOnTextChangeListeners();
 
@@ -137,13 +148,16 @@ public class ContactListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				nextIntent = new Intent(ContactListActivity.this,
+						ContactDetailsActivity.class);
+				nextIntent.putExtra("search_text", search_ET.getText()
+						.toString());
+
 				Contact tempContact = contactList.get(position);
-				searchContact_ET.setText("");
+				search_ET.setText("");
 				int index = myApp.getContactIndexFromContactId(tempContact
 						.getContactId());
 
-				nextIntent = new Intent(ContactListActivity.this,
-						ContactDetailsActivity.class);
 				nextIntent.putExtra("position", index);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
@@ -153,36 +167,39 @@ public class ContactListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, ContactAddActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
 	@Override
 	public void onBack(View view) {
-		searchContact_ET.setText("");
+		search_ET.setText("");
 		super.onBack(view);
 	}
 
 	@Override
 	public void onHome(View view) {
-		searchContact_ET.setText("");
+		search_ET.setText("");
 		super.onHome(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		searchContact_ET.setText("");
+		search_ET.setText("");
 		super.onBackPressed();
 	}
 
 	@Override
 	protected void onPause() {
-		searchContact_ET.setText("");
+		search_ET.setText("");
 		super.onPause();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Toast.makeText(this, "" + contactList.size(), Toast.LENGTH_SHORT)
+				.show();
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
@@ -191,6 +208,9 @@ public class ContactListActivity extends CRMActivity {
 
 				adapter.swapData(contactList);
 				adapter.notifyDataSetChanged();
+			}
+			if (data != null && data.hasExtra("search_text")) {
+				search_ET.setText(data.getStringExtra("search_text"));
 			}
 		}
 	}

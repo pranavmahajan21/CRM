@@ -15,9 +15,9 @@ public class ContactDetailsActivity extends CRMActivity {
 	Intent nextIntent, previousIntent;
 	Contact selectedContact;
 
-	TextView nameLabel_TV,designationLabel_TV, organizationLabel_TV, emailLabel_TV,
-			officePhoneLabel_TV, mobileLabel_TV, internalConnectLabel_TV,
-			dorLabel_TV;
+	TextView nameLabel_TV, designationLabel_TV, organizationLabel_TV,
+			emailLabel_TV, officePhoneLabel_TV, mobileLabel_TV,
+			internalConnectLabel_TV, dorLabel_TV;
 
 	TextView name_TV, designation_TV, organization_TV, email_TV,
 			officePhone_TV, mobile_TV, internalConnect_TV, dor_TV;
@@ -37,7 +37,7 @@ public class ContactDetailsActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 		nameLabel_TV = (TextView) findViewById(R.id.nameLabel_TV);
-		designationLabel_TV  = (TextView) findViewById(R.id.designationLabel_TV);
+		designationLabel_TV = (TextView) findViewById(R.id.designationLabel_TV);
 		organizationLabel_TV = (TextView) findViewById(R.id.organizationLabel_TV);
 		emailLabel_TV = (TextView) findViewById(R.id.emailLabel_TV);
 		officePhoneLabel_TV = (TextView) findViewById(R.id.officePhoneLabel_TV);
@@ -146,24 +146,39 @@ public class ContactDetailsActivity extends CRMActivity {
 	public void onBack(View view) {
 		/**
 		 * We have to setResult(RESULT_OK); here because in case of contact
-		 * creatd successfully scenario
+		 * created successfully scenario we want to go back to the Add page &
+		 * handle the result.
 		 **/
-		setResult(RESULT_OK);
+		Intent intent = new Intent();
+		if (previousIntent.hasExtra("search_text")) {
+			intent.putExtra("search_text",
+					previousIntent.getStringExtra("search_text"));
+		}
+		setResult(RESULT_OK, intent);
 		super.onBack(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		setResult(RESULT_OK);
+		Intent intent = new Intent();
+		if (previousIntent.hasExtra("search_text")) {
+			intent.putExtra("search_text",
+					previousIntent.getStringExtra("search_text"));
+		}
+		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+	protected void onActivityResult(int requestCode, int resultCode, Intent dataIntent) {
+		super.onActivityResult(requestCode, resultCode, dataIntent);
 		if (resultCode == RESULT_OK) {
-			if (data != null) {
-				setResult(RESULT_OK, data);
+			if (dataIntent != null) {
+				if (previousIntent.hasExtra("search_text")) {
+					dataIntent.putExtra("search_text",
+							previousIntent.getStringExtra("search_text"));
+				}
+				setResult(RESULT_OK, dataIntent);
 			}
 			finish();
 		}

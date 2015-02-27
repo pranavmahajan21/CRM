@@ -27,7 +27,7 @@ public class OpportunityListActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	EditText searchOpportunity_ET;
+	EditText search_ET;
 	// AutoCompleteTextView searchOpportunity_ET;
 	TextView errorTV;
 
@@ -85,7 +85,7 @@ public class OpportunityListActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 		opportunityLV = (ListView) findViewById(R.id.opportunity_LV);
-		searchOpportunity_ET = (EditText) findViewById(R.id.searchOpportunity_ET);
+		search_ET = (EditText) findViewById(R.id.search_ET);
 
 		// searchOpportunity_ET.setThreshold(1);
 		errorTV = (TextView) findViewById(R.id.error_TV);
@@ -103,7 +103,7 @@ public class OpportunityListActivity extends CRMActivity {
 	}
 
 	private void myOwnOnTextChangeListeners() {
-		searchOpportunity_ET.addTextChangedListener(new TextWatcher() {
+		search_ET.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
@@ -140,7 +140,7 @@ public class OpportunityListActivity extends CRMActivity {
 				true)) && previousIntent.hasExtra("account_id")){
 			String accountID = previousIntent.getStringExtra("account_id");
 			Account tempAccount = myApp.getAccountById(accountID);
-			initView(tempAccount.getName() + "My Opportunities", "Add");
+			initView(tempAccount.getName() + "-Opportunities", "Add");
 		}
 		myOwnOnTextChangeListeners();
 
@@ -149,16 +149,18 @@ public class OpportunityListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				nextIntent = new Intent(OpportunityListActivity.this,
+						OpportunityDetailsActivity.class);
+				nextIntent.putExtra("search_text", search_ET.getText()
+						.toString());
+
 				Opportunity tempOpportunity = opportunityList.get(position);
-				searchOpportunity_ET.setText("");
+				search_ET.setText("");
 				int index = myApp
 						.getOpportunityIndexFromOpportunityId(tempOpportunity
 								.getOpportunityId());
 
-				nextIntent = new Intent(OpportunityListActivity.this,
-						OpportunityDetailsActivity.class);
 				nextIntent.putExtra("position", index);
-				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 
@@ -167,30 +169,32 @@ public class OpportunityListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, OpportunityAddActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText()
+				.toString());
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
 	@Override
 	public void onBack(View view) {
-		searchOpportunity_ET.setText("");
+		search_ET.setText("");
 		super.onBack(view);
 	}
 
 	@Override
 	public void onHome(View view) {
-		searchOpportunity_ET.setText("");
+		search_ET.setText("");
 		super.onHome(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		searchOpportunity_ET.setText("");
+		search_ET.setText("");
 		super.onBackPressed();
 	}
 
 	@Override
 	protected void onPause() {
-		searchOpportunity_ET.setText("");
+		search_ET.setText("");
 		super.onPause();
 	}
 
@@ -206,6 +210,9 @@ public class OpportunityListActivity extends CRMActivity {
 				// adapter.swapData(myApp.getOpportunityList());
 				adapter.swapData(opportunityList);
 				adapter.notifyDataSetChanged();
+			}
+			if (data != null && data.hasExtra("search_text")) {
+				search_ET.setText(data.getStringExtra("search_text"));
 			}
 		}
 	}

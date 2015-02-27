@@ -35,13 +35,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -106,9 +103,10 @@ public class AppointmentAddActivity extends CRMActivity {
 						.show();
 			}
 
-			Appointment dummyAppointment = new Appointment(null, purpose_ET.getText()
-					.toString(), account_TV.getText().toString(), nameClient_ET.getText().toString(),
-					designation_ET.getText().toString(), detailsDiscussion_ET
+			Appointment dummyAppointment = new Appointment(null, purpose_ET
+					.getText().toString(), account_TV.getText().toString(),
+					nameClient_ET.getText().toString(), designation_ET
+							.getText().toString(), detailsDiscussion_ET
 							.getText().toString(), interactionType_TV.getText()
 							.toString(), owner_TV.getText().toString(),
 					organizer_TV.getText().toString(),
@@ -214,7 +212,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		super.initView(title, title2);
 		setTypeface();
 
-		System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
+		// System.out.println(new ArrayList<String>(userMap.keySet()).get(2));
 
 		/** if(edit_mode) **/
 		if (previousIntent.hasExtra("position")) {
@@ -229,9 +227,9 @@ public class AppointmentAddActivity extends CRMActivity {
 				selectedAccount = myApp
 						.getAccountIndexFromAccountId(tempAccount
 								.getAccountId());
-
+				account_TV.setText(tempAccount.getName());
 			} else {
-				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
+				Toast.makeText(this, "Account not found", Toast.LENGTH_LONG)
 						.show();
 			}
 
@@ -423,10 +421,6 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (selectedOwner > -1) {
 				params.put("ownid", new ArrayList<String>(userMap.keySet())
 						.get(selectedOwner));
-//				params.put("ownid", myApp.getLoginUserId());
-				System.out.println("111  : " + new ArrayList<String>(userMap.keySet())
-						.get(selectedOwner));
-				System.out.println("222  : " + myApp.getLoginUserId());
 			}
 			if (selectedOrganizer > -1) {
 				params.put("organizer", new ArrayList<String>(userMap.keySet())
@@ -473,23 +467,29 @@ public class AppointmentAddActivity extends CRMActivity {
 
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							progressDialog.hide();
-							System.out.println("ERROR  : " + error.getMessage());
-							error.printStackTrace();
+							progressDialog.dismiss();
 
-							if (error instanceof NetworkError) {
-								System.out.println("NetworkError");
-							}
-							if (error instanceof NoConnectionError) {
-								System.out
-										.println("NoConnectionError you are now offline.");
-							}
-							if (error instanceof ServerError) {
-								System.out.println("ServerError");
-								Toast.makeText(AppointmentAddActivity.this,
-										"Permissions error.", Toast.LENGTH_LONG)
-										.show();
-							}
+							AlertDialog alertDialog = myApp.handleError(
+									createDialog, error);
+							alertDialog.show();
+
+							// System.out.println("ERROR  : " +
+							// error.getMessage());
+							// error.printStackTrace();
+							//
+							// if (error instanceof NetworkError) {
+							// System.out.println("NetworkError");
+							// }
+							// if (error instanceof NoConnectionError) {
+							// System.out
+							// .println("NoConnectionError you are now offline.");
+							// }
+							// if (error instanceof ServerError) {
+							// System.out.println("ServerError");
+							// Toast.makeText(AppointmentAddActivity.this,
+							// "Permissions error.", Toast.LENGTH_LONG)
+							// .show();
+							// }
 						}
 					});
 
@@ -564,7 +564,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	private void getDateTimeString(View view, String x, boolean isDate) {
 		switch (view.getId()) {
 		case R.id.dateMeeting_RL:
-			System.out.println("check");
+			// System.out.println("check");
 			if (isDate) {
 				dateMeeting_TV.setText(x);
 			} else {
@@ -633,8 +633,8 @@ public class AppointmentAddActivity extends CRMActivity {
 					public void onDateSet(DatePicker view2, int year,
 							int monthOfYear, int dayOfMonth) {
 						if (noOfTimesDateCalled % 2 == 0) {
-							System.out.println(dayOfMonth + "-"
-									+ (monthOfYear + 1) + "-" + year);
+							// System.out.println(dayOfMonth + "-"
+							// + (monthOfYear + 1) + "-" + year);
 
 							String temp = "";
 							if (dayOfMonth < 10) {
@@ -658,6 +658,25 @@ public class AppointmentAddActivity extends CRMActivity {
 				}, mYear, mMonth, mDay);
 		dPicker.setCancelable(false);
 		dPicker.show();
+	}
+
+	@Override
+	public void onBack(View view) {
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
+		super.onBack(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		// Intent intent = new Intent();
+		// if (previousIntent.hasExtra("search_text")) {
+		// intent.putExtra("search_text",
+		// previousIntent.getStringExtra("search_text"));
+		// }
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
+		super.onBackPressed();
 	}
 
 	@Override
@@ -692,6 +711,10 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
+				if (previousIntent.hasExtra("search_text")) {
+					intent.putExtra("search_text",
+							previousIntent.getStringExtra("search_text"));
+				}
 				setResult(RESULT_OK, intent);
 				finish();
 			}

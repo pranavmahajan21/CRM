@@ -19,7 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -27,8 +29,12 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
@@ -138,7 +144,9 @@ public class MyApp extends Application {
 	Typeface typefaceRegularSans;
 	Typeface typefaceBoldSans;
 
-	CreateDialog createDialog;
+	// CreateDialog createDialog;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 	// Volley stuff
 	public static final String TAG = MyApp.class.getSimpleName();
 
@@ -175,7 +183,7 @@ public class MyApp extends Application {
 
 		userMap = new LinkedHashMap<String, String>();
 
-		createDialog = new CreateDialog(this);
+		// createDialog = new CreateDialog(this);
 
 		gson = new Gson();
 	}
@@ -307,8 +315,12 @@ public class MyApp extends Application {
 		loadMenuItems();
 
 		readDataFromExcel();
-		// Intent intent2 = new Intent(this, AccountService.class);
-		// startService(intent2);
+		
+//0d282823-e3a2-e411-84e6-5cf3fc3f47fd
+		
+		
+//		Intent intent2 = new Intent(this, AppointmentService.class);
+//		startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
@@ -320,6 +332,7 @@ public class MyApp extends Application {
 			startActivity(intent);
 		}
 
+	getAccountById("0d282823-e3a2-e411-84e6-5cf3fc3f47fd");
 	}
 
 	public static synchronized MyApp getInstance() {
@@ -470,14 +483,6 @@ public class MyApp extends Application {
 		this.menuItemList = menuItemList;
 	}
 
-	public CreateDialog getCreateDialog() {
-		return createDialog;
-	}
-
-	public void setCreateDialog(CreateDialog createDialog) {
-		this.createDialog = createDialog;
-	}
-
 	public Typeface getTypefaceRegularSans() {
 		return typefaceRegularSans;
 	}
@@ -614,9 +619,9 @@ public class MyApp extends Application {
 	}
 
 	public static String decryptData(String string) {
-
+		System.out.println("!@!@before" + string);
 		String aa = new Encrypter(null, null).decrypt(string);
-		// System.out.println("!@!@" + aa);
+		System.out.println("!@!@" + aa);
 
 		return new Encrypter(null, null).decrypt(string);
 	}
@@ -1045,7 +1050,7 @@ public class MyApp extends Application {
 	}
 
 	public Account getAccountById(String id) {
-		// System.out.println("1111  " + id);
+		 System.out.println("1111  " + id);
 		for (int i = 0; i < accountList.size(); i++) {
 			// System.out.println("2222  " + accountList.get(i).getAccountId());
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
@@ -1168,7 +1173,7 @@ public class MyApp extends Application {
 				return i;
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	public Integer getIntValueFromStringJSON(String x) {
@@ -1241,4 +1246,43 @@ public class MyApp extends Application {
 		return 0;
 	}
 
+	public AlertDialog handleError(CreateDialog createDialog, VolleyError error) {
+		System.out.println("ERROR  : " + error.getMessage());
+		error.printStackTrace();
+
+		if (error instanceof NetworkError) {
+			System.out.println("NetworkError");
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"NetworkError.", false);
+		}
+		if (error instanceof NoConnectionError) {
+			System.out.println("NoConnectionError you are now offline.");
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"NoConnectionError you are now offline.", false);
+		}
+		if (error instanceof ServerError) {
+			System.out.println("ServerError");
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"ServerError.", false);
+		}
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		// AlertDialog
+		alertDialog = alertDialogBuilder.create();
+		return alertDialog;
+		// alertDialog.show();
+	}
+
+	public Intent getIntenWithPreviousSearch(Intent previousIntent) {
+		Intent intent = new Intent();
+		if (previousIntent.hasExtra("search_text")) {
+			intent.putExtra("search_text",
+					previousIntent.getStringExtra("search_text"));
+		}
+		return intent;
+	}
 }

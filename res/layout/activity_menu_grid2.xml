@@ -16,6 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_LL"
         android:layout_below="@+id/header_logo_IV"
         android:orientation="vertical"
         android:paddingLeft="40dp"
@@ -79,7 +80,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
             android:weightSum="2" >
 
@@ -121,6 +122,17 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_LL"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:id="@+id/lastSync_LL"

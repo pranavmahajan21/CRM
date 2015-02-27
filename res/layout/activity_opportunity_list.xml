@@ -23,7 +23,7 @@
         <!-- android:background="@color/grey" -->
 
         <EditText
-            android:id="@+id/searchOpportunity_ET"
+            android:id="@+id/search_ET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_bg_solid_radius"
