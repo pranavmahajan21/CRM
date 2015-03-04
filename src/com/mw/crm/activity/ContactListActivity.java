@@ -198,8 +198,6 @@ public class ContactListActivity extends CRMActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Toast.makeText(this, "" + contactList.size(), Toast.LENGTH_SHORT)
-				.show();
 		if (resultCode == RESULT_OK) {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {

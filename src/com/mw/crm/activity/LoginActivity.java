@@ -154,7 +154,7 @@ public class LoginActivity extends Activity {
 
 		try {
 			System.out.println("URL : " + url);
-
+			System.out.println("params : " + params);
 			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 					Method.POST, url, params,
 					new Response.Listener<JSONObject>() {

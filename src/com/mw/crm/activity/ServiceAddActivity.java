@@ -49,17 +49,21 @@ public class ServiceAddActivity extends CRMActivity {
 
 	RequestQueue queue;
 
-	TextView ownerLabel_TV, supportTypeLabel_TV, nameLabel_TV,
-			descriptionLabel_TV, priorityLevelLabel_TV;
+	TextView queryByLabel_TV, supportTypeLabel_TV, 
+			descriptionLabel_TV;
+//	nameLabel_TV, priorityLevelLabel_TV
+	
+	TextView queryBy_TV, supportType_TV;
+//	, priorityLevel_TV
+	
+	EditText description_ET;
+//	name_ET, 
+	
+	RelativeLayout supportType_RL;
+//	, priorityLevel_RL
 
-	TextView owner_TV, supportType_TV, priorityLevel_TV;
-
-	EditText name_ET, description_ET;
-
-	RelativeLayout supportType_RL, priorityLevel_RL;
-
-	int selectedOwner = -1, selectedSupportType = -1,
-			selectedPriorityLevel = -1;
+	int selectedQueryBy = -1, selectedSupportType = -1;
+//			selectedPriorityLevel = -1;
 
 	Map<String, String> priorityLevelMap;
 	Map<String, String> supportTypeMap;
@@ -91,34 +95,34 @@ public class ServiceAddActivity extends CRMActivity {
 	public void findThings() {
 		super.findThings();
 
-		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
+		queryByLabel_TV = (TextView) findViewById(R.id.queryByLabel_TV);
 		supportTypeLabel_TV = (TextView) findViewById(R.id.supportTypeLabel_TV);
-		nameLabel_TV = (TextView) findViewById(R.id.nameLabel_TV);
+//		nameLabel_TV = (TextView) findViewById(R.id.nameLabel_TV);
 		descriptionLabel_TV = (TextView) findViewById(R.id.descriptionLabel_TV);
-		priorityLevelLabel_TV = (TextView) findViewById(R.id.priorityLevelLabel_TV);
+//		priorityLevelLabel_TV = (TextView) findViewById(R.id.priorityLevelLabel_TV);
 
-		owner_TV = (TextView) findViewById(R.id.owner_TV);
+		queryBy_TV = (TextView) findViewById(R.id.queryBy_TV);
 		supportType_TV = (TextView) findViewById(R.id.supportType_TV);
-		priorityLevel_TV = (TextView) findViewById(R.id.priorityLevel_TV);
+//		priorityLevel_TV = (TextView) findViewById(R.id.priorityLevel_TV);
 
-		name_ET = (EditText) findViewById(R.id.name_ET);
+//		name_ET = (EditText) findViewById(R.id.name_ET);
 		description_ET = (EditText) findViewById(R.id.description_ET);
 
 		supportType_RL = (RelativeLayout) findViewById(R.id.supportType_RL);
-		priorityLevel_RL = (RelativeLayout) findViewById(R.id.priorityLevel_RL);
+//		priorityLevel_RL = (RelativeLayout) findViewById(R.id.priorityLevel_RL);
 	}
 
 	private void setTypeface() {
-		ownerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		queryByLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		supportTypeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		nameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		nameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		priorityLevelLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		priorityLevelLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
-		owner_TV.setTypeface(myApp.getTypefaceRegularSans());
-		name_ET.setTypeface(myApp.getTypefaceRegularSans());
+		queryBy_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		name_ET.setTypeface(myApp.getTypefaceRegularSans());
 		description_ET.setTypeface(myApp.getTypefaceRegularSans());
-		priorityLevel_TV.setTypeface(myApp.getTypefaceRegularSans());
+//		priorityLevel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		supportType_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
@@ -154,7 +158,7 @@ public class ServiceAddActivity extends CRMActivity {
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(supportType_RL);
-		registerForContextMenu(priorityLevel_RL);
+//		registerForContextMenu(priorityLevel_RL);
 	}
 
 	@Override
@@ -168,12 +172,12 @@ public class ServiceAddActivity extends CRMActivity {
 				menu.add(0, v.getId(), i, list.get(i));
 			}
 		}
-		if (v.getId() == R.id.priorityLevel_RL) {
-			List<String> list = new ArrayList<String>(priorityLevelMap.values());
-			for (int i = 0; i < list.size(); i++) {
-				menu.add(1, v.getId(), i, list.get(i));
-			}
-		}
+//		if (v.getId() == R.id.priorityLevel_RL) {
+//			List<String> list = new ArrayList<String>(priorityLevelMap.values());
+//			for (int i = 0; i < list.size(); i++) {
+//				menu.add(1, v.getId(), i, list.get(i));
+//			}
+//		}
 
 	}
 
@@ -183,10 +187,11 @@ public class ServiceAddActivity extends CRMActivity {
 		if (item.getGroupId() == 0) {
 			selectedSupportType = item.getOrder();
 			supportType_TV.setText(item.getTitle());
-		} else if (item.getGroupId() == 1) {
-			selectedPriorityLevel = item.getOrder();
-			priorityLevel_TV.setText(item.getTitle());
-		}
+		} 
+//		else if (item.getGroupId() == 1) {
+//			selectedPriorityLevel = item.getOrder();
+//			priorityLevel_TV.setText(item.getTitle());
+//		}
 		return super.onContextItemSelected(item);
 	}
 
@@ -197,7 +202,7 @@ public class ServiceAddActivity extends CRMActivity {
 
 	private boolean validate() {
 		boolean notErrorCase = true;
-		if (selectedOwner < 0) {
+		if (selectedQueryBy < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select an owner.", false);
 			notErrorCase = false;
@@ -205,19 +210,22 @@ public class ServiceAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Support Type.", false);
 			notErrorCase = false;
-		} else if (name_ET.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please enter some Name.", false);
-			notErrorCase = false;
-		} else if (description_ET.getText().toString().trim().length() < 1) {
+		} 
+//		else if (name_ET.getText().toString().trim().length() < 1) {
+//			alertDialogBuilder = createDialog.createAlertDialog(null,
+//					"Please enter some Name.", false);
+//			notErrorCase = false;
+//		}
+		else if (description_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some description.", false);
 			notErrorCase = false;
-		} else if (selectedPriorityLevel < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a Priority Level.", false);
-			notErrorCase = false;
-		}
+		} 
+//		else if (selectedPriorityLevel < 0) {
+//			alertDialogBuilder = createDialog.createAlertDialog(null,
+//					"Please select a Priority Level.", false);
+//			notErrorCase = false;
+//		}
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -236,9 +244,8 @@ public class ServiceAddActivity extends CRMActivity {
 			return;
 		}
 
-		System.out.println("owner :  " + selectedOwner + "\n  support :  "
-				+ selectedSupportType + "\n priority  : "
-				+ selectedPriorityLevel);
+		System.out.println("owner :  " + selectedQueryBy + "\n  support :  "
+				+ selectedSupportType);
 
 		System.out.println("\n\n"
 				+ new ArrayList<String>(userMap.keySet()).size());
@@ -246,16 +253,16 @@ public class ServiceAddActivity extends CRMActivity {
 		JSONObject params = new JSONObject();
 		try {
 			params.put("oId",
-					new ArrayList<String>(userMap.keySet()).get(selectedOwner));
+					new ArrayList<String>(userMap.keySet()).get(selectedQueryBy));
 			params.put("support",
 					new ArrayList<String>(supportTypeMap.keySet())
 							.get(selectedSupportType));
-			params.put("name", MyApp.encryptData(name_ET.getText().toString()));
+//			params.put("name", MyApp.encryptData(name_ET.getText().toString()));
 			params.put("description",
 					MyApp.encryptData(description_ET.getText().toString()));
-			params.put("priority",
-					new ArrayList<String>(priorityLevelMap.keySet())
-							.get(selectedPriorityLevel));
+//			params.put("priority",
+//					new ArrayList<String>(priorityLevelMap.keySet())
+//							.get(selectedPriorityLevel));
 
 		} catch (JSONException e1) {
 			e1.printStackTrace();
@@ -317,7 +324,7 @@ public class ServiceAddActivity extends CRMActivity {
 		nextIntent = new Intent(this, SearchActivity.class);
 
 		switch (view.getId()) {
-		case R.id.owner_RL:
+		case R.id.queryBy_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 
@@ -357,8 +364,8 @@ public class ServiceAddActivity extends CRMActivity {
 			if (requestCode == MyApp.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				String text = list.get(positionItem);
-				owner_TV.setText(text);
-				selectedOwner = positionItem;
+				queryBy_TV.setText(text);
+				selectedQueryBy = positionItem;
 			}
 		}
 	}

@@ -316,9 +316,6 @@ public class MyApp extends Application {
 
 		readDataFromExcel();
 		
-//0d282823-e3a2-e411-84e6-5cf3fc3f47fd
-		
-		
 //		Intent intent2 = new Intent(this, AppointmentService.class);
 //		startService(intent2);
 
@@ -332,7 +329,6 @@ public class MyApp extends Application {
 			startActivity(intent);
 		}
 
-	getAccountById("0d282823-e3a2-e411-84e6-5cf3fc3f47fd");
 	}
 
 	public static synchronized MyApp getInstance() {
@@ -1210,6 +1206,15 @@ public class MyApp extends Application {
 		}
 	}
 
+//	public int getUserIndexFromUserId(String id) {
+//		for (int i = 0; i < userMap.size(); i++) {
+//			if (userMap.get(i).equalsIgnoreCase(id)) {
+//				return i;
+//			}
+//		}
+//		return 0;
+//	}
+	
 	public int getAccountIndexFromAccountId(String id) {
 		for (int i = 0; i < accountList.size(); i++) {
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {

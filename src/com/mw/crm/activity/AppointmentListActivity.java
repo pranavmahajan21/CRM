@@ -141,6 +141,7 @@ public class AppointmentListActivity extends CRMActivity {
 		}
 
 		for (int i = 0; i < appointmentList.size(); i++) {
+			System.out.println("{}{}" + appointmentList.get(i).getOwner());
 			System.out.println("{}{}" + appointmentList.get(i).getOrganizer());
 			
 		}

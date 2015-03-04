@@ -61,7 +61,8 @@
 
             <EditText
                 android:id="@+id/nameClient_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2"
+                android:inputType="textCapWords" />
 
             <TextView
                 android:id="@+id/designationLabel_TV"
@@ -70,7 +71,8 @@
 
             <EditText
                 android:id="@+id/designation_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2"
+                android:inputType="textCapWords" />
 
             <TextView
                 android:id="@+id/interactionTypeLabel_TV"
@@ -159,6 +161,7 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
+            <!--
             <TextView
                 android:id="@+id/organizerLabel_TV"
                 style="@style/style_TV2"
@@ -177,6 +180,7 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
+            -->
         </LinearLayout>
     </ScrollView>
 

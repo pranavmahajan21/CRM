@@ -33,7 +33,8 @@
 
             <EditText
                 android:id="@+id/firstName_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2"
+                android:inputType="textCapSentences" />
 
             <TextView
                 android:id="@+id/lastNameLabel_TV"
@@ -42,7 +43,8 @@
 
             <EditText
                 android:id="@+id/lastName_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2"
+                android:inputType="textCapSentences" />
 
             <TextView
                 android:id="@+id/organizationLabel_TV"

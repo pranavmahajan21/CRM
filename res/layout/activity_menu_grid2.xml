@@ -13,10 +13,11 @@
         android:background="@null"
         android:src="@drawable/header2" />
 
+<!--         android:layout_above="@+id/bottom_LL" -->
     <LinearLayout
+        android:id="@+id/menu_LL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_LL"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/header_logo_IV"
         android:orientation="vertical"
         android:paddingLeft="40dp"
@@ -29,6 +30,7 @@
             android:orientation="horizontal"
             android:weightSum="2" >
 
+            <!-- Account -->
             <RelativeLayout
                 style="@style/RL2"
                 android:onClick="onAccount" >
@@ -53,10 +55,11 @@
                     <TextView
                         android:id="@+id/menu_item_TV1"
                         style="@style/TV4"
-                        android:text="Account" />
+                        android:text="Client History" />
                 </LinearLayout>
             </RelativeLayout>
 
+            <!-- Contacts -->
             <RelativeLayout
                 style="@style/RL2"
                 android:onClick="onContact" >
@@ -72,7 +75,7 @@
                     <TextView
                         android:id="@+id/menu_item_TV2"
                         style="@style/TV4"
-                        android:text="Contact" />
+                        android:text="Client Contacts" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -103,6 +106,7 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <!-- Service Connect -->
             <RelativeLayout
                 style="@style/RL2"
                 android:onClick="onService" >
@@ -118,21 +122,22 @@
                     <TextView
                         android:id="@+id/menu_item_TV4"
                         style="@style/TV4"
-                        android:text="Service Connect" />
+                        android:text="Place a Request" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
+<!--         android:layout_alignParentBottom="true" -->
     <LinearLayout
         android:id="@+id/bottom_LL"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:paddingLeft="40dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="40dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/menu_LL"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp" >
 
         <LinearLayout
             android:id="@+id/lastSync_LL"
@@ -159,31 +164,27 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/custom_bg_stroke_radius"
-            android:onClick="onSync"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Sync"
-            android:textColor="@color/blue_dark"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
-        <TextView
-            android:id="@+id/logout_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:onClick="onLogout"
-            android:text="Logout"
-            android:textColor="@color/text_color"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <Button
+                android:id="@+id/button1"
+                android:layout_marginRight="10dp"
+                style="@style/B"
+                android:onClick="onSync"
+                android:text="Sync" />
+
+            <Button
+                android:id="@+id/logout_TV"
+                android:layout_marginLeft="10dp"
+                style="@style/B"
+                android:onClick="onLogout"
+                android:text="Logout" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

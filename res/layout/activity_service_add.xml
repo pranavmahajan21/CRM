@@ -26,19 +26,19 @@
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/ownerLabel_TV"
+                android:id="@+id/queryByLabel_TV"
                 style="@style/style_TV2"
-                android:text="Owner:" />
+                android:text="Query By:" />
 
             <RelativeLayout
-                android:id="@+id/owner_RL"
+                 android:id="@+id/queryBy_RL" 
                 style="@style/RL"
                 android:onClick="onSearchItem" >
 
                 <TextView
-                    android:id="@+id/owner_TV"
+                    android:id="@+id/queryBy_TV"
                     style="@style/TV"
-                    android:hint="Owner" />
+                    android:hint="Query By" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -60,14 +60,14 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
-            <TextView
+            <!-- <TextView
                 android:id="@+id/nameLabel_TV"
                 style="@style/style_TV2"
                 android:text="Name:" />
 
             <EditText
                 android:id="@+id/name_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2" /> -->
 
             <TextView
                 android:id="@+id/descriptionLabel_TV"
@@ -78,7 +78,7 @@
                 android:id="@+id/description_ET"
                 style="@style/style_ET2" />
 
-            <TextView
+            <!-- <TextView
                 android:id="@+id/priorityLevelLabel_TV"
                 style="@style/style_TV2"
                 android:text="Priority Level:" />
@@ -93,7 +93,7 @@
                     android:hint="Priority Level" />
 
                 <ImageView style="@style/IV" />
-            </RelativeLayout>
+            </RelativeLayout> -->
         </LinearLayout>
     </ScrollView>
 

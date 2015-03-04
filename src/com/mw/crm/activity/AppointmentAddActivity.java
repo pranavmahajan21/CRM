@@ -59,14 +59,17 @@ public class AppointmentAddActivity extends CRMActivity {
 	TextView purposeLabel_TV, accountLabel_TV, nameClientLabel_TV,
 			designationLabel_TV, interactionTypeLabel_TV,
 			detailsDiscussionLabel_TV, dateMeetingLabel_TV, endTimeLabel_TV,
-			ownerLabel_TV, organizerLabel_TV;
+			ownerLabel_TV;
+	// , organizerLabel_TV
 
 	TextView account_TV, interactionType_TV, dateMeeting_TV, endTime_TV,
-			owner_TV, organizer_TV;
+			owner_TV;
+	// , organizer_TV
 
 	EditText purpose_ET, nameClient_ET, designation_ET, detailsDiscussion_ET;
-	// startTime_ET, endTime_ET
-	RelativeLayout account_RL, interactionType_RL, owner_RL, organizer_RL;
+
+	RelativeLayout account_RL, interactionType_RL, owner_RL;
+	// , organizer_RL
 
 	Intent previousIntent, nextIntent;
 	Appointment tempAppointment;
@@ -74,8 +77,8 @@ public class AppointmentAddActivity extends CRMActivity {
 	// List<InternalConnect> ownerList;
 	List<Account> accountList;
 
-	int selectedAccount = -1, selectedInteraction = -1, selectedOwner = -1,
-			selectedOrganizer = -1;
+	int selectedAccount = -1, selectedInteraction = -1, selectedOwner = -1;
+	// ,selectedOrganizer = -1
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -108,8 +111,7 @@ public class AppointmentAddActivity extends CRMActivity {
 					nameClient_ET.getText().toString(), designation_ET
 							.getText().toString(), detailsDiscussion_ET
 							.getText().toString(), interactionType_TV.getText()
-							.toString(), owner_TV.getText().toString(),
-					organizer_TV.getText().toString(),
+							.toString(), owner_TV.getText().toString(), null,
 					myApp.formatStringToDate3Copy(dateMeeting_TV.getText()
 							.toString()),
 					myApp.formatStringToDate3Copy(endTime_TV.getText()
@@ -156,7 +158,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		endTimeLabel_TV = (TextView) findViewById(R.id.endTimeLabel_TV);
 		/** Removed temporarily **/
 		ownerLabel_TV = (TextView) findViewById(R.id.ownerLabel_TV);
-		organizerLabel_TV = (TextView) findViewById(R.id.organizerLabel_TV);
+		// organizerLabel_TV = (TextView) findViewById(R.id.organizerLabel_TV);
 
 		account_TV = (TextView) findViewById(R.id.account_TV);
 		interactionType_TV = (TextView) findViewById(R.id.interactionType_TV);
@@ -164,7 +166,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		endTime_TV = (TextView) findViewById(R.id.endTime_TV);
 		/** Removed temporarily **/
 		owner_TV = (TextView) findViewById(R.id.owner_TV);
-		organizer_TV = (TextView) findViewById(R.id.organizer_TV);
+		// organizer_TV = (TextView) findViewById(R.id.organizer_TV);
 
 		purpose_ET = (EditText) findViewById(R.id.purpose_ET);
 		nameClient_ET = (EditText) findViewById(R.id.nameClient_ET);
@@ -177,7 +179,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		account_RL = (RelativeLayout) findViewById(R.id.account_RL);
 		interactionType_RL = (RelativeLayout) findViewById(R.id.interactionType_RL);
 		owner_RL = (RelativeLayout) findViewById(R.id.owner_RL);
-		organizer_RL = (RelativeLayout) findViewById(R.id.organizer_RL);
+		// organizer_RL = (RelativeLayout) findViewById(R.id.organizer_RL);
 	}
 
 	private void setTypeface() {
@@ -190,14 +192,14 @@ public class AppointmentAddActivity extends CRMActivity {
 		dateMeetingLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTimeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		ownerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		organizerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// organizerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		account_TV.setTypeface(myApp.getTypefaceRegularSans());
 		interactionType_TV.setTypeface(myApp.getTypefaceRegularSans());
 		dateMeeting_TV.setTypeface(myApp.getTypefaceRegularSans());
 		endTime_TV.setTypeface(myApp.getTypefaceRegularSans());
 		owner_TV.setTypeface(myApp.getTypefaceRegularSans());
-		organizer_TV.setTypeface(myApp.getTypefaceRegularSans());
+		// organizer_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		purpose_ET.setTypeface(myApp.getTypefaceRegularSans());
 		nameClient_ET.setTypeface(myApp.getTypefaceRegularSans());
@@ -260,11 +262,11 @@ public class AppointmentAddActivity extends CRMActivity {
 			selectedOwner = myApp.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAppointment.getOwner()));
 
-			organizer_TV
-					.setText(myApp.getStringNameFromStringJSON(tempAppointment
-							.getOrganizer()));
-			selectedOrganizer = myApp.getIndexFromKeyUserMap(myApp
-					.getStringIdFromStringJSON(tempAppointment.getOrganizer()));
+			// organizer_TV
+			// .setText(myApp.getStringNameFromStringJSON(tempAppointment
+			// .getOrganizer()));
+			// selectedOrganizer = myApp.getIndexFromKeyUserMap(myApp
+			// .getStringIdFromStringJSON(tempAppointment.getOrganizer()));
 
 			System.out.println("selectedInteraction  : " + selectedInteraction
 					+ "\nselectedOwner  : " + selectedOwner);
@@ -339,17 +341,21 @@ public class AppointmentAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Purpose of Meeting.", false);
 			notErrorCase = false;
+		} else if (selectedAccount < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an account.", false);
+			notErrorCase = false;
 		} else if (nameClient_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the Name of Client Official.", false);
 			notErrorCase = false;
-		} else if (selectedInteraction < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select an interaction type.", false);
-			notErrorCase = false;
 		} else if (designation_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter the designation.", false);
+			notErrorCase = false;
+		} else if (selectedInteraction < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an interaction type.", false);
 			notErrorCase = false;
 		} else if (detailsDiscussion_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
@@ -359,11 +365,12 @@ public class AppointmentAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a date for meeting.", false);
 			notErrorCase = false;
-		} else if (endTime_TV.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select an end time.", false);
-			notErrorCase = false;
 		}
+		// else if (endTime_TV.getText().toString().trim().length() < 1) {
+		// alertDialogBuilder = createDialog.createAlertDialog(null,
+		// "Please select an end time.", false);
+		// notErrorCase = false;
+		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -392,6 +399,8 @@ public class AppointmentAddActivity extends CRMActivity {
 		try {
 			params.put("Subject",
 					MyApp.encryptData(purpose_ET.getText().toString()))
+					.put("accId",
+							accountList.get(selectedAccount).getAccountId())
 					.put("clientname",
 							MyApp.encryptData(nameClient_ET.getText()
 									.toString()))
@@ -407,25 +416,23 @@ public class AppointmentAddActivity extends CRMActivity {
 					.put("startdate",
 							myApp.formatDateToString4(myApp
 									.formatStringToDate3(dateMeeting_TV
-											.getText().toString())))
-					.put("enddate",
-							myApp.formatDateToString4(myApp
-									.formatStringToDate3(endTime_TV.getText()
-											.toString())));
+											.getText().toString())));
 			// .put("ownid", myApp.getLoginUserId());
 
-			if (selectedAccount > -1) {
-				params.put("accId", accountList.get(selectedAccount)
-						.getAccountId());
+			if (endTime_TV.getText().toString().trim().length() > 1) {
+				params.put("enddate",
+						myApp.formatDateToString4(myApp
+								.formatStringToDate3(endTime_TV.getText()
+										.toString())));
 			}
 			if (selectedOwner > -1) {
 				params.put("ownid", new ArrayList<String>(userMap.keySet())
 						.get(selectedOwner));
 			}
-			if (selectedOrganizer > -1) {
-				params.put("organizer", new ArrayList<String>(userMap.keySet())
-						.get(selectedOrganizer));
-			}
+			// if (selectedOrganizer > -1) {
+			// params.put("organizer", new ArrayList<String>(userMap.keySet())
+			// .get(selectedOrganizer));
+			// }
 
 			if (previousIntent.hasExtra("is_edit_mode")
 					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
@@ -551,10 +558,10 @@ public class AppointmentAddActivity extends CRMActivity {
 			nextIntent.putExtra("user_value", 0);
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
-		case R.id.organizer_RL:
-			nextIntent.putExtra("user_value", 1);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-			break;
+		// case R.id.organizer_RL:
+		// nextIntent.putExtra("user_value", 1);
+		// startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+		// break;
 		default:
 			break;
 		}
@@ -695,10 +702,10 @@ public class AppointmentAddActivity extends CRMActivity {
 					owner_TV.setText(text);
 					selectedOwner = positionItem;
 					break;
-				case 1:
-					organizer_TV.setText(text);
-					selectedOrganizer = positionItem;
-					break;
+				// case 1:
+				// organizer_TV.setText(text);
+				// selectedOrganizer = positionItem;
+				// break;
 				default:
 					break;
 				}
