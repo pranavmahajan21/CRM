@@ -602,6 +602,20 @@ public class AccountAddActivity extends CRMActivity {
 	}
 
 	@Override
+	public void onBack(View view) {
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
+		super.onBack(view);
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
+		super.onBackPressed();
+	}
+	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
@@ -663,6 +677,10 @@ public class AccountAddActivity extends CRMActivity {
 			if (requestCode == MyApp.DETAILS_ACCOUNT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
+				if (previousIntent.hasExtra("search_text")) {
+					intent.putExtra("search_text",
+							previousIntent.getStringExtra("search_text"));
+				}
 				setResult(RESULT_OK, intent);
 				finish();
 			}

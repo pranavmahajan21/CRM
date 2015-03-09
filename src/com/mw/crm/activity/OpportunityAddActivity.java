@@ -30,13 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -644,22 +641,14 @@ public class OpportunityAddActivity extends CRMActivity {
 	
 	@Override
 	public void onBack(View view) {
-		Intent intent = new Intent();
-		if (previousIntent.hasExtra("search_text")) {
-			intent.putExtra("search_text",
-					previousIntent.getStringExtra("search_text"));
-		}
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
 		setResult(RESULT_OK, intent);
 		super.onBack(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent();
-		if (previousIntent.hasExtra("search_text")) {
-			intent.putExtra("search_text",
-					previousIntent.getStringExtra("search_text"));
-		}
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
 		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}

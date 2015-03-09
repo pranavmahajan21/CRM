@@ -231,22 +231,28 @@ public class AccountDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBack(View view) {
-		setResult(RESULT_OK);
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
 		super.onBack(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		setResult(RESULT_OK);
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+	protected void onActivityResult(int requestCode, int resultCode, Intent dataIntent) {
+		super.onActivityResult(requestCode, resultCode, dataIntent);
 		if (resultCode == RESULT_OK) {
-			if (data != null) {
-				setResult(RESULT_OK, data);
+			if (dataIntent != null) {
+				if (previousIntent.hasExtra("search_text")) {
+					dataIntent.putExtra("search_text",
+							previousIntent.getStringExtra("search_text"));
+				}
+				setResult(RESULT_OK, dataIntent);
 			}
 			finish();
 		}

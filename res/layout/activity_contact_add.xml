@@ -114,7 +114,8 @@
 
             <EditText
                 android:id="@+id/designation_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2"
+                android:inputType="textCapWords" />
 
             <TextView
                 android:id="@+id/emailLabel_TV"

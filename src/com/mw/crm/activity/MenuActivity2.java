@@ -192,6 +192,7 @@ public class MenuActivity2 extends Activity {
 
 	public void onAccount(View view) {
 		nextIntent = new Intent(MenuActivity2.this, AccountListActivity.class);
+		nextIntent.putExtra("is_my_account", true);
 		startActivity(nextIntent);
 	}
 

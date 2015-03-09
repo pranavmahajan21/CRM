@@ -153,7 +153,7 @@ public class AppointmentListActivity extends CRMActivity {
 						.toString());
 
 				Appointment tempAppointment = subAppointmentList.get(position);
-				search_ET.setText("");
+//				search_ET.setText("");
 				int index = myApp
 						.getAppointmentIndexFromAppointmentId(tempAppointment
 								.getId());
@@ -176,18 +176,16 @@ public class AppointmentListActivity extends CRMActivity {
 	@Override
 	public void onBack(View view) {
 		search_ET.setText("");
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
 		super.onBack(view);
-	}
-
-	@Override
-	public void onHome(View view) {
-		search_ET.setText("");
-		super.onHome(view);
 	}
 
 	@Override
 	public void onBackPressed() {
 		search_ET.setText("");
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
 

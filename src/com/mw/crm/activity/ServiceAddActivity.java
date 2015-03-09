@@ -131,10 +131,11 @@ public class ServiceAddActivity extends CRMActivity {
 
 		// selectedQueryBy
 		int i = myApp.getIndexFromKeyUserMap(myApp.getLoginUserId());
-		System.out.println("key  : "
-				+ new ArrayList<String>(myApp.getUserMap().keySet()).get(i)
-				+ "value  : "
-				+ new ArrayList<String>(myApp.getUserMap().values()).get(i));
+		selectedQueryBy = i;
+//		System.out.println("key  : "
+//				+ new ArrayList<String>(myApp.getUserMap().keySet()).get(i)
+//				+ "value  : "
+//				+ new ArrayList<String>(myApp.getUserMap().values()).get(i));
 		queryBy_TV.setText(new ArrayList<String>(myApp.getUserMap().values())
 				.get(i));
 	}
@@ -209,11 +210,12 @@ public class ServiceAddActivity extends CRMActivity {
 
 	private boolean validate() {
 		boolean notErrorCase = true;
-		if (selectedQueryBy < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select an owner.", false);
-			notErrorCase = false;
-		} else if (selectedSupportType < 0) {
+//		if (selectedQueryBy < 0) {
+//			alertDialogBuilder = createDialog.createAlertDialog(null,
+//					"Please select an owner.", false);
+//			notErrorCase = false;
+//		} else
+			if (selectedSupportType < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Support Type.", false);
 			notErrorCase = false;
@@ -297,8 +299,10 @@ public class ServiceAddActivity extends CRMActivity {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 							progressDialog.dismiss();
-							
-							AlertDialog alertDialog = myApp.handleError(createDialog,error,"Error while placing a request.");
+
+							AlertDialog alertDialog = myApp.handleError(
+									createDialog, error,
+									"Error while placing a request.");
 							alertDialog.show();
 						}
 					});
@@ -336,8 +340,8 @@ public class ServiceAddActivity extends CRMActivity {
 	private void onPositiveResponse() {
 		progressDialog.dismiss();
 
-		alertDialogBuilder = createDialog.createAlertDialog(null,
-				"Comment posted successfully.", false);
+		alertDialogBuilder = createDialog.createAlertDialog("Thank You",
+				"Request placed successfully.", false);
 		alertDialogBuilder.setPositiveButton("OK",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {

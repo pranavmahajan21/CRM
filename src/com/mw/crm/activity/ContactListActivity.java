@@ -151,7 +151,7 @@ public class ContactListActivity extends CRMActivity {
 						.toString());
 
 				Contact tempContact = subContactList.get(position);
-				search_ET.setText("");
+//				search_ET.setText("");
 				int index = myApp.getContactIndexFromContactId(tempContact
 						.getContactId());
 
@@ -171,18 +171,16 @@ public class ContactListActivity extends CRMActivity {
 	@Override
 	public void onBack(View view) {
 		search_ET.setText("");
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
 		super.onBack(view);
-	}
-
-	@Override
-	public void onHome(View view) {
-		search_ET.setText("");
-		super.onHome(view);
 	}
 
 	@Override
 	public void onBackPressed() {
 		search_ET.setText("");
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
+		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
 

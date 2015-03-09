@@ -1,5 +1,6 @@
 package com.mw.crm.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -34,7 +35,7 @@ public class AccountListActivity extends CRMActivity {
 	TextView errorTV;
 	EditText search_ET;
 
-	Intent nextIntent;
+	Intent previousIntent, nextIntent;
 
 	RequestQueue queue;
 
@@ -43,6 +44,7 @@ public class AccountListActivity extends CRMActivity {
 	private void initThings() {
 
 		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
 		accountList = myApp.getAccountList();
 
 		gson = new Gson();
@@ -50,11 +52,14 @@ public class AccountListActivity extends CRMActivity {
 		queue = Volley.newRequestQueue(this);
 
 		if (accountList != null && accountList.size() > 0) {
-			// subAccountList = new ArrayList<Account>();
-			// for (int i = 0; i < accountList.size(); i++) {
-			// sub
-			// }
-			adapter = new AccountAdapter(this, accountList);
+			if (previousIntent.hasExtra("is_my_account")
+					&& previousIntent.getBooleanExtra("is_my_account", false)) {
+				subAccountList = new ArrayList<Account>(accountList);
+			}
+		}
+
+		if (subAccountList != null && subAccountList.size() > 0) {
+			adapter = new AccountAdapter(this, subAccountList);
 		}
 
 		nextIntent = new Intent(this, AccountDetailsActivity.class);
@@ -124,15 +129,17 @@ public class AccountListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Account tempAccount = accountList.get(position);
+				nextIntent = new Intent(AccountListActivity.this,
+						AccountDetailsActivity.class);
+				nextIntent.putExtra("search_text", search_ET.getText()
+						.toString());
+
+				Account tempAccount = subAccountList.get(position);
 				search_ET.setText("");
 				int index = myApp.getAccountIndexFromAccountId(tempAccount
 						.getAccountId());
 
-				nextIntent = new Intent(AccountListActivity.this,
-						AccountDetailsActivity.class);
 				nextIntent.putExtra("position", index);
-
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 
@@ -141,6 +148,7 @@ public class AccountListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, AccountAddActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
@@ -148,40 +156,38 @@ public class AccountListActivity extends CRMActivity {
 		int position = accountLV.getPositionForView(view);
 		System.out.println("position  :  " + position);
 		nextIntent = new Intent(this, ContactListActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		nextIntent.putExtra("is_my_contact", false);
 		nextIntent.putExtra("account_id", accountList.get(position)
 				.getAccountId());
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+		// startActivity(nextIntent);
 	}
 
 	public void onOpportunity(View view) {
 		int position = accountLV.getPositionForView(view);
 		nextIntent = new Intent(this, OpportunityListActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		nextIntent.putExtra("is_my_opportunity", false);
 		nextIntent.putExtra("account_id", accountList.get(position)
 				.getAccountId());
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
 	public void onAppointment(View view) {
 		int position = accountLV.getPositionForView(view);
 		nextIntent = new Intent(this, AppointmentListActivity.class);
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		nextIntent.putExtra("is_my_appointment", false);
 		nextIntent.putExtra("account_id", accountList.get(position)
 				.getAccountId());
-		startActivity(nextIntent);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
 	@Override
 	public void onBack(View view) {
 		search_ET.setText("");
 		super.onBack(view);
-	}
-
-	@Override
-	public void onHome(View view) {
-		search_ET.setText("");
-		super.onHome(view);
 	}
 
 	@Override
@@ -217,9 +223,9 @@ public class AccountListActivity extends CRMActivity {
 				adapter.notifyDataSetChanged();
 
 			}
-			// if (data != null && data.hasExtra("search_text")) {
-			// search_ET.setText(data.getStringExtra("search_text"));
-			// }
+			if (data != null && data.hasExtra("search_text")) {
+				search_ET.setText(data.getStringExtra("search_text"));
+			}
 		}
 	}
 }

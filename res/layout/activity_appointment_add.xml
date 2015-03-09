@@ -101,7 +101,6 @@
                 android:id="@+id/detailsDiscussion_ET"
                 style="@style/style_ET2"
                 android:layout_marginTop="4dp"
-                android:gravity="center_horizontal"
                 android:hint="Details of discussion" />
 
             <TextView

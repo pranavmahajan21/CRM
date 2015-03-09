@@ -522,22 +522,14 @@ public class ContactAddActivity extends CRMActivity {
 
 	@Override
 	public void onBack(View view) {
-		Intent intent = new Intent();
-		if (previousIntent.hasExtra("search_text")) {
-			intent.putExtra("search_text",
-					previousIntent.getStringExtra("search_text"));
-		}
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
 		setResult(RESULT_OK, intent);
 		super.onBack(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent();
-		if (previousIntent.hasExtra("search_text")) {
-			intent.putExtra("search_text",
-					previousIntent.getStringExtra("search_text"));
-		}
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
 		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
