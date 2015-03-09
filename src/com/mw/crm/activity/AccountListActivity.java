@@ -12,7 +12,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -71,8 +70,6 @@ public class AccountListActivity extends CRMActivity {
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
-		Toast.makeText(this, "size  : " + accountList.size(),
-				Toast.LENGTH_SHORT).show();
 		if (adapter != null) {
 			accountLV.setAdapter(adapter);
 		} else {
@@ -127,11 +124,8 @@ public class AccountListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				System.out.println("position  : " + position);
-				System.out.println("size : " + accountList.size());
 				Account tempAccount = accountList.get(position);
 				search_ET.setText("");
-				System.out.println("position for view  : " + accountLV.getPositionForView(view));
 				int index = myApp.getAccountIndexFromAccountId(tempAccount
 						.getAccountId());
 
@@ -139,10 +133,6 @@ public class AccountListActivity extends CRMActivity {
 						AccountDetailsActivity.class);
 				nextIntent.putExtra("position", index);
 
-				Toast.makeText(AccountListActivity.this, "index : " + index,
-						Toast.LENGTH_SHORT).show();
-
-				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
 

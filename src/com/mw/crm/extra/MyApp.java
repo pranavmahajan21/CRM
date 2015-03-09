@@ -1208,7 +1208,7 @@ public class MyApp extends Application {
 	}
 
 	public int getAccountIndexFromAccountId(String id) {
-		Toast.makeText(this, "size : " +accountList.size(), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "size : " +accountList.size(), Toast.LENGTH_SHORT).show();
 		for (int i = 0; i < accountList.size(); i++) {
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
 				return i;
@@ -1227,7 +1227,7 @@ public class MyApp extends Application {
 	}
 
 	public int getContactIndexFromContactId(String id) {
-		Toast.makeText(this, "size : " +contactList.size(), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "size : " +contactList.size(), Toast.LENGTH_SHORT).show();
 		for (int i = 0; i < contactList.size(); i++) {
 			if (contactList.get(i).getContactId().equalsIgnoreCase(id)) {
 				return i;

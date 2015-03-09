@@ -13,7 +13,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -90,8 +89,6 @@ public class ContactListActivity extends CRMActivity {
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
-		Toast.makeText(this, "size  : " + contactList.size(), Toast.LENGTH_SHORT)
-				.show();
 		if (adapter != null) {
 			contactLV.setAdapter(adapter);
 		} else {
