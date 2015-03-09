@@ -520,22 +520,8 @@ public class AccountAddActivity extends CRMActivity {
 						public void onErrorResponse(VolleyError error) {
 							progressDialog.dismiss();
 							
-							AlertDialog alertDialog = myApp.handleError(createDialog,error);
+							AlertDialog alertDialog = myApp.handleError(createDialog,error,"Error while creating account.");
 							alertDialog.show();
-							
-//							System.out.println("ERROR  : " + error.getMessage());
-//							error.printStackTrace();
-
-//							if (error instanceof NetworkError) {
-//								System.out.println("NetworkError");
-//							}
-//							if (error instanceof NoConnectionError) {
-//								System.out
-//										.println("NoConnectionError you are now offline.");
-//							}
-//							if (error instanceof ServerError) {
-//								System.out.println("ServerError");
-//							}
 						}
 					});
 

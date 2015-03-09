@@ -33,7 +33,9 @@
             <RelativeLayout
                  android:id="@+id/queryBy_RL" 
                 style="@style/RL"
-                android:onClick="onSearchItem" >
+                android:clickable="false"
+                >
+<!--                 android:onClick="onSearchItem"  -->
 
                 <TextView
                     android:id="@+id/queryBy_TV"

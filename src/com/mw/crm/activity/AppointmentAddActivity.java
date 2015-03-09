@@ -477,7 +477,7 @@ public class AppointmentAddActivity extends CRMActivity {
 							progressDialog.dismiss();
 
 							AlertDialog alertDialog = myApp.handleError(
-									createDialog, error);
+									createDialog,error, "Error while creating appointment.");
 							alertDialog.show();
 
 							// System.out.println("ERROR  : " +

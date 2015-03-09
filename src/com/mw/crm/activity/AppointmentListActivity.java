@@ -140,12 +140,6 @@ public class AppointmentListActivity extends CRMActivity {
 			initView(tempAccount.getName() + "-Appointments", "Add");
 		}
 
-		for (int i = 0; i < appointmentList.size(); i++) {
-			System.out.println("{}{}" + appointmentList.get(i).getOwner());
-			System.out.println("{}{}" + appointmentList.get(i).getOrganizer());
-			
-		}
-		
 		myOwnOnTextChangeListeners();
 
 		appointmentLV.setOnItemClickListener(new OnItemClickListener() {
@@ -158,7 +152,7 @@ public class AppointmentListActivity extends CRMActivity {
 				nextIntent.putExtra("search_text", search_ET.getText()
 						.toString());
 
-				Appointment tempAppointment = appointmentList.get(position);
+				Appointment tempAppointment = subAppointmentList.get(position);
 				search_ET.setText("");
 				int index = myApp
 						.getAppointmentIndexFromAppointmentId(tempAppointment

@@ -451,22 +451,9 @@ public class ContactAddActivity extends CRMActivity {
 							progressDialog.dismiss();
 
 							AlertDialog alertDialog = myApp.handleError(
-									createDialog, error);
+									createDialog, error,"Error while creating contact.");
 							alertDialog.show();
-							
-//							System.out.println("ERROR  : " + error.getMessage());
-//							error.printStackTrace();
-//
-//							if (error instanceof NetworkError) {
-//								System.out.println("NetworkError");
-//							}
-//							if (error instanceof NoConnectionError) {
-//								System.out
-//										.println("NoConnectionError you are now offline.");
-//							}
-//							if (error instanceof ServerError) {
-//								System.out.println("ServerError");
-//							}
+
 						}
 					});
 

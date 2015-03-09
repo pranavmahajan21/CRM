@@ -28,24 +28,12 @@ public class ContactAdapter extends BaseAdapter {
 	List<Contact> contactList;
 	List<Contact> tempContactList;
 
-	List<String> organizationList;
-
 	public ContactAdapter(Context context, List<Contact> contactList) {
 		super();
 		this.context = context;
 		this.contactList = contactList;
 		this.tempContactList = new ArrayList<Contact>();
-		tempContactList.addAll(contactList);
-
-		organizationList = new ArrayList<String>();
-		for (int i = 0; i < this.contactList.size(); i++) {
-			try {
-				organizationList.add(getNameFromJson(new JSONObject(
-						this.contactList.get(i).getOrganization())));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
+		this.tempContactList.addAll(contactList);
 		myApp = (MyApp) context.getApplicationContext();
 	}
 
@@ -121,7 +109,7 @@ public class ContactAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	//TODO: remove this
+	// TODO: remove this
 	private String getNameFromJson(JSONObject jsonObject) {
 		String temp = "-";
 		try {
@@ -154,14 +142,17 @@ public class ContactAdapter extends BaseAdapter {
 			contactList.addAll(tempContactList);
 		} else {
 			for (Contact tempContact : tempContactList) {
-				if (tempContact.getLastName().toLowerCase(Locale.getDefault())
-						.contains(charText)
-						// || tempContact.getFirstName()
-						// .toLowerCase(Locale.getDefault())
-						// .contains(charText)
-						|| tempContact.getOrganization()
+				if ((tempContact.getLastName() != null && tempContact
+						.getLastName().toLowerCase(Locale.getDefault())
+						.contains(charText))
+						|| (tempContact.getFirstName() != null && tempContact
+								.getFirstName()
 								.toLowerCase(Locale.getDefault())
-								.contains(charText)) {
+								.contains(charText))
+						|| (tempContact.getOrganization() != null && tempContact
+								.getOrganization()
+								.toLowerCase(Locale.getDefault())
+								.contains(charText))) {
 					contactList.add(tempContact);
 				}
 			}

@@ -154,7 +154,7 @@ public class OpportunityListActivity extends CRMActivity {
 				nextIntent.putExtra("search_text", search_ET.getText()
 						.toString());
 
-				Opportunity tempOpportunity = opportunityList.get(position);
+				Opportunity tempOpportunity = subOpportunityList.get(position);
 				search_ET.setText("");
 				int index = myApp
 						.getOpportunityIndexFromOpportunityId(tempOpportunity

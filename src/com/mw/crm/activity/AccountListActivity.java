@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -70,6 +71,8 @@ public class AccountListActivity extends CRMActivity {
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
+		Toast.makeText(this, "size  : " + accountList.size(),
+				Toast.LENGTH_SHORT).show();
 		if (adapter != null) {
 			accountLV.setAdapter(adapter);
 		} else {
@@ -117,27 +120,6 @@ public class AccountListActivity extends CRMActivity {
 		findThings();
 		initView("Client History", "Add");
 
-		// ViewTreeObserver viewTreeObserver =
-		// rightButtonTV.getViewTreeObserver();
-		// if (viewTreeObserver.isAlive()) {
-		// viewTreeObserver
-		// .addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-		// @Override
-		// public void onGlobalLayout() {
-		// rightButtonTV.getViewTreeObserver()
-		// .removeOnGlobalLayoutListener(this);
-		// viewWidth = rightButtonTV.getWidth();
-		// viewHeight = rightButtonTV.getHeight();
-		// }
-		// });
-		// }
-		// System.out.println("width  : " + viewWidth + "height  : " +
-		// viewHeight);
-		//
-		// int width = rightButtonTV.getLayoutParams().width;
-		// int height = rightButtonTV.getLayoutParams().height;
-		// System.out.println("width  : " + width + "height  : " + height);
-
 		myOwnOnTextChangeListeners();
 
 		accountLV.setOnItemClickListener(new OnItemClickListener() {
@@ -145,14 +127,21 @@ public class AccountListActivity extends CRMActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				System.out.println("position  : " + position);
+				System.out.println("size : " + accountList.size());
 				Account tempAccount = accountList.get(position);
 				search_ET.setText("");
+				System.out.println("position for view  : " + accountLV.getPositionForView(view));
 				int index = myApp.getAccountIndexFromAccountId(tempAccount
 						.getAccountId());
 
 				nextIntent = new Intent(AccountListActivity.this,
 						AccountDetailsActivity.class);
 				nextIntent.putExtra("position", index);
+
+				Toast.makeText(AccountListActivity.this, "index : " + index,
+						Toast.LENGTH_SHORT).show();
+
 				// nextIntent.putExtra("position", position);
 				startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 			}
@@ -238,9 +227,9 @@ public class AccountListActivity extends CRMActivity {
 				adapter.notifyDataSetChanged();
 
 			}
-//			if (data != null && data.hasExtra("search_text")) {
-//				search_ET.setText(data.getStringExtra("search_text"));
-//			}
+			// if (data != null && data.hasExtra("search_text")) {
+			// search_ET.setText(data.getStringExtra("search_text"));
+			// }
 		}
 	}
 }

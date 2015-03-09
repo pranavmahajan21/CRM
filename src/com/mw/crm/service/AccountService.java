@@ -85,8 +85,8 @@ public class AccountService extends IntentService {
 						public void onErrorResponse(VolleyError error) {
 							System.out.println("ERROR  : " + error.getMessage());
 							Toast.makeText(AccountService.this,
-									"Error while fetching Account",
-									Toast.LENGTH_SHORT).show();
+									"Error while fetching Accounts",
+									Toast.LENGTH_LONG).show();
 							error.printStackTrace();
 
 							if (error instanceof NetworkError) {

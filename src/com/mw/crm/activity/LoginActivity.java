@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,14 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
@@ -120,16 +116,34 @@ public class LoginActivity extends Activity {
 			notErrorCase = false;
 		}
 		if (!notErrorCase) {
-			alertDialogBuilder.setPositiveButton("OK",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-						}
-					});
+			alertDialogBuilder = myApp.addOKToAlertDialogBuilder(alertDialogBuilder);
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		}
 		return notErrorCase;
+	}
+
+	private void onPositiveResponse(JSONObject response) {
+		progressDialog.dismiss();
+
+		if (response.has("id")) {
+			editor.putBoolean("is_user_login", true);
+			editor.commit();
+			try {
+				myApp.setLoginUserId(response.getString("id"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			startActivity(nextIntent);
+		} else {
+			alertDialogBuilder = createDialog.createAlertDialog("Error",
+					"Incorrect username-password combination.", false);
+			alertDialogBuilder = myApp.addOKToAlertDialogBuilder(alertDialogBuilder);
+			
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
 	}
 
 	public void onLogin(View view) {
@@ -162,9 +176,7 @@ public class LoginActivity extends Activity {
 						@Override
 						public void onResponse(JSONObject response) {
 							System.out.println("length2" + response);
-							if (response.has("id")) {
-								onPositiveResponse(response);
-							}
+							onPositiveResponse(response);
 						}
 
 					}, new Response.ErrorListener() {
@@ -172,19 +184,12 @@ public class LoginActivity extends Activity {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 							progressDialog.hide();
-							System.out.println("ERROR  : " + error.getMessage());
-							error.printStackTrace();
 
-							if (error instanceof NetworkError) {
-								System.out.println("NetworkError");
-							}
-							if (error instanceof NoConnectionError) {
-								System.out
-										.println("NoConnectionError you are now offline.");
-							}
-							if (error instanceof ServerError) {
-								System.out.println("ServerError");
-							}
+							AlertDialog alertDialog = myApp.handleError(
+									createDialog, error,
+									"Error while login.");
+							alertDialog.show();
+
 						}
 					});
 
@@ -200,17 +205,4 @@ public class LoginActivity extends Activity {
 
 	}
 
-	private void onPositiveResponse(JSONObject response) {
-		progressDialog.dismiss();
-
-		editor.putBoolean("is_user_login", true);
-		editor.commit();
-		try {
-			myApp.setLoginUserId(response.getString("id"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		startActivity(nextIntent);
-	}
 }

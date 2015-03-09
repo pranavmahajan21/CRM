@@ -90,7 +90,7 @@ public class ContactListActivity extends CRMActivity {
 
 	public void initView(String title, String title2) {
 		super.initView(title, title2);
-		Toast.makeText(this, "" + contactList.size(), Toast.LENGTH_SHORT)
+		Toast.makeText(this, "size  : " + contactList.size(), Toast.LENGTH_SHORT)
 				.show();
 		if (adapter != null) {
 			contactLV.setAdapter(adapter);
@@ -153,7 +153,7 @@ public class ContactListActivity extends CRMActivity {
 				nextIntent.putExtra("search_text", search_ET.getText()
 						.toString());
 
-				Contact tempContact = contactList.get(position);
+				Contact tempContact = subContactList.get(position);
 				search_ET.setText("");
 				int index = myApp.getContactIndexFromContactId(tempContact
 						.getContactId());

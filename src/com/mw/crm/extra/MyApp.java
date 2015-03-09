@@ -136,6 +136,7 @@ public class MyApp extends Application {
 	Map<String, String> supportTypeMap;
 
 	/** Coming from Internal Connect **/
+	/** <db843bfb-9a8a-e411-96e8-5cf3fc3f502a, CRM Audit Director 1 >**/
 	Map<String, String> userMap;
 
 	SharedPreferences sharedPreferences;
@@ -315,9 +316,9 @@ public class MyApp extends Application {
 		loadMenuItems();
 
 		readDataFromExcel();
-		
-//		Intent intent2 = new Intent(this, AppointmentService.class);
-//		startService(intent2);
+
+		// Intent intent2 = new Intent(this, AppointmentService.class);
+		// startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
@@ -1046,7 +1047,7 @@ public class MyApp extends Application {
 	}
 
 	public Account getAccountById(String id) {
-		 System.out.println("1111  " + id);
+		System.out.println("1111  " + id);
 		for (int i = 0; i < accountList.size(); i++) {
 			// System.out.println("2222  " + accountList.get(i).getAccountId());
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
@@ -1206,16 +1207,8 @@ public class MyApp extends Application {
 		}
 	}
 
-//	public int getUserIndexFromUserId(String id) {
-//		for (int i = 0; i < userMap.size(); i++) {
-//			if (userMap.get(i).equalsIgnoreCase(id)) {
-//				return i;
-//			}
-//		}
-//		return 0;
-//	}
-	
 	public int getAccountIndexFromAccountId(String id) {
+		Toast.makeText(this, "size : " +accountList.size(), Toast.LENGTH_SHORT).show();
 		for (int i = 0; i < accountList.size(); i++) {
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
 				return i;
@@ -1234,6 +1227,7 @@ public class MyApp extends Application {
 	}
 
 	public int getContactIndexFromContactId(String id) {
+		Toast.makeText(this, "size : " +contactList.size(), Toast.LENGTH_SHORT).show();
 		for (int i = 0; i < contactList.size(); i++) {
 			if (contactList.get(i).getContactId().equalsIgnoreCase(id)) {
 				return i;
@@ -1251,23 +1245,23 @@ public class MyApp extends Application {
 		return 0;
 	}
 
-	public AlertDialog handleError(CreateDialog createDialog, VolleyError error) {
+	public AlertDialog handleError(CreateDialog createDialog, VolleyError error, String title) {
 		System.out.println("ERROR  : " + error.getMessage());
 		error.printStackTrace();
 
 		if (error instanceof NetworkError) {
 			System.out.println("NetworkError");
-			alertDialogBuilder = createDialog.createAlertDialog(null,
+			alertDialogBuilder = createDialog.createAlertDialog(title,
 					"NetworkError.", false);
 		}
 		if (error instanceof NoConnectionError) {
 			System.out.println("NoConnectionError you are now offline.");
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"NoConnectionError you are now offline.", false);
+			alertDialogBuilder = createDialog.createAlertDialog(title,
+					"Internet Unavailable. You are offline.", false);
 		}
 		if (error instanceof ServerError) {
 			System.out.println("ServerError");
-			alertDialogBuilder = createDialog.createAlertDialog(null,
+			alertDialogBuilder = createDialog.createAlertDialog(title,
 					"ServerError.", false);
 		}
 		alertDialogBuilder.setPositiveButton("OK",
@@ -1276,10 +1270,9 @@ public class MyApp extends Application {
 						dialog.dismiss();
 					}
 				});
-		// AlertDialog
+
 		alertDialog = alertDialogBuilder.create();
 		return alertDialog;
-		// alertDialog.show();
 	}
 
 	public Intent getIntenWithPreviousSearch(Intent previousIntent) {
@@ -1289,5 +1282,15 @@ public class MyApp extends Application {
 					previousIntent.getStringExtra("search_text"));
 		}
 		return intent;
+	}
+
+	public AlertDialog.Builder addOKToAlertDialogBuilder(AlertDialog.Builder alertDialogBuilder) {
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		return alertDialogBuilder;
 	}
 }
