@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/solutionManagerLabel_TV"
+        style="@style/style_TV2"
+        android:text="Solution Manager" />
+
+    <RelativeLayout
+        android:id="@+id/solutionManager_RL"
+        style="@style/RL" >
+
+        <TextView
+            android:id="@+id/solutionManager_TV"
+            style="@style/TV"
+            android:hint="Mr Manager" />
+
+        <ImageView style="@style/IV" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/solutionPartnerLabel_TV"
+        style="@style/style_TV2"
+        android:text="Solution Partner" />
+
+    <RelativeLayout
+        android:id="@+id/solutionPartner_RL"
+        style="@style/RL" >
+
+        <TextView
+            android:id="@+id/solutionPartner_TV"
+            style="@style/TV"
+            android:hint="Mr Partner" />
+
+        <ImageView style="@style/IV" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/solutionNameLabel_TV"
+        style="@style/style_TV2"
+        android:text="Solution Name" />
+
+    <RelativeLayout
+        android:id="@+id/solutionName_RL"
+        style="@style/RL" >
+
+        <TextView
+            android:id="@+id/solutionName_TV"
+            style="@style/TV"
+            android:hint="Solution Name" />
+
+        <ImageView style="@style/IV" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/profitCenterLabel_TV"
+        style="@style/style_TV2"
+        android:text="Profit Center" />
+
+    <RelativeLayout
+        android:id="@+id/profitCenter_RL"
+        style="@style/RL" >
+
+        <TextView
+            android:id="@+id/profitCenter_TV"
+            style="@style/TV"
+            android:hint="Profit Center" />
+
+        <ImageView style="@style/IV" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/taxonomyLabel_TV"
+        style="@style/style_TV2"
+        android:text="Taxonomy" />
+
+    <RelativeLayout
+        android:id="@+id/taxonomy_RL"
+        style="@style/RL" >
+
+        <TextView
+            android:id="@+id/taxonomy_TV"
+            style="@style/TV"
+            android:hint="Taxonomy" />
+
+        <ImageView style="@style/IV" />
+    </RelativeLayout>
+
+</LinearLayout>

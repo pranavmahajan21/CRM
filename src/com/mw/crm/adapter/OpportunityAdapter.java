@@ -98,13 +98,15 @@ public class OpportunityAdapter extends BaseAdapter {
 			temp = null;
 		}
 //		viewHolder.statusTV.setText(tempOpportunity.getKpmgStatus());
-		Integer temp2 = myApp.getIntValueFromStringJSON(tempOpportunity
-				.getTotalAmount());
-		if (temp2 != null) {
-			viewHolder.costTV.setText(temp2.intValue() + "");
-			temp = null;
-		}
-//		viewHolder.costTV.setText(tempOpportunity.getTotalAmount());
+		
+//		Integer temp2 = myApp.getIntValueFromStringJSON(tempOpportunity
+//				.getTotalAmount());
+//		if (temp2 != null) {
+//			viewHolder.costTV.setText(temp2.intValue() + "");
+//			temp = null;
+//		}
+
+		//		viewHolder.costTV.setText(tempOpportunity.getTotalAmount());
 		return convertView;
 	}
 

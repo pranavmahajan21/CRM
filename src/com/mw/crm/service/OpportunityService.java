@@ -13,12 +13,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
@@ -27,6 +24,7 @@ import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.activity.OpportunityAddActivity;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Opportunity;
+import com.mw.crm.model.Solution;
 
 public class OpportunityService extends IntentService {
 
@@ -45,7 +43,8 @@ public class OpportunityService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-//		Toast.makeText(this, "OpportunityService", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "OpportunityService",
+		// Toast.LENGTH_SHORT).show();
 		myApp = (MyApp) getApplicationContext();
 
 		try {
@@ -79,6 +78,8 @@ public class OpportunityService extends IntentService {
 								// + accountList.get(i).getName());
 							}
 							myApp.setOpportunityList(opportunityList, true);
+							Toast.makeText(OpportunityService.this, "Done",
+									Toast.LENGTH_SHORT).show();
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
@@ -88,19 +89,8 @@ public class OpportunityService extends IntentService {
 							System.out.println("ERROR  : " + error.getMessage());
 							Toast.makeText(OpportunityService.this,
 									"Error while fetching oppotunitites",
-									Toast.LENGTH_SHORT).show();
+									Toast.LENGTH_LONG).show();
 							error.printStackTrace();
-
-							if (error instanceof NetworkError) {
-								System.out.println("NetworkError");
-							}
-							if (error instanceof NoConnectionError) {
-								System.out
-										.println("NoConnectionError you are now offline.");
-							}
-							if (error instanceof ServerError) {
-								System.out.println("ServerError");
-							}
 							onRequestComplete();
 						}
 					});
@@ -117,7 +107,7 @@ public class OpportunityService extends IntentService {
 	}
 
 	private void onRequestComplete() {
-			if (OpportunityAddActivity.isActivityVisible) {
+		if (OpportunityAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		} else if (MenuActivity2.isActivityVisible) {
@@ -125,25 +115,109 @@ public class OpportunityService extends IntentService {
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
 
+	List<Solution> solutionList;
+
 	private Opportunity getOpportunityObject(JSONObject jsonObject) {
+		solutionList = new ArrayList<Solution>();
 		try {
-			Opportunity opportunity = new Opportunity(
-					MyApp.decryptData(jsonObject.getString("ownerid")),
+			solutionList.add(new Solution(MyApp.decryptData(jsonObject
+					.getString("ownerid")), MyApp.decryptData(jsonObject
+					.getString("pcl_partnersolution1")),
 					MyApp.decryptData(jsonObject
-							.getString("transactioncurrencyid")),
-					MyApp.decryptData(jsonObject.getString("totalamount")),
-					MyApp.decryptData(jsonObject.getString("customerid")),
+							.getString("pcl_solutionsolution1")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_profitcentersolution1")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_taxonomysolution1")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_feessolution1")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrpreviousyearsolution1")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrcurrentyearsolution1")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrfy1solution1")),null));
+			solutionList.add(new Solution(MyApp.decryptData(jsonObject
+					.getString("pcl_managersolution2")), MyApp
+					.decryptData(jsonObject.getString("pcl_partnersolution2")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_solutionsolution2")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_profitcentersolution2")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_taxonomysolution2")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_feessolution2")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrpreviousyearsolution2")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrcurrentyearsolution2")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrfy1solution2")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrfy2solution2"))));
+			solutionList.add(new Solution(MyApp.decryptData(jsonObject
+					.getString("pcl_managersolution3")), MyApp
+					.decryptData(jsonObject.getString("pcl_partnersolution3")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_solutionsolution3")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_profitcentersolution3")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_taxonomysolution3")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_feessolution3")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrpreviousyearsolution3")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrcurrentyearsolution3")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrfy1solution3")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrfy2solution3"))));
+			solutionList.add(new Solution(MyApp.decryptData(jsonObject
+					.getString("pcl_managersolution4")), MyApp
+					.decryptData(jsonObject.getString("pcl_partnersolution4")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_solutionsolution4")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_profitcentersolution4")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_taxonomysolution4")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_feessolution4")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrpreviousyearsolution4")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrcurrentyearsolution4")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_nfrfy1solution4")), MyApp
+							.decryptData(jsonObject
+									.getString("pcl_nfrfy2solution4"))));
+
+			Opportunity opportunity = new Opportunity(
+					MyApp.getPerfectString(jsonObject
+							.getString("opportunityid")),
 					MyApp.getPerfectString(jsonObject.getString("name")),
+					MyApp.decryptData(jsonObject.getString("customerid")),
+					MyApp.decryptData(jsonObject.getString("pcl_confendential")),
+					MyApp.decryptData(jsonObject.getString("pcl_leadsourcenew")),
+					MyApp.decryptData(jsonObject.getString("salesstagecode")),
+					MyApp.decryptData(jsonObject
+							.getString("opportunityratingcode")),
 					MyApp.decryptData(jsonObject.getString("pcl_kpmgstatus")),
-					MyApp.getPerfectString(jsonObject.getString("opportunityid")),
-					MyApp.decryptData(jsonObject.getString("opportunityratingcode")),
-					MyApp.decryptData(jsonObject.getString("salesstagecode")));
+					myApp.formatStringSpecialToDate(MyApp
+							.getPerfectString(jsonObject
+									.getString("estimatedclosedate"))),
+					MyApp.decryptData(jsonObject.getString("estimatedvalue")),
+					MyApp.decryptData(jsonObject
+							.getString("pcl_noofsolutionsrequired")), solutionList);
 			return opportunity;
 
 		} catch (JSONException e) {

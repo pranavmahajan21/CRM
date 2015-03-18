@@ -13,12 +13,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
@@ -81,19 +78,8 @@ public class InternalConnectService extends IntentService {
 							Toast.makeText(
 									InternalConnectService.this,
 									"Error while fetching internal connect data.",
-									Toast.LENGTH_SHORT).show();
+									Toast.LENGTH_LONG).show();
 							error.printStackTrace();
-
-							if (error instanceof NetworkError) {
-								System.out.println("NetworkError");
-							}
-							if (error instanceof NoConnectionError) {
-								System.out
-										.println("NoConnectionError you are now offline.");
-							}
-							if (error instanceof ServerError) {
-								System.out.println("ServerError");
-							}
 							onRequestComplete();
 						}
 					});

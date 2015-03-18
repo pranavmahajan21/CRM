@@ -205,8 +205,10 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void onOpportunity(View view) {
+//		nextIntent = new Intent(MenuActivity2.this,
+//				OpportunityListActivity.class);
 		nextIntent = new Intent(MenuActivity2.this,
-				OpportunityListActivity.class);
+				OpportunityAddActivity.class);
 		nextIntent.putExtra("is_my_opportunity", true);
 		startActivity(nextIntent);
 	}

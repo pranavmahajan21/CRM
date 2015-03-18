@@ -37,7 +37,6 @@
             <TextView
                 android:id="@+id/clientNameLabel_TV"
                 style="@style/style_TV2"
-                android:layout_marginTop="1dp"
                 android:text="Client Name" />
 
             <RelativeLayout
@@ -53,26 +52,77 @@
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
-            <!--
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/confidentialLabel_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Confidential"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:textColor="@color/blue_dark" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:textColor="@color/blue_dark" />
+                    <!-- android:background="@android:color/white" -->
+                </RadioGroup>
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/leadPartnerLabel_TV"
+                android:id="@+id/leadSourceLabel_TV"
                 style="@style/style_TV2"
-                android:text="Lead Partner" />
+                android:text="Lead Source" />
 
             <RelativeLayout
-                android:id="@+id/leadPartner_RL"
+                android:id="@+id/leadSource_RL"
                 style="@style/RL"
                 android:onClick="onSearchItem" >
 
                 <TextView
-                    android:id="@+id/leadPartner_TV"
+                    android:id="@+id/leadSource_TV"
                     style="@style/TV"
-                    android:hint="Lead Partner // TODO" />
+                    android:hint="Lead Source // TODO" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-            -->
 
+            <TextView
+                android:id="@+id/salesStageLabel_TV"
+                style="@style/style_TV2"
+                android:text="Sales Stage" />
+
+            <RelativeLayout
+                android:id="@+id/salesStage_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/salesStage_TV"
+                    style="@style/TV"
+                    android:hint="Sales Stage" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <!--
             <TextView
                 android:id="@+id/oppoManagerLabel_TV"
                 style="@style/style_TV2"
@@ -107,23 +157,7 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/statusLabel_TV"
-                style="@style/style_TV2"
-                android:text="Status" />
-
-            <RelativeLayout
-                android:id="@+id/status_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/status_TV"
-                    style="@style/TV"
-                    android:hint="Status" />
-
-                <ImageView style="@style/IV" />
-            </RelativeLayout>
+            -->
 
             <TextView
                 android:id="@+id/probabilityLabel_TV"
@@ -143,22 +177,176 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/salesStageLabel_TV"
+                android:id="@+id/statusLabel_TV"
                 style="@style/style_TV2"
-                android:text="Sales Stage" />
+                android:text="Status" />
 
             <RelativeLayout
-                android:id="@+id/salesStage_RL"
+                android:id="@+id/status_RL"
                 style="@style/RL" >
 
                 <TextView
-                    android:id="@+id/salesStage_TV"
+                    android:id="@+id/status_TV"
                     style="@style/TV"
-                    android:hint="Sales Stage" />
+                    android:hint="Status" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/expectedClosureDateLabel_TV"
+                style="@style/style_TV2"
+                android:text="Expected Closure Date" />
+
+            <RelativeLayout
+                android:id="@+id/expectedClosureDate_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/expectedClosureDate_TV"
+                    style="@style/TV"
+                    android:hint="Expected Closure Date" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/totalProposalValueLabel_TV"
+                style="@style/style_TV2"
+                android:text="Total Proposal Value" />
+
+            <EditText
+                android:id="@+id/totalProposalValue_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/noOfSolutionLabel_TV"
+                style="@style/style_TV2"
+                android:text="Number of Solutions" />
+
+            <RelativeLayout
+                android:id="@+id/noOfSolution_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/noOfSolution_TV"
+                    style="@style/TV"
+                    android:hint="Number of Solutions" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution1_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/expandTabSolution1_RL"
+                    style="@style/RL"
+                    android:onClick="onExpand" >
+
+                    <TextView
+                        android:id="@+id/solution1_TV"
+                        style="@style/TV"
+                        android:hint="Solution1" />
+
+                    <ImageView style="@style/IV" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/childSolution1_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution2_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <RelativeLayout
+                    android:id="@+id/expandTabSolution2_RL"
+                    style="@style/RL"
+                    android:onClick="onExpand" >
+
+                    <TextView
+                        android:id="@+id/solution2_TV"
+                        style="@style/TV"
+                        android:hint="Solution2" />
+
+                    <ImageView style="@style/IV" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/childSolution2_LL"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution3_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <RelativeLayout
+                    android:id="@+id/expandTabSolution3_RL"
+                    style="@style/RL"
+                    android:onClick="onExpand" >
+
+                    <TextView
+                        android:id="@+id/solution3_TV"
+                        style="@style/TV"
+                        android:hint="Solution3" />
+
+                    <ImageView style="@style/IV" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/childSolution3_LL"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution4_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <RelativeLayout
+                    android:id="@+id/expandTabSolution4_RL"
+                    style="@style/RL"
+                    android:onClick="onExpand" >
+
+                    <TextView
+                        android:id="@+id/solution4_TV"
+                        style="@style/TV"
+                        android:hint="Solution4" />
+
+                    <ImageView style="@style/IV" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/childSolution4_LL"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false" />
+            </LinearLayout>
+            <!--
             <TextView
                 android:id="@+id/countryLabel_TV"
                 style="@style/style_TV2"
@@ -234,6 +422,7 @@
                     style="@style/IV"
                     android:src="@null" />
             </RelativeLayout>
+            -->
         </LinearLayout>
     </ScrollView>
 

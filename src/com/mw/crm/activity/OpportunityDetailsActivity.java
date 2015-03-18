@@ -94,7 +94,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		if (previousIntent.hasExtra("opportunity_dummy")
 				&& selectedOpportunity != null) {
 			oppoName_TV.setText(selectedOpportunity.getDescription());
-			oppoManager_TV.setText(selectedOpportunity.getOwnerId());
+//			oppoManager_TV.setText(selectedOpportunity.getOwnerId());
 			status_TV.setText(selectedOpportunity.getKpmgStatus());
 			probability_TV.setText(selectedOpportunity.getProbability());
 			salesStage_TV.setText(selectedOpportunity.getSalesStage());
@@ -106,9 +106,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			sector_TV.setText(previousIntent.getStringExtra("sector"));
 		} else {
 			oppoName_TV.setText(selectedOpportunity.getDescription());
-			oppoManager_TV.setText(myApp
-					.getStringNameFromStringJSON(selectedOpportunity
-							.getOwnerId()));
+//			oppoManager_TV.setText(myApp
+//					.getStringNameFromStringJSON(selectedOpportunity
+//							.getOwnerId()));
 
 			Integer temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
 					.getKpmgStatus());

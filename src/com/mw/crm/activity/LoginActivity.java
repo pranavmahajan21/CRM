@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class LoginActivity extends Activity {
 	EditText email_ET, password_ET;
 	Button login_B;
 
-	Intent nextIntent;
+	Intent previousIntent, nextIntent;
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -54,6 +55,9 @@ public class LoginActivity extends Activity {
 
 		myApp = (MyApp) getApplicationContext();
 
+		previousIntent = getIntent();
+		System.out.println("loop  :  " + previousIntent.hasExtra("on_the_go"));
+
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("LogIn",
 				"Verifying username-password.", true, null);
@@ -64,7 +68,7 @@ public class LoginActivity extends Activity {
 		queue = Volley.newRequestQueue(this);
 
 		nextIntent = new Intent(this, MenuActivity2.class);
-		nextIntent.putExtra("is_first_time_login", true);
+
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	}
@@ -102,6 +106,26 @@ public class LoginActivity extends Activity {
 		initThings();
 		findThings();
 		initView();
+
+		if (sharedPreferences.contains("is_user_login")
+				&& sharedPreferences.getBoolean("is_user_login", false)) {
+			System.out.println("hello   3");
+			startActivity(nextIntent);
+		} else if (previousIntent.hasExtra("on_the_go")) {
+			System.out.println("hello   4");
+		} else {
+			alertDialogBuilder = createDialog.createAlertDialog("Alert",
+					"First time login oly through On The Go app.", false);
+			alertDialogBuilder.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+							finish();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
 	}
 
 	private boolean validate() {
@@ -116,7 +140,8 @@ public class LoginActivity extends Activity {
 			notErrorCase = false;
 		}
 		if (!notErrorCase) {
-			alertDialogBuilder = myApp.addOKToAlertDialogBuilder(alertDialogBuilder);
+			alertDialogBuilder = myApp
+					.addOKToAlertDialogBuilder(alertDialogBuilder);
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		}
@@ -134,13 +159,15 @@ public class LoginActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
+			nextIntent.putExtra("is_first_time_login", true);
 			startActivity(nextIntent);
+			System.out.println("hello   5");
 		} else {
 			alertDialogBuilder = createDialog.createAlertDialog("Error",
 					"Incorrect username-password combination.", false);
-			alertDialogBuilder = myApp.addOKToAlertDialogBuilder(alertDialogBuilder);
-			
+			alertDialogBuilder = myApp
+					.addOKToAlertDialogBuilder(alertDialogBuilder);
+
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		}
@@ -186,8 +213,7 @@ public class LoginActivity extends Activity {
 							progressDialog.hide();
 
 							AlertDialog alertDialog = myApp.handleError(
-									createDialog, error,
-									"Error while login.");
+									createDialog, error, "Error while login.");
 							alertDialog.show();
 
 						}

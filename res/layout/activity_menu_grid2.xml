@@ -109,7 +109,7 @@
             <!-- Service Connect -->
             <RelativeLayout
                 style="@style/RL2"
-                android:onClick="onService" >
+                android:onClick="onOpportunity" >
 
                 <LinearLayout
                     android:id="@+id/LL4"

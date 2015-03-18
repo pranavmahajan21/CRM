@@ -19,12 +19,14 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +40,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
-import com.google.gson.Gson;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
@@ -51,16 +52,31 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	MyApp myApp;
 
-	TextView clientNameLabel_TV, descriptionLabel_TV, statusLabel_TV,
-			oppoManagerLabel_TV, probabilityLabel_TV, salesStageLabel_TV,
-			countryLabel_TV, lobLabel_TV, sublobLabel_TV, sectorLabel_TV;
+	TextView clientNameLabel_TV, leadSourceLabel_TV, salesStageLabel_TV,
+			probabilityLabel_TV, statusLabel_TV, expectedClosureDateLabel_TV,
+			noOfSolutionLabel_TV;
+	// , countryLabel_TV, lobLabel_TV, sublobLabel_TV,
+	// sectorLabel_TV, oppoManagerLabel_TV
 
-	TextView clientName_TV, status_TV, oppoManager_TV, probability_TV,
-			salesStage_TV, country_TV, lob_TV, sublob_TV, sector_TV;
+	TextView clientName_TV, leadSource_TV, salesStage_TV, probability_TV,
+			status_TV, expectedClosureDate_TV, noOfSolution_TV;
+	// country_TV, lob_TV, sublob_TV, sector_TV, oppoManager_TV
 
-	EditText description_ET;
+	TextView descriptionLabel_TV, totalProposalValueLabel_TV;
+	EditText description_ET, totalProposalValue_ET;
 
 	RelativeLayout status_RL, oppoManager_RL, probability_RL, salesStage_RL;
+
+	/** Solution */
+	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL,
+			parentSolution4_LL;
+
+	RelativeLayout expandTabSolution1_RL, expandTabSolution2_RL,
+			expandTabSolution3_RL, expandTabSolution4_RL;
+
+	LinearLayout childSolution1_LL, childSolution2_LL, childSolution3_LL,
+			childSolution4_LL;
+	/** Solution */
 
 	Opportunity tempOpportunity;
 
@@ -82,43 +98,42 @@ public class OpportunityAddActivity extends CRMActivity {
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
 
+	LayoutInflater inflater;
+
 	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-					.getBooleanExtra("is_edit_mode", false))) {
-				Toast.makeText(OpportunityAddActivity.this,
-						"Opportunity updated successfully.", Toast.LENGTH_SHORT)
-						.show();
-			} else {
-				Toast.makeText(OpportunityAddActivity.this,
-						"Opportunity created successfully.", Toast.LENGTH_SHORT)
-						.show();
-			}
-
-			Opportunity aa = new Opportunity(oppoManager_TV.getText()
-					.toString(), null, null,
-					clientName_TV.getText().toString(), description_ET
-							.getText().toString(), status_TV.getText()
-							.toString(), null, probability_TV.getText()
-							.toString(), salesStage_TV.getText().toString());
-
-			nextIntent = new Intent(OpportunityAddActivity.this,
-					OpportunityDetailsActivity.class);
-
-			nextIntent.putExtra("opportunity_dummy",
-					new Gson().toJson(aa, Opportunity.class));
-			nextIntent.putExtra("country", country_TV.getText().toString());
-			nextIntent.putExtra("lob", lob_TV.getText().toString());
-			nextIntent.putExtra("sub_lob", sublob_TV.getText().toString());
-			nextIntent.putExtra("sector", sector_TV.getText().toString());
-			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-					.getBooleanExtra("is_edit_mode", false))) {
-				nextIntent.putExtra("opportunity_created", true);
-			}
-			startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
+			/*
+			 * if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+			 * .getBooleanExtra("is_edit_mode", false))) {
+			 * Toast.makeText(OpportunityAddActivity.this,
+			 * "Opportunity updated successfully.", Toast.LENGTH_SHORT) .show();
+			 * } else { Toast.makeText(OpportunityAddActivity.this,
+			 * "Opportunity created successfully.", Toast.LENGTH_SHORT) .show();
+			 * }
+			 * 
+			 * Opportunity aa = new Opportunity(oppoManager_TV.getText()
+			 * .toString(), null, null, clientName_TV.getText().toString(),
+			 * description_ET .getText().toString(), status_TV.getText()
+			 * .toString(), null, probability_TV.getText() .toString(),
+			 * salesStage_TV.getText().toString());
+			 * 
+			 * nextIntent = new Intent(OpportunityAddActivity.this,
+			 * OpportunityDetailsActivity.class);
+			 * 
+			 * nextIntent.putExtra("opportunity_dummy", new Gson().toJson(aa,
+			 * Opportunity.class)); nextIntent.putExtra("country",
+			 * country_TV.getText().toString()); nextIntent.putExtra("lob",
+			 * lob_TV.getText().toString()); nextIntent.putExtra("sub_lob",
+			 * sublob_TV.getText().toString()); nextIntent.putExtra("sector",
+			 * sector_TV.getText().toString()); if
+			 * (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+			 * .getBooleanExtra("is_edit_mode", false))) {
+			 * nextIntent.putExtra("opportunity_created", true); }
+			 * startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
+			 */
 
 		}
 	};
@@ -137,63 +152,92 @@ public class OpportunityAddActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
 
+		inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		queue = Volley.newRequestQueue(this);
 	}
 
 	public void findThings() {
 		super.findThings();
 
-		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
 		descriptionLabel_TV = (TextView) findViewById(R.id.descriptionLabel_TV);
-		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
-		oppoManagerLabel_TV = (TextView) findViewById(R.id.oppoManagerLabel_TV);
-		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
-		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
-		countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
-		lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
-		sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
-		sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
-
-		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
-		status_TV = (TextView) findViewById(R.id.status_TV);
-		oppoManager_TV = (TextView) findViewById(R.id.oppoManager_TV);
-		probability_TV = (TextView) findViewById(R.id.probability_TV);
-		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
-		country_TV = (TextView) findViewById(R.id.country_TV);
-		lob_TV = (TextView) findViewById(R.id.lob_TV);
-		sublob_TV = (TextView) findViewById(R.id.sublob_TV);
-		sector_TV = (TextView) findViewById(R.id.sector_TV);
+		totalProposalValueLabel_TV = (TextView) findViewById(R.id.totalProposalValueLabel_TV);
 
 		description_ET = (EditText) findViewById(R.id.description_ET);
+		totalProposalValue_ET = (EditText) findViewById(R.id.totalProposalValue_ET);
 
-		status_RL = (RelativeLayout) findViewById(R.id.status_RL);
-		oppoManager_RL = (RelativeLayout) findViewById(R.id.oppoManager_RL);
-		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
-		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
+		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
+		leadSourceLabel_TV = (TextView) findViewById(R.id.leadSourceLabel_TV);
+		salesStageLabel_TV = (TextView) findViewById(R.id.salesStageLabel_TV);
+		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
+		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
+		expectedClosureDateLabel_TV = (TextView) findViewById(R.id.expectedClosureDateLabel_TV);
+		noOfSolutionLabel_TV = (TextView) findViewById(R.id.noOfSolutionLabel_TV);
+		// oppoManagerLabel_TV = (TextView)
+		// findViewById(R.id.oppoManagerLabel_TV);
+		// countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
+		// lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
+		// sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
+		// sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
 
+		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
+		leadSource_TV = (TextView) findViewById(R.id.leadSource_TV);
+		salesStage_TV = (TextView) findViewById(R.id.salesStage_TV);
+		probability_TV = (TextView) findViewById(R.id.probability_TV);
+		status_TV = (TextView) findViewById(R.id.status_TV);
+		expectedClosureDate_TV = (TextView) findViewById(R.id.expectedClosureDate_TV);
+		noOfSolution_TV = (TextView) findViewById(R.id.noOfSolution_TV);
+		// oppoManager_TV = (TextView) findViewById(R.id.oppoManager_TV);
+		// country_TV = (TextView) findViewById(R.id.country_TV);
+		// lob_TV = (TextView) findViewById(R.id.lob_TV);
+		// sublob_TV = (TextView) findViewById(R.id.sublob_TV);
+		// sector_TV = (TextView) findViewById(R.id.sector_TV);
+
+		// status_RL = (RelativeLayout) findViewById(R.id.status_RL);
+		// oppoManager_RL = (RelativeLayout) findViewById(R.id.oppoManager_RL);
+		// probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
+		// salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
+
+		parentSolution1_LL = (LinearLayout) findViewById(R.id.parentSolution1_LL);
+		parentSolution2_LL = (LinearLayout) findViewById(R.id.parentSolution2_LL);
+		parentSolution3_LL = (LinearLayout) findViewById(R.id.parentSolution3_LL);
+		parentSolution4_LL = (LinearLayout) findViewById(R.id.parentSolution4_LL);
+
+		expandTabSolution1_RL = (RelativeLayout) findViewById(R.id.expandTabSolution1_RL);
+		expandTabSolution2_RL = (RelativeLayout) findViewById(R.id.expandTabSolution2_RL);
+		expandTabSolution3_RL = (RelativeLayout) findViewById(R.id.expandTabSolution3_RL);
+		expandTabSolution4_RL = (RelativeLayout) findViewById(R.id.expandTabSolution4_RL);
+
+		childSolution1_LL = (LinearLayout) findViewById(R.id.childSolution1_LL);
+		childSolution2_LL = (LinearLayout) findViewById(R.id.childSolution2_LL);
+		childSolution3_LL = (LinearLayout) findViewById(R.id.childSolution3_LL);
+		childSolution4_LL = (LinearLayout) findViewById(R.id.childSolution4_LL);
 	}
 
 	private void setTypeface() {
-		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		oppoManagerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		probabilityLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		salesStageLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		countryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-
-		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		status_TV.setTypeface(myApp.getTypefaceRegularSans());
-		oppoManager_TV.setTypeface(myApp.getTypefaceRegularSans());
-		probability_TV.setTypeface(myApp.getTypefaceRegularSans());
-		salesStage_TV.setTypeface(myApp.getTypefaceRegularSans());
-		country_TV.setTypeface(myApp.getTypefaceRegularSans());
-		lob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		sector_TV.setTypeface(myApp.getTypefaceRegularSans());
+		/*
+		 * clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * oppoManagerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * probabilityLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * salesStageLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * countryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * 
+		 * clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * status_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * oppoManager_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * probability_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * salesStage_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * country_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * lob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 * sector_TV.setTypeface(myApp.getTypefaceRegularSans());
+		 */
 
 		description_ET.setTypeface(myApp.getTypefaceRegularSans());
 	}
@@ -239,53 +283,43 @@ public class OpportunityAddActivity extends CRMActivity {
 				temp = null;
 			}
 
-			oppoManager_TV.setText(myApp
-					.getStringNameFromStringJSON(tempOpportunity.getOwnerId()));
-			selectedOppoManager = myApp.getIndexFromKeyUserMap(myApp
-					.getStringIdFromStringJSON(tempOpportunity.getOwnerId()));
+			// oppoManager_TV.setText(myApp
+			// .getStringNameFromStringJSON(tempOpportunity.getOwnerId()));
+			/*
+			 * selectedOppoManager = myApp.getIndexFromKeyUserMap(myApp
+			 * .getStringIdFromStringJSON(tempOpportunity.getOwnerId()));
+			 */
 
-//			clientName_TV.setText(myApp
-//					.getStringNameFromStringJSON(tempOpportunity
-//							.getCustomerId()));
+			// clientName_TV.setText(myApp
+			// .getStringNameFromStringJSON(tempOpportunity
+			// .getCustomerId()));
 
 			Account tempAccount = myApp
 					.getAccountById(myApp
 							.getStringIdFromStringJSON(tempOpportunity
 									.getCustomerId()));
 			if (tempAccount != null) {
-				clientName_TV.setText(tempAccount
-								.getName());
+				clientName_TV.setText(tempAccount.getName());
 				selectedClientName = myApp
 						.getAccountIndexFromAccountId(tempAccount
 								.getAccountId());
-				
+
 				Integer temp2 = myApp.getIntValueFromStringJSON(tempAccount
 						.getCountry());
-				if (temp2 != null) {
-					country_TV.setText(myApp.getCountryMap().get(
-							Integer.toString(temp2.intValue())));
-					temp2 = null;
-				}
-				temp2 = myApp.getIntValueFromStringJSON(tempAccount.getLob());
-				if (temp2 != null) {
-					lob_TV.setText(myApp.getLobMap().get(
-							Integer.toString(temp2.intValue())));
-					temp2 = null;
-				}
-				temp2 = myApp
-						.getIntValueFromStringJSON(tempAccount.getSubLob());
-				if (temp2 != null) {
-					sublob_TV.setText(myApp.getSubLobMap().get(
-							Integer.toString(temp2.intValue())));
-					temp2 = null;
-				}
-				temp2 = myApp
-						.getIntValueFromStringJSON(tempAccount.getSector());
-				if (temp2 != null) {
-					sector_TV.setText(myApp.getSectorMap().get(
-							Integer.toString(temp2.intValue())));
-					temp2 = null;
-				}
+				/*
+				 * if (temp2 != null) {
+				 * country_TV.setText(myApp.getCountryMap().get(
+				 * Integer.toString(temp2.intValue()))); temp2 = null; } temp2 =
+				 * myApp.getIntValueFromStringJSON(tempAccount.getLob()); if
+				 * (temp2 != null) { lob_TV.setText(myApp.getLobMap().get(
+				 * Integer.toString(temp2.intValue()))); temp2 = null; } temp2 =
+				 * myApp .getIntValueFromStringJSON(tempAccount.getSubLob()); if
+				 * (temp2 != null) { sublob_TV.setText(myApp.getSubLobMap().get(
+				 * Integer.toString(temp2.intValue()))); temp2 = null; } temp2 =
+				 * myApp .getIntValueFromStringJSON(tempAccount.getSector()); if
+				 * (temp2 != null) { sector_TV.setText(myApp.getSectorMap().get(
+				 * Integer.toString(temp2.intValue()))); temp2 = null; }
+				 */
 			} else {
 				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
 						.show();
@@ -321,21 +355,29 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		initThings();
 		findThings();
-//		initView("Add Opportunity", "Save");
-		
-		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
-				.getBooleanExtra("is_edit_mode", false))) {
-			initView("Modify Opportunity", "Save");
-		} else {
-			initView("Add Opportunity", "Save");
+		initView("Add Opportunity", "Save");
+		/*
+		 * if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
+		 * .getBooleanExtra("is_edit_mode", false))) {
+		 * initView("Modify Opportunity", "Save"); } else {
+		 * initView("Add Opportunity", "Save"); }
+		 * 
+		 * hideKeyboardFunctionality();
+		 * 
+		 * // registerForContextMenu(client_RL);
+		 * registerForContextMenu(status_RL);
+		 * registerForContextMenu(probability_RL);
+		 */
+		registerForContextMenu(findViewById(R.id.noOfSolution_RL));
+
+		System.out.println("!!!!!  :  "
+				+ myApp.getOpportunityList().get(12).toString());
+		for (int i = 0; i < myApp.getOpportunityList().get(12)
+				.getSolutionList().size(); i++) {
+			System.out.println("\n\n"
+					+ myApp.getOpportunityList().get(12).getSolutionList()
+							.get(i).toString());
 		}
-
-		hideKeyboardFunctionality();
-
-		// registerForContextMenu(client_RL);
-		registerForContextMenu(status_RL);
-		registerForContextMenu(probability_RL);
-		registerForContextMenu(salesStage_RL);
 	}
 
 	@Override
@@ -365,6 +407,12 @@ public class OpportunityAddActivity extends CRMActivity {
 			}
 
 		}
+		if (v.getId() == R.id.noOfSolution_RL) {
+			menu.add(3, v.getId(), 0, "1");
+			menu.add(3, v.getId(), 1, "2");
+			menu.add(3, v.getId(), 2, "3");
+			menu.add(3, v.getId(), 3, "4");
+		}
 	}
 
 	@Override
@@ -376,6 +424,35 @@ public class OpportunityAddActivity extends CRMActivity {
 			probability_TV.setText(item.getTitle());
 			selectedProbability = item.getOrder();
 		} else if (item.getGroupId() == 2) {
+			salesStage_TV.setText(item.getTitle());
+			selectedSalesStage = item.getOrder();
+		} else if (item.getGroupId() == 3) {
+			int i = Integer.parseInt(item.getTitle().toString());
+			switch (i) {
+			case 1:
+				parentSolution2_LL.setVisibility(View.GONE);
+				parentSolution3_LL.setVisibility(View.GONE);
+				parentSolution4_LL.setVisibility(View.GONE);
+				break;
+			case 2:
+				parentSolution2_LL.setVisibility(View.VISIBLE);
+				parentSolution3_LL.setVisibility(View.GONE);
+				parentSolution4_LL.setVisibility(View.GONE);
+				break;
+			case 3:
+				parentSolution2_LL.setVisibility(View.VISIBLE);
+				parentSolution3_LL.setVisibility(View.VISIBLE);
+				parentSolution4_LL.setVisibility(View.GONE);
+				break;
+			case 4:
+				parentSolution2_LL.setVisibility(View.VISIBLE);
+				parentSolution3_LL.setVisibility(View.VISIBLE);
+				parentSolution4_LL.setVisibility(View.VISIBLE);
+				break;
+
+			default:
+				break;
+			}
 			salesStage_TV.setText(item.getTitle());
 			selectedSalesStage = item.getOrder();
 		}
@@ -483,105 +560,54 @@ public class OpportunityAddActivity extends CRMActivity {
 		} else {
 			url = MyApp.URL + MyApp.OPPORTUNITY_ADD;
 		}
-		
+
 		progressDialog.show();
-//		if (previousIntent.hasExtra("is_edit_mode")
-//				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
-//			/** Update Mode **/
-//			String url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
-			try {
+		// if (previousIntent.hasExtra("is_edit_mode")
+		// && previousIntent.getBooleanExtra("is_edit_mode", false)) {
+		// /** Update Mode **/
+		// String url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
+		try {
 
-				System.out.println("URL : " + url);
+			System.out.println("URL : " + url);
 
-				System.out.println("json" + params);
-//				params.put(
-//						"kpmgstatus",
-//						new ArrayList<String>(statusMap.keySet())
-//								.get(selectedStatus)).put("oppid",
-//						tempOpportunity.getOpportunityId());
+			System.out.println("json" + params);
+			// params.put(
+			// "kpmgstatus",
+			// new ArrayList<String>(statusMap.keySet())
+			// .get(selectedStatus)).put("oppid",
+			// tempOpportunity.getOpportunityId());
 
-				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-						Method.POST, url, params,
-						new Response.Listener<JSONObject>() {
+			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+					Method.POST, url, params,
+					new Response.Listener<JSONObject>() {
 
-							@Override
-							public void onResponse(JSONObject response) {
-								System.out.println("length2" + response);
-								onPositiveResponse();
-							}
-						}, new Response.ErrorListener() {
+						@Override
+						public void onResponse(JSONObject response) {
+							System.out.println("length2" + response);
+							onPositiveResponse();
+						}
+					}, new Response.ErrorListener() {
 
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								progressDialog.dismiss();
-								
-								AlertDialog alertDialog = myApp.handleError(createDialog,error,"Error while creating opportunity.");
-								alertDialog.show();
-							}
-						});
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							progressDialog.dismiss();
 
-				RetryPolicy policy = new DefaultRetryPolicy(30000,
-						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-				jsonArrayRequest.setRetryPolicy(policy);
-				queue.add(jsonArrayRequest);
-			} catch (Exception e) {
-				progressDialog.hide();
-				e.printStackTrace();
-			}
-//		} else {
-//			/** Create Mode **/
-//			String url = MyApp.URL + MyApp.OPPORTUNITY_ADD;
-//			try {
-//				System.out.println("URL : " + url);
-//
-//				System.out.println("json" + params);
-//
-//				params.put("KPMGStatus",
-//						new ArrayList<String>(statusMap.keySet())
-//								.get(selectedStatus));
-//
-//				JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-//						Method.POST, url, params,
-//						new Response.Listener<JSONObject>() {
-//
-//							@Override
-//							public void onResponse(JSONObject response) {
-//								System.out.println("length2" + response);
-//								onPositiveResponse();
-//							}
-//						}, new Response.ErrorListener() {
-//
-//							@Override
-//							public void onErrorResponse(VolleyError error) {
-//								progressDialog.hide();
-//								System.out.println("ERROR  : "
-//										+ error.getMessage());
-//								error.printStackTrace();
-//
-//								if (error instanceof NetworkError) {
-//									System.out.println("NetworkError");
-//								}
-//								if (error instanceof NoConnectionError) {
-//									System.out
-//											.println("NoConnectionError you are now offline.");
-//								}
-//								if (error instanceof ServerError) {
-//									System.out.println("ServerError");
-//								}
-//							}
-//						});
-//
-//				RetryPolicy policy = new DefaultRetryPolicy(30000,
-//						DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//						DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-//				jsonArrayRequest.setRetryPolicy(policy);
-//				queue.add(jsonArrayRequest);
-//			} catch (Exception e) {
-//				progressDialog.hide();
-//				e.printStackTrace();
-//			}
-//		}
+							AlertDialog alertDialog = myApp.handleError(
+									createDialog, error,
+									"Error while creating opportunity.");
+							alertDialog.show();
+						}
+					});
+
+			RetryPolicy policy = new DefaultRetryPolicy(30000,
+					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+			jsonArrayRequest.setRetryPolicy(policy);
+			queue.add(jsonArrayRequest);
+		} catch (Exception e) {
+			progressDialog.hide();
+			e.printStackTrace();
+		}
 	}
 
 	private void onPositiveResponse() {
@@ -625,20 +651,104 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.leadPartner_RL:
-//			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			// startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		case R.id.client_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
 			break;
-		case R.id.oppoManager_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-			break;
+		/*
+		 * case R.id.oppoManager_RL: startActivityForResult(nextIntent,
+		 * MyApp.SEARCH_USER); break;
+		 */
 		default:
 			break;
 		}
 
 	}
-	
+
+	public void onExpand(View view) {
+		LinearLayout view_solution = (LinearLayout) inflater.inflate(
+				R.layout.view_solution, null, false);
+		boolean tagVisibility;
+		switch (view.getId()) {
+		case R.id.expandTabSolution1_RL:
+			tagVisibility = Boolean.parseBoolean((String) childSolution1_LL
+					.getTag());
+			tagVisibility = !tagVisibility;
+			childSolution1_LL.setTag(String.valueOf(tagVisibility));
+
+			if (tagVisibility) {
+				if (childSolution1_LL.getChildCount() == 0) {
+					childSolution1_LL.addView(view_solution);
+				}
+				childSolution1_LL.setVisibility(View.VISIBLE);
+				childSolution2_LL.setVisibility(View.GONE);
+				childSolution3_LL.setVisibility(View.GONE);
+				childSolution4_LL.setVisibility(View.GONE);
+			} else {
+				childSolution1_LL.setVisibility(View.GONE);
+			}
+			break;
+		case R.id.expandTabSolution2_RL:
+			tagVisibility = Boolean.parseBoolean((String) childSolution2_LL
+					.getTag());
+			tagVisibility = !tagVisibility;
+			childSolution2_LL.setTag(String.valueOf(tagVisibility));
+
+			if (tagVisibility) {
+
+				if (childSolution2_LL.getChildCount() == 0) {
+					childSolution2_LL.addView(view_solution);
+				}
+				childSolution1_LL.setVisibility(View.GONE);
+				childSolution2_LL.setVisibility(View.VISIBLE);
+				childSolution3_LL.setVisibility(View.GONE);
+				childSolution4_LL.setVisibility(View.GONE);
+			} else {
+				childSolution2_LL.setVisibility(View.GONE);
+			}
+			break;
+		case R.id.expandTabSolution3_RL:
+			tagVisibility = Boolean.parseBoolean((String) childSolution3_LL
+					.getTag());
+			tagVisibility = !tagVisibility;
+			childSolution3_LL.setTag(String.valueOf(tagVisibility));
+
+			if (tagVisibility) {
+				if (childSolution3_LL.getChildCount() == 0) {
+					childSolution3_LL.addView(view_solution);
+				}
+				childSolution1_LL.setVisibility(View.GONE);
+				childSolution2_LL.setVisibility(View.GONE);
+				childSolution3_LL.setVisibility(View.VISIBLE);
+				childSolution4_LL.setVisibility(View.GONE);
+			} else {
+				childSolution3_LL.setVisibility(View.GONE);
+			}
+			break;
+		case R.id.expandTabSolution4_RL:
+			tagVisibility = Boolean.parseBoolean((String) childSolution4_LL
+					.getTag());
+			tagVisibility = !tagVisibility;
+			childSolution4_LL.setTag(String.valueOf(tagVisibility));
+
+			if (tagVisibility) {
+				if (childSolution4_LL.getChildCount() == 0) {
+					childSolution4_LL.addView(view_solution);
+				}
+				childSolution1_LL.setVisibility(View.GONE);
+				childSolution2_LL.setVisibility(View.GONE);
+				childSolution3_LL.setVisibility(View.GONE);
+				childSolution4_LL.setVisibility(View.VISIBLE);
+			} else {
+				childSolution4_LL.setVisibility(View.GONE);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
 	@Override
 	public void onBack(View view) {
 		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
@@ -668,50 +778,40 @@ public class OpportunityAddActivity extends CRMActivity {
 				tempAccount = myApp.getAccountList().get(positionItem);
 				if (tempAccount != null) {
 					clientName_TV.setText(tempAccount.getName());
-					Integer temp = myApp.getIntValueFromStringJSON(tempAccount
-							.getCountry());
-					if (temp != null) {
-						country_TV.setText(myApp.getCountryMap().get(
-								Integer.toString(temp.intValue())));
-					} else {
-						country_TV.setText("");
-					}
-					temp = myApp
-							.getIntValueFromStringJSON(tempAccount.getLob());
-					if (temp != null) {
-						lob_TV.setText(myApp.getLobMap().get(
-								Integer.toString(temp.intValue())));
-					} else {
-						lob_TV.setText("");
-					}
-					temp = myApp.getIntValueFromStringJSON(tempAccount
-							.getSubLob());
-					if (temp != null) {
-						sublob_TV.setText(myApp.getSubLobMap().get(
-								Integer.toString(temp.intValue())));
-					} else {
-						sublob_TV.setText("");
-					}
-					temp = myApp.getIntValueFromStringJSON(tempAccount
-							.getSector());
-					if (temp != null) {
-						sector_TV.setText(myApp.getSectorMap().get(
-								Integer.toString(temp.intValue())));
-					} else {
-						sector_TV.setText("");
-					}
+					/*
+					 * Integer temp =
+					 * myApp.getIntValueFromStringJSON(tempAccount
+					 * .getCountry()); if (temp != null) {
+					 * country_TV.setText(myApp.getCountryMap().get(
+					 * Integer.toString(temp.intValue()))); } else {
+					 * country_TV.setText(""); } temp = myApp
+					 * .getIntValueFromStringJSON(tempAccount.getLob()); if
+					 * (temp != null) { lob_TV.setText(myApp.getLobMap().get(
+					 * Integer.toString(temp.intValue()))); } else {
+					 * lob_TV.setText(""); } temp =
+					 * myApp.getIntValueFromStringJSON(tempAccount
+					 * .getSubLob()); if (temp != null) {
+					 * sublob_TV.setText(myApp.getSubLobMap().get(
+					 * Integer.toString(temp.intValue()))); } else {
+					 * sublob_TV.setText(""); } temp =
+					 * myApp.getIntValueFromStringJSON(tempAccount
+					 * .getSector()); if (temp != null) {
+					 * sector_TV.setText(myApp.getSectorMap().get(
+					 * Integer.toString(temp.intValue()))); } else {
+					 * sector_TV.setText(""); }
+					 */
 				} else {
 					Toast.makeText(this, "Account not found",
 							Toast.LENGTH_SHORT).show();
 
 				}
 			}// if (requestCode == MyApp.SEARCH_ACCOUNT)
-			if (requestCode == MyApp.SEARCH_USER) {
-				List<String> list = new ArrayList<String>(userMap.values());
-				oppoManager_TV.setText(list.get(positionItem));
-
-				selectedOppoManager = positionItem;
-			}
+				// if (requestCode == MyApp.SEARCH_USER) {
+			// List<String> list = new ArrayList<String>(userMap.values());
+			// oppoManager_TV.setText(list.get(positionItem));
+			//
+			// selectedOppoManager = positionItem;
+			// }
 			if (requestCode == MyApp.DETAILS_OPPORTUNITY) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);

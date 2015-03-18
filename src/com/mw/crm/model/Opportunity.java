@@ -1,23 +1,63 @@
 package com.mw.crm.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 public class Opportunity implements Serializable {
 
 	private static final long serialVersionUID = -1622121450891551591L;
 
-	String opportunityId;
-	String description;
-	String totalAmount;
-	String ownerId;
-	String transactionCurrencyId;
-	String customerId;// PostAccounts
+	/**
+	 * Order of attributes is same as in order of UI. Do not change.
+	 * **/
 
-	String probability;
-	String kpmgStatus;
+	/** opportunityid **/
+	String opportunityId;
+
+	/** name **/
+	String description;
+
+	/** customerid **/
+	String customerId;// PostAccounts
+	// String clientName;
+
+	/** pcl_confendential **/
+	String isConfidential;
+
+	/** pcl_leadsourcenew **/
+	String leadSource;
+
+	/** salesstagecode **/
 	String salesStage;
 
-	public Opportunity(String ownerId, String transactionCurrencyId,
+	/** opportunityratingcode **/
+	String probability;
+
+	/** pcl_kpmgstatus **/
+	String kpmgStatus;
+
+	/** estimatedclosedate **/
+	Date expectedClosureDate;
+
+	/** estimatedvalue **/
+	String totalProposalValue;
+
+	/** pcl_noofsolutionsrequired **/
+	String noOfSolutionRequired;
+
+	List<Solution> solutionList;
+
+	// /** **/
+	// String totalAmount;
+	//
+	// /** **/
+	// String ownerId;
+	//
+	// /** **/
+	// String transactionCurrencyId;
+
+	/*public Opportunity(String ownerId, String transactionCurrencyId,
 			String totalAmount, String customerId, String description,
 			String kpmgStatus, String opportunityId, String probability,
 			String salesStage) {
@@ -31,58 +71,30 @@ public class Opportunity implements Serializable {
 		this.opportunityId = opportunityId;
 		this.probability = probability;
 		this.salesStage = salesStage;
+	}*/
+
+	public Opportunity(String opportunityId, String description,
+			String customerId, String isConfidential, String leadSource,
+			String salesStage, String probability, String kpmgStatus,
+			Date expectedClosureDate, String totalProposalValue,
+			String noOfSolutionRequired, List<Solution> solutionList) {
+		super();
+		this.opportunityId = opportunityId;
+		this.description = description;
+		this.customerId = customerId;
+		this.isConfidential = isConfidential;
+		this.leadSource = leadSource;
+		this.salesStage = salesStage;
+		this.probability = probability;
+		this.kpmgStatus = kpmgStatus;
+		this.expectedClosureDate = expectedClosureDate;
+		this.totalProposalValue = totalProposalValue;
+		this.noOfSolutionRequired = noOfSolutionRequired;
+		this.solutionList = solutionList;
 	}
 
 	public Opportunity() {
 		super();
-	}
-
-	public String getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
-
-	public String getTransactionCurrencyId() {
-		return transactionCurrencyId;
-	}
-
-	public void setTransactionCurrencyId(String transactionCurrencyId) {
-		this.transactionCurrencyId = transactionCurrencyId;
-	}
-
-	public String getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(String totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getKpmgStatus() {
-		return kpmgStatus;
-	}
-
-	public void setKpmgStatus(String kpmgStatus) {
-		this.kpmgStatus = kpmgStatus;
 	}
 
 	public String getOpportunityId() {
@@ -93,12 +105,36 @@ public class Opportunity implements Serializable {
 		this.opportunityId = opportunityId;
 	}
 
-	public String getProbability() {
-		return probability;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setProbability(String probability) {
-		this.probability = probability;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getIsConfidential() {
+		return isConfidential;
+	}
+
+	public void setIsConfidential(String isConfidential) {
+		this.isConfidential = isConfidential;
+	}
+
+	public String getLeadSource() {
+		return leadSource;
+	}
+
+	public void setLeadSource(String leadSource) {
+		this.leadSource = leadSource;
 	}
 
 	public String getSalesStage() {
@@ -109,13 +145,65 @@ public class Opportunity implements Serializable {
 		this.salesStage = salesStage;
 	}
 
+	public String getProbability() {
+		return probability;
+	}
+
+	public void setProbability(String probability) {
+		this.probability = probability;
+	}
+
+	public String getKpmgStatus() {
+		return kpmgStatus;
+	}
+
+	public void setKpmgStatus(String kpmgStatus) {
+		this.kpmgStatus = kpmgStatus;
+	}
+
+	public Date getExpectedClosureDate() {
+		return expectedClosureDate;
+	}
+
+	public void setExpectedClosureDate(Date expectedClosureDate) {
+		this.expectedClosureDate = expectedClosureDate;
+	}
+
+	public String getTotalProposalValue() {
+		return totalProposalValue;
+	}
+
+	public void setTotalProposalValue(String totalProposalValue) {
+		this.totalProposalValue = totalProposalValue;
+	}
+
+	public String getNoOfSolutionRequired() {
+		return noOfSolutionRequired;
+	}
+
+	public void setNoOfSolutionRequired(String noOfSolutionRequired) {
+		this.noOfSolutionRequired = noOfSolutionRequired;
+	}
+
+	public List<Solution> getSolutionList() {
+		return solutionList;
+	}
+
+	public void setSolutionList(List<Solution> solutionList) {
+		this.solutionList = solutionList;
+	}
+
 	@Override
 	public String toString() {
-		return "Opportunity [name=" + description + ", totalAmount="
-				+ totalAmount + ", ownerId=" + ownerId
-				+ ", transactionCurrencyId=" + transactionCurrencyId
-				+ ", customerId=" + customerId + ", kpmgStatus=" + kpmgStatus
-				+ ", opportunityId=" + opportunityId + "]";
+		return "Opportunity [opportunityId=" + opportunityId + ", description="
+				+ description + ", customerId=" + customerId
+				+ ", isConfidential=" + isConfidential + ", leadSource="
+				+ leadSource + ", salesStage=" + salesStage + ", probability="
+				+ probability + ", kpmgStatus=" + kpmgStatus
+				+ ", expectedClosureDate=" + expectedClosureDate
+				+ ", totalProposalValue=" + totalProposalValue
+				+ ", noOfSolutionRequired=" + noOfSolutionRequired
+				+ ", solutionList=" + solutionList + "]";
 	}
 
 }

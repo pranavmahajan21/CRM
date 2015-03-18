@@ -40,7 +40,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
@@ -136,7 +135,7 @@ public class MyApp extends Application {
 	Map<String, String> supportTypeMap;
 
 	/** Coming from Internal Connect **/
-	/** <db843bfb-9a8a-e411-96e8-5cf3fc3f502a, CRM Audit Director 1 >**/
+	/** <db843bfb-9a8a-e411-96e8-5cf3fc3f502a, CRM Audit Director 1 > **/
 	Map<String, String> userMap;
 
 	SharedPreferences sharedPreferences;
@@ -144,6 +143,8 @@ public class MyApp extends Application {
 
 	Typeface typefaceRegularSans;
 	Typeface typefaceBoldSans;
+
+	Intent previousIntent;
 
 	// CreateDialog createDialog;
 	AlertDialog.Builder alertDialogBuilder;
@@ -168,6 +169,12 @@ public class MyApp extends Application {
 				"fonts/SourceSansPro-Regular.ttf");
 		typefaceBoldSans = Typeface.createFromAsset(getAssets(),
 				"fonts/SourceSansPro-Semibold.ttf");
+
+		// previousIntent = getPackageManager().getLaunchIntentForPackage(
+		// "com.example.crm.activity");
+		//
+		// System.out.println("loop  :  "
+		// + previousIntent.hasExtra("should_start_app"));
 
 		accountCategoryMap = new LinkedHashMap<String, String>();
 		countryMap = new LinkedHashMap<String, String>();
@@ -248,8 +255,6 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
-				// setInternalConnectList((List<InternalConnect>) gson.fromJson(
-				// value, mapType));
 				setUserMap((Map<String, String>) gson.fromJson(value, mapType),
 						false);
 				System.out.println("User map size  : " + getUserMap().size());
@@ -312,22 +317,32 @@ public class MyApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 
+		// ProgressDialog.show(this, "Status", "Downloading The master");
+
+		Toast.makeText(this, "dskhf", Toast.LENGTH_SHORT).show();
+		System.out.println("hello everyboooty");
+
 		initThings();
 		loadMenuItems();
 
 		readDataFromExcel();
 
-		// Intent intent2 = new Intent(this, AppointmentService.class);
-		// startService(intent2);
+//		 Intent intent2 = new Intent(this, OpportunityService.class);
+//		 startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
+			System.out.println("hello   1");
 			fetchPreferences();
 
-			Intent intent = new Intent(this, MenuActivity2.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			startActivity(intent);
+//			Intent intent = new Intent(this, MenuActivity2.class);
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//			startActivity(intent);
+
+		} 
+		else {
+			System.out.println("hello   2");
 		}
 
 	}
@@ -744,6 +759,9 @@ public class MyApp extends Application {
 		 * http://stackoverflow.com/questions/20036075/json-datetime-parsing-in-
 		 * android
 		 **/
+		if(dateString == null){
+			return null;
+		}
 		System.out.println("1212  : " + dateString);
 		// String ackwardDate = "/Date(1376841597000)/";
 
@@ -1173,6 +1191,10 @@ public class MyApp extends Application {
 		return -1;
 	}
 
+	/**
+	 * {"Id":"da7bb1a7-8095-e411-96e8-5cf3fc3f502a","LogicalName":"account","Name":"Mascot Click","ExtensionData":{}}
+	 * {"Value":1,"ExtensionData":{}}
+	 * **/
 	public Integer getIntValueFromStringJSON(String x) {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
@@ -1208,7 +1230,8 @@ public class MyApp extends Application {
 	}
 
 	public int getAccountIndexFromAccountId(String id) {
-//		Toast.makeText(this, "size : " +accountList.size(), Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "size : " +accountList.size(),
+		// Toast.LENGTH_SHORT).show();
 		for (int i = 0; i < accountList.size(); i++) {
 			if (accountList.get(i).getAccountId().equalsIgnoreCase(id)) {
 				return i;
@@ -1227,7 +1250,8 @@ public class MyApp extends Application {
 	}
 
 	public int getContactIndexFromContactId(String id) {
-//		Toast.makeText(this, "size : " +contactList.size(), Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "size : " +contactList.size(),
+		// Toast.LENGTH_SHORT).show();
 		for (int i = 0; i < contactList.size(); i++) {
 			if (contactList.get(i).getContactId().equalsIgnoreCase(id)) {
 				return i;
@@ -1245,7 +1269,8 @@ public class MyApp extends Application {
 		return 0;
 	}
 
-	public AlertDialog handleError(CreateDialog createDialog, VolleyError error, String title) {
+	public AlertDialog handleError(CreateDialog createDialog,
+			VolleyError error, String title) {
 		System.out.println("ERROR  : " + error.getMessage());
 		error.printStackTrace();
 
@@ -1284,7 +1309,8 @@ public class MyApp extends Application {
 		return intent;
 	}
 
-	public AlertDialog.Builder addOKToAlertDialogBuilder(AlertDialog.Builder alertDialogBuilder) {
+	public AlertDialog.Builder addOKToAlertDialogBuilder(
+			AlertDialog.Builder alertDialogBuilder) {
 		alertDialogBuilder.setPositiveButton("OK",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
