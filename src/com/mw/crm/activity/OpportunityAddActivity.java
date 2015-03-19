@@ -42,6 +42,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.DecimalDigitsInputFilter;
 import com.mw.crm.extra.MyApp;
@@ -70,7 +71,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	RelativeLayout leadSource_RL, salesStage_RL, probability_RL, status_RL,
 			noOfSolution_RL;
 	// , oppoManager_RL
-	/** Solution */
+	/** Solution **/
 	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL,
 			parentSolution4_LL;
 
@@ -81,7 +82,12 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	LinearLayout childSolution1_LL, childSolution2_LL, childSolution3_LL,
 			childSolution4_LL;
-	/** Solution */
+	/** Solution **/
+
+	/** Solution View **/
+	TextView solutionManager_TV, solutionPartner_TV, solutionName_TV,
+			profitCenter_TV, taxonomy_TV;
+	/** Solution View **/
 
 	Opportunity tempOpportunity;
 
@@ -99,6 +105,21 @@ public class OpportunityAddActivity extends CRMActivity {
 			selectedNoOfSolution = -1;
 	int selectedClientName = -1, selectedOppoManager = -1;
 
+	int selectedSolManager1 = -1, selectedSolPartner1 = -1,
+			selectedSolName1 = -1, selectedProfitCenter1 = -1,
+			selectedTaxonomy1 = -1;
+
+	int selectedSolManager2 = -1, selectedSolPartner2 = -1,
+			selectedSolName2 = -1, selectedProfitCenter2 = -1,
+			selectedTaxonomy2 = -1;
+
+	int selectedSolManager3 = -1, selectedSolPartner3 = -1,
+			selectedSolName3 = -1, selectedProfitCenter3 = -1,
+			selectedTaxonomy3 = -1;
+
+	int selectedSolManager4 = -1, selectedSolPartner4 = -1,
+			selectedSolName4 = -1, selectedProfitCenter4 = -1,
+			selectedTaxonomy4 = -1;
 	RequestQueue queue;
 
 	CreateDialog createDialog;
@@ -163,9 +184,6 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		// view_solution = (LinearLayout)
-		// inflater.inflate(R.layout.view_solution,
-		// null, false);
 		view_solution = getViewSolution();
 
 		queue = Volley.newRequestQueue(this);
@@ -625,24 +643,76 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.startActivityForResult(intent, requestCode);
 	}
 
+	int whichSolutionTabIsVisible;
+
 	public void onSearchItem(View view) {
 		nextIntent = new Intent(this, SearchActivity.class);
 
 		switch (view.getId()) {
-		case R.id.leadPartner_RL:
-			// startActivityForResult(nextIntent, MyApp.SEARCH_USER);
-			break;
 		case R.id.client_RL:
 			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			break;
+		case R.id.solutionManager_RL:
+			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			System.out.println("whichSolutionTabIsVisible  "
+					+ whichSolutionTabIsVisible);
+			switch (whichSolutionTabIsVisible) {
+			case Constant.SOLUTION1_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_MANAGER1);
+				break;
+			case Constant.SOLUTION2_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_MANAGER2);
+				break;
+			case Constant.SOLUTION3_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_MANAGER3);
+				break;
+			case Constant.SOLUTION4_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_MANAGER4);
+				break;
+
+			default:
+				break;
+			}
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		/*
 		 * case R.id.oppoManager_RL: startActivityForResult(nextIntent,
 		 * MyApp.SEARCH_USER); break;
 		 */
 		default:
+			System.out.println("default");
 			break;
 		}
 
+	}
+
+	private int checkVisibilityOfChildLL() {
+		boolean flag = Boolean
+				.parseBoolean((String) childSolution1_LL.getTag());
+		System.out.println(flag);
+		if (flag) {
+			return Constant.SOLUTION1_VISIBLE;
+		}
+		flag = Boolean.parseBoolean((String) childSolution2_LL.getTag());
+		System.out.println(flag);
+		if (flag) {
+			return Constant.SOLUTION2_VISIBLE;
+		}
+		flag = Boolean.parseBoolean((String) childSolution3_LL.getTag());
+		System.out.println(flag);
+		if (flag) {
+			return Constant.SOLUTION3_VISIBLE;
+		}
+		flag = Boolean.parseBoolean((String) childSolution4_LL.getTag());
+		System.out.println(flag);
+		if (flag) {
+			return Constant.SOLUTION4_VISIBLE;
+		}
+		return Constant.SOLUTION1_VISIBLE;
 	}
 
 	/*
@@ -775,6 +845,16 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	}
 
+	private void findViewSolution(LinearLayout childLL) {
+		solutionManager_TV = (TextView) childLL
+				.findViewById(R.id.solutionManager_TV);
+		solutionPartner_TV = (TextView) childLL
+				.findViewById(R.id.solutionPartner_TV);
+		solutionName_TV = (TextView) childLL.findViewById(R.id.solutionName_TV);
+		profitCenter_TV = (TextView) childLL.findViewById(R.id.profitCenter_TV);
+		taxonomy_TV = (TextView) childLL.findViewById(R.id.taxonomy_TV);
+	}
+
 	public void onExpand(View view) {
 		boolean tagVisibility;
 		switch (view.getId()) {
@@ -789,6 +869,7 @@ public class OpportunityAddActivity extends CRMActivity {
 				// .setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
 				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE,
 						View.GONE);
+				findViewSolution(childSolution1_LL);
 			} else {
 				// arrowSol1_IV
 				// .setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
@@ -896,12 +977,20 @@ public class OpportunityAddActivity extends CRMActivity {
 
 				}
 			}// if (requestCode == MyApp.SEARCH_ACCOUNT)
-				// if (requestCode == MyApp.SEARCH_USER) {
-			// List<String> list = new ArrayList<String>(userMap.values());
-			// oppoManager_TV.setText(list.get(positionItem));
-			//
-			// selectedOppoManager = positionItem;
-			// }
+			if (requestCode == MyApp.SEARCH_USER) {
+				List<String> list = new ArrayList<String>(userMap.values());
+				String text = list.get(positionItem);
+				switch (data.getIntExtra("user_value", -1)) {
+				case Constant.USER_SOLUTION_MANAGER1:
+					solutionManager_TV.setText(text);
+					selectedSolManager1 = positionItem;
+					break;
+
+				default:
+					break;
+				}
+
+			}
 			if (requestCode == MyApp.DETAILS_OPPORTUNITY) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);

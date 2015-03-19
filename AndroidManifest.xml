@@ -119,11 +119,15 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <service android:name="com.mw.crm.service.UserService" />
         <service android:name="com.mw.crm.service.AccountService" />
         <service android:name="com.mw.crm.service.AppointmentService" />
+        <service android:name="com.mw.crm.service.CompetitorService" />
         <service android:name="com.mw.crm.service.ContactService" />
         <service android:name="com.mw.crm.service.OpportunityService" />
+        <service android:name="com.mw.crm.service.ProductService" />
+        <service android:name="com.mw.crm.service.ProfitCenterService" />
+        <service android:name="com.mw.crm.service.SolutionService" />
+        <service android:name="com.mw.crm.service.UserService" />
     </application>
 
 </manifest>

@@ -123,7 +123,7 @@ public class MyApp extends Application {
 
 	/** Coming from Internal Connect **/
 	/** <db843bfb-9a8a-e411-96e8-5cf3fc3f502a, CRM Audit Director 1 > **/
-	
+
 	Map<String, String> userMap;
 	Map<String, String> productMap;
 	Map<String, String> profitCenterMap;
@@ -182,11 +182,11 @@ public class MyApp extends Application {
 		subLobMap = new LinkedHashMap<String, String>();
 		supportTypeMap = new LinkedHashMap<String, String>();
 
-		userMap = new LinkedHashMap<String, String>();
+		competitorMap = new LinkedHashMap<String, String>();
 		productMap = new LinkedHashMap<String, String>();
 		profitCenterMap = new LinkedHashMap<String, String>();
 		solutionMap = new LinkedHashMap<String, String>();
-		competitorMap = new LinkedHashMap<String, String>();
+		userMap = new LinkedHashMap<String, String>();
 
 		// createDialog = new CreateDialog(this);
 
@@ -195,6 +195,10 @@ public class MyApp extends Application {
 
 	@SuppressWarnings("unchecked")
 	private void fetchPreferences() {
+		if (sharedPreferences.contains("login_user_id")) {
+			setLoginUserId(sharedPreferences.getString("login_user_id", null));
+		}
+
 		if (sharedPreferences.contains("account_list")) {
 			String value = sharedPreferences.getString("account_list", null);
 			if (value != null) {
@@ -247,6 +251,49 @@ public class MyApp extends Application {
 			}
 		}
 
+		if (sharedPreferences.contains("competitor_map")) {
+			String value = sharedPreferences.getString("competitor_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				setCompetitorMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Competitor map size  : " + getCompetitorMap().size());
+			}
+		}
+		if (sharedPreferences.contains("product_map")) {
+			String value = sharedPreferences.getString("product_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				setProductMap((Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Product map size  : " + getProductMap().size());
+			}
+		}
+
+		if (sharedPreferences.contains("profit_center_map")) {
+			String value = sharedPreferences.getString("profit_center_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				setProfitCenterMap((Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Profit Center map size  : " + getProfitCenterMap().size());
+			}
+		}
+
+		if (sharedPreferences.contains("solution_map")) {
+			String value = sharedPreferences.getString("solution_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				setSolutionMap((Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Solution map size  : " + getSolutionMap().size());
+			}
+		}
 		if (sharedPreferences.contains("user_map")) {
 			String value = sharedPreferences.getString("user_map", null);
 			if (value != null) {
@@ -258,9 +305,6 @@ public class MyApp extends Application {
 			}
 		}
 
-		if (sharedPreferences.contains("login_user_id")) {
-			setLoginUserId(sharedPreferences.getString("login_user_id", null));
-		}
 		loadUnloadedData();
 	}
 
@@ -468,7 +512,7 @@ public class MyApp extends Application {
 			editor.commit();
 		}
 	}
-	
+
 	public Map<String, String> getProductMap() {
 		return productMap;
 	}
@@ -476,7 +520,7 @@ public class MyApp extends Application {
 	public void setProductMap(Map<String, String> productMap,
 			boolean updatePreferences) {
 		this.productMap = productMap;
-		
+
 		if (updatePreferences) {
 			String json = gson.toJson(productMap);
 			editor.putString("product_map", json);
@@ -491,7 +535,7 @@ public class MyApp extends Application {
 	public void setProfitCenterMap(Map<String, String> profitCenterMap,
 			boolean updatePreferences) {
 		this.profitCenterMap = profitCenterMap;
-		
+
 		if (updatePreferences) {
 			String json = gson.toJson(profitCenterMap);
 			editor.putString("profit_center_map", json);
@@ -506,7 +550,7 @@ public class MyApp extends Application {
 	public void setSolutionMap(Map<String, String> solutionMap,
 			boolean updatePreferences) {
 		this.solutionMap = solutionMap;
-		
+
 		if (updatePreferences) {
 			String json = gson.toJson(solutionMap);
 			editor.putString("solution_map", json);
@@ -521,6 +565,11 @@ public class MyApp extends Application {
 	public void setCompetitorMap(Map<String, String> competitorMap,
 			boolean updatePreferences) {
 		this.competitorMap = competitorMap;
+		if (updatePreferences) {
+			String json = gson.toJson(competitorMap);
+			editor.putString("competitor_map", json);
+			editor.commit();
+		}
 	}
 
 	public String getLoginUserId() {
@@ -939,7 +988,7 @@ public class MyApp extends Application {
 		if (w == null) {
 			return;
 		}
-		
+
 		/** Get the first sheet **/
 		Sheet sheet = w.getSheet(0);
 

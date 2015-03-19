@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:id="@+id/solutionManager_RL"
-        style="@style/RL" >
+        style="@style/RL"
+        android:onClick="onSearchItem" >
 
         <TextView
             android:id="@+id/solutionManager_TV"
@@ -28,7 +29,8 @@
 
     <RelativeLayout
         android:id="@+id/solutionPartner_RL"
-        style="@style/RL" >
+        style="@style/RL"
+        android:onClick="onSearchItem" >
 
         <TextView
             android:id="@+id/solutionPartner_TV"
@@ -45,7 +47,8 @@
 
     <RelativeLayout
         android:id="@+id/solutionName_RL"
-        style="@style/RL" >
+        style="@style/RL"
+        android:onClick="onSearchItem" >
 
         <TextView
             android:id="@+id/solutionName_TV"
@@ -62,7 +65,8 @@
 
     <RelativeLayout
         android:id="@+id/profitCenter_RL"
-        style="@style/RL" >
+        style="@style/RL"
+        android:onClick="onSearchItem" >
 
         <TextView
             android:id="@+id/profitCenter_TV"
@@ -79,7 +83,8 @@
 
     <RelativeLayout
         android:id="@+id/taxonomy_RL"
-        style="@style/RL" >
+        style="@style/RL"
+        android:onClick="onSearchItem" >
 
         <TextView
             android:id="@+id/taxonomy_TV"
@@ -99,10 +104,6 @@
         <EditText
             android:id="@+id/fee_ET"
             style="@style/ET" />
-        <!--
-                 android:inputType="numberDecimal"
-            android:hint="Money"
-        -->
 
     </LinearLayout>
 

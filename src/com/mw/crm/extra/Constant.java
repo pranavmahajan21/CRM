@@ -3,9 +3,13 @@ package com.mw.crm.extra;
 public class Constant {
 
 	/** Used to get lookups **/
+	/** Used for **/
 	public static String USER = "/PostUser";
+	/** Used for taxonomy **/
 	public static String PRODUCT = "/PostProduct";
+	/** Used for Profit Center **/
 	public static String PROFIT_CENTER = "/PostProfitCenter";
+	/** Used for Solution Name **/
 	public static String SOLUTION = "/PostSolution";
 	public static String COMPETITOR = "/PostCompetitor";
 
@@ -38,4 +42,22 @@ public class Constant {
 	public static String STATUS_ERROR = "excels/status.xls";
 	public static String SUB_LOP_ERROR = "excels/sub_lob.xls";
 	public static String SUPPORT_TYPE_ERROR = "excels/support_type.xls";
+
+	/** Search User **/
+	public static final int USER_SOLUTION_MANAGER1 = 500;
+	public static final int USER_SOLUTION_PARTNER1 = 501;
+	public static final int USER_SOLUTION_MANAGER2 = 502;
+	public static final int USER_SOLUTION_PARTNER2 = 503;
+	public static final int USER_SOLUTION_MANAGER3 = 504;
+	public static final int USER_SOLUTION_PARTNER3 = 505;
+	public static final int USER_SOLUTION_MANAGER4 = 506;
+	public static final int USER_SOLUTION_PARTNER4 = 507;
+
+	public static int USER_ = 500;
+
+	/** To check which solution tab is visible **/
+	public static final int SOLUTION1_VISIBLE = 600;
+	public static final int SOLUTION2_VISIBLE = 601;
+	public static final int SOLUTION3_VISIBLE = 602;
+	public static final int SOLUTION4_VISIBLE = 603;
 }
