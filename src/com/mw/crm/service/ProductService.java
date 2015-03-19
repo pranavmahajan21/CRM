@@ -21,19 +21,20 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.MenuActivity2;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.MyApp;
 
-public class InternalConnectService extends IntentService {
+public class ProductService extends IntentService {
 
 	MyApp myApp;
 	Gson gson = new Gson();
-	Map<String, String> userMap = new LinkedHashMap<String, String>();
+	Map<String, String> productMap = new LinkedHashMap<String, String>();
 
-	public InternalConnectService() {
-		super("InternalConnectService");
+	public ProductService() {
+		super("ProductService");
 	}
 
-	public InternalConnectService(String name) {
+	public ProductService(String name) {
 		super(name);
 	}
 
@@ -45,7 +46,7 @@ public class InternalConnectService extends IntentService {
 
 		try {
 
-			String url = MyApp.URL + MyApp.USER;
+			String url = MyApp.URL + Constant.PRODUCT;
 
 			JSONObject params = new JSONObject();
 			params = MyApp.addParamToJson(params);
@@ -60,14 +61,14 @@ public class InternalConnectService extends IntentService {
 
 							for (int i = 0; i < response.length(); i++) {
 								try {
-									createUserMap(response.getJSONObject(i));
+									createProductMap(response.getJSONObject(i));
 								} catch (JSONException e) {
 									e.printStackTrace();
 								}
 
 							}
 							// TODO : update preferences as well
-							myApp.setUserMap(userMap, true);
+							myApp.setProductMap(productMap, true);
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
@@ -76,8 +77,8 @@ public class InternalConnectService extends IntentService {
 						public void onErrorResponse(VolleyError error) {
 							System.out.println("ERROR  : " + error.getMessage());
 							Toast.makeText(
-									InternalConnectService.this,
-									"Error while fetching internal connect data.",
+									ProductService.this,
+									"Error while fetching product data.",
 									Toast.LENGTH_LONG).show();
 							error.printStackTrace();
 							onRequestComplete();
@@ -108,17 +109,17 @@ public class InternalConnectService extends IntentService {
 		super.onDestroy();
 	}
 
-	private void createUserMap(JSONObject jsonObject) {
+	private void createProductMap(JSONObject jsonObject) {
 		try {
 
 			System.out.println("[][]"
-					+ MyApp.getPerfectString(jsonObject
-							.getString("systemuserid")) + "\n[][]"
-					+ MyApp.getPerfectString(jsonObject.getString("lastname")));
+					+ MyApp.getPerfectString(jsonObject.getString("productid"))
+					+ "\n[][]"
+					+ MyApp.getPerfectString(jsonObject.getString("name")));
 
-			userMap.put(MyApp.getPerfectString(jsonObject
-					.getString("systemuserid")), MyApp
-					.getPerfectString(jsonObject.getString("lastname")));
+			productMap.put(
+					MyApp.getPerfectString(jsonObject.getString("productid")),
+					MyApp.getPerfectString(jsonObject.getString("name")));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

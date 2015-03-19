@@ -29,7 +29,7 @@ import com.mw.crm.model.MenuItem;
 import com.mw.crm.service.AccountService;
 import com.mw.crm.service.AppointmentService;
 import com.mw.crm.service.ContactService;
-import com.mw.crm.service.InternalConnectService;
+import com.mw.crm.service.UserService;
 import com.mw.crm.service.OpportunityService;
 
 public class MenuActivity extends Activity {
@@ -181,7 +181,7 @@ public class MenuActivity extends Activity {
 		X++;
 		startService(intent);
 
-		intent = new Intent(this, InternalConnectService.class);
+		intent = new Intent(this, UserService.class);
 		X++;
 		startService(intent);
 

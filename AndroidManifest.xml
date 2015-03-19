@@ -119,7 +119,7 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <service android:name="com.mw.crm.service.InternalConnectService" />
+        <service android:name="com.mw.crm.service.UserService" />
         <service android:name="com.mw.crm.service.AccountService" />
         <service android:name="com.mw.crm.service.AppointmentService" />
         <service android:name="com.mw.crm.service.ContactService" />

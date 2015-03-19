@@ -94,8 +94,7 @@
 
             <RelativeLayout
                 android:id="@+id/leadSource_RL"
-                style="@style/RL"
-                android:onClick="onSearchItem" >
+                style="@style/RL" >
 
                 <TextView
                     android:id="@+id/leadSource_TV"
@@ -217,7 +216,8 @@
 
             <EditText
                 android:id="@+id/totalProposalValue_ET"
-                style="@style/style_ET2" />
+                style="@style/style_ET2"
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:id="@+id/noOfSolutionLabel_TV"
@@ -252,7 +252,7 @@
                         style="@style/TV"
                         android:hint="Solution1" />
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/arrowSol1_IV"
                         style="@style/IV" />
                 </RelativeLayout>
@@ -262,7 +262,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:tag="false" />
+                    android:tag="false"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -283,7 +284,7 @@
                         android:hint="Solution2" />
 
                     <ImageView
-                        android:id="@+id/arrowSol2_IV" 
+                        android:id="@+id/arrowSol2_IV"
                         style="@style/IV" />
                 </RelativeLayout>
 
@@ -292,7 +293,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:tag="false" />
+                    android:tag="false"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -312,7 +314,8 @@
                         style="@style/TV"
                         android:hint="Solution3" />
 
-                    <ImageView android:id="@+id/arrowSol3_IV"
+                    <ImageView
+                        android:id="@+id/arrowSol3_IV"
                         style="@style/IV" />
                 </RelativeLayout>
 
@@ -321,7 +324,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:tag="false" />
+                    android:tag="false"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -341,7 +345,7 @@
                         style="@style/TV"
                         android:hint="Solution4" />
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/arrowSol4_IV"
                         style="@style/IV" />
                 </RelativeLayout>
@@ -351,7 +355,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:tag="false" />
+                    android:tag="false"
+                    android:visibility="gone" />
             </LinearLayout>
             <!--
             <TextView

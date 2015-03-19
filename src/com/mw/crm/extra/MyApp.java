@@ -48,7 +48,7 @@ import com.mw.crm.model.Opportunity;
 import com.mw.crm.service.AccountService;
 import com.mw.crm.service.AppointmentService;
 import com.mw.crm.service.ContactService;
-import com.mw.crm.service.InternalConnectService;
+import com.mw.crm.service.UserService;
 import com.mw.crm.service.OpportunityService;
 
 @SuppressLint("SimpleDateFormat")
@@ -82,7 +82,6 @@ public class MyApp extends Application {
 	 * Used for Internal Connect in CONTACT screen & owner in APPOINTMENT screen
 	 * & LeadPartner in ACCOUNT screen
 	 */
-	public static String USER = "/PostUser";
 
 	String loginUserId;
 
@@ -107,25 +106,13 @@ public class MyApp extends Application {
 	List<Appointment> appointmentList;// = new ArrayList<Appointment>();
 	List<Account> accountList;// = new ArrayList<Account>();
 
-	private static String ACCOUNT_CATEGORY_PATH = "excels/account_category.xls";
-	private static String COUNTRY_PATH = "excels/country.xls";
-	private static String DOR_PATH = "excels/dor.xls";
-	private static String INTERACTION_TYPE_PATH = "excels/interaction_type.xls";
-	private static String LOB_PATH = "excels/lob.xls";
-	private static String PRIORITY_LEVEL_PATH = "excels/priority_level.xls";
-	private static String PROBABILITY_PATH = "excels/probability.xls";
-	private static String SALES_STAGE_PATH = "excels/sales_stage.xls";
-	private static String SECTOR_PATH = "excels/sector.xls";
-	private static String STATUS_PATH = "excels/status.xls";
-	private static String SUB_LOP_PATH = "excels/sub_lob.xls";
-	private static String SUPPORT_TYPE_PATH = "excels/support_type.xls";
-
 	/** Coming from excels **/
 	Map<String, String> accountCategoryMap;
 	Map<String, String> countryMap;
 	Map<String, String> dorMap;
 	Map<String, String> interactionTypeMap;
 	Map<String, String> lobMap;
+	Map<String, String> leadSourceMap;
 	Map<String, String> priorityLevelMap;
 	Map<String, String> probabilityMap;
 	Map<String, String> salesStageMap;
@@ -136,7 +123,12 @@ public class MyApp extends Application {
 
 	/** Coming from Internal Connect **/
 	/** <db843bfb-9a8a-e411-96e8-5cf3fc3f502a, CRM Audit Director 1 > **/
+	
 	Map<String, String> userMap;
+	Map<String, String> productMap;
+	Map<String, String> profitCenterMap;
+	Map<String, String> solutionMap;
+	Map<String, String> competitorMap;
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
@@ -180,6 +172,7 @@ public class MyApp extends Application {
 		countryMap = new LinkedHashMap<String, String>();
 		dorMap = new LinkedHashMap<String, String>();
 		interactionTypeMap = new LinkedHashMap<String, String>();
+		leadSourceMap = new LinkedHashMap<String, String>();
 		lobMap = new LinkedHashMap<String, String>();
 		priorityLevelMap = new LinkedHashMap<String, String>();
 		probabilityMap = new LinkedHashMap<String, String>();
@@ -190,6 +183,10 @@ public class MyApp extends Application {
 		supportTypeMap = new LinkedHashMap<String, String>();
 
 		userMap = new LinkedHashMap<String, String>();
+		productMap = new LinkedHashMap<String, String>();
+		profitCenterMap = new LinkedHashMap<String, String>();
+		solutionMap = new LinkedHashMap<String, String>();
+		competitorMap = new LinkedHashMap<String, String>();
 
 		// createDialog = new CreateDialog(this);
 
@@ -293,7 +290,7 @@ public class MyApp extends Application {
 		}
 		if (userMap == null) {
 			isUnloadedDataThere = true;
-			intent = new Intent(this, InternalConnectService.class);
+			intent = new Intent(this, UserService.class);
 			startService(intent);
 		}
 		if (isUnloadedDataThere) {
@@ -327,21 +324,20 @@ public class MyApp extends Application {
 
 		readDataFromExcel();
 
-//		 Intent intent2 = new Intent(this, OpportunityService.class);
-//		 startService(intent2);
+		// Intent intent2 = new Intent(this, OpportunityService.class);
+		// startService(intent2);
 
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
 			System.out.println("hello   1");
 			fetchPreferences();
 
-//			Intent intent = new Intent(this, MenuActivity2.class);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//			startActivity(intent);
+			// Intent intent = new Intent(this, MenuActivity2.class);
+			// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			// | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			// startActivity(intent);
 
-		} 
-		else {
+		} else {
 			System.out.println("hello   2");
 		}
 
@@ -472,6 +468,60 @@ public class MyApp extends Application {
 			editor.commit();
 		}
 	}
+	
+	public Map<String, String> getProductMap() {
+		return productMap;
+	}
+
+	public void setProductMap(Map<String, String> productMap,
+			boolean updatePreferences) {
+		this.productMap = productMap;
+		
+		if (updatePreferences) {
+			String json = gson.toJson(productMap);
+			editor.putString("product_map", json);
+			editor.commit();
+		}
+	}
+
+	public Map<String, String> getProfitCenterMap() {
+		return profitCenterMap;
+	}
+
+	public void setProfitCenterMap(Map<String, String> profitCenterMap,
+			boolean updatePreferences) {
+		this.profitCenterMap = profitCenterMap;
+		
+		if (updatePreferences) {
+			String json = gson.toJson(profitCenterMap);
+			editor.putString("profit_center_map", json);
+			editor.commit();
+		}
+	}
+
+	public Map<String, String> getSolutionMap() {
+		return solutionMap;
+	}
+
+	public void setSolutionMap(Map<String, String> solutionMap,
+			boolean updatePreferences) {
+		this.solutionMap = solutionMap;
+		
+		if (updatePreferences) {
+			String json = gson.toJson(solutionMap);
+			editor.putString("solution_map", json);
+			editor.commit();
+		}
+	}
+
+	public Map<String, String> getCompetitorMap() {
+		return competitorMap;
+	}
+
+	public void setCompetitorMap(Map<String, String> competitorMap,
+			boolean updatePreferences) {
+		this.competitorMap = competitorMap;
+	}
 
 	public String getLoginUserId() {
 		return loginUserId;
@@ -541,6 +591,14 @@ public class MyApp extends Application {
 
 	public void setInteractionTypeMap(Map<String, String> interactionTypeMap) {
 		this.interactionTypeMap = interactionTypeMap;
+	}
+
+	public Map<String, String> getLeadSourceMap() {
+		return leadSourceMap;
+	}
+
+	public void setLeadSourceMap(Map<String, String> leadSourceMap) {
+		this.leadSourceMap = leadSourceMap;
 	}
 
 	public Map<String, String> getLobMap() {
@@ -759,7 +817,7 @@ public class MyApp extends Application {
 		 * http://stackoverflow.com/questions/20036075/json-datetime-parsing-in-
 		 * android
 		 **/
-		if(dateString == null){
+		if (dateString == null) {
 			return null;
 		}
 		System.out.println("1212  : " + dateString);
@@ -781,6 +839,7 @@ public class MyApp extends Application {
 		readCountryExcel();
 		readDorExcel();
 		readInteractionTypeExcel();
+		readLeadSourceExcel();
 		readLobExcel();
 		readPriorityLevelExcel();
 		readProbabilityExcel();
@@ -791,21 +850,28 @@ public class MyApp extends Application {
 		readSupportTypeExcel();
 	}
 
-	public void readAccountCategoryExcel() {
+	private Workbook getWorkbookFromAssets(String path, String errorMsg) {
 		/**
 		 * http://stackoverflow.com/questions/5428794/biffexception-while-
 		 * reading-an-excel-sheet
 		 **/
 		Workbook w = null;
 		try {
-			w = Workbook.getWorkbook(getAssets().open(ACCOUNT_CATEGORY_PATH));
+			w = Workbook.getWorkbook(getAssets().open(path));
+			return w;
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Account Category data.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+			return null;
+		}
+	}
+
+	public void readAccountCategoryExcel() {
+		Workbook w = getWorkbookFromAssets(Constant.ACCOUNT_CATEGORY_PATH,
+				Constant.ACCOUNT_CATEGORY_ERROR);
+		if (w == null) {
 			return;
 		}
-
 		/** Get the first sheet **/
 		Sheet sheet = w.getSheet(0);
 
@@ -817,13 +883,9 @@ public class MyApp extends Application {
 	}
 
 	public void readCountryExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(COUNTRY_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Country data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.COUNTRY_PATH,
+				Constant.COUNTRY_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -838,13 +900,9 @@ public class MyApp extends Application {
 	}
 
 	public void readDorExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(DOR_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load DOR data.", Toast.LENGTH_LONG)
-					.show();
+		Workbook w = getWorkbookFromAssets(Constant.DOR_PATH,
+				Constant.DOR_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -859,13 +917,9 @@ public class MyApp extends Application {
 	}
 
 	public void readInteractionTypeExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(INTERACTION_TYPE_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Interaction Type data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.INTERACTION_TYPE_PATH,
+				Constant.INTERACTION_TYPE_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -879,14 +933,26 @@ public class MyApp extends Application {
 
 	}
 
+	private void readLeadSourceExcel() {
+		Workbook w = getWorkbookFromAssets(Constant.LEAD_SOURCE_PATH,
+				Constant.LEAD_SOURCE_ERROR);
+		if (w == null) {
+			return;
+		}
+		
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			leadSourceMap.put(sheet.getCell(0, i).getContents(),
+					sheet.getCell(1, i).getContents());
+		}
+	}
+
 	public void readLobExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(LOB_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load lob data.", Toast.LENGTH_LONG)
-					.show();
+		Workbook w = getWorkbookFromAssets(Constant.LOB_PATH,
+				Constant.LOB_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -901,13 +967,9 @@ public class MyApp extends Application {
 	}
 
 	public void readPriorityLevelExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(PRIORITY_LEVEL_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Priority Level data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.PRIORITY_LEVEL_PATH,
+				Constant.PRIORITY_LEVEL_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -922,13 +984,9 @@ public class MyApp extends Application {
 	}
 
 	public void readProbabilityExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(PROBABILITY_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Probability data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.PROBABILITY_PATH,
+				Constant.PROBABILITY_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -943,13 +1001,9 @@ public class MyApp extends Application {
 	}
 
 	public void readSalesStageExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(SALES_STAGE_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sales Stage data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.SALES_STAGE_PATH,
+				Constant.SALES_STAGE_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -964,13 +1018,9 @@ public class MyApp extends Application {
 	}
 
 	public void readSectorExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(SECTOR_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sector data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.SECTOR_PATH,
+				Constant.SECTOR_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -985,13 +1035,9 @@ public class MyApp extends Application {
 	}
 
 	public void readStatusExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(STATUS_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Status data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.STATUS_PATH,
+				Constant.STATUS_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -1006,13 +1052,9 @@ public class MyApp extends Application {
 	}
 
 	public void readSubLobExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(SUB_LOP_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Sub Lob data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.SUB_LOP_PATH,
+				Constant.SUB_LOP_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -1027,13 +1069,9 @@ public class MyApp extends Application {
 	}
 
 	public void readSupportTypeExcel() {
-		Workbook w = null;
-		try {
-			w = Workbook.getWorkbook(getAssets().open(SUPPORT_TYPE_PATH));
-		} catch (BiffException | IOException e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Unable to load Support Type data.",
-					Toast.LENGTH_LONG).show();
+		Workbook w = getWorkbookFromAssets(Constant.SUPPORT_TYPE_PATH,
+				Constant.SUPPORT_TYPE_ERROR);
+		if (w == null) {
 			return;
 		}
 
@@ -1192,8 +1230,8 @@ public class MyApp extends Application {
 	}
 
 	/**
-	 * {"Id":"da7bb1a7-8095-e411-96e8-5cf3fc3f502a","LogicalName":"account","Name":"Mascot Click","ExtensionData":{}}
-	 * {"Value":1,"ExtensionData":{}}
+	 * {"Id":"da7bb1a7-8095-e411-96e8-5cf3fc3f502a","LogicalName":"account",
+	 * "Name":"Mascot Click","ExtensionData":{}} {"Value":1,"ExtensionData":{}}
 	 * **/
 	public Integer getIntValueFromStringJSON(String x) {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/

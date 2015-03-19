@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputFilter;
@@ -61,7 +60,6 @@ public class OpportunityAddActivity extends CRMActivity {
 			noOfSolutionLabel_TV;
 	// , countryLabel_TV, lobLabel_TV, sublobLabel_TV,
 	// sectorLabel_TV, oppoManagerLabel_TV
-
 	TextView clientName_TV, leadSource_TV, salesStage_TV, probability_TV,
 			status_TV, expectedClosureDate_TV, noOfSolution_TV;
 	// country_TV, lob_TV, sublob_TV, sector_TV, oppoManager_TV
@@ -69,8 +67,9 @@ public class OpportunityAddActivity extends CRMActivity {
 	TextView descriptionLabel_TV, totalProposalValueLabel_TV;
 	EditText description_ET, totalProposalValue_ET;
 
-	RelativeLayout status_RL, oppoManager_RL, probability_RL, salesStage_RL;
-
+	RelativeLayout leadSource_RL, salesStage_RL, probability_RL, status_RL,
+			noOfSolution_RL;
+	// , oppoManager_RL
 	/** Solution */
 	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL,
 			parentSolution4_LL;
@@ -86,16 +85,19 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	Opportunity tempOpportunity;
 
-	Map<String, String> lobMap;
-	Map<String, String> probabilityMap;
+	// Map<String, String> lobMap;
+	Map<String, String> leadSourceMap;
 	Map<String, String> salesStageMap;
+	Map<String, String> probabilityMap;
 	Map<String, String> statusMap;
 	Map<String, String> userMap;
 
 	Intent previousIntent, nextIntent;
 
-	int selectedClientName = -1, selectedStatus = -1, selectedOppoManager = -1,
-			selectedProbability = -1, selectedSalesStage = -1;
+	int selectedLeadSource = -1, selectedSalesStage = -1,
+			selectedProbability = -1, selectedStatus = -1,
+			selectedNoOfSolution = -1;
+	int selectedClientName = -1, selectedOppoManager = -1;
 
 	RequestQueue queue;
 
@@ -148,9 +150,10 @@ public class OpportunityAddActivity extends CRMActivity {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
 
-		lobMap = myApp.getLobMap();
-		probabilityMap = myApp.getProbabilityMap();
+		// lobMap = myApp.getLobMap();
+		leadSourceMap = myApp.getLeadSourceMap();
 		salesStageMap = myApp.getSalesStageMap();
+		probabilityMap = myApp.getProbabilityMap();
 		statusMap = myApp.getStatusMap();
 		userMap = myApp.getUserMap();
 
@@ -160,6 +163,10 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		// view_solution = (LinearLayout)
+		// inflater.inflate(R.layout.view_solution,
+		// null, false);
+		view_solution = getViewSolution();
 
 		queue = Volley.newRequestQueue(this);
 	}
@@ -180,12 +187,6 @@ public class OpportunityAddActivity extends CRMActivity {
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
 		expectedClosureDateLabel_TV = (TextView) findViewById(R.id.expectedClosureDateLabel_TV);
 		noOfSolutionLabel_TV = (TextView) findViewById(R.id.noOfSolutionLabel_TV);
-		// oppoManagerLabel_TV = (TextView)
-		// findViewById(R.id.oppoManagerLabel_TV);
-		// countryLabel_TV = (TextView) findViewById(R.id.countryLabel_TV);
-		// lobLabel_TV = (TextView) findViewById(R.id.lobLabel_TV);
-		// sublobLabel_TV = (TextView) findViewById(R.id.sublobLabel_TV);
-		// sectorLabel_TV = (TextView) findViewById(R.id.sectorLabel_TV);
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
 		leadSource_TV = (TextView) findViewById(R.id.leadSource_TV);
@@ -194,16 +195,12 @@ public class OpportunityAddActivity extends CRMActivity {
 		status_TV = (TextView) findViewById(R.id.status_TV);
 		expectedClosureDate_TV = (TextView) findViewById(R.id.expectedClosureDate_TV);
 		noOfSolution_TV = (TextView) findViewById(R.id.noOfSolution_TV);
-		// oppoManager_TV = (TextView) findViewById(R.id.oppoManager_TV);
-		// country_TV = (TextView) findViewById(R.id.country_TV);
-		// lob_TV = (TextView) findViewById(R.id.lob_TV);
-		// sublob_TV = (TextView) findViewById(R.id.sublob_TV);
-		// sector_TV = (TextView) findViewById(R.id.sector_TV);
 
-		// status_RL = (RelativeLayout) findViewById(R.id.status_RL);
-		// oppoManager_RL = (RelativeLayout) findViewById(R.id.oppoManager_RL);
-		// probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
-		// salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
+		leadSource_RL = (RelativeLayout) findViewById(R.id.leadSource_RL);
+		salesStage_RL = (RelativeLayout) findViewById(R.id.salesStage_RL);
+		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
+		status_RL = (RelativeLayout) findViewById(R.id.status_RL);
+		noOfSolution_RL = (RelativeLayout) findViewById(R.id.noOfSolution_RL);
 
 		parentSolution1_LL = (LinearLayout) findViewById(R.id.parentSolution1_LL);
 		parentSolution2_LL = (LinearLayout) findViewById(R.id.parentSolution2_LL);
@@ -227,30 +224,27 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	private void setTypeface() {
-		/*
-		 * clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * oppoManagerLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * probabilityLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * salesStageLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * countryLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * lobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * sublobLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * sectorLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * 
-		 * clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * status_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * oppoManager_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * probability_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * salesStage_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * country_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * lob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * sublob_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 * sector_TV.setTypeface(myApp.getTypefaceRegularSans());
-		 */
+		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		totalProposalValueLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		description_ET.setTypeface(myApp.getTypefaceRegularSans());
+		totalProposalValue_ET.setTypeface(myApp.getTypefaceRegularSans());
+
+		clientNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		leadSourceLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		salesStageLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		probabilityLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		statusLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		expectedClosureDateLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+		noOfSolutionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		clientName_TV.setTypeface(myApp.getTypefaceRegularSans());
+		leadSource_TV.setTypeface(myApp.getTypefaceRegularSans());
+		salesStage_TV.setTypeface(myApp.getTypefaceRegularSans());
+		probability_TV.setTypeface(myApp.getTypefaceRegularSans());
+		status_TV.setTypeface(myApp.getTypefaceRegularSans());
+		expectedClosureDate_TV.setTypeface(myApp.getTypefaceRegularSans());
+		noOfSolution_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String title, String title2) {
@@ -359,6 +353,14 @@ public class OpportunityAddActivity extends CRMActivity {
 				});
 	}
 
+	private void registerViewsForContextMenu() {
+		registerForContextMenu(leadSource_RL);
+		registerForContextMenu(status_RL);
+		registerForContextMenu(probability_RL);
+		registerForContextMenu(salesStage_RL);
+		registerForContextMenu(noOfSolution_RL);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -367,19 +369,21 @@ public class OpportunityAddActivity extends CRMActivity {
 		initThings();
 		findThings();
 		initView("Add Opportunity", "Save");
-		/*
-		 * if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
-		 * .getBooleanExtra("is_edit_mode", false))) {
-		 * initView("Modify Opportunity", "Save"); } else {
-		 * initView("Add Opportunity", "Save"); }
-		 * 
-		 * hideKeyboardFunctionality();
-		 * 
-		 * // registerForContextMenu(client_RL);
-		 * registerForContextMenu(status_RL);
-		 * registerForContextMenu(probability_RL);
-		 */
-		registerForContextMenu(findViewById(R.id.noOfSolution_RL));
+
+		registerViewsForContextMenu();
+
+		if ((previousIntent.hasExtra("is_edit_mode") && previousIntent
+				.getBooleanExtra("is_edit_mode", false))) {
+			initView("Modify Opportunity", "Save");
+		} else {
+			initView("Add Opportunity", "Save");
+		}
+
+		hideKeyboardFunctionality();
+
+		// registerForContextMenu(client_RL);
+
+		childSolution1_LL.addView(view_solution);
 
 		System.out.println("!!!!!  :  "
 				+ myApp.getOpportunityList().get(12).toString());
@@ -401,7 +405,6 @@ public class OpportunityAddActivity extends CRMActivity {
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(0, v.getId(), i, list.get(i));
 			}
-
 		}
 
 		if (v.getId() == R.id.probability_RL) {
@@ -416,17 +419,22 @@ public class OpportunityAddActivity extends CRMActivity {
 			for (int i = 0; i < list.size(); i++) {
 				menu.add(2, v.getId(), i, list.get(i));
 			}
-
 		}
+
 		if (v.getId() == R.id.noOfSolution_RL) {
 			menu.add(3, v.getId(), 0, "1");
 			menu.add(3, v.getId(), 1, "2");
 			menu.add(3, v.getId(), 2, "3");
 			menu.add(3, v.getId(), 3, "4");
 		}
-	}
 
-	
+		if (v.getId() == R.id.leadSource_RL) {
+			List<String> list = new ArrayList<String>(leadSourceMap.values());
+			for (int i = 0; i < list.size(); i++) {
+				menu.add(4, v.getId(), i, list.get(i));
+			}
+		}
+	}
 
 	public void onOpenContextMenu(View view) {
 		hideKeyboard(this.getCurrentFocus());
@@ -476,6 +484,9 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
+		System.out.println("aa :  "
+				+ ((EditText) childSolution2_LL.findViewById(R.id.fee_ET))
+						.getText().toString());
 		if (!validate()) {
 			return;
 		}
@@ -634,26 +645,36 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	}
 
-	private Drawable getDrawableFromId(int id) {
-		return getResources().getDrawable(id);
-	}
+	/*
+	 * private Drawable getDrawableFromId(int id) { return
+	 * getResources().getDrawable(id); }
+	 */
 
 	private void setDecimalLimitOnFields() {
-		((EditText) findViewById(R.id.fee_ET))
-				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
-						10, 4) });
-		((EditText) findViewById(R.id.pyNfr_ET))
-				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
-						10, 4) });
-		((EditText) findViewById(R.id.cyNfr_ET))
-				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
-						10, 4) });
-		((EditText) findViewById(R.id.cyNfrPlus1_ET))
-				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
-						10, 4) });
-		((EditText) findViewById(R.id.cyNfrPlus2_ET))
-				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
-						10, 4) });
+		InputFilter[] inputFilters = new InputFilter[] { new DecimalDigitsInputFilter(
+				10, 4) };
+
+		((EditText) findViewById(R.id.fee_ET)).setFilters(inputFilters);
+		((EditText) findViewById(R.id.pyNfr_ET)).setFilters(inputFilters);
+		((EditText) findViewById(R.id.cyNfr_ET)).setFilters(inputFilters);
+		((EditText) findViewById(R.id.cyNfrPlus1_ET)).setFilters(inputFilters);
+		((EditText) findViewById(R.id.cyNfrPlus2_ET)).setFilters(inputFilters);
+	}
+
+	private void setChildLLTag(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
+		if (visibility1 == View.GONE) {
+			childSolution1_LL.setTag("false");
+		}
+		if (visibility2 == View.GONE) {
+			childSolution2_LL.setTag("false");
+		}
+		if (visibility3 == View.GONE) {
+			childSolution3_LL.setTag("false");
+		}
+		if (visibility4 == View.GONE) {
+			childSolution4_LL.setTag("false");
+		}
 	}
 
 	private void setChildLLVisibility(int visibility1, int visibility2,
@@ -662,6 +683,56 @@ public class OpportunityAddActivity extends CRMActivity {
 		childSolution2_LL.setVisibility(visibility2);
 		childSolution3_LL.setVisibility(visibility3);
 		childSolution4_LL.setVisibility(visibility4);
+
+		setChildLLTag(visibility1, visibility2, visibility3, visibility4);
+	}
+
+	LinearLayout view_solution;
+
+	@SuppressLint("InflateParams")
+	private LinearLayout getViewSolution() {
+		return (LinearLayout) inflater.inflate(R.layout.view_solution, null,
+				false);
+	}
+
+	private void addSolutionViewToChild(int visibility2, int visibility3,
+			int visibility4) {
+
+		if (visibility2 == View.VISIBLE) {
+			if (childSolution2_LL.getChildCount() == 0) {
+				childSolution2_LL.addView(getViewSolution());
+				setDecimalLimitOnFields();
+			}
+		} else {
+			childSolution2_LL.removeAllViews();
+		}
+
+		if (visibility3 == View.VISIBLE) {
+			if (childSolution3_LL.getChildCount() == 0) {
+				childSolution3_LL.addView(getViewSolution());
+				setDecimalLimitOnFields();
+			}
+		} else {
+			childSolution3_LL.removeAllViews();
+		}
+
+		if (visibility4 == View.VISIBLE) {
+			if (childSolution4_LL.getChildCount() == 0) {
+				childSolution4_LL.addView(getViewSolution());
+				setDecimalLimitOnFields();
+			}
+		} else {
+			childSolution4_LL.removeAllViews();
+		}
+	}
+
+	private void setParentLLVisibility(int visibility2, int visibility3,
+			int visibility4) {
+		parentSolution2_LL.setVisibility(visibility2);
+		parentSolution3_LL.setVisibility(visibility3);
+		parentSolution4_LL.setVisibility(visibility4);
+
+		addSolutionViewToChild(visibility2, visibility3, visibility4);
 	}
 
 	@Override
@@ -679,24 +750,16 @@ public class OpportunityAddActivity extends CRMActivity {
 			int i = Integer.parseInt(item.getTitle().toString());
 			switch (i) {
 			case 1:
-				parentSolution2_LL.setVisibility(View.GONE);
-				parentSolution3_LL.setVisibility(View.GONE);
-				parentSolution4_LL.setVisibility(View.GONE);
+				setParentLLVisibility(View.GONE, View.GONE, View.GONE);
 				break;
 			case 2:
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				parentSolution3_LL.setVisibility(View.GONE);
-				parentSolution4_LL.setVisibility(View.GONE);
+				setParentLLVisibility(View.VISIBLE, View.GONE, View.GONE);
 				break;
 			case 3:
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				parentSolution3_LL.setVisibility(View.VISIBLE);
-				parentSolution4_LL.setVisibility(View.GONE);
+				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.GONE);
 				break;
 			case 4:
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				parentSolution3_LL.setVisibility(View.VISIBLE);
-				parentSolution4_LL.setVisibility(View.VISIBLE);
+				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE);
 				break;
 
 			default:
@@ -704,14 +767,15 @@ public class OpportunityAddActivity extends CRMActivity {
 			}
 			salesStage_TV.setText(item.getTitle());
 			selectedSalesStage = item.getOrder();
+		} else if (item.getGroupId() == 4) {
+			leadSource_TV.setText(item.getTitle());
+			selectedLeadSource = item.getOrder();
 		}
 		return super.onContextItemSelected(item);
 
 	}
-	
+
 	public void onExpand(View view) {
-		LinearLayout view_solution = (LinearLayout) inflater.inflate(
-				R.layout.view_solution, null, false);
 		boolean tagVisibility;
 		switch (view.getId()) {
 		case R.id.expandTabSolution1_RL:
@@ -721,16 +785,13 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution1_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				arrowSol1_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
-				if (childSolution1_LL.getChildCount() == 0) {
-					childSolution1_LL.addView(view_solution);
-					setDecimalLimitOnFields();
-				}
-				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
+				// arrowSol1_IV
+				// .setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
+				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE,
+						View.GONE);
 			} else {
-				arrowSol1_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
+				// arrowSol1_IV
+				// .setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution1_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -741,16 +802,9 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution2_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				arrowSol2_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
-				if (childSolution2_LL.getChildCount() == 0) {
-					childSolution2_LL.addView(view_solution);
-					setDecimalLimitOnFields();
-				}
-				setChildLLVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+				setChildLLVisibility(View.GONE, View.VISIBLE, View.GONE,
+						View.GONE);
 			} else {
-				arrowSol2_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution2_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -761,16 +815,9 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution3_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				arrowSol3_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
-				if (childSolution3_LL.getChildCount() == 0) {
-					childSolution3_LL.addView(view_solution);
-					setDecimalLimitOnFields();
-				}
-				setChildLLVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);
+				setChildLLVisibility(View.GONE, View.GONE, View.VISIBLE,
+						View.GONE);
 			} else {
-				arrowSol3_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution3_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -781,16 +828,9 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution4_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				arrowSol4_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
-				if (childSolution4_LL.getChildCount() == 0) {
-					childSolution4_LL.addView(view_solution);
-					setDecimalLimitOnFields();
-				}
-				setChildLLVisibility(View.GONE, View.GONE, View.GONE, View.VISIBLE);
+				setChildLLVisibility(View.GONE, View.GONE, View.GONE,
+						View.VISIBLE);
 			} else {
-				arrowSol4_IV
-						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution4_LL.setVisibility(View.GONE);
 			}
 			break;
