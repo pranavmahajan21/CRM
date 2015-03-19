@@ -89,4 +89,73 @@
         <ImageView style="@style/IV" />
     </RelativeLayout>
 
+    <LinearLayout style="@style/LL5" >
+
+        <TextView
+            android:id="@+id/feeLabel_TV"
+            style="@style/TV5"
+            android:text="Fee:" />
+
+        <EditText
+            android:id="@+id/fee_ET"
+            style="@style/ET" />
+        <!--
+                 android:inputType="numberDecimal"
+            android:hint="Money"
+        -->
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/LL5" >
+
+        <TextView
+            android:id="@+id/pyNfrLabel_TV"
+            style="@style/TV5"
+            android:text="PY NFR:" />
+
+        <EditText
+            android:id="@+id/pyNfr_ET"
+            style="@style/ET"
+            android:hint="Money" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LL5" >
+
+        <TextView
+            android:id="@+id/cyNfrLabel_TV"
+            style="@style/TV5"
+            android:text="CY NFR:" />
+
+        <EditText
+            android:id="@+id/cyNfr_ET"
+            style="@style/ET"
+            android:hint="Money" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LL5" >
+
+        <TextView
+            android:id="@+id/cyNfrPlus1Label_TV"
+            style="@style/TV5"
+            android:text="CY+1 NFR:" />
+
+        <EditText
+            android:id="@+id/cyNfrPlus1_ET"
+            style="@style/ET"
+            android:hint="Money" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LL5" >
+
+        <TextView
+            android:id="@+id/cyNfrPlus2Label_TV"
+            style="@style/TV5"
+            android:text="CY+2 NFR:" />
+
+        <EditText
+            android:id="@+id/cyNfrPlus2_ET"
+            style="@style/ET"
+            android:hint="Money" />
+    </LinearLayout>
+
 </LinearLayout>

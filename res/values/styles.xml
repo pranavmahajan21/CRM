@@ -196,13 +196,13 @@
         <item name="android:scaleType">fitXY</item>
         <item name="android:background">@null</item>
     </style>
-    
+
     <style name="TV4" parent="dimensions3">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
-    
+
     <style name="B" parent="dimensions2">
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/custom_bg_stroke_radius</item>
@@ -210,5 +210,29 @@
         <item name="android:textStyle">bold</item>
     </style>
     <!-- ****used in menu2 screen**** -->
+
+
+    <!-- ****used in view_solution screen**** -->
+    <style name="LL5" parent="dimensions">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:weightSum">7</item>
+    </style>
+    
+    <style name="TV5" parent="dimensions2">
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_weight">2.2</item>
+    </style>
+    
+    <style name="ET" parent="dimensions2">
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/custom_bg_solid_radius</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:hint">Money</item>
+        <item name="android:layout_weight">4.8</item>
+    </style>
+    <!-- ****used in view_solution screen**** -->
 
 </resources>

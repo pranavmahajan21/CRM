@@ -81,11 +81,11 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void findThings() {
-		menu_item_TV1 = (TextView)findViewById(R.id.menu_item_TV1);
-		menu_item_TV2 = (TextView)findViewById(R.id.menu_item_TV2);
-		menu_item_TV3 = (TextView)findViewById(R.id.menu_item_TV3);
-		menu_item_TV4 = (TextView)findViewById(R.id.menu_item_TV4);
-		
+		menu_item_TV1 = (TextView) findViewById(R.id.menu_item_TV1);
+		menu_item_TV2 = (TextView) findViewById(R.id.menu_item_TV2);
+		menu_item_TV3 = (TextView) findViewById(R.id.menu_item_TV3);
+		menu_item_TV4 = (TextView) findViewById(R.id.menu_item_TV4);
+
 		syncDate_TV = (TextView) findViewById(R.id.syncDate_TV);
 		lastSync_LL = (LinearLayout) findViewById(R.id.lastSync_LL);
 	}
@@ -95,7 +95,7 @@ public class MenuActivity2 extends Activity {
 		menu_item_TV2.setTypeface(myApp.getTypefaceBoldSans());
 		menu_item_TV3.setTypeface(myApp.getTypefaceBoldSans());
 		menu_item_TV4.setTypeface(myApp.getTypefaceBoldSans());
-		
+
 		syncDate_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
@@ -185,37 +185,34 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void onContact(View view) {
-		nextIntent = new Intent(MenuActivity2.this, ContactListActivity.class);
+		nextIntent = new Intent(this, ContactListActivity.class);
 		nextIntent.putExtra("is_my_contact", true);
 		startActivity(nextIntent);
 	}
 
 	public void onAccount(View view) {
-		nextIntent = new Intent(MenuActivity2.this, AccountListActivity.class);
+		nextIntent = new Intent(this, AccountListActivity.class);
 		nextIntent.putExtra("is_my_account", true);
 		startActivity(nextIntent);
 	}
 
 	public void onAppointment(View view) {
-		nextIntent = new Intent(MenuActivity2.this,
-				AppointmentListActivity.class);
+		nextIntent = new Intent(this, AppointmentListActivity.class);
 		nextIntent.putExtra("is_my_appointment", true);
 		startActivity(nextIntent);
 
 	}
 
 	public void onOpportunity(View view) {
-//		nextIntent = new Intent(MenuActivity2.this,
-//				OpportunityListActivity.class);
-		nextIntent = new Intent(MenuActivity2.this,
-				OpportunityAddActivity.class);
+		nextIntent = new Intent(this, OpportunityListActivity.class);
+		// nextIntent = new Intent(this,
+		// OpportunityAddActivity.class);
 		nextIntent.putExtra("is_my_opportunity", true);
 		startActivity(nextIntent);
 	}
-	
+
 	public void onService(View view) {
-		nextIntent = new Intent(MenuActivity2.this,
-				ServiceAddActivity.class);
+		nextIntent = new Intent(this, ServiceAddActivity.class);
 		startActivity(nextIntent);
 	}
 }

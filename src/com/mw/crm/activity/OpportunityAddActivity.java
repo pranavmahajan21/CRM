@@ -15,8 +15,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.InputFilter;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +44,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.DecimalDigitsInputFilter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
@@ -73,6 +77,8 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	RelativeLayout expandTabSolution1_RL, expandTabSolution2_RL,
 			expandTabSolution3_RL, expandTabSolution4_RL;
+
+	ImageView arrowSol1_IV, arrowSol2_IV, arrowSol3_IV, arrowSol4_IV;
 
 	LinearLayout childSolution1_LL, childSolution2_LL, childSolution3_LL,
 			childSolution4_LL;
@@ -208,6 +214,11 @@ public class OpportunityAddActivity extends CRMActivity {
 		expandTabSolution2_RL = (RelativeLayout) findViewById(R.id.expandTabSolution2_RL);
 		expandTabSolution3_RL = (RelativeLayout) findViewById(R.id.expandTabSolution3_RL);
 		expandTabSolution4_RL = (RelativeLayout) findViewById(R.id.expandTabSolution4_RL);
+
+		arrowSol1_IV = (ImageView) findViewById(R.id.arrowSol1_IV);
+		arrowSol2_IV = (ImageView) findViewById(R.id.arrowSol2_IV);
+		arrowSol3_IV = (ImageView) findViewById(R.id.arrowSol3_IV);
+		arrowSol4_IV = (ImageView) findViewById(R.id.arrowSol4_IV);
 
 		childSolution1_LL = (LinearLayout) findViewById(R.id.childSolution1_LL);
 		childSolution2_LL = (LinearLayout) findViewById(R.id.childSolution2_LL);
@@ -415,50 +426,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 	}
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		if (item.getGroupId() == 0) {
-			status_TV.setText(item.getTitle());
-			selectedStatus = item.getOrder();
-		} else if (item.getGroupId() == 1) {
-			probability_TV.setText(item.getTitle());
-			selectedProbability = item.getOrder();
-		} else if (item.getGroupId() == 2) {
-			salesStage_TV.setText(item.getTitle());
-			selectedSalesStage = item.getOrder();
-		} else if (item.getGroupId() == 3) {
-			int i = Integer.parseInt(item.getTitle().toString());
-			switch (i) {
-			case 1:
-				parentSolution2_LL.setVisibility(View.GONE);
-				parentSolution3_LL.setVisibility(View.GONE);
-				parentSolution4_LL.setVisibility(View.GONE);
-				break;
-			case 2:
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				parentSolution3_LL.setVisibility(View.GONE);
-				parentSolution4_LL.setVisibility(View.GONE);
-				break;
-			case 3:
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				parentSolution3_LL.setVisibility(View.VISIBLE);
-				parentSolution4_LL.setVisibility(View.GONE);
-				break;
-			case 4:
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				parentSolution3_LL.setVisibility(View.VISIBLE);
-				parentSolution4_LL.setVisibility(View.VISIBLE);
-				break;
-
-			default:
-				break;
-			}
-			salesStage_TV.setText(item.getTitle());
-			selectedSalesStage = item.getOrder();
-		}
-		return super.onContextItemSelected(item);
-
-	}
+	
 
 	public void onOpenContextMenu(View view) {
 		hideKeyboard(this.getCurrentFocus());
@@ -666,6 +634,81 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	}
 
+	private Drawable getDrawableFromId(int id) {
+		return getResources().getDrawable(id);
+	}
+
+	private void setDecimalLimitOnFields() {
+		((EditText) findViewById(R.id.fee_ET))
+				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
+						10, 4) });
+		((EditText) findViewById(R.id.pyNfr_ET))
+				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
+						10, 4) });
+		((EditText) findViewById(R.id.cyNfr_ET))
+				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
+						10, 4) });
+		((EditText) findViewById(R.id.cyNfrPlus1_ET))
+				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
+						10, 4) });
+		((EditText) findViewById(R.id.cyNfrPlus2_ET))
+				.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(
+						10, 4) });
+	}
+
+	private void setChildLLVisibility(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
+		childSolution1_LL.setVisibility(visibility1);
+		childSolution2_LL.setVisibility(visibility2);
+		childSolution3_LL.setVisibility(visibility3);
+		childSolution4_LL.setVisibility(visibility4);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getGroupId() == 0) {
+			status_TV.setText(item.getTitle());
+			selectedStatus = item.getOrder();
+		} else if (item.getGroupId() == 1) {
+			probability_TV.setText(item.getTitle());
+			selectedProbability = item.getOrder();
+		} else if (item.getGroupId() == 2) {
+			salesStage_TV.setText(item.getTitle());
+			selectedSalesStage = item.getOrder();
+		} else if (item.getGroupId() == 3) {
+			int i = Integer.parseInt(item.getTitle().toString());
+			switch (i) {
+			case 1:
+				parentSolution2_LL.setVisibility(View.GONE);
+				parentSolution3_LL.setVisibility(View.GONE);
+				parentSolution4_LL.setVisibility(View.GONE);
+				break;
+			case 2:
+				parentSolution2_LL.setVisibility(View.VISIBLE);
+				parentSolution3_LL.setVisibility(View.GONE);
+				parentSolution4_LL.setVisibility(View.GONE);
+				break;
+			case 3:
+				parentSolution2_LL.setVisibility(View.VISIBLE);
+				parentSolution3_LL.setVisibility(View.VISIBLE);
+				parentSolution4_LL.setVisibility(View.GONE);
+				break;
+			case 4:
+				parentSolution2_LL.setVisibility(View.VISIBLE);
+				parentSolution3_LL.setVisibility(View.VISIBLE);
+				parentSolution4_LL.setVisibility(View.VISIBLE);
+				break;
+
+			default:
+				break;
+			}
+			salesStage_TV.setText(item.getTitle());
+			selectedSalesStage = item.getOrder();
+		}
+		return super.onContextItemSelected(item);
+
+	}
+	
 	public void onExpand(View view) {
 		LinearLayout view_solution = (LinearLayout) inflater.inflate(
 				R.layout.view_solution, null, false);
@@ -678,14 +721,16 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution1_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
+				arrowSol1_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
 				if (childSolution1_LL.getChildCount() == 0) {
 					childSolution1_LL.addView(view_solution);
+					setDecimalLimitOnFields();
 				}
-				childSolution1_LL.setVisibility(View.VISIBLE);
-				childSolution2_LL.setVisibility(View.GONE);
-				childSolution3_LL.setVisibility(View.GONE);
-				childSolution4_LL.setVisibility(View.GONE);
+				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
 			} else {
+				arrowSol1_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution1_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -696,15 +741,16 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution2_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-
+				arrowSol2_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
 				if (childSolution2_LL.getChildCount() == 0) {
 					childSolution2_LL.addView(view_solution);
+					setDecimalLimitOnFields();
 				}
-				childSolution1_LL.setVisibility(View.GONE);
-				childSolution2_LL.setVisibility(View.VISIBLE);
-				childSolution3_LL.setVisibility(View.GONE);
-				childSolution4_LL.setVisibility(View.GONE);
+				setChildLLVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
 			} else {
+				arrowSol2_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution2_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -715,14 +761,16 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution3_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
+				arrowSol3_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
 				if (childSolution3_LL.getChildCount() == 0) {
 					childSolution3_LL.addView(view_solution);
+					setDecimalLimitOnFields();
 				}
-				childSolution1_LL.setVisibility(View.GONE);
-				childSolution2_LL.setVisibility(View.GONE);
-				childSolution3_LL.setVisibility(View.VISIBLE);
-				childSolution4_LL.setVisibility(View.GONE);
+				setChildLLVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);
 			} else {
+				arrowSol3_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution3_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -733,14 +781,16 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution4_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
+				arrowSol4_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
 				if (childSolution4_LL.getChildCount() == 0) {
 					childSolution4_LL.addView(view_solution);
+					setDecimalLimitOnFields();
 				}
-				childSolution1_LL.setVisibility(View.GONE);
-				childSolution2_LL.setVisibility(View.GONE);
-				childSolution3_LL.setVisibility(View.GONE);
-				childSolution4_LL.setVisibility(View.VISIBLE);
+				setChildLLVisibility(View.GONE, View.GONE, View.GONE, View.VISIBLE);
 			} else {
+				arrowSol4_IV
+						.setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution4_LL.setVisibility(View.GONE);
 			}
 			break;

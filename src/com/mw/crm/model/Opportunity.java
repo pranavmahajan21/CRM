@@ -9,7 +9,7 @@ public class Opportunity implements Serializable {
 	private static final long serialVersionUID = -1622121450891551591L;
 
 	/**
-	 * Order of attributes is same as in order of UI. Do not change.
+	 * Order of attributes is same as the order of UI. Do not change.
 	 * **/
 
 	/** opportunityid **/
@@ -19,7 +19,8 @@ public class Opportunity implements Serializable {
 	String description;
 
 	/** customerid **/
-	String customerId;// PostAccounts
+	/** API: PostAccounts **/
+	String customerId;
 	// String clientName;
 
 	/** pcl_confendential **/
@@ -47,31 +48,6 @@ public class Opportunity implements Serializable {
 	String noOfSolutionRequired;
 
 	List<Solution> solutionList;
-
-	// /** **/
-	// String totalAmount;
-	//
-	// /** **/
-	// String ownerId;
-	//
-	// /** **/
-	// String transactionCurrencyId;
-
-	/*public Opportunity(String ownerId, String transactionCurrencyId,
-			String totalAmount, String customerId, String description,
-			String kpmgStatus, String opportunityId, String probability,
-			String salesStage) {
-		super();
-		this.ownerId = ownerId;
-		this.transactionCurrencyId = transactionCurrencyId;
-		this.totalAmount = totalAmount;
-		this.customerId = customerId;
-		this.description = description;
-		this.kpmgStatus = kpmgStatus;
-		this.opportunityId = opportunityId;
-		this.probability = probability;
-		this.salesStage = salesStage;
-	}*/
 
 	public Opportunity(String opportunityId, String description,
 			String customerId, String isConfidential, String leadSource,

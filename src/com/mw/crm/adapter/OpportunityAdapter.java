@@ -41,11 +41,11 @@ public class OpportunityAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		protected TextView descriptionTV;
-		protected TextView nameClientTV;
-		protected TextView leadPartnerTV;
-		protected TextView statusTV;
-		protected TextView costTV;
+		protected TextView crmId_TV;
+		protected TextView description_TV;
+		protected TextView customerId_TV;
+		protected TextView status_TV;
+		protected TextView cost_TV;
 	}
 
 	@Override
@@ -55,29 +55,25 @@ public class OpportunityAdapter extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			// convertView = inflater.inflate(R.layout.element_common, parent,
-			// false);
-			convertView = inflater.inflate(R.layout.element_opportunity,
+			convertView = inflater.inflate(R.layout.element_opportunity2,
 					parent, false);
 
-			viewHolder.descriptionTV = (TextView) convertView
+			viewHolder.crmId_TV = (TextView) convertView
+					.findViewById(R.id.crmId_TV);
+			viewHolder.description_TV = (TextView) convertView
 					.findViewById(R.id.description_TV);
-			viewHolder.nameClientTV = (TextView) convertView
-					.findViewById(R.id.nameClient_TV);
-			viewHolder.leadPartnerTV = (TextView) convertView
-					.findViewById(R.id.leadPartner_TV);
-			viewHolder.statusTV = (TextView) convertView
+			viewHolder.customerId_TV = (TextView) convertView
+					.findViewById(R.id.customerId_TV);
+			viewHolder.status_TV = (TextView) convertView
 					.findViewById(R.id.status_TV);
-			viewHolder.costTV = (TextView) convertView
+			viewHolder.cost_TV = (TextView) convertView
 					.findViewById(R.id.cost_TV);
 
-			viewHolder.descriptionTV.setTypeface(myApp.getTypefaceBoldSans());
-			viewHolder.nameClientTV.setTypeface(myApp.getTypefaceRegularSans());
-			viewHolder.leadPartnerTV.setTypeface(myApp.getTypefaceRegularSans());
-			
-			
-			viewHolder.statusTV.setTypeface(myApp.getTypefaceRegularSans());
-			viewHolder.costTV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.crmId_TV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.description_TV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.customerId_TV.setTypeface(myApp.getTypefaceBoldSans());
+			viewHolder.status_TV.setTypeface(myApp.getTypefaceRegularSans());
+			viewHolder.cost_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -86,25 +82,26 @@ public class OpportunityAdapter extends BaseAdapter {
 
 		Opportunity tempOpportunity = opportunityList.get(position);
 
-		viewHolder.descriptionTV.setText(tempOpportunity.getDescription());
-		viewHolder.nameClientTV.setText(myApp
+//		viewHolder.crmId_TV.setText(myApp
+//				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
+		viewHolder.description_TV.setText(tempOpportunity.getDescription());
+		viewHolder.customerId_TV.setText(myApp
 				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
 
 		Integer temp = myApp.getIntValueFromStringJSON(tempOpportunity
 				.getKpmgStatus());
 		if (temp != null) {
-			viewHolder.statusTV.setText(myApp.getStatusMap().get(
+			viewHolder.status_TV.setText(myApp.getStatusMap().get(
 					Integer.toString(temp.intValue())));
 			temp = null;
 		}
-//		viewHolder.statusTV.setText(tempOpportunity.getKpmgStatus());
 		
-//		Integer temp2 = myApp.getIntValueFromStringJSON(tempOpportunity
-//				.getTotalAmount());
-//		if (temp2 != null) {
-//			viewHolder.costTV.setText(temp2.intValue() + "");
-//			temp = null;
-//		}
+		temp = myApp.getIntValueFromStringJSON(tempOpportunity
+				.getTotalProposalValue());
+		if (temp != null) {
+			viewHolder.cost_TV.setText(temp.intValue() + "");
+			temp = null;
+		}
 
 		//		viewHolder.costTV.setText(tempOpportunity.getTotalAmount());
 		return convertView;

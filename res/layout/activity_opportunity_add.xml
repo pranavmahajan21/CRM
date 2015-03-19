@@ -252,7 +252,9 @@
                         style="@style/TV"
                         android:hint="Solution1" />
 
-                    <ImageView style="@style/IV" />
+                    <ImageView 
+                        android:id="@+id/arrowSol1_IV"
+                        style="@style/IV" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -280,7 +282,9 @@
                         style="@style/TV"
                         android:hint="Solution2" />
 
-                    <ImageView style="@style/IV" />
+                    <ImageView
+                        android:id="@+id/arrowSol2_IV" 
+                        style="@style/IV" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -308,7 +312,8 @@
                         style="@style/TV"
                         android:hint="Solution3" />
 
-                    <ImageView style="@style/IV" />
+                    <ImageView android:id="@+id/arrowSol3_IV"
+                        style="@style/IV" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -336,7 +341,9 @@
                         style="@style/TV"
                         android:hint="Solution4" />
 
-                    <ImageView style="@style/IV" />
+                    <ImageView 
+                        android:id="@+id/arrowSol4_IV"
+                        style="@style/IV" />
                 </RelativeLayout>
 
                 <LinearLayout
