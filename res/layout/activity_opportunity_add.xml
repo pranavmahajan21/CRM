@@ -67,23 +67,26 @@
                     android:textSize="18sp" />
 
                 <RadioGroup
+                    android:id="@+id/confidential_RG"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:orientation="horizontal" >
 
                     <RadioButton
+                        android:id="@+id/yes_RB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Yes"
                         android:textColor="@color/blue_dark" />
 
                     <RadioButton
+                        android:id="@+id/no_RB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:text="No"
                         android:textColor="@color/blue_dark" />
-                    <!-- android:background="@android:color/white" -->
                 </RadioGroup>
             </LinearLayout>
 
@@ -99,7 +102,7 @@
                 <TextView
                     android:id="@+id/leadSource_TV"
                     style="@style/TV"
-                    android:hint="Lead Source // TODO" />
+                    android:hint="Lead Source" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -120,43 +123,6 @@
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
-
-            <!--
-            <TextView
-                android:id="@+id/oppoManagerLabel_TV"
-                style="@style/style_TV2"
-                android:text="Opportunity Manager" />
-
-            <RelativeLayout
-                android:id="@+id/oppoManager_RL"
-                style="@style/RL"
-                android:onClick="onSearchItem" >
-
-                <TextView
-                    android:id="@+id/oppoManager_TV"
-                    style="@style/TV"
-                    android:hint="Opportunity Manager" />
-
-                <ImageView style="@style/IV" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/partnerLabel_TV"
-                style="@style/style_TV2"
-                android:text="Partner" />
-
-            <RelativeLayout
-                android:id="@+id/partner_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/partner_TV"
-                    style="@style/TV"
-                    android:hint="Partner // TODO" />
-
-                <ImageView style="@style/IV" />
-            </RelativeLayout>
-            -->
 
             <TextView
                 android:id="@+id/probabilityLabel_TV"
@@ -204,7 +170,7 @@
                 <TextView
                     android:id="@+id/expectedClosureDate_TV"
                     style="@style/TV"
-                    android:hint="Expected Closure Date" />
+                    android:hint="//TODO" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -214,10 +180,11 @@
                 style="@style/style_TV2"
                 android:text="Total Proposal Value" />
 
-            <EditText
-                android:id="@+id/totalProposalValue_ET"
+            <TextView
+                android:id="@+id/totalProposalValue_TV"
                 style="@style/style_ET2"
-                android:inputType="numberDecimal" />
+                android:background="@drawable/custom_bg_solid_grey_radius"
+                />
 
             <TextView
                 android:id="@+id/noOfSolutionLabel_TV"

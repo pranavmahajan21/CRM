@@ -24,11 +24,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,15 +61,16 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	TextView clientNameLabel_TV, leadSourceLabel_TV, salesStageLabel_TV,
 			probabilityLabel_TV, statusLabel_TV, expectedClosureDateLabel_TV,
-			noOfSolutionLabel_TV;
+			totalProposalValueLabel_TV, noOfSolutionLabel_TV;
 	// , countryLabel_TV, lobLabel_TV, sublobLabel_TV,
 	// sectorLabel_TV, oppoManagerLabel_TV
 	TextView clientName_TV, leadSource_TV, salesStage_TV, probability_TV,
-			status_TV, expectedClosureDate_TV, noOfSolution_TV;
+			status_TV, expectedClosureDate_TV, totalProposalValue_TV,
+			noOfSolution_TV;
 	// country_TV, lob_TV, sublob_TV, sector_TV, oppoManager_TV
 
-	TextView descriptionLabel_TV, totalProposalValueLabel_TV;
-	EditText description_ET, totalProposalValue_ET;
+	TextView descriptionLabel_TV;
+	EditText description_ET;
 
 	RelativeLayout leadSource_RL, salesStage_RL, probability_RL, status_RL,
 			noOfSolution_RL;
@@ -87,7 +91,10 @@ public class OpportunityAddActivity extends CRMActivity {
 	/** Solution View **/
 	TextView solutionManager_TV, solutionPartner_TV, solutionName_TV,
 			profitCenter_TV, taxonomy_TV;
+	EditText fee_ET, pyNfr_ET, cyNfr_ET, cyNfrPlus1_ET, cyNfrPlus2_ET;
 	/** Solution View **/
+
+	List<String> solutionList;
 
 	Opportunity tempOpportunity;
 
@@ -97,6 +104,9 @@ public class OpportunityAddActivity extends CRMActivity {
 	Map<String, String> probabilityMap;
 	Map<String, String> statusMap;
 	Map<String, String> userMap;
+	Map<String, String> solutionMap;
+	Map<String, String> productMap;
+	Map<String, String> profitCenterMap;
 
 	Intent previousIntent, nextIntent;
 
@@ -128,6 +138,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	AlertDialog alertDialog;
 
 	LayoutInflater inflater;
+	LinearLayout view_solution;
 
 	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
 		@Override
@@ -167,6 +178,12 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 	};
 
+	@SuppressLint("InflateParams")
+	private LinearLayout getViewSolution() {
+		return (LinearLayout) inflater.inflate(R.layout.view_solution, null,
+				false);
+	}
+
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
 		previousIntent = getIntent();
@@ -177,6 +194,15 @@ public class OpportunityAddActivity extends CRMActivity {
 		probabilityMap = myApp.getProbabilityMap();
 		statusMap = myApp.getStatusMap();
 		userMap = myApp.getUserMap();
+		solutionMap = myApp.getSolutionMap();
+		productMap = myApp.getProductMap();
+		profitCenterMap = myApp.getProfitCenterMap();
+
+		solutionList = new ArrayList<String>();
+		solutionList.add("1");
+		solutionList.add("2");
+		solutionList.add("3");
+		solutionList.add("4");
 
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
@@ -193,10 +219,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		super.findThings();
 
 		descriptionLabel_TV = (TextView) findViewById(R.id.descriptionLabel_TV);
-		totalProposalValueLabel_TV = (TextView) findViewById(R.id.totalProposalValueLabel_TV);
-
 		description_ET = (EditText) findViewById(R.id.description_ET);
-		totalProposalValue_ET = (EditText) findViewById(R.id.totalProposalValue_ET);
 
 		clientNameLabel_TV = (TextView) findViewById(R.id.clientNameLabel_TV);
 		leadSourceLabel_TV = (TextView) findViewById(R.id.leadSourceLabel_TV);
@@ -204,6 +227,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		probabilityLabel_TV = (TextView) findViewById(R.id.probabilityLabel_TV);
 		statusLabel_TV = (TextView) findViewById(R.id.statusLabel_TV);
 		expectedClosureDateLabel_TV = (TextView) findViewById(R.id.expectedClosureDateLabel_TV);
+		totalProposalValueLabel_TV = (TextView) findViewById(R.id.totalProposalValueLabel_TV);
 		noOfSolutionLabel_TV = (TextView) findViewById(R.id.noOfSolutionLabel_TV);
 
 		clientName_TV = (TextView) findViewById(R.id.clientName_TV);
@@ -212,6 +236,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		probability_TV = (TextView) findViewById(R.id.probability_TV);
 		status_TV = (TextView) findViewById(R.id.status_TV);
 		expectedClosureDate_TV = (TextView) findViewById(R.id.expectedClosureDate_TV);
+		totalProposalValue_TV = (TextView) findViewById(R.id.totalProposalValue_TV);
 		noOfSolution_TV = (TextView) findViewById(R.id.noOfSolution_TV);
 
 		leadSource_RL = (RelativeLayout) findViewById(R.id.leadSource_RL);
@@ -246,7 +271,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		totalProposalValueLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		description_ET.setTypeface(myApp.getTypefaceRegularSans());
-		totalProposalValue_ET.setTypeface(myApp.getTypefaceRegularSans());
+		totalProposalValue_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		clientNameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		leadSourceLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -306,13 +331,6 @@ public class OpportunityAddActivity extends CRMActivity {
 				temp = null;
 			}
 
-			// oppoManager_TV.setText(myApp
-			// .getStringNameFromStringJSON(tempOpportunity.getOwnerId()));
-			/*
-			 * selectedOppoManager = myApp.getIndexFromKeyUserMap(myApp
-			 * .getStringIdFromStringJSON(tempOpportunity.getOwnerId()));
-			 */
-
 			// clientName_TV.setText(myApp
 			// .getStringNameFromStringJSON(tempOpportunity
 			// .getCustomerId()));
@@ -353,6 +371,22 @@ public class OpportunityAddActivity extends CRMActivity {
 					+ "\nselectedOppoManager  : " + selectedOppoManager
 					+ "\nselectedProbability  : " + selectedProbability
 					+ "\nselectedSalesStage  : " + selectedSalesStage);
+		} else {
+			/** Create Mode **/
+			System.out.println("Create Mode ");
+			selectedSalesStage = Constant.DEFAULT_SALES_STAGE_INDEX;
+			selectedProbability = Constant.DEFAULT_PROBABILITY_INDEX;
+			selectedStatus = Constant.DEFAULT_STATUS_INDEX;
+			selectedNoOfSolution = Constant.DEFAULT_NO_OF_SOLUTION_INDEX;
+
+			salesStage_TV.setText(salesStageMap.get(new ArrayList<String>(
+					salesStageMap.keySet()).get(selectedSalesStage)));
+			probability_TV.setText(probabilityMap.get(new ArrayList<String>(
+					probabilityMap.keySet()).get(selectedProbability)));
+			status_TV.setText(statusMap.get(new ArrayList<String>(statusMap
+					.keySet()).get(selectedStatus)));
+			noOfSolution_TV.setText(solutionList.get(selectedNoOfSolution));
+
 		}
 
 	}
@@ -399,20 +433,12 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		// registerForContextMenu(client_RL);
-
 		childSolution1_LL.addView(view_solution);
+		setDecimalLimitOnFields();
+		setOnFocusLoseListener();
 
-		System.out.println("!!!!!  :  "
-				+ myApp.getOpportunityList().get(12).toString());
-		for (int i = 0; i < myApp.getOpportunityList().get(12)
-				.getSolutionList().size(); i++) {
-			System.out.println("\n\n"
-					+ myApp.getOpportunityList().get(12).getSolutionList()
-							.get(i).toString());
-		}
 	}
-
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -440,10 +466,9 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 
 		if (v.getId() == R.id.noOfSolution_RL) {
-			menu.add(3, v.getId(), 0, "1");
-			menu.add(3, v.getId(), 1, "2");
-			menu.add(3, v.getId(), 2, "3");
-			menu.add(3, v.getId(), 3, "4");
+			for (int i = 0; i < solutionList.size(); i++) {
+				menu.add(3, v.getId(), i, solutionList.get(i));
+			}
 		}
 
 		if (v.getId() == R.id.leadSource_RL) {
@@ -459,35 +484,208 @@ public class OpportunityAddActivity extends CRMActivity {
 		openContextMenu(view);
 	}
 
+	private boolean validateAmount(LinearLayout childSolution_LL) {
+		double cyNfrPlus1 = 0;
+		double cyNfrPlus2 = 0;
+		double fee = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.fee_ET)).getText().toString().trim());
+		double pyNfr = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.pyNfr_ET)).getText().toString().trim());
+		double cyNfr = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.cyNfr_ET)).getText().toString().trim());
+		if (((EditText) childSolution_LL.findViewById(R.id.cyNfrPlus1_ET))
+				.getText().toString().trim().length() > 0) {
+			cyNfrPlus1 = Double.parseDouble(((EditText) childSolution_LL
+					.findViewById(R.id.cyNfrPlus1_ET)).getText().toString()
+					.trim());
+		}
+		if (((EditText) childSolution_LL.findViewById(R.id.cyNfrPlus2_ET))
+				.getText().toString().trim().length() > 0) {
+			cyNfrPlus2 = Double.parseDouble(((EditText) childSolution_LL
+					.findViewById(R.id.cyNfrPlus2_ET)).getText().toString()
+					.trim());
+		}
+		return (pyNfr + cyNfr + cyNfrPlus1 + cyNfrPlus2) >= fee;
+	}
+
 	private boolean validate() {
 		boolean notErrorCase = true;
-		if (clientName_TV.getText().toString().trim().length() < 1) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a Client Name.", false);
-			notErrorCase = false;
-		} else if (description_ET.getText().toString().trim().length() < 1) {
+		if (description_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select some description.", false);
 			notErrorCase = false;
-		} else if (selectedStatus < 0) {
+		} else if (clientName_TV.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a status.", false);
+					"Please select a Client Name.", false);
 			notErrorCase = false;
+		} else if (selectedLeadSource < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a lead source.", false);
+			notErrorCase = false;
+		} else if (selectedSolManager1 < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select a Solution Manager.", false);
+			notErrorCase = false;
+		} else if (selectedSolPartner1 < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select a Solution Partner.", false);
+			notErrorCase = false;
+		} else if (selectedSolName1 < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select a Solution Name.", false);
+			notErrorCase = false;
+		} else if (selectedProfitCenter1 < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select a Profit Center.", false);
+			notErrorCase = false;
+		} else if (selectedTaxonomy1 < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select a Taxonomy.", false);
+			notErrorCase = false;
+		} else if (((EditText) childSolution1_LL.findViewById(R.id.fee_ET))
+				.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select some fee.", false);
+			notErrorCase = false;
+		} else if (((EditText) childSolution1_LL.findViewById(R.id.cyNfr_ET))
+				.getText().toString().trim().length() < 1) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"For SOLUTION1 please select some CY NFR.", false);
+			notErrorCase = false;
+		} else {
+			if (validateAmount(childSolution1_LL)) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						Constant.ERR_SOL1_AMOUNT, false);
+				notErrorCase = false;
+			}
 		}
-		// else if (selectedOppoManager < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select an Opportunity Managaer.", false);
-		// notErrorCase = false;
-		// } else if (selectedProbability < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a probability.", false);
-		// notErrorCase = false;
-		// }
-		// else if (selectedSalesStage < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a Sales Stage.", false);
-		// notErrorCase = false;
-		// }
+		if (selectedNoOfSolution > 0 && notErrorCase) {
+			if (selectedSolManager2 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select a Solution Manager.",
+						false);
+				notErrorCase = false;
+			} else if (selectedSolPartner2 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select a Solution Partner.",
+						false);
+				notErrorCase = false;
+			} else if (selectedSolName2 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select a Solution Name.", false);
+				notErrorCase = false;
+			} else if (selectedProfitCenter2 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select a Profit Center.", false);
+				notErrorCase = false;
+			} else if (selectedTaxonomy2 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select a Taxonomy.", false);
+				notErrorCase = false;
+			} else if (((EditText) childSolution2_LL.findViewById(R.id.fee_ET))
+					.getText().toString().trim().length() < 1) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select some fee.", false);
+				notErrorCase = false;
+			} else if (((EditText) childSolution2_LL
+					.findViewById(R.id.cyNfr_ET)).getText().toString().trim()
+					.length() < 1) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION2 please select some CY NFR.", false);
+				notErrorCase = false;
+			} else {
+				if (validateAmount(childSolution2_LL)) {
+					alertDialogBuilder = createDialog.createAlertDialog(null,
+							Constant.ERR_SOL2_AMOUNT, false);
+					notErrorCase = false;
+				}
+			}
+		}
+		if (selectedNoOfSolution > 1 && notErrorCase) {
+			if (selectedSolManager3 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select a Solution Manager.",
+						false);
+				notErrorCase = false;
+			} else if (selectedSolPartner3 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select a Solution Partner.",
+						false);
+				notErrorCase = false;
+			} else if (selectedSolName3 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select a Solution Name.", false);
+				notErrorCase = false;
+			} else if (selectedProfitCenter3 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select a Profit Center.", false);
+				notErrorCase = false;
+			} else if (selectedTaxonomy3 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select a Taxonomy.", false);
+				notErrorCase = false;
+			} else if (((EditText) childSolution3_LL.findViewById(R.id.fee_ET))
+					.getText().toString().trim().length() < 1) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select some fee.", false);
+				notErrorCase = false;
+			} else if (((EditText) childSolution3_LL
+					.findViewById(R.id.cyNfr_ET)).getText().toString().trim()
+					.length() < 1) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION3 please select some CY NFR.", false);
+				notErrorCase = false;
+			} else {
+				if (validateAmount(childSolution3_LL)) {
+					alertDialogBuilder = createDialog.createAlertDialog(null,
+							Constant.ERR_SOL3_AMOUNT, false);
+					notErrorCase = false;
+				}
+			}
+		}
+		if (selectedNoOfSolution > 2 && notErrorCase) {
+			if (selectedSolManager4 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select a Solution Manager.",
+						false);
+				notErrorCase = false;
+			} else if (selectedSolPartner4 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select a Solution Partner.",
+						false);
+				notErrorCase = false;
+			} else if (selectedSolName4 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select a Solution Name.", false);
+				notErrorCase = false;
+			} else if (selectedProfitCenter4 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select a Profit Center.", false);
+				notErrorCase = false;
+			} else if (selectedTaxonomy4 < 0) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select a Taxonomy.", false);
+				notErrorCase = false;
+			} else if (((EditText) childSolution4_LL.findViewById(R.id.fee_ET))
+					.getText().toString().trim().length() < 1) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select some fee.", false);
+				notErrorCase = false;
+			} else if (((EditText) childSolution4_LL
+					.findViewById(R.id.cyNfr_ET)).getText().toString().trim()
+					.length() < 1) {
+				alertDialogBuilder = createDialog.createAlertDialog(null,
+						"For SOLUTION4 please select some CY NFR.", false);
+				notErrorCase = false;
+			} else {
+				if (validateAmount(childSolution4_LL)) {
+					alertDialogBuilder = createDialog.createAlertDialog(null,
+							Constant.ERR_SOL4_AMOUNT, false);
+					notErrorCase = false;
+				}
+			}
+		}
+
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -502,9 +700,6 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	public void onRightButton(View view) {
-		System.out.println("aa :  "
-				+ ((EditText) childSolution2_LL.findViewById(R.id.fee_ET))
-						.getText().toString());
 		if (!validate()) {
 			return;
 		}
@@ -514,7 +709,175 @@ public class OpportunityAddActivity extends CRMActivity {
 					MyApp.encryptData(description_ET.getText().toString()))
 					.put("CstId",
 							myApp.getAccountList().get(selectedClientName)
-									.getAccountId());
+									.getAccountId())
+					.put("confidential",
+							((RadioButton) findViewById(((RadioGroup) findViewById(R.id.confidential_RG))
+									.getCheckedRadioButtonId())).getText()
+									.toString())
+					.put("leadsource",
+							new ArrayList<String>(leadSourceMap.keySet())
+									.get(selectedLeadSource))
+					.put("salesstagecodes",
+							new ArrayList<String>(salesStageMap.keySet())
+									.get(selectedSalesStage))
+					.put("probabilty",
+							new ArrayList<String>(probabilityMap.keySet())
+									.get(selectedProbability))
+					.put("solutionmanager",
+							new ArrayList<String>(userMap.keySet())
+									.get(selectedSolManager1))
+					.put("solutionpartner",
+							new ArrayList<String>(userMap.keySet())
+									.get(selectedSolPartner1))
+					.put("profitcenter",
+							new ArrayList<String>(profitCenterMap.keySet())
+									.get(selectedProfitCenter1))
+					.put("solutionone",
+							new ArrayList<String>(solutionMap.keySet())
+									.get(selectedSolName1))
+					.put("taxonomyone",
+							new ArrayList<String>(productMap.keySet())
+									.get(selectedTaxonomy1))
+					.put("fees",
+							((EditText) childSolution1_LL
+									.findViewById(R.id.fee_ET)).getText()
+									.toString())
+					.put("cysolution1",
+							((EditText) childSolution1_LL
+									.findViewById(R.id.cyNfr_ET)).getText()
+									.toString());
+			if (((EditText) childSolution1_LL.findViewById(R.id.cyNfrPlus1_ET))
+					.getText().toString().length() > 0) {
+				params.put("nfyfy1sol1", ((EditText) childSolution1_LL
+						.findViewById(R.id.cyNfrPlus1_ET)).getText().toString());
+			}
+			if (((EditText) childSolution1_LL.findViewById(R.id.cyNfrPlus2_ET))
+					.getText().toString().length() > 0) {
+				params.put("nfyfy2sol1", ((EditText) childSolution1_LL
+						.findViewById(R.id.cyNfrPlus1_ET)).getText().toString());
+			}
+			if (selectedNoOfSolution > 0) {
+				params.put(
+						"solutionmanagertwo",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedSolManager2))
+						.put("solutionpartnertwo",
+								new ArrayList<String>(userMap.keySet())
+										.get(selectedSolPartner2))
+						.put("profitcentertwo",
+								new ArrayList<String>(profitCenterMap.keySet())
+										.get(selectedProfitCenter2))
+						.put("solutiontwo",
+								new ArrayList<String>(solutionMap.keySet())
+										.get(selectedSolName2))
+						.put("taxonomytwo",
+								new ArrayList<String>(productMap.keySet())
+										.get(selectedTaxonomy2))
+						.put("feessolution2",
+								((EditText) childSolution2_LL
+										.findViewById(R.id.fee_ET)).getText()
+										.toString())
+						.put("cysolution2",
+								((EditText) childSolution2_LL
+										.findViewById(R.id.cyNfr_ET)).getText()
+										.toString());
+				if (((EditText) childSolution2_LL
+						.findViewById(R.id.cyNfrPlus1_ET)).getText().toString()
+						.length() > 0) {
+					params.put("nfyfy1sol2", ((EditText) childSolution2_LL
+							.findViewById(R.id.cyNfrPlus1_ET)).getText()
+							.toString());
+				}
+				if (((EditText) childSolution2_LL
+						.findViewById(R.id.cyNfrPlus2_ET)).getText().toString()
+						.length() > 0) {
+					params.put("nfyfy2sol2", ((EditText) childSolution2_LL
+							.findViewById(R.id.cyNfrPlus1_ET)).getText()
+							.toString());
+				}
+			}
+
+			if (selectedNoOfSolution > 1) {
+				params.put(
+						"solutionmanagerthree",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedSolManager3))
+						.put("solutionpartnerthree",
+								new ArrayList<String>(userMap.keySet())
+										.get(selectedSolPartner3))
+						.put("profitcenterthree",
+								new ArrayList<String>(profitCenterMap.keySet())
+										.get(selectedProfitCenter3))
+						.put("solutionthree",
+								new ArrayList<String>(solutionMap.keySet())
+										.get(selectedSolName3))
+						.put("taxonomythree",
+								new ArrayList<String>(productMap.keySet())
+										.get(selectedTaxonomy3))
+						.put("feessolution3",
+								((EditText) childSolution3_LL
+										.findViewById(R.id.fee_ET)).getText()
+										.toString())
+						.put("cysolution3",
+								((EditText) childSolution3_LL
+										.findViewById(R.id.cyNfr_ET)).getText()
+										.toString());
+				if (((EditText) childSolution3_LL
+						.findViewById(R.id.cyNfrPlus1_ET)).getText().toString()
+						.length() > 0) {
+					params.put("nfyfy1sol3", ((EditText) childSolution3_LL
+							.findViewById(R.id.cyNfrPlus1_ET)).getText()
+							.toString());
+				}
+				if (((EditText) childSolution3_LL
+						.findViewById(R.id.cyNfrPlus2_ET)).getText().toString()
+						.length() > 0) {
+					params.put("nfyfy2sol3", ((EditText) childSolution3_LL
+							.findViewById(R.id.cyNfrPlus1_ET)).getText()
+							.toString());
+				}
+			}
+
+			if (selectedNoOfSolution > 2) {
+				params.put(
+						"solutionmanagerfour",
+						new ArrayList<String>(userMap.keySet())
+								.get(selectedSolManager4))
+						.put("solutionpartnerfour",
+								new ArrayList<String>(userMap.keySet())
+										.get(selectedSolPartner4))
+						.put("profitcenterfour",
+								new ArrayList<String>(profitCenterMap.keySet())
+										.get(selectedProfitCenter4))
+						.put("solutionfour",
+								new ArrayList<String>(solutionMap.keySet())
+										.get(selectedSolName4))
+						.put("taxonomyfour",
+								new ArrayList<String>(productMap.keySet())
+										.get(selectedTaxonomy4))
+						.put("feessolution4",
+								((EditText) childSolution4_LL
+										.findViewById(R.id.fee_ET)).getText()
+										.toString())
+						.put("cysolution4",
+								((EditText) childSolution4_LL
+										.findViewById(R.id.cyNfr_ET)).getText()
+										.toString());
+				if (((EditText) childSolution4_LL
+						.findViewById(R.id.cyNfrPlus1_ET)).getText().toString()
+						.length() > 0) {
+					params.put("nfyfy1sol4", ((EditText) childSolution4_LL
+							.findViewById(R.id.cyNfrPlus1_ET)).getText()
+							.toString());
+				}
+				if (((EditText) childSolution4_LL
+						.findViewById(R.id.cyNfrPlus2_ET)).getText().toString()
+						.length() > 0) {
+					params.put("nfyfy2sol4", ((EditText) childSolution4_LL
+							.findViewById(R.id.cyNfrPlus1_ET)).getText()
+							.toString());
+				}
+			}
 
 			if (previousIntent.hasExtra("is_edit_mode")
 					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
@@ -525,19 +888,6 @@ public class OpportunityAddActivity extends CRMActivity {
 				params.put("KPMGStatus",
 						new ArrayList<String>(statusMap.keySet())
 								.get(selectedStatus));
-			}
-			if (selectedOppoManager > -1) {
-				params.put("Oid", new ArrayList<String>(userMap.keySet())
-						.get(selectedOppoManager));
-			}
-			if (selectedSalesStage > -1) {
-				params.put("salesstagecodes", new ArrayList<String>(
-						salesStageMap.keySet()).get(selectedSalesStage));
-			}
-			if (selectedProbability > -1) {
-				params.put("probabilty",
-						new ArrayList<String>(probabilityMap.keySet())
-								.get(selectedProbability));
 			}
 			if (previousIntent.hasExtra("is_edit_mode")
 					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
@@ -645,6 +995,27 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	int whichSolutionTabIsVisible;
 
+	private void putExtraUsingSwitch(String keyExtra) {
+		whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+		switch (whichSolutionTabIsVisible) {
+		case Constant.SOLUTION1_VISIBLE:
+			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER1);
+			break;
+		case Constant.SOLUTION2_VISIBLE:
+			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER2);
+			break;
+		case Constant.SOLUTION3_VISIBLE:
+			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER3);
+			break;
+		case Constant.SOLUTION4_VISIBLE:
+			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER4);
+			break;
+
+		default:
+			break;
+		}
+	}
+
 	public void onSearchItem(View view) {
 		nextIntent = new Intent(this, SearchActivity.class);
 
@@ -654,8 +1025,6 @@ public class OpportunityAddActivity extends CRMActivity {
 			break;
 		case R.id.solutionManager_RL:
 			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			System.out.println("whichSolutionTabIsVisible  "
-					+ whichSolutionTabIsVisible);
 			switch (whichSolutionTabIsVisible) {
 			case Constant.SOLUTION1_VISIBLE:
 				nextIntent.putExtra("user_value",
@@ -679,10 +1048,113 @@ public class OpportunityAddActivity extends CRMActivity {
 			}
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
-		/*
-		 * case R.id.oppoManager_RL: startActivityForResult(nextIntent,
-		 * MyApp.SEARCH_USER); break;
-		 */
+
+		case R.id.solutionPartner_RL:
+			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			switch (whichSolutionTabIsVisible) {
+			case Constant.SOLUTION1_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_PARTNER1);
+				break;
+			case Constant.SOLUTION2_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_PARTNER2);
+				break;
+			case Constant.SOLUTION3_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_PARTNER3);
+				break;
+			case Constant.SOLUTION4_VISIBLE:
+				nextIntent.putExtra("user_value",
+						Constant.USER_SOLUTION_PARTNER4);
+				break;
+
+			default:
+				break;
+			}
+			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			break;
+		case R.id.solutionName_RL:
+			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			switch (whichSolutionTabIsVisible) {
+			case Constant.SOLUTION1_VISIBLE:
+				nextIntent.putExtra("solution_value",
+						Constant.SOLUTION1_VISIBLE);
+				break;
+			case Constant.SOLUTION2_VISIBLE:
+				nextIntent.putExtra("solution_value",
+						Constant.SOLUTION2_VISIBLE);
+				break;
+			case Constant.SOLUTION3_VISIBLE:
+				nextIntent.putExtra("solution_value",
+						Constant.SOLUTION3_VISIBLE);
+				break;
+			case Constant.SOLUTION4_VISIBLE:
+				nextIntent.putExtra("solution_value",
+						Constant.SOLUTION4_VISIBLE);
+				break;
+
+			default:
+				break;
+			}
+			putExtraUsingSwitch("solution_value");
+			startActivityForResult(nextIntent, Constant.SEARCH_SOLUTION);
+			break;
+
+		case R.id.profitCenter_RL:
+			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			switch (whichSolutionTabIsVisible) {
+			case Constant.SOLUTION1_VISIBLE:
+				nextIntent.putExtra("profit_center_value",
+						Constant.SOLUTION1_VISIBLE);
+				break;
+			case Constant.SOLUTION2_VISIBLE:
+				nextIntent.putExtra("profit_center_value",
+						Constant.SOLUTION2_VISIBLE);
+				break;
+			case Constant.SOLUTION3_VISIBLE:
+				nextIntent.putExtra("profit_center_value",
+						Constant.SOLUTION3_VISIBLE);
+				break;
+			case Constant.SOLUTION4_VISIBLE:
+				nextIntent.putExtra("profit_center_value",
+						Constant.SOLUTION4_VISIBLE);
+				break;
+
+			default:
+				break;
+			}
+			putExtraUsingSwitch("profit_center_value");
+			startActivityForResult(nextIntent, Constant.SEARCH_PROFIT_CENTER);
+			break;
+
+		case R.id.taxonomy_RL:
+			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			switch (whichSolutionTabIsVisible) {
+			case Constant.SOLUTION1_VISIBLE:
+				nextIntent
+						.putExtra("product_value", Constant.SOLUTION1_VISIBLE);
+				break;
+			case Constant.SOLUTION2_VISIBLE:
+				nextIntent
+						.putExtra("product_value", Constant.SOLUTION2_VISIBLE);
+				break;
+			case Constant.SOLUTION3_VISIBLE:
+				nextIntent
+						.putExtra("product_value", Constant.SOLUTION3_VISIBLE);
+				break;
+			case Constant.SOLUTION4_VISIBLE:
+				nextIntent
+						.putExtra("product_value", Constant.SOLUTION4_VISIBLE);
+				break;
+
+			default:
+				break;
+			}
+			putExtraUsingSwitch("product_value");
+			startActivityForResult(nextIntent, Constant.SEARCH_PRODUCT);
+			break;
+
 		default:
 			System.out.println("default");
 			break;
@@ -715,20 +1187,68 @@ public class OpportunityAddActivity extends CRMActivity {
 		return Constant.SOLUTION1_VISIBLE;
 	}
 
-	/*
-	 * private Drawable getDrawableFromId(int id) { return
-	 * getResources().getDrawable(id); }
-	 */
-
 	private void setDecimalLimitOnFields() {
 		InputFilter[] inputFilters = new InputFilter[] { new DecimalDigitsInputFilter(
 				10, 4) };
 
 		((EditText) findViewById(R.id.fee_ET)).setFilters(inputFilters);
-		((EditText) findViewById(R.id.pyNfr_ET)).setFilters(inputFilters);
+		// ((EditText) findViewById(R.id.pyNfr_ET)).setFilters(inputFilters);
 		((EditText) findViewById(R.id.cyNfr_ET)).setFilters(inputFilters);
 		((EditText) findViewById(R.id.cyNfrPlus1_ET)).setFilters(inputFilters);
 		((EditText) findViewById(R.id.cyNfrPlus2_ET)).setFilters(inputFilters);
+	}
+
+	private double totalAmountOfChildLL(LinearLayout childSolution_LL) {
+		// TODO Auto-generated method stub
+		double fee = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.fee_ET)).getText().toString().trim());
+		double pyNfr = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.pyNfr_ET)).getText().toString().trim());
+		double cyNfr = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.cyNfr_ET)).getText().toString().trim());
+		double cyNfrPlus1 = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.cyNfrPlus1_ET)).getText().toString().trim());
+		double cyNfrPlus2 = Double.parseDouble(((EditText) childSolution_LL
+				.findViewById(R.id.cyNfrPlus2_ET)).getText().toString().trim());
+		return (fee + pyNfr + cyNfr + cyNfrPlus1 + cyNfrPlus2);
+	}
+
+	private void setOnFocusLoseListener() {
+		OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					double totalProposalValue = 0;
+					totalProposalValue = totalAmountOfChildLL(childSolution1_LL);
+					if (selectedNoOfSolution > 0) {
+						totalProposalValue = totalProposalValue
+								+ totalAmountOfChildLL(childSolution2_LL);
+					}
+					if (selectedNoOfSolution > 1) {
+						totalProposalValue = totalProposalValue
+								+ totalAmountOfChildLL(childSolution3_LL);
+					}
+					if (selectedNoOfSolution > 2) {
+						totalProposalValue = totalProposalValue
+								+ totalAmountOfChildLL(childSolution4_LL);
+					}
+					System.out.println("hello");
+					totalProposalValue_TV.setText(String.valueOf(totalProposalValue));
+					System.out.println("hello");
+				}
+			}
+
+		};
+
+		((EditText) findViewById(R.id.fee_ET))
+				.setOnFocusChangeListener(focusChangeListener);
+		((EditText) findViewById(R.id.cyNfr_ET))
+				.setOnFocusChangeListener(focusChangeListener);
+		((EditText) findViewById(R.id.cyNfrPlus1_ET))
+				.setOnFocusChangeListener(focusChangeListener);
+		((EditText) findViewById(R.id.cyNfrPlus2_ET))
+				.setOnFocusChangeListener(focusChangeListener);
 	}
 
 	private void setChildLLTag(int visibility1, int visibility2,
@@ -757,14 +1277,6 @@ public class OpportunityAddActivity extends CRMActivity {
 		setChildLLTag(visibility1, visibility2, visibility3, visibility4);
 	}
 
-	LinearLayout view_solution;
-
-	@SuppressLint("InflateParams")
-	private LinearLayout getViewSolution() {
-		return (LinearLayout) inflater.inflate(R.layout.view_solution, null,
-				false);
-	}
-
 	private void addSolutionViewToChild(int visibility2, int visibility3,
 			int visibility4) {
 
@@ -772,6 +1284,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (childSolution2_LL.getChildCount() == 0) {
 				childSolution2_LL.addView(getViewSolution());
 				setDecimalLimitOnFields();
+				setOnFocusLoseListener();
 			}
 		} else {
 			childSolution2_LL.removeAllViews();
@@ -781,6 +1294,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (childSolution3_LL.getChildCount() == 0) {
 				childSolution3_LL.addView(getViewSolution());
 				setDecimalLimitOnFields();
+				setOnFocusLoseListener();
 			}
 		} else {
 			childSolution3_LL.removeAllViews();
@@ -790,6 +1304,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (childSolution4_LL.getChildCount() == 0) {
 				childSolution4_LL.addView(getViewSolution());
 				setDecimalLimitOnFields();
+				setOnFocusLoseListener();
 			}
 		} else {
 			childSolution4_LL.removeAllViews();
@@ -835,8 +1350,8 @@ public class OpportunityAddActivity extends CRMActivity {
 			default:
 				break;
 			}
-			salesStage_TV.setText(item.getTitle());
-			selectedSalesStage = item.getOrder();
+			noOfSolution_TV.setText(item.getTitle());
+			selectedNoOfSolution = item.getOrder();
 		} else if (item.getGroupId() == 4) {
 			leadSource_TV.setText(item.getTitle());
 			selectedLeadSource = item.getOrder();
@@ -853,6 +1368,12 @@ public class OpportunityAddActivity extends CRMActivity {
 		solutionName_TV = (TextView) childLL.findViewById(R.id.solutionName_TV);
 		profitCenter_TV = (TextView) childLL.findViewById(R.id.profitCenter_TV);
 		taxonomy_TV = (TextView) childLL.findViewById(R.id.taxonomy_TV);
+
+		fee_ET = (EditText) childLL.findViewById(R.id.fee_ET);
+		pyNfr_ET = (EditText) childLL.findViewById(R.id.pyNfr_ET);
+		cyNfr_ET = (EditText) childLL.findViewById(R.id.cyNfr_ET);
+		cyNfrPlus1_ET = (EditText) childLL.findViewById(R.id.cyNfrPlus1_ET);
+		cyNfrPlus2_ET = (EditText) childLL.findViewById(R.id.cyNfrPlus2_ET);
 	}
 
 	public void onExpand(View view) {
@@ -865,14 +1386,10 @@ public class OpportunityAddActivity extends CRMActivity {
 			childSolution1_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				// arrowSol1_IV
-				// .setImageDrawable(getDrawableFromId(R.drawable.arrow_bottom_blue));
 				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE,
 						View.GONE);
 				findViewSolution(childSolution1_LL);
 			} else {
-				// arrowSol1_IV
-				// .setImageDrawable(getDrawableFromId(R.drawable.arrow_right));
 				childSolution1_LL.setVisibility(View.GONE);
 			}
 			break;
@@ -885,6 +1402,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (tagVisibility) {
 				setChildLLVisibility(View.GONE, View.VISIBLE, View.GONE,
 						View.GONE);
+				findViewSolution(childSolution2_LL);
 			} else {
 				childSolution2_LL.setVisibility(View.GONE);
 			}
@@ -898,6 +1416,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (tagVisibility) {
 				setChildLLVisibility(View.GONE, View.GONE, View.VISIBLE,
 						View.GONE);
+				findViewSolution(childSolution3_LL);
 			} else {
 				childSolution3_LL.setVisibility(View.GONE);
 			}
@@ -911,6 +1430,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (tagVisibility) {
 				setChildLLVisibility(View.GONE, View.GONE, View.GONE,
 						View.VISIBLE);
+				findViewSolution(childSolution4_LL);
 			} else {
 				childSolution4_LL.setVisibility(View.GONE);
 			}
@@ -985,8 +1505,107 @@ public class OpportunityAddActivity extends CRMActivity {
 					solutionManager_TV.setText(text);
 					selectedSolManager1 = positionItem;
 					break;
+				case Constant.USER_SOLUTION_MANAGER2:
+					solutionManager_TV.setText(text);
+					selectedSolManager2 = positionItem;
+					break;
+				case Constant.USER_SOLUTION_MANAGER3:
+					solutionManager_TV.setText(text);
+					selectedSolManager3 = positionItem;
+					break;
+				case Constant.USER_SOLUTION_MANAGER4:
+					solutionManager_TV.setText(text);
+					selectedSolManager4 = positionItem;
+					break;
+				case Constant.USER_SOLUTION_PARTNER1:
+					solutionPartner_TV.setText(text);
+					selectedSolPartner1 = positionItem;
+					break;
+				case Constant.USER_SOLUTION_PARTNER2:
+					solutionPartner_TV.setText(text);
+					selectedSolPartner2 = positionItem;
+					break;
+				case Constant.USER_SOLUTION_PARTNER3:
+					solutionPartner_TV.setText(text);
+					selectedSolPartner3 = positionItem;
+					break;
+				case Constant.USER_SOLUTION_PARTNER4:
+					solutionPartner_TV.setText(text);
+					selectedSolPartner4 = positionItem;
+					break;
 
 				default:
+					break;
+				}
+
+			}
+			if (requestCode == Constant.SEARCH_SOLUTION) {
+				List<String> list = new ArrayList<String>(solutionMap.values());
+				String text = list.get(positionItem);
+				solutionName_TV.setText(text);
+				switch (data.getIntExtra("solution_value", -1)) {
+				case Constant.SOLUTION1_VISIBLE:
+					selectedSolName1 = positionItem;
+					break;
+				case Constant.SOLUTION2_VISIBLE:
+					selectedSolName2 = positionItem;
+					break;
+				case Constant.SOLUTION3_VISIBLE:
+					selectedSolName3 = positionItem;
+					break;
+				case Constant.SOLUTION4_VISIBLE:
+					selectedSolName4 = positionItem;
+					break;
+
+				default:
+					break;
+				}
+
+			}
+			if (requestCode == Constant.SEARCH_PROFIT_CENTER) {
+				List<String> list = new ArrayList<String>(
+						profitCenterMap.values());
+				String text = list.get(positionItem);
+				profitCenter_TV.setText(text);
+				switch (data.getIntExtra("profit_center_value", -1)) {
+				case Constant.SOLUTION1_VISIBLE:
+					selectedProfitCenter1 = positionItem;
+					break;
+				case Constant.SOLUTION2_VISIBLE:
+					selectedProfitCenter2 = positionItem;
+					break;
+				case Constant.SOLUTION3_VISIBLE:
+					selectedProfitCenter3 = positionItem;
+					break;
+				case Constant.SOLUTION4_VISIBLE:
+					selectedProfitCenter4 = positionItem;
+					break;
+
+				default:
+					break;
+				}
+
+			}
+			if (requestCode == Constant.SEARCH_PRODUCT) {
+				List<String> list = new ArrayList<String>(productMap.values());
+				String text = list.get(positionItem);
+				taxonomy_TV.setText(text);
+				switch (data.getIntExtra("product_value", -1)) {
+				case Constant.SOLUTION1_VISIBLE:
+					selectedTaxonomy1 = positionItem;
+					break;
+				case Constant.SOLUTION2_VISIBLE:
+					selectedTaxonomy2 = positionItem;
+					break;
+				case Constant.SOLUTION3_VISIBLE:
+					selectedTaxonomy3 = positionItem;
+					break;
+				case Constant.SOLUTION4_VISIBLE:
+					selectedTaxonomy4 = positionItem;
+					break;
+
+				default:
+					System.out.println("DEFAULT");
 					break;
 				}
 

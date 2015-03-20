@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.SearchListAdapter;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
@@ -82,6 +83,21 @@ public class SearchActivity extends CRMActivity {
 				anotherStringList.add(accountList.get(i).getName());
 			}
 			break;
+		case Constant.SEARCH_SOLUTION:
+			searchMap = myApp.getSolutionMap();
+			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
+			break;
+		case Constant.SEARCH_PRODUCT:
+			searchMap = myApp.getProductMap();
+			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
+			break;
+		case Constant.SEARCH_PROFIT_CENTER:
+			searchMap = myApp.getProfitCenterMap();
+			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
+			break;
 		default:
 			break;
 		}// switch
@@ -144,6 +160,18 @@ public class SearchActivity extends CRMActivity {
 				if (previouIntent.hasExtra("user_value")) {
 					intent.putExtra("user_value",
 							previouIntent.getIntExtra("user_value", 0));
+				}
+				if (previouIntent.hasExtra("solution_value")) {
+					intent.putExtra("solution_value",
+							previouIntent.getIntExtra("solution_value", 0));
+				}
+				if (previouIntent.hasExtra("profit_center_value")) {
+					intent.putExtra("profit_center_value",
+							previouIntent.getIntExtra("profit_center_value", 0));
+				}
+				if (previouIntent.hasExtra("product_value")) {
+					intent.putExtra("product_value",
+							previouIntent.getIntExtra("product_value", 0));
 				}
 				setResult(RESULT_OK, intent);
 				finish();

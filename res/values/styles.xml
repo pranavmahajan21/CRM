@@ -57,7 +57,7 @@
 
     <style name="style_ET2" parent="dimensions">
         <item name="android:layout_marginTop">4dp</item>
-        <item name="android:background">@drawable/custom_bg_solid_radius</item>
+        <item name="android:background">@drawable/custom_bg_solid_white_radius</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">5dp</item>
     </style>
@@ -128,7 +128,7 @@
 
     <!-- ****used in context menu textfield**** -->
     <style name="RL" parent="dimensions">
-        <item name="android:background">@drawable/custom_bg_solid_radius</item>
+        <item name="android:background">@drawable/custom_bg_solid_white_radius</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:clickable">true</item>
         <item name="android:onClick">onOpenContextMenu</item>
@@ -227,10 +227,11 @@
     
     <style name="ET" parent="dimensions2">
         <item name="android:padding">5dp</item>
-        <item name="android:background">@drawable/custom_bg_solid_radius</item>
+        <item name="android:background">@drawable/custom_bg_solid_white_radius</item>
         <item name="android:textSize">16sp</item>
         <item name="android:inputType">numberDecimal</item>
         <item name="android:hint">Money</item>
+        <item name="android:text">0.00</item>
         <item name="android:layout_weight">4.8</item>
     </style>
     <!-- ****used in view_solution screen**** -->
