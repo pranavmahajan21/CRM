@@ -55,6 +55,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="10dp" >
 
                 <TextView
@@ -183,8 +184,7 @@
             <TextView
                 android:id="@+id/totalProposalValue_TV"
                 style="@style/style_ET2"
-                android:background="@drawable/custom_bg_solid_grey_radius"
-                />
+                android:background="@drawable/custom_bg_solid_grey_radius" />
 
             <TextView
                 android:id="@+id/noOfSolutionLabel_TV"

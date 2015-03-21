@@ -259,7 +259,8 @@ public class MyApp extends Application {
 				setCompetitorMap(
 						(Map<String, String>) gson.fromJson(value, mapType),
 						false);
-				System.out.println("Competitor map size  : " + getCompetitorMap().size());
+				System.out.println("Competitor map size  : "
+						+ getCompetitorMap().size());
 			}
 		}
 		if (sharedPreferences.contains("product_map")) {
@@ -267,20 +268,25 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
-				setProductMap((Map<String, String>) gson.fromJson(value, mapType),
+				setProductMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
 						false);
-				System.out.println("Product map size  : " + getProductMap().size());
+				System.out.println("Product map size  : "
+						+ getProductMap().size());
 			}
 		}
 
 		if (sharedPreferences.contains("profit_center_map")) {
-			String value = sharedPreferences.getString("profit_center_map", null);
+			String value = sharedPreferences.getString("profit_center_map",
+					null);
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
-				setProfitCenterMap((Map<String, String>) gson.fromJson(value, mapType),
+				setProfitCenterMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
 						false);
-				System.out.println("Profit Center map size  : " + getProfitCenterMap().size());
+				System.out.println("Profit Center map size  : "
+						+ getProfitCenterMap().size());
 			}
 		}
 
@@ -289,9 +295,11 @@ public class MyApp extends Application {
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
-				setSolutionMap((Map<String, String>) gson.fromJson(value, mapType),
+				setSolutionMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
 						false);
-				System.out.println("Solution map size  : " + getSolutionMap().size());
+				System.out.println("Solution map size  : "
+						+ getSolutionMap().size());
 			}
 		}
 		if (sharedPreferences.contains("user_map")) {
@@ -753,6 +761,9 @@ public class MyApp extends Application {
 	}
 
 	public String formatDateToString(Date date) {
+		if (date == null) {
+			return "-";
+		}
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
 		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -764,6 +775,10 @@ public class MyApp extends Application {
 
 	public String formatDateToString2(Date date) {
 
+		if (date == null) {
+			return "-";
+		}
+
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"EEE, dd MMM, hh:mmaa");
 		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -774,6 +789,10 @@ public class MyApp extends Application {
 	}
 
 	public String formatDateToString3(Date date) {
+
+		if (date == null) {
+			return "-";
+		}
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
 

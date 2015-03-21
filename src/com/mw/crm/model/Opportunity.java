@@ -12,6 +12,9 @@ public class Opportunity implements Serializable {
 	 * Order of attributes is same as the order of UI. Do not change.
 	 * **/
 
+	/** unknown **/
+	String crmId;
+	
 	/** opportunityid **/
 	String opportunityId;
 
@@ -71,6 +74,14 @@ public class Opportunity implements Serializable {
 
 	public Opportunity() {
 		super();
+	}
+
+	public String getCrmId() {
+		return crmId;
+	}
+
+	public void setCrmId(String crmId) {
+		this.crmId = crmId;
 	}
 
 	public String getOpportunityId() {

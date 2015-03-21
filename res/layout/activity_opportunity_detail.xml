@@ -23,34 +23,74 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/oppoName_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Oppo Name"
-                android:textColor="@color/blue_dark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/crmIdLabel_TV"
+                    style="@style/TV_left"
+                    android:text="CRM Id:" />
+
+                <TextView
+                    android:id="@+id/crmId_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/oppoManagerLabel_TV"
+                android:id="@+id/oppoDescriptionLabel_TV"
                 style="@style/TV_top"
-                android:text="Oppotrunity Manager:" />
-            <!--
-                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-            -->
+                android:text="Oppotrunity Description:" />
 
             <TextView
-                android:id="@+id/oppoManager_TV"
+                android:id="@+id/oppoDescription_TV"
                 style="@style/TV_bottom"
                 android:text="-" />
-            <!--
-                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-            -->
+
+            <TextView
+                android:id="@+id/clientNameLabel_TV"
+                style="@style/TV_top"
+                android:text="Client Name:" />
+
+            <TextView
+                android:id="@+id/clientName_TV"
+                style="@style/TV_bottom"
+                android:text="-" />
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/confidentialLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Confidential:" />
+
+                <TextView
+                    android:id="@+id/confidential_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/leadSourceLabel_TV"
+                style="@style/TV_top"
+                android:text="Lead Source:" />
+
+            <TextView
+                android:id="@+id/leadSource_TV"
+                style="@style/TV_bottom"
+                android:text="-" />
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/salesStageLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Sales Stage:" />
+
+                <TextView
+                    android:id="@+id/salesStage_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
 
             <LinearLayout style="@style/LL" >
 
@@ -81,32 +121,111 @@
             <LinearLayout style="@style/LL" >
 
                 <TextView
-                    android:id="@+id/salesStageLabel_TV"
+                    android:id="@+id/expectedClosureDateLabel_TV"
                     style="@style/TV_left"
-                    android:text="Sales Stage:" />
+                    android:text="Expected Closure Date:" />
 
                 <TextView
-                    android:id="@+id/salesStage_TV"
+                    android:id="@+id/expectedClosureDate_TV"
                     style="@style/TV_right"
                     android:text="-" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/clientNameLabel_TV"
-                style="@style/TV_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Client Name:" />
+            <LinearLayout style="@style/LL" >
 
-            <TextView
-                android:id="@+id/clientName_TV"
-                style="@style/TV_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="-" />
+                <TextView
+                    android:id="@+id/totalProposalValueLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Total Proposal Value:" />
 
+                <TextView
+                    android:id="@+id/totalProposalValue_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LL" >
+
+                <TextView
+                    android:id="@+id/noOfSolutionLabel_TV"
+                    style="@style/TV_left"
+                    android:text="Number of Solutions:" />
+
+                <TextView
+                    android:id="@+id/noOfSolution_TV"
+                    style="@style/TV_right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution1_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/solution1_TV"
+                    style="@style/TV"
+                    android:clickable="true"
+                    android:hint="Solution1"
+                    android:onClick="onExpand" />
+
+                <LinearLayout
+                    android:id="@+id/childSolution1_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution2_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/solution2_TV"
+                    style="@style/TV"
+                    android:clickable="true"
+                    android:hint="Solution2"
+                    android:onClick="onExpand" />
+
+                <LinearLayout
+                    android:id="@+id/childSolution2_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parentSolution3_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/solution3_TV"
+                    style="@style/TV"
+                    android:clickable="true"
+                    android:hint="Solution3"
+                    android:onClick="onExpand" />
+
+                <LinearLayout
+                    android:id="@+id/childSolution3_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:tag="false"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!--
             <LinearLayout style="@style/LL" >
 
                 <TextView
@@ -158,6 +277,7 @@
                     style="@style/TV_right"
                     android:text="-" />
             </LinearLayout>
+            -->
         </LinearLayout>
     </ScrollView>
 

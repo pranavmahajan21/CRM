@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_opportunity_add_RL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_android"
+    tools:context="com.mw.crm.activity.OpportunityAddActivity" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/statusLabel_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Status"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:id="@+id/status_RG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/won_RB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Won"
+                        android:textColor="@color/blue_dark" />
+
+                    <RadioButton
+                        android:id="@+id/lost_RB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Lost"
+                        android:textColor="@color/blue_dark" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/statusReasonLabel_TV"
+                style="@style/style_TV2"
+                android:text="Status Reason" />
+
+            <RelativeLayout
+                android:id="@+id/statusReason_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/statusReason_TV"
+                    style="@style/TV"
+                    android:hint="Status Reason" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/actualReasonLabel_TV"
+                style="@style/style_TV2"
+                android:text="Actual Value" />
+
+            <EditText
+                android:id="@+id/actualReason_ET"
+                style="@style/style_ET2" />
+
+            <TextView
+                android:id="@+id/closeDateLabel_TV"
+                style="@style/style_TV2"
+                android:text="Close Date" />
+
+            <RelativeLayout
+                android:id="@+id/closeDate_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/closeDate_TV"
+                    style="@style/TV"
+                    android:hint="Close Date" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/competitorLabel_TV"
+                style="@style/style_TV2"
+                android:text="Competitor" />
+
+            <RelativeLayout
+                android:id="@+id/competitor_RL"
+                style="@style/RL" >
+
+                <TextView
+                    android:id="@+id/competitor_TV"
+                    style="@style/TV"
+                    android:hint="Competitor" />
+
+                <ImageView style="@style/IV" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/descriptionLabel_TV"
+                style="@style/style_TV2"
+                android:text="Description" />
+
+            <EditText
+                android:id="@+id/description_ET"
+                android:minLines="3"
+                style="@style/style_ET2" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -228,9 +228,9 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void onOpportunity(View view) {
-//		nextIntent = new Intent(this, OpportunityListActivity.class);
-		 nextIntent = new Intent(this,
-		 OpportunityAddActivity.class);
+		nextIntent = new Intent(this, OpportunityListActivity.class);
+//		 nextIntent = new Intent(this,
+//		 OpportunityAddActivity.class);
 		nextIntent.putExtra("is_my_opportunity", true);
 		startActivity(nextIntent);
 	}

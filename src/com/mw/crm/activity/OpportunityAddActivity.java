@@ -180,7 +180,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	@SuppressLint("InflateParams")
 	private LinearLayout getViewSolution() {
-		return (LinearLayout) inflater.inflate(R.layout.view_solution, null,
+		return (LinearLayout) inflater.inflate(R.layout.view_solution_add, null,
 				false);
 	}
 
