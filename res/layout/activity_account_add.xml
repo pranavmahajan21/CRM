@@ -29,7 +29,7 @@
                 android:id="@+id/clientNameLabel_TV"
                 style="@style/style_TV2"
                 android:layout_marginTop="1dp"
-                android:text="Client Name:" />
+                android:text="* Client Name" />
 
             <EditText
                 android:id="@+id/clientName_ET"
@@ -56,7 +56,7 @@
             <TextView
                 android:id="@+id/headquarterLabel_TV"
                 style="@style/style_TV2"
-                android:text="Headquarter Country:" />
+                android:text="* Headquarter Country" />
 
             <RelativeLayout
                 android:id="@+id/headquarter_RL"

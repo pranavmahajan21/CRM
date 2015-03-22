@@ -13,7 +13,6 @@
         android:background="@null"
         android:src="@drawable/header2" />
 
-<!--         android:layout_above="@+id/bottom_LL" -->
     <LinearLayout
         android:id="@+id/menu_LL"
         android:layout_width="match_parent"
@@ -31,18 +30,10 @@
             android:weightSum="2" >
 
             <!-- Account -->
+
             <RelativeLayout
                 style="@style/RL2"
                 android:onClick="onAccount" >
-
-                <!--
-                     <ImageView
-                    style="@style/IV3"
-                    android:layout_alignBottom="@+id/LL2"
-                    android:layout_alignLeft="@+id/LL2"
-                    android:layout_alignRight="@+id/LL2"
-                    android:layout_alignTop="@+id/LL2" />
-                -->
 
                 <LinearLayout
                     android:id="@+id/LL2"
@@ -53,13 +44,19 @@
                         android:src="@drawable/account2" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV1"
+                        android:id="@+id/titleMenuItem1_TV"
                         style="@style/TV4"
                         android:text="Client History" />
+
+                    <TextView
+                        android:id="@+id/syncMenuItem1_TV"
+                        style="@style/TV4"
+                        android:text="Synced: Mar 22, 18:30" />
                 </LinearLayout>
             </RelativeLayout>
 
             <!-- Contacts -->
+
             <RelativeLayout
                 style="@style/RL2"
                 android:onClick="onContact" >
@@ -73,9 +70,14 @@
                         android:src="@drawable/contact2" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV2"
+                        android:id="@+id/titleMenuItem2_TV"
                         style="@style/TV4"
                         android:text="Client Contacts" />
+
+                    <TextView
+                        android:id="@+id/syncMenuItem2_TV"
+                        style="@style/TV4"
+                        android:text="Synced: Mar 22, 18:30" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -100,13 +102,19 @@
                         android:src="@drawable/appointment2" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV3"
+                        android:id="@+id/titleMenuItem3_TV"
                         style="@style/TV4"
                         android:text="Appointment" />
+
+                    <TextView
+                        android:id="@+id/syncMenuItem3_TV"
+                        style="@style/TV4"
+                        android:text="Synced: Mar 22, 18:30" />
                 </LinearLayout>
             </RelativeLayout>
 
             <!-- Service Connect -->
+
             <RelativeLayout
                 style="@style/RL2"
                 android:onClick="onOpportunity" >
@@ -120,15 +128,21 @@
                         android:src="@drawable/service_connect" />
 
                     <TextView
-                        android:id="@+id/menu_item_TV4"
+                        android:id="@+id/titleMenuItem4_TV"
                         style="@style/TV4"
                         android:text="Place a Request" />
+
+                    <TextView
+                        android:id="@+id/syncMenuItem4_TV"
+                        style="@style/TV4"
+                        android:text="Synced: Mar 22, 18:30" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
-<!--         android:layout_alignParentBottom="true" -->
+    <!-- android:layout_alignParentBottom="true" -->
+
     <LinearLayout
         android:id="@+id/bottom_LL"
         android:layout_width="fill_parent"
@@ -139,30 +153,13 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp" >
 
-        <LinearLayout
-            android:id="@+id/lastSync_LL"
+        <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last Synced On : "
-                android:textColor="@color/blue_light"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/syncDate_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:textColor="@color/blue_light"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:background="@drawable/custom_bg_stroke_radius"
+            android:onClick="onService"
+            android:text="Place a Request"
+            android:textColor="@color/blue_dark" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -173,15 +170,15 @@
 
             <Button
                 android:id="@+id/button1"
-                android:layout_marginRight="10dp"
                 style="@style/B"
+                android:layout_marginRight="10dp"
                 android:onClick="onSync"
                 android:text="Sync" />
 
             <Button
                 android:id="@+id/logout_TV"
-                android:layout_marginLeft="10dp"
                 style="@style/B"
+                android:layout_marginLeft="10dp"
                 android:onClick="onLogout"
                 android:text="Logout" />
         </LinearLayout>

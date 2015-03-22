@@ -3,8 +3,13 @@ package com.mw.crm.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,11 +23,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.AppointmentAdapter;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
+import com.mw.crm.service.AppointmentService;
 
 public class AppointmentListActivity extends CRMActivity {
+
+	public static boolean isActivityVisible = false;
 
 	MyApp myApp;
 
@@ -39,23 +48,39 @@ public class AppointmentListActivity extends CRMActivity {
 
 	RequestQueue queue;
 
-	private void initThings() {
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
 
-		myApp = (MyApp) getApplicationContext();
-		previousIntent = getIntent();
+	private BroadcastReceiver appointmentUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			initSubAppointmentList();
+
+			if (subAppointmentList != null && subAppointmentList.size() > 0) {
+				if (adapter == null) {
+					adapter = new AppointmentAdapter(
+							AppointmentListActivity.this, subAppointmentList);
+				} else {
+					adapter.swapData(subAppointmentList);
+					adapter.notifyDataSetChanged();
+				}
+			}
+
+			progressDialog.dismiss();
+
+		}
+	};
+
+	private void initSubAppointmentList() {
 		appointmentList = myApp.getAppointmentList();
-
-		queue = Volley.newRequestQueue(this);
-
-		// if (appointmentList != null && appointmentList.size() > 0) {
-		// adapter = new AppointmentAdapter(this, appointmentList);
-		// }
 		if (appointmentList != null && appointmentList.size() > 0) {
 			if (previousIntent.hasExtra("is_my_appointment")
 					&& previousIntent.getBooleanExtra("is_my_appointment",
 							false)) {
+				/** We are coming from MenuActivity **/
 				subAppointmentList = new ArrayList<Appointment>(appointmentList);
 			} else if (previousIntent.hasExtra("account_id")) {
+				/** We are coming from AccountListActivity **/
 				System.out.println("acc ID is : "
 						+ previousIntent.getStringExtra("account_id"));
 				subAppointmentList = new ArrayList<Appointment>();
@@ -77,6 +102,47 @@ public class AppointmentListActivity extends CRMActivity {
 
 			}
 		}
+	}
+
+	private void initThings() {
+
+		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
+
+		queue = Volley.newRequestQueue(this);
+
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Updating List",
+				"This may take some time", true, null);
+
+		// if (appointmentList != null && appointmentList.size() > 0) {
+		// if (previousIntent.hasExtra("is_my_appointment")
+		// && previousIntent.getBooleanExtra("is_my_appointment",
+		// false)) {
+		// subAppointmentList = new ArrayList<Appointment>(appointmentList);
+		// } else if (previousIntent.hasExtra("account_id")) {
+		// System.out.println("acc ID is : "
+		// + previousIntent.getStringExtra("account_id"));
+		// subAppointmentList = new ArrayList<Appointment>();
+		// for (int i = 0; i < appointmentList.size(); i++) {
+		// System.out.println("#$#$  : "
+		// + appointmentList.get(i).getOwner());
+		//
+		// // TODO : try to remove the 2nd check from if(check1 &&
+		// // check2 && check3)
+		// if (appointmentList.get(i).getAccount() != null
+		// && appointmentList.get(i).getAccount().length() > 0
+		// && myApp.getStringIdFromStringJSON(
+		// appointmentList.get(i).getAccount())
+		// .equals(previousIntent
+		// .getStringExtra("account_id"))) {
+		// subAppointmentList.add(appointmentList.get(i));
+		// }
+		// }
+		//
+		// }
+		// }
+		initSubAppointmentList();
 		if (subAppointmentList != null && subAppointmentList.size() > 0) {
 			adapter = new AppointmentAdapter(this, subAppointmentList);
 		}
@@ -153,7 +219,7 @@ public class AppointmentListActivity extends CRMActivity {
 						.toString());
 
 				Appointment tempAppointment = subAppointmentList.get(position);
-//				search_ET.setText("");
+				// search_ET.setText("");
 				int index = myApp
 						.getAppointmentIndexFromAppointmentId(tempAppointment
 								.getId());
@@ -192,7 +258,20 @@ public class AppointmentListActivity extends CRMActivity {
 	@Override
 	protected void onPause() {
 		search_ET.setText("");
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				appointmentUpdateReceiver);
 		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				appointmentUpdateReceiver,
+				new IntentFilter("appointment_update_receiver"));
+
 	}
 
 	@Override
@@ -202,16 +281,28 @@ public class AppointmentListActivity extends CRMActivity {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
 
-				appointmentList = myApp.getAppointmentList();
+				// appointmentList = myApp.getAppointmentList();
+				//
+				// adapter.swapData(appointmentList);
+				// adapter.notifyDataSetChanged();
 
-				// adapter.swapData(myApp.getAppointmentList());
-				adapter.swapData(appointmentList);
+				initSubAppointmentList();
+
+				adapter.swapData(subAppointmentList);
 				adapter.notifyDataSetChanged();
+
 			}
 			if (data != null && data.hasExtra("search_text")) {
 				search_ET.setText(data.getStringExtra("search_text"));
 			}
 		}
+	}
+
+	public void onRefresh(View view) {
+		progressDialog.show();
+
+		Intent intent = new Intent(this, AppointmentService.class);
+		startService(intent);
 	}
 
 }

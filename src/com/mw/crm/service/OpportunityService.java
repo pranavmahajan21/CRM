@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.activity.OpportunityAddActivity;
+import com.mw.crm.activity.OpportunityListActivity;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Opportunity;
 import com.mw.crm.model.Solution;
@@ -107,11 +108,14 @@ public class OpportunityService extends IntentService {
 	}
 
 	private void onRequestComplete() {
-		if (OpportunityAddActivity.isActivityVisible) {
+		if (MenuActivity2.isActivityVisible) {
+			Intent nextIntent = new Intent("app_data");
+			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+		} else if (OpportunityListActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		} else if (MenuActivity2.isActivityVisible) {
-			Intent nextIntent = new Intent("app_data");
+		} else if (OpportunityAddActivity.isActivityVisible) {
+			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
 	}
@@ -142,7 +146,7 @@ public class OpportunityService extends IntentService {
 							.decryptData(jsonObject
 									.getString("pcl_nfrcurrentyearsolution1")),
 					MyApp.decryptData(jsonObject
-							.getString("pcl_nfrfy1solution1")),null));
+							.getString("pcl_nfrfy1solution1")), null));
 			solutionList.add(new Solution(MyApp.decryptData(jsonObject
 					.getString("pcl_managersolution2")), MyApp
 					.decryptData(jsonObject.getString("pcl_partnersolution2")),
@@ -217,7 +221,8 @@ public class OpportunityService extends IntentService {
 									.getString("estimatedclosedate"))),
 					MyApp.decryptData(jsonObject.getString("estimatedvalue")),
 					MyApp.decryptData(jsonObject
-							.getString("pcl_noofsolutionsrequired")), solutionList);
+							.getString("pcl_noofsolutionsrequired")),
+					solutionList);
 			return opportunity;
 
 		} catch (JSONException e) {

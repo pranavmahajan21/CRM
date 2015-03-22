@@ -3,8 +3,13 @@ package com.mw.crm.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,11 +23,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.ContactAdapter;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Contact;
+import com.mw.crm.service.ContactService;
 
 public class ContactListActivity extends CRMActivity {
+
+	public static boolean isActivityVisible = false;
 
 	MyApp myApp;
 
@@ -40,14 +49,30 @@ public class ContactListActivity extends CRMActivity {
 
 	RequestQueue queue;
 
-	private void initThings() {
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
 
-		myApp = (MyApp) getApplicationContext();
-		previousIntent = getIntent();
+	private BroadcastReceiver contactUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			initSubContactList();
+
+			if (subContactList != null && subContactList.size() > 0) {
+				if (adapter == null) {
+					adapter = new ContactAdapter(ContactListActivity.this,
+							subContactList);
+				} else {
+					adapter.swapData(subContactList);
+					adapter.notifyDataSetChanged();
+				}
+			}
+			progressDialog.dismiss();
+		}
+
+	};
+
+	private void initSubContactList() {
 		contactList = myApp.getContactList();
-
-		queue = Volley.newRequestQueue(this);
-
 		if (contactList != null && contactList.size() > 0) {
 			if (previousIntent.hasExtra("is_my_contact")
 					&& previousIntent.getBooleanExtra("is_my_contact", false)) {
@@ -73,6 +98,45 @@ public class ContactListActivity extends CRMActivity {
 			}
 		}
 
+	}
+
+	private void initThings() {
+
+		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
+
+		queue = Volley.newRequestQueue(this);
+
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Updating List",
+				"This may take some time", true, null);
+
+		// contactList = myApp.getContactList();
+		// if (contactList != null && contactList.size() > 0) {
+		// if (previousIntent.hasExtra("is_my_contact")
+		// && previousIntent.getBooleanExtra("is_my_contact", false)) {
+		// subContactList = new ArrayList<Contact>(contactList);
+		// } else if (previousIntent.hasExtra("account_id")) {
+		// subContactList = new ArrayList<Contact>();
+		// for (int i = 0; i < contactList.size(); i++) {
+		// System.out.println("#$#$  : "
+		// + contactList.get(i).getOrganization());
+		//
+		// // TODO : try to remove the 2nd check from if(check1 &&
+		// // check2 && check3)
+		// if (contactList.get(i).getOrganization() != null
+		// && contactList.get(i).getOrganization().length() > 0
+		// && myApp.getStringIdFromStringJSON(
+		// contactList.get(i).getOrganization())
+		// .equals(previousIntent
+		// .getStringExtra("account_id"))) {
+		// subContactList.add(contactList.get(i));
+		// }
+		// }
+		//
+		// }
+		// }
+		initSubContactList();
 		if (subContactList != null && subContactList.size() > 0) {
 			adapter = new ContactAdapter(this, subContactList);
 		}
@@ -151,7 +215,7 @@ public class ContactListActivity extends CRMActivity {
 						.toString());
 
 				Contact tempContact = subContactList.get(position);
-//				search_ET.setText("");
+				// search_ET.setText("");
 				int index = myApp.getContactIndexFromContactId(tempContact
 						.getContactId());
 
@@ -187,7 +251,20 @@ public class ContactListActivity extends CRMActivity {
 	@Override
 	protected void onPause() {
 		search_ET.setText("");
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				contactUpdateReceiver);
 		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				contactUpdateReceiver,
+				new IntentFilter("contact_update_receiver"));
+
 	}
 
 	@Override
@@ -197,9 +274,13 @@ public class ContactListActivity extends CRMActivity {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
 
-				contactList = myApp.getContactList();
-
-				adapter.swapData(contactList);
+//				contactList = myApp.getContactList();
+//
+//				adapter.swapData(contactList);
+//				adapter.notifyDataSetChanged();
+				
+				initSubContactList();
+				adapter.swapData(subContactList);
 				adapter.notifyDataSetChanged();
 			}
 			if (data != null && data.hasExtra("search_text")) {
@@ -208,4 +289,10 @@ public class ContactListActivity extends CRMActivity {
 		}
 	}
 
+	public void onRefresh(View view) {
+		progressDialog.show();
+
+		Intent intent = new Intent(this, ContactService.class);
+		startService(intent);
+	}
 }

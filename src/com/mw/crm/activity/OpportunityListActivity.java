@@ -3,8 +3,13 @@ package com.mw.crm.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,11 +24,15 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.mw.crm.adapter.OpportunityAdapter;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
+import com.mw.crm.service.OpportunityService;
 
 public class OpportunityListActivity extends CRMActivity {
+
+	public static boolean isActivityVisible = false;
 
 	MyApp myApp;
 
@@ -43,15 +52,31 @@ public class OpportunityListActivity extends CRMActivity {
 
 	Gson gson;
 
-	private void initThings() {
-		myApp = (MyApp) getApplicationContext();
-		previousIntent = getIntent();
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+
+	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			initSubOpportunityList();
+
+			if (subOpportunityList != null && subOpportunityList.size() > 0) {
+				if (adapter == null) {
+					adapter = new OpportunityAdapter(
+							OpportunityListActivity.this, subOpportunityList);
+				} else {
+					adapter.swapData(subOpportunityList);
+					adapter.notifyDataSetChanged();
+				}
+			}
+
+			progressDialog.dismiss();
+		}
+
+	};
+
+	private void initSubOpportunityList() {
 		opportunityList = myApp.getOpportunityList();
-
-		gson = new Gson();
-
-		queue = Volley.newRequestQueue(this);
-
 		if (opportunityList != null && opportunityList.size() > 0) {
 			if (previousIntent.getBooleanExtra("is_my_opportunity", true)) {
 				subOpportunityList = new ArrayList<Opportunity>(opportunityList);
@@ -76,6 +101,47 @@ public class OpportunityListActivity extends CRMActivity {
 
 			}
 		}
+	}
+
+	private void initThings() {
+		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
+
+		gson = new Gson();
+
+		queue = Volley.newRequestQueue(this);
+
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Updating List",
+				"This may take some time", true, null);
+
+		// opportunityList = myApp.getOpportunityList();
+		// if (opportunityList != null && opportunityList.size() > 0) {
+		// if (previousIntent.getBooleanExtra("is_my_opportunity", true)) {
+		// subOpportunityList = new ArrayList<Opportunity>(opportunityList);
+		// } else if (!(previousIntent.getBooleanExtra("is_my_opportunity",
+		// true)) && previousIntent.hasExtra("account_id")) {
+		// subOpportunityList = new ArrayList<Opportunity>();
+		// for (int i = 0; i < opportunityList.size(); i++) {
+		// System.out.println("#$#$  : "
+		// + opportunityList.get(i).getCustomerId());
+		//
+		// // TODO : try to remove the 2nd check from if(check1 &&
+		// // check2 && check3)
+		// if (opportunityList.get(i).getCustomerId() != null
+		// && opportunityList.get(i).getCustomerId().length() > 0
+		// && myApp.getStringIdFromStringJSON(
+		// opportunityList.get(i).getCustomerId())
+		// .equals(previousIntent
+		// .getStringExtra("account_id"))) {
+		// subOpportunityList.add(opportunityList.get(i));
+		// }
+		// }
+		//
+		// }
+		// }
+		initSubOpportunityList();
+
 		if (subOpportunityList != null && subOpportunityList.size() > 0) {
 			adapter = new OpportunityAdapter(this, subOpportunityList);
 			// adapter2 = new OpportunitySearchAdapter(this, opportunityList);
@@ -136,8 +202,8 @@ public class OpportunityListActivity extends CRMActivity {
 
 		if (previousIntent.getBooleanExtra("is_my_opportunity", false)) {
 			initView("My Opportunities", "Add");
-		} else if(!(previousIntent.getBooleanExtra("is_my_opportunity",
-				true)) && previousIntent.hasExtra("account_id")){
+		} else if (!(previousIntent.getBooleanExtra("is_my_opportunity", true))
+				&& previousIntent.hasExtra("account_id")) {
 			String accountID = previousIntent.getStringExtra("account_id");
 			Account tempAccount = myApp.getAccountById(accountID);
 			initView(tempAccount.getName() + "-Opportunities", "Add");
@@ -169,8 +235,7 @@ public class OpportunityListActivity extends CRMActivity {
 
 	public void onRightButton(View view) {
 		nextIntent = new Intent(this, OpportunityAddActivity.class);
-		nextIntent.putExtra("search_text", search_ET.getText()
-				.toString());
+		nextIntent.putExtra("search_text", search_ET.getText().toString());
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 
@@ -193,7 +258,20 @@ public class OpportunityListActivity extends CRMActivity {
 	@Override
 	protected void onPause() {
 		search_ET.setText("");
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				opportunityUpdateReceiver);
 		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				opportunityUpdateReceiver,
+				new IntentFilter("opportunity_update_receiver"));
+
 	}
 
 	@Override
@@ -203,11 +281,15 @@ public class OpportunityListActivity extends CRMActivity {
 			if (data != null && data.hasExtra("refresh_list")
 					&& data.getBooleanExtra("refresh_list", true)) {
 
-				opportunityList = myApp.getOpportunityList();
+				// opportunityList = myApp.getOpportunityList();
+				//
+				// adapter.swapData(opportunityList);
+				// adapter.notifyDataSetChanged();
+				initSubOpportunityList();
 
-				// adapter.swapData(myApp.getOpportunityList());
-				adapter.swapData(opportunityList);
+				adapter.swapData(subOpportunityList);
 				adapter.notifyDataSetChanged();
+
 			}
 			if (data != null && data.hasExtra("search_text")) {
 				search_ET.setText(data.getStringExtra("search_text"));
@@ -215,4 +297,10 @@ public class OpportunityListActivity extends CRMActivity {
 		}
 	}
 
+	public void onRefresh(View view) {
+		progressDialog.show();
+
+		Intent intent = new Intent(this, OpportunityService.class);
+		startService(intent);
+	}
 }

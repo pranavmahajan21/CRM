@@ -186,7 +186,7 @@
     <style name="LL4" parent="dimensions3">
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:padding">15dp</item>
+        <item name="android:padding">5dp</item>
     </style>
 
     <style name="IV4">

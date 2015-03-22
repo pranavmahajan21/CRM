@@ -45,12 +45,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.DecimalDigitsInputFilter;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
+import com.mw.crm.model.Solution;
 import com.mw.crm.service.OpportunityService;
 
 public class OpportunityAddActivity extends CRMActivity {
@@ -74,6 +76,9 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	RelativeLayout leadSource_RL, salesStage_RL, probability_RL, status_RL,
 			noOfSolution_RL;
+
+	RadioGroup confidential_RG;
+
 	// , oppoManager_RL
 	/** Solution **/
 	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL,
@@ -140,48 +145,91 @@ public class OpportunityAddActivity extends CRMActivity {
 	LayoutInflater inflater;
 	LinearLayout view_solution;
 
+	private Solution getSolutionObjectFromChildLL(LinearLayout childLL) {
+		return new Solution(
+				((TextView) childLL.findViewById(R.id.solutionManager_TV))
+						.getText().toString(),
+				((TextView) childLL.findViewById(R.id.solutionPartner_TV))
+						.getText().toString(),
+				((TextView) childLL.findViewById(R.id.solutionName_TV))
+						.getText().toString(),
+				((TextView) childLL.findViewById(R.id.profitCenter_TV))
+						.getText().toString(),
+				((TextView) childLL.findViewById(R.id.taxonomy_TV)).getText()
+						.toString(),
+				((EditText) childLL.findViewById(R.id.fee_ET)).getText()
+						.toString(),
+				((EditText) childLL.findViewById(R.id.pyNfr_ET)).getText()
+						.toString(),
+				((EditText) childLL.findViewById(R.id.cyNfr_ET)).getText()
+						.toString(),
+				((EditText) childLL.findViewById(R.id.cyNfrPlus1_ET)).getText()
+						.toString(),
+				((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET)).getText()
+						.toString());
+	}
+
 	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			/*
-			 * if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-			 * .getBooleanExtra("is_edit_mode", false))) {
-			 * Toast.makeText(OpportunityAddActivity.this,
-			 * "Opportunity updated successfully.", Toast.LENGTH_SHORT) .show();
-			 * } else { Toast.makeText(OpportunityAddActivity.this,
-			 * "Opportunity created successfully.", Toast.LENGTH_SHORT) .show();
-			 * }
-			 * 
-			 * Opportunity aa = new Opportunity(oppoManager_TV.getText()
-			 * .toString(), null, null, clientName_TV.getText().toString(),
-			 * description_ET .getText().toString(), status_TV.getText()
-			 * .toString(), null, probability_TV.getText() .toString(),
-			 * salesStage_TV.getText().toString());
-			 * 
-			 * nextIntent = new Intent(OpportunityAddActivity.this,
-			 * OpportunityDetailsActivity.class);
-			 * 
-			 * nextIntent.putExtra("opportunity_dummy", new Gson().toJson(aa,
-			 * Opportunity.class)); nextIntent.putExtra("country",
-			 * country_TV.getText().toString()); nextIntent.putExtra("lob",
-			 * lob_TV.getText().toString()); nextIntent.putExtra("sub_lob",
-			 * sublob_TV.getText().toString()); nextIntent.putExtra("sector",
-			 * sector_TV.getText().toString()); if
-			 * (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-			 * .getBooleanExtra("is_edit_mode", false))) {
-			 * nextIntent.putExtra("opportunity_created", true); }
-			 * startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
-			 */
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				Toast.makeText(OpportunityAddActivity.this,
+						"Opportunity updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				Toast.makeText(OpportunityAddActivity.this,
+						"Opportunity created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
+
+			List<Solution> solutionList = new ArrayList<Solution>();
+			solutionList.add(getSolutionObjectFromChildLL(childSolution1_LL));
+			if (selectedNoOfSolution > 0) {
+				solutionList
+						.add(getSolutionObjectFromChildLL(childSolution2_LL));
+			}
+			if (selectedNoOfSolution > 1) {
+				solutionList
+						.add(getSolutionObjectFromChildLL(childSolution3_LL));
+			}
+			if (selectedNoOfSolution > 2) {
+				solutionList
+						.add(getSolutionObjectFromChildLL(childSolution4_LL));
+			}
+			
+			Opportunity aa = new Opportunity(null, description_ET.getText()
+					.toString(), clientName_TV.getText().toString(),
+					((RadioButton) findViewById(confidential_RG
+							.getCheckedRadioButtonId())).getTag().toString(),
+					leadSource_TV.getText().toString(), salesStage_TV.getText()
+							.toString(), probability_TV.getText().toString(),
+					status_TV.getText().toString(),
+					myApp.formatStringToDate3Copy(expectedClosureDate_TV
+							.getText().toString()), totalProposalValue_TV
+							.getText().toString(), noOfSolution_TV.getText()
+							.toString(), solutionList);
+
+			nextIntent = new Intent(OpportunityAddActivity.this,
+					OpportunityDetailsActivity.class);
+
+			nextIntent.putExtra("opportunity_dummy",
+					new Gson().toJson(aa, Opportunity.class));
+			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
+					.getBooleanExtra("is_edit_mode", false))) {
+				nextIntent.putExtra("opportunity_created", true);
+			}
+			startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
 
 		}
 	};
 
 	@SuppressLint("InflateParams")
 	private LinearLayout getViewSolution() {
-		return (LinearLayout) inflater.inflate(R.layout.view_solution_add, null,
-				false);
+		return (LinearLayout) inflater.inflate(R.layout.view_solution_add,
+				null, false);
 	}
 
 	private void initThings() {
@@ -244,6 +292,8 @@ public class OpportunityAddActivity extends CRMActivity {
 		probability_RL = (RelativeLayout) findViewById(R.id.probability_RL);
 		status_RL = (RelativeLayout) findViewById(R.id.status_RL);
 		noOfSolution_RL = (RelativeLayout) findViewById(R.id.noOfSolution_RL);
+
+		confidential_RG = (RadioGroup) findViewById(R.id.confidential_RG);
 
 		parentSolution1_LL = (LinearLayout) findViewById(R.id.parentSolution1_LL);
 		parentSolution2_LL = (LinearLayout) findViewById(R.id.parentSolution2_LL);
@@ -438,7 +488,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		setOnFocusLoseListener();
 
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -722,6 +772,10 @@ public class OpportunityAddActivity extends CRMActivity {
 					.put("probabilty",
 							new ArrayList<String>(probabilityMap.keySet())
 									.get(selectedProbability))
+					// .put("expclosuredate",
+					// myApp.formatDateToString4(myApp
+					// .formatStringToDate3(expectedClosureDate_TV
+					// .getText().toString())))
 					.put("solutionmanager",
 							new ArrayList<String>(userMap.keySet())
 									.get(selectedSolManager1))
@@ -1074,83 +1128,83 @@ public class OpportunityAddActivity extends CRMActivity {
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		case R.id.solutionName_RL:
-//			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-//			switch (whichSolutionTabIsVisible) {
-//			case Constant.SOLUTION1_VISIBLE:
-//				System.out.println("Check0");
-//				nextIntent.putExtra("solution_value",
-//						Constant.SOLUTION1_VISIBLE);
-//				break;
-//			case Constant.SOLUTION2_VISIBLE:
-//				nextIntent.putExtra("solution_value",
-//						Constant.SOLUTION2_VISIBLE);
-//				break;
-//			case Constant.SOLUTION3_VISIBLE:
-//				nextIntent.putExtra("solution_value",
-//						Constant.SOLUTION3_VISIBLE);
-//				break;
-//			case Constant.SOLUTION4_VISIBLE:
-//				nextIntent.putExtra("solution_value",
-//						Constant.SOLUTION4_VISIBLE);
-//				break;
-//
-//			default:
-//				break;
-//			}
+			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			// switch (whichSolutionTabIsVisible) {
+			// case Constant.SOLUTION1_VISIBLE:
+			// System.out.println("Check0");
+			// nextIntent.putExtra("solution_value",
+			// Constant.SOLUTION1_VISIBLE);
+			// break;
+			// case Constant.SOLUTION2_VISIBLE:
+			// nextIntent.putExtra("solution_value",
+			// Constant.SOLUTION2_VISIBLE);
+			// break;
+			// case Constant.SOLUTION3_VISIBLE:
+			// nextIntent.putExtra("solution_value",
+			// Constant.SOLUTION3_VISIBLE);
+			// break;
+			// case Constant.SOLUTION4_VISIBLE:
+			// nextIntent.putExtra("solution_value",
+			// Constant.SOLUTION4_VISIBLE);
+			// break;
+			//
+			// default:
+			// break;
+			// }
 			putExtraUsingSwitch("solution_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_SOLUTION);
 			break;
 
 		case R.id.profitCenter_RL:
-//			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-//			switch (whichSolutionTabIsVisible) {
-//			case Constant.SOLUTION1_VISIBLE:
-//				nextIntent.putExtra("profit_center_value",
-//						Constant.SOLUTION1_VISIBLE);
-//				break;
-//			case Constant.SOLUTION2_VISIBLE:
-//				nextIntent.putExtra("profit_center_value",
-//						Constant.SOLUTION2_VISIBLE);
-//				break;
-//			case Constant.SOLUTION3_VISIBLE:
-//				nextIntent.putExtra("profit_center_value",
-//						Constant.SOLUTION3_VISIBLE);
-//				break;
-//			case Constant.SOLUTION4_VISIBLE:
-//				nextIntent.putExtra("profit_center_value",
-//						Constant.SOLUTION4_VISIBLE);
-//				break;
-//
-//			default:
-//				break;
-//			}
+			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			// switch (whichSolutionTabIsVisible) {
+			// case Constant.SOLUTION1_VISIBLE:
+			// nextIntent.putExtra("profit_center_value",
+			// Constant.SOLUTION1_VISIBLE);
+			// break;
+			// case Constant.SOLUTION2_VISIBLE:
+			// nextIntent.putExtra("profit_center_value",
+			// Constant.SOLUTION2_VISIBLE);
+			// break;
+			// case Constant.SOLUTION3_VISIBLE:
+			// nextIntent.putExtra("profit_center_value",
+			// Constant.SOLUTION3_VISIBLE);
+			// break;
+			// case Constant.SOLUTION4_VISIBLE:
+			// nextIntent.putExtra("profit_center_value",
+			// Constant.SOLUTION4_VISIBLE);
+			// break;
+			//
+			// default:
+			// break;
+			// }
 			putExtraUsingSwitch("profit_center_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_PROFIT_CENTER);
 			break;
 
 		case R.id.taxonomy_RL:
-//			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-//			switch (whichSolutionTabIsVisible) {
-//			case Constant.SOLUTION1_VISIBLE:
-//				nextIntent
-//						.putExtra("product_value", Constant.SOLUTION1_VISIBLE);
-//				break;
-//			case Constant.SOLUTION2_VISIBLE:
-//				nextIntent
-//						.putExtra("product_value", Constant.SOLUTION2_VISIBLE);
-//				break;
-//			case Constant.SOLUTION3_VISIBLE:
-//				nextIntent
-//						.putExtra("product_value", Constant.SOLUTION3_VISIBLE);
-//				break;
-//			case Constant.SOLUTION4_VISIBLE:
-//				nextIntent
-//						.putExtra("product_value", Constant.SOLUTION4_VISIBLE);
-//				break;
-//
-//			default:
-//				break;
-//			}
+			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+			// switch (whichSolutionTabIsVisible) {
+			// case Constant.SOLUTION1_VISIBLE:
+			// nextIntent
+			// .putExtra("product_value", Constant.SOLUTION1_VISIBLE);
+			// break;
+			// case Constant.SOLUTION2_VISIBLE:
+			// nextIntent
+			// .putExtra("product_value", Constant.SOLUTION2_VISIBLE);
+			// break;
+			// case Constant.SOLUTION3_VISIBLE:
+			// nextIntent
+			// .putExtra("product_value", Constant.SOLUTION3_VISIBLE);
+			// break;
+			// case Constant.SOLUTION4_VISIBLE:
+			// nextIntent
+			// .putExtra("product_value", Constant.SOLUTION4_VISIBLE);
+			// break;
+			//
+			// default:
+			// break;
+			// }
 			putExtraUsingSwitch("product_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_PRODUCT);
 			break;
@@ -1198,17 +1252,24 @@ public class OpportunityAddActivity extends CRMActivity {
 		((EditText) findViewById(R.id.cyNfrPlus2_ET)).setFilters(inputFilters);
 	}
 
+	private double parseStringToDouble(String numberString) {
+		try {
+			return Double.parseDouble(numberString);
+		} catch (NumberFormatException e) {
+			return 0.0;
+		}
+	}
+
 	private double totalAmountOfChildLL(LinearLayout childSolution_LL) {
-		// TODO Auto-generated method stub
-		double fee = Double.parseDouble(((EditText) childSolution_LL
+		double fee = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.fee_ET)).getText().toString().trim());
-		double pyNfr = Double.parseDouble(((EditText) childSolution_LL
+		double pyNfr = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.pyNfr_ET)).getText().toString().trim());
-		double cyNfr = Double.parseDouble(((EditText) childSolution_LL
+		double cyNfr = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.cyNfr_ET)).getText().toString().trim());
-		double cyNfrPlus1 = Double.parseDouble(((EditText) childSolution_LL
+		double cyNfrPlus1 = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.cyNfrPlus1_ET)).getText().toString().trim());
-		double cyNfrPlus2 = Double.parseDouble(((EditText) childSolution_LL
+		double cyNfrPlus2 = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.cyNfrPlus2_ET)).getText().toString().trim());
 		return (fee + pyNfr + cyNfr + cyNfrPlus1 + cyNfrPlus2);
 	}
@@ -1234,7 +1295,8 @@ public class OpportunityAddActivity extends CRMActivity {
 								+ totalAmountOfChildLL(childSolution4_LL);
 					}
 					System.out.println("hello");
-					totalProposalValue_TV.setText(String.valueOf(totalProposalValue));
+					totalProposalValue_TV.setText(String
+							.valueOf(totalProposalValue));
 					System.out.println("hello");
 				}
 			}
@@ -1623,5 +1685,9 @@ public class OpportunityAddActivity extends CRMActivity {
 				finish();
 			}
 		}
+	}
+
+	public void onPickDate(View view) {
+		super.onPickDate2(view, expectedClosureDate_TV);
 	}
 }

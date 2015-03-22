@@ -310,14 +310,13 @@ public class ContactAddActivity extends CRMActivity {
 
 	private boolean validate() {
 		boolean notErrorCase = true;
-		// if (firstName_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please enter some First Name.", false);
-		// notErrorCase = false;
-		// } else
 		if (lastName_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some Last Name.", false);
+			notErrorCase = false;
+		} else if (selectedOrganisation < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select an organization.", false);
 			notErrorCase = false;
 		} else if (selectedDOR < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
@@ -327,28 +326,7 @@ public class ContactAddActivity extends CRMActivity {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Internal Connect.", false);
 			notErrorCase = false;
-		} else if (selectedOrganisation < 0) {
-			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select an organization.", false);
-			notErrorCase = false;
 		}
-		// else if (designation_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please enter the designation.", false);
-		// notErrorCase = false;
-		// } else if (email_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please enter the email.", false);
-		// notErrorCase = false;
-		// } else if (officePhone_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please enter Office Phone.", false);
-		// notErrorCase = false;
-		// } else if (lastName_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please enter Mobile.", false);
-		// notErrorCase = false;
-		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -451,7 +429,8 @@ public class ContactAddActivity extends CRMActivity {
 							progressDialog.dismiss();
 
 							AlertDialog alertDialog = myApp.handleError(
-									createDialog, error,"Error while creating contact.");
+									createDialog, error,
+									"Error while creating contact.");
 							alertDialog.show();
 
 						}

@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/descriptionLabel_TV"
                 style="@style/style_TV2"
-                android:text="Opportunity Description" />
+                android:text="* Opportunity Description" />
 
             <EditText
                 android:id="@+id/description_ET"
@@ -37,7 +37,7 @@
             <TextView
                 android:id="@+id/clientNameLabel_TV"
                 style="@style/style_TV2"
-                android:text="Client Name" />
+                android:text="* Client Name" />
 
             <RelativeLayout
                 android:id="@+id/client_RL"
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Confidential"
+                    android:text="* Confidential"
                     android:textColor="@color/blue_dark"
                     android:textSize="18sp" />
 
@@ -96,7 +96,7 @@
             <TextView
                 android:id="@+id/leadSourceLabel_TV"
                 style="@style/style_TV2"
-                android:text="Lead Source" />
+                android:text="* Lead Source" />
 
             <RelativeLayout
                 android:id="@+id/leadSource_RL"
@@ -113,7 +113,7 @@
             <TextView
                 android:id="@+id/salesStageLabel_TV"
                 style="@style/style_TV2"
-                android:text="Sales Stage" />
+                android:text="* Sales Stage" />
 
             <RelativeLayout
                 android:id="@+id/salesStage_RL"
@@ -130,7 +130,7 @@
             <TextView
                 android:id="@+id/probabilityLabel_TV"
                 style="@style/style_TV2"
-                android:text="Probability" />
+                android:text="* Probability" />
 
             <RelativeLayout
                 android:id="@+id/probability_RL"
@@ -147,7 +147,7 @@
             <TextView
                 android:id="@+id/statusLabel_TV"
                 style="@style/style_TV2"
-                android:text="Status" />
+                android:text="* Status" />
 
             <RelativeLayout
                 android:id="@+id/status_RL"
@@ -164,7 +164,7 @@
             <TextView
                 android:id="@+id/expectedClosureDateLabel_TV"
                 style="@style/style_TV2"
-                android:text="Expected Closure Date" />
+                android:text="* Expected Closure Date" />
 
             <RelativeLayout
                 android:id="@+id/expectedClosureDate_RL"
@@ -172,8 +172,9 @@
 
                 <TextView
                     android:id="@+id/expectedClosureDate_TV"
+                    android:onClick="onPickDate"
                     style="@style/TV"
-                    android:hint="//TODO" />
+                    android:hint="Expected Closure Date" />
 
                 <ImageView style="@style/IV" />
             </RelativeLayout>
@@ -191,7 +192,7 @@
             <TextView
                 android:id="@+id/noOfSolutionLabel_TV"
                 style="@style/style_TV2"
-                android:text="Number of Solutions" />
+                android:text="* Number of Solutions" />
 
             <RelativeLayout
                 android:id="@+id/noOfSolution_RL"

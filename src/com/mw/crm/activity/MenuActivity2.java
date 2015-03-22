@@ -39,7 +39,7 @@ public class MenuActivity2 extends Activity {
 	public static boolean isActivityVisible = false;
 
 	TextView menu_item_TV1, menu_item_TV2, menu_item_TV3, menu_item_TV4;
-	TextView syncDate_TV;
+	TextView syncMenuItem1_TV, syncMenuItem2_TV, syncMenuItem3_TV, syncMenuItem4_TV;
 	LinearLayout lastSync_LL;
 
 	MyApp myApp;
@@ -85,12 +85,16 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void findThings() {
-		menu_item_TV1 = (TextView) findViewById(R.id.menu_item_TV1);
-		menu_item_TV2 = (TextView) findViewById(R.id.menu_item_TV2);
-		menu_item_TV3 = (TextView) findViewById(R.id.menu_item_TV3);
-		menu_item_TV4 = (TextView) findViewById(R.id.menu_item_TV4);
+		menu_item_TV1 = (TextView) findViewById(R.id.titleMenuItem1_TV);
+		menu_item_TV2 = (TextView) findViewById(R.id.titleMenuItem2_TV);
+		menu_item_TV3 = (TextView) findViewById(R.id.titleMenuItem3_TV);
+		menu_item_TV4 = (TextView) findViewById(R.id.titleMenuItem4_TV);
 
-		syncDate_TV = (TextView) findViewById(R.id.syncDate_TV);
+		syncMenuItem1_TV = (TextView) findViewById(R.id.syncMenuItem1_TV);
+		syncMenuItem2_TV = (TextView) findViewById(R.id.syncMenuItem2_TV);
+		syncMenuItem3_TV = (TextView) findViewById(R.id.syncMenuItem3_TV);
+		syncMenuItem4_TV = (TextView) findViewById(R.id.syncMenuItem4_TV);
+
 		lastSync_LL = (LinearLayout) findViewById(R.id.lastSync_LL);
 	}
 
@@ -100,14 +104,17 @@ public class MenuActivity2 extends Activity {
 		menu_item_TV3.setTypeface(myApp.getTypefaceBoldSans());
 		menu_item_TV4.setTypeface(myApp.getTypefaceBoldSans());
 
-		syncDate_TV.setTypeface(myApp.getTypefaceRegularSans());
+		syncMenuItem1_TV.setTypeface(myApp.getTypefaceRegularSans());
+		syncMenuItem2_TV.setTypeface(myApp.getTypefaceRegularSans());
+		syncMenuItem3_TV.setTypeface(myApp.getTypefaceRegularSans());
+		syncMenuItem4_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
 	public void initView(String title, String title2) {
 		setTypeface();
 		if (sharedPreferences.contains("last_sync_date")) {
-			syncDate_TV.setText(sharedPreferences.getString("last_sync_date",
-					"-"));
+//			syncDate_TV.setText(sharedPreferences.getString("last_sync_date",
+//					"-"));
 		}
 	}
 
@@ -173,7 +180,7 @@ public class MenuActivity2 extends Activity {
 
 		// TODO: do this in broadcaster
 		String temp = myApp.formatDateToString3(new Date());
-		syncDate_TV.setText(temp);
+//		syncDate_TV.setText(temp);
 		editor.putString("last_sync_date", temp);
 		editor.commit();
 	}

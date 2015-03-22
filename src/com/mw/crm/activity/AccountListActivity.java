@@ -3,8 +3,13 @@ package com.mw.crm.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,11 +24,15 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.mw.crm.adapter.AccountAdapter;
+import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
+import com.mw.crm.service.AccountService;
 
 public class AccountListActivity extends CRMActivity {
 
+	public static boolean isActivityVisible = false;
+	
 	MyApp myApp;
 
 	ListView accountLV;
@@ -41,23 +50,61 @@ public class AccountListActivity extends CRMActivity {
 
 	Gson gson;
 
-	private void initThings() {
+	CreateDialog createDialog;
+	ProgressDialog progressDialog;
+	
+	private BroadcastReceiver accountUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			initSubAccountList();
 
-		myApp = (MyApp) getApplicationContext();
-		previousIntent = getIntent();
+			if (subAccountList != null && subAccountList.size() > 0) {
+				if (adapter == null) {
+					adapter = new AccountAdapter(
+							AccountListActivity.this, subAccountList);
+				} else {
+					adapter.swapData(subAccountList);
+					adapter.notifyDataSetChanged();
+				}
+			}
+			progressDialog.dismiss();
+		}
+	};
+		
+	private void initSubAccountList() {
 		accountList = myApp.getAccountList();
-
-		gson = new Gson();
-
-		queue = Volley.newRequestQueue(this);
-
 		if (accountList != null && accountList.size() > 0) {
 			if (previousIntent.hasExtra("is_my_account")
 					&& previousIntent.getBooleanExtra("is_my_account", false)) {
 				subAccountList = new ArrayList<Account>(accountList);
 			}
 		}
+		
+	}
+	
+	private void initThings() {
 
+		myApp = (MyApp) getApplicationContext();
+		previousIntent = getIntent();
+
+		gson = new Gson();
+
+		queue = Volley.newRequestQueue(this);
+		
+		createDialog = new CreateDialog(this);
+		progressDialog = createDialog.createProgressDialog("Updating List",
+				"This may take some time", true, null);
+
+//		accountList = myApp.getAccountList();
+//		if (accountList != null && accountList.size() > 0) {
+//			if (previousIntent.hasExtra("is_my_account")
+//					&& previousIntent.getBooleanExtra("is_my_account", false)) {
+//				subAccountList = new ArrayList<Account>(accountList);
+//			}
+//		}
+
+		initSubAccountList();
+		
 		if (subAccountList != null && subAccountList.size() > 0) {
 			adapter = new AccountAdapter(this, subAccountList);
 		}
@@ -199,9 +246,23 @@ public class AccountListActivity extends CRMActivity {
 	@Override
 	protected void onPause() {
 		search_ET.setText("");
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				accountUpdateReceiver);
 		super.onPause();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				accountUpdateReceiver,
+				new IntentFilter("account_update_receiver"));
+
+	}
+
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -217,9 +278,13 @@ public class AccountListActivity extends CRMActivity {
 				 * selecting an item from list.
 				 **/
 				/** Step1 **/
-				accountList = myApp.getAccountList();
+				initSubAccountList();
+//				accountList = myApp.getAccountList();
+//				adapter.swapData(accountList);
+//				adapter.notifyDataSetChanged();
+				
 				/** Step2 **/
-				adapter.swapData(accountList);
+				adapter.swapData(subAccountList);
 				adapter.notifyDataSetChanged();
 
 			}
@@ -227,5 +292,12 @@ public class AccountListActivity extends CRMActivity {
 				search_ET.setText(data.getStringExtra("search_text"));
 			}
 		}
+	}
+	
+	public void onRefresh(View view) {
+		progressDialog.show();
+
+		Intent intent = new Intent(this, AccountService.class);
+		startService(intent);
 	}
 }

@@ -179,19 +179,20 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 		if (previousIntent.hasExtra("opportunity_dummy")
 				&& selectedOpportunity != null) {
-			crmId_TV.setText(selectedOpportunity.getDescription());
-			// oppoManager_TV.setText(selectedOpportunity.getOwnerId());
-			status_TV.setText(selectedOpportunity.getKpmgStatus());
+			crmId_TV.setText("-");
+			oppoDescription_TV.setText(selectedOpportunity.getDescription());
+			clientName_TV.setText(selectedOpportunity.getCustomerId());
+			confidential_TV.setText(selectedOpportunity.getIsConfidential());
+			leadSource_TV.setText(selectedOpportunity.getLeadSource());
 			probability_TV.setText(selectedOpportunity.getProbability());
 			salesStage_TV.setText(selectedOpportunity.getSalesStage());
-			clientName_TV.setText(selectedOpportunity.getCustomerId());
+			status_TV.setText(selectedOpportunity.getKpmgStatus());
 
-			confidential_TV.setText(previousIntent.getStringExtra("country"));
-			leadSource_TV.setText(previousIntent.getStringExtra("lob"));
-			expectedClosureDate_TV.setText(previousIntent
-					.getStringExtra("sub_lob"));
-			totalProposalValue_TV.setText(previousIntent
-					.getStringExtra("sector"));
+			expectedClosureDate_TV.setText(myApp.formatDateToString2(selectedOpportunity
+					.getExpectedClosureDate()));
+			totalProposalValue_TV.setText(selectedOpportunity.getTotalProposalValue());
+			noOfSolution_TV.setText(selectedOpportunity.getNoOfSolutionRequired());
+
 		} else {
 			crmId_TV.setText(selectedOpportunity.getCrmId());
 			oppoDescription_TV.setText(selectedOpportunity

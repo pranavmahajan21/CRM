@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/solutionManagerLabel_TV"
         style="@style/style_TV2"
-        android:text="Solution Manager" />
+        android:text="* Solution Manager" />
 
     <RelativeLayout
         android:id="@+id/solutionManager_RL"
@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/solutionPartnerLabel_TV"
         style="@style/style_TV2"
-        android:text="Solution Partner" />
+        android:text="* Solution Partner" />
 
     <RelativeLayout
         android:id="@+id/solutionPartner_RL"
@@ -43,7 +43,7 @@
     <TextView
         android:id="@+id/solutionNameLabel_TV"
         style="@style/style_TV2"
-        android:text="Solution Name" />
+        android:text="* Solution Name" />
 
     <RelativeLayout
         android:id="@+id/solutionName_RL"
@@ -61,7 +61,7 @@
     <TextView
         android:id="@+id/profitCenterLabel_TV"
         style="@style/style_TV2"
-        android:text="Profit Center" />
+        android:text="* Profit Center" />
 
     <RelativeLayout
         android:id="@+id/profitCenter_RL"
@@ -79,7 +79,7 @@
     <TextView
         android:id="@+id/taxonomyLabel_TV"
         style="@style/style_TV2"
-        android:text="Taxonomy" />
+        android:text="* Taxonomy" />
 
     <RelativeLayout
         android:id="@+id/taxonomy_RL"
@@ -99,7 +99,7 @@
         <TextView
             android:id="@+id/feeLabel_TV"
             style="@style/TV5"
-            android:text="Fee:" />
+            android:text="* Fee:" />
 
         <EditText
             android:id="@+id/fee_ET"
@@ -125,7 +125,7 @@
         <TextView
             android:id="@+id/cyNfrLabel_TV"
             style="@style/TV5"
-            android:text="CY NFR:" />
+            android:text="* CY NFR:" />
 
         <EditText
             android:id="@+id/cyNfr_ET"
