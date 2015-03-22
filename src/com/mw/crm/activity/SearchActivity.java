@@ -98,6 +98,11 @@ public class SearchActivity extends CRMActivity {
 			stringList = new ArrayList<String>(searchMap.values());
 			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
+		case Constant.SEARCH_COMPETITOR:
+			searchMap = myApp.getCompetitorMap();
+			stringList = new ArrayList<String>(searchMap.values());
+			anotherStringList = new ArrayList<String>(searchMap.values());
+			break;
 		default:
 			break;
 		}// switch
@@ -162,6 +167,7 @@ public class SearchActivity extends CRMActivity {
 							previouIntent.getIntExtra("user_value", 0));
 				}
 				if (previouIntent.hasExtra("solution_value")) {
+					System.out.println("check1  " + previouIntent.getIntExtra("solution_value", 0));
 					intent.putExtra("solution_value",
 							previouIntent.getIntExtra("solution_value", 0));
 				}

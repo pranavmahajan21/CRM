@@ -712,8 +712,7 @@ public class OpportunityAddActivity extends CRMActivity {
 									.getAccountId())
 					.put("confidential",
 							((RadioButton) findViewById(((RadioGroup) findViewById(R.id.confidential_RG))
-									.getCheckedRadioButtonId())).getText()
-									.toString())
+									.getCheckedRadioButtonId())).getTag())
 					.put("leadsource",
 							new ArrayList<String>(leadSourceMap.keySet())
 									.get(selectedLeadSource))
@@ -999,16 +998,16 @@ public class OpportunityAddActivity extends CRMActivity {
 		whichSolutionTabIsVisible = checkVisibilityOfChildLL();
 		switch (whichSolutionTabIsVisible) {
 		case Constant.SOLUTION1_VISIBLE:
-			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER1);
+			nextIntent.putExtra(keyExtra, Constant.SOLUTION1_VISIBLE);
 			break;
 		case Constant.SOLUTION2_VISIBLE:
-			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER2);
+			nextIntent.putExtra(keyExtra, Constant.SOLUTION2_VISIBLE);
 			break;
 		case Constant.SOLUTION3_VISIBLE:
-			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER3);
+			nextIntent.putExtra(keyExtra, Constant.SOLUTION3_VISIBLE);
 			break;
 		case Constant.SOLUTION4_VISIBLE:
-			nextIntent.putExtra(keyExtra, Constant.USER_SOLUTION_PARTNER4);
+			nextIntent.putExtra(keyExtra, Constant.SOLUTION4_VISIBLE);
 			break;
 
 		default:
@@ -1075,82 +1074,83 @@ public class OpportunityAddActivity extends CRMActivity {
 			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
 			break;
 		case R.id.solutionName_RL:
-			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			switch (whichSolutionTabIsVisible) {
-			case Constant.SOLUTION1_VISIBLE:
-				nextIntent.putExtra("solution_value",
-						Constant.SOLUTION1_VISIBLE);
-				break;
-			case Constant.SOLUTION2_VISIBLE:
-				nextIntent.putExtra("solution_value",
-						Constant.SOLUTION2_VISIBLE);
-				break;
-			case Constant.SOLUTION3_VISIBLE:
-				nextIntent.putExtra("solution_value",
-						Constant.SOLUTION3_VISIBLE);
-				break;
-			case Constant.SOLUTION4_VISIBLE:
-				nextIntent.putExtra("solution_value",
-						Constant.SOLUTION4_VISIBLE);
-				break;
-
-			default:
-				break;
-			}
+//			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+//			switch (whichSolutionTabIsVisible) {
+//			case Constant.SOLUTION1_VISIBLE:
+//				System.out.println("Check0");
+//				nextIntent.putExtra("solution_value",
+//						Constant.SOLUTION1_VISIBLE);
+//				break;
+//			case Constant.SOLUTION2_VISIBLE:
+//				nextIntent.putExtra("solution_value",
+//						Constant.SOLUTION2_VISIBLE);
+//				break;
+//			case Constant.SOLUTION3_VISIBLE:
+//				nextIntent.putExtra("solution_value",
+//						Constant.SOLUTION3_VISIBLE);
+//				break;
+//			case Constant.SOLUTION4_VISIBLE:
+//				nextIntent.putExtra("solution_value",
+//						Constant.SOLUTION4_VISIBLE);
+//				break;
+//
+//			default:
+//				break;
+//			}
 			putExtraUsingSwitch("solution_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_SOLUTION);
 			break;
 
 		case R.id.profitCenter_RL:
-			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			switch (whichSolutionTabIsVisible) {
-			case Constant.SOLUTION1_VISIBLE:
-				nextIntent.putExtra("profit_center_value",
-						Constant.SOLUTION1_VISIBLE);
-				break;
-			case Constant.SOLUTION2_VISIBLE:
-				nextIntent.putExtra("profit_center_value",
-						Constant.SOLUTION2_VISIBLE);
-				break;
-			case Constant.SOLUTION3_VISIBLE:
-				nextIntent.putExtra("profit_center_value",
-						Constant.SOLUTION3_VISIBLE);
-				break;
-			case Constant.SOLUTION4_VISIBLE:
-				nextIntent.putExtra("profit_center_value",
-						Constant.SOLUTION4_VISIBLE);
-				break;
-
-			default:
-				break;
-			}
+//			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+//			switch (whichSolutionTabIsVisible) {
+//			case Constant.SOLUTION1_VISIBLE:
+//				nextIntent.putExtra("profit_center_value",
+//						Constant.SOLUTION1_VISIBLE);
+//				break;
+//			case Constant.SOLUTION2_VISIBLE:
+//				nextIntent.putExtra("profit_center_value",
+//						Constant.SOLUTION2_VISIBLE);
+//				break;
+//			case Constant.SOLUTION3_VISIBLE:
+//				nextIntent.putExtra("profit_center_value",
+//						Constant.SOLUTION3_VISIBLE);
+//				break;
+//			case Constant.SOLUTION4_VISIBLE:
+//				nextIntent.putExtra("profit_center_value",
+//						Constant.SOLUTION4_VISIBLE);
+//				break;
+//
+//			default:
+//				break;
+//			}
 			putExtraUsingSwitch("profit_center_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_PROFIT_CENTER);
 			break;
 
 		case R.id.taxonomy_RL:
-			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			switch (whichSolutionTabIsVisible) {
-			case Constant.SOLUTION1_VISIBLE:
-				nextIntent
-						.putExtra("product_value", Constant.SOLUTION1_VISIBLE);
-				break;
-			case Constant.SOLUTION2_VISIBLE:
-				nextIntent
-						.putExtra("product_value", Constant.SOLUTION2_VISIBLE);
-				break;
-			case Constant.SOLUTION3_VISIBLE:
-				nextIntent
-						.putExtra("product_value", Constant.SOLUTION3_VISIBLE);
-				break;
-			case Constant.SOLUTION4_VISIBLE:
-				nextIntent
-						.putExtra("product_value", Constant.SOLUTION4_VISIBLE);
-				break;
-
-			default:
-				break;
-			}
+//			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
+//			switch (whichSolutionTabIsVisible) {
+//			case Constant.SOLUTION1_VISIBLE:
+//				nextIntent
+//						.putExtra("product_value", Constant.SOLUTION1_VISIBLE);
+//				break;
+//			case Constant.SOLUTION2_VISIBLE:
+//				nextIntent
+//						.putExtra("product_value", Constant.SOLUTION2_VISIBLE);
+//				break;
+//			case Constant.SOLUTION3_VISIBLE:
+//				nextIntent
+//						.putExtra("product_value", Constant.SOLUTION3_VISIBLE);
+//				break;
+//			case Constant.SOLUTION4_VISIBLE:
+//				nextIntent
+//						.putExtra("product_value", Constant.SOLUTION4_VISIBLE);
+//				break;
+//
+//			default:
+//				break;
+//			}
 			putExtraUsingSwitch("product_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_PRODUCT);
 			break;
@@ -1540,11 +1540,13 @@ public class OpportunityAddActivity extends CRMActivity {
 
 			}
 			if (requestCode == Constant.SEARCH_SOLUTION) {
+				System.out.println("check2");
 				List<String> list = new ArrayList<String>(solutionMap.values());
 				String text = list.get(positionItem);
 				solutionName_TV.setText(text);
 				switch (data.getIntExtra("solution_value", -1)) {
 				case Constant.SOLUTION1_VISIBLE:
+					System.out.println("check3");
 					selectedSolName1 = positionItem;
 					break;
 				case Constant.SOLUTION2_VISIBLE:

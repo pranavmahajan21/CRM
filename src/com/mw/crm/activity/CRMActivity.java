@@ -1,6 +1,10 @@
 package com.mw.crm.activity;
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.crm.activity.R;
 import com.mw.crm.extra.MyApp;
@@ -124,4 +130,84 @@ public class CRMActivity extends Activity {
 		}
 	}
 
+	int noOfTimesDateCalled = 0;
+	int noOfTimesTimeCalled = 0;
+
+	String dateTimeString;
+	
+	public void onPickDate2(final View view, final TextView textView) {
+		final TimePickerDialog tPicker = new TimePickerDialog(this,
+				new TimePickerDialog.OnTimeSetListener() {
+
+					@Override
+					public void onTimeSet(TimePicker view2, int hourOfDay,
+							int minute) {
+						if (noOfTimesTimeCalled % 2 == 0) {
+							// System.out.println(hourOfDay + ":" + minute);
+
+							String timeString = "";
+
+							if (hourOfDay < 10) {
+								timeString = "0" + hourOfDay;
+							} else {
+								timeString = "" + hourOfDay;
+							}
+							if (minute < 10) {
+								timeString = timeString + ":0" + minute;
+							} else {
+								timeString = timeString + ":" + minute;
+							}
+
+							dateTimeString = dateTimeString + ", " + timeString;
+							textView.setText(dateTimeString);
+//							view.setTag(dateTimeString);
+//							getDateTimeString(view, timeString, false);
+						}
+						noOfTimesTimeCalled++;
+					}
+				}, 12, 00, true);
+		tPicker.setCancelable(false);
+
+		final Calendar c = Calendar.getInstance();
+		int mYear = c.get(Calendar.YEAR);
+		int mMonth = c.get(Calendar.MONTH);
+		int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+		DatePickerDialog dPicker = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+					/**
+					 * http://stackoverflow.com/questions/19836210/method-called
+					 * -twice-in-datepicker
+					 **/
+					@Override
+					public void onDateSet(DatePicker view2, int year,
+							int monthOfYear, int dayOfMonth) {
+						if (noOfTimesDateCalled % 2 == 0) {
+							// System.out.println(dayOfMonth + "-"
+							// + (monthOfYear + 1) + "-" + year);
+
+							String dateString = "";
+							if (dayOfMonth < 10) {
+								dateString = "0" + dayOfMonth;
+							} else {
+								dateString = "" + dayOfMonth;
+							}
+
+							if (monthOfYear < 10) {
+								dateString = dateString + "-0" + (monthOfYear + 1);
+							} else {
+								dateString = dateString + "-" + (monthOfYear + 1);
+							}
+							dateString = dateString + "-" + year;
+
+							dateTimeString = dateString;
+//							getDateTimeString(view, dateString, true);
+							tPicker.show();
+						}
+						noOfTimesDateCalled++;
+					}
+				}, mYear, mMonth, mDay);
+		dPicker.setCancelable(false);
+		dPicker.show();
+	}
 }

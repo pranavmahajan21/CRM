@@ -605,20 +605,20 @@ public class AppointmentAddActivity extends CRMActivity {
 						if (noOfTimesTimeCalled % 2 == 0) {
 							// System.out.println(hourOfDay + ":" + minute);
 
-							String temp = "";
+							String timeString = "";
 
 							if (hourOfDay < 10) {
-								temp = "0" + hourOfDay;
+								timeString = "0" + hourOfDay;
 							} else {
-								temp = "" + hourOfDay;
+								timeString = "" + hourOfDay;
 							}
 							if (minute < 10) {
-								temp = temp + ":0" + minute;
+								timeString = timeString + ":0" + minute;
 							} else {
-								temp = temp + ":" + minute;
+								timeString = timeString + ":" + minute;
 							}
 
-							getDateTimeString(view, temp, false);
+							getDateTimeString(view, timeString, false);
 						}
 						noOfTimesTimeCalled++;
 					}
@@ -643,21 +643,21 @@ public class AppointmentAddActivity extends CRMActivity {
 							// System.out.println(dayOfMonth + "-"
 							// + (monthOfYear + 1) + "-" + year);
 
-							String temp = "";
+							String dateString = "";
 							if (dayOfMonth < 10) {
-								temp = "0" + dayOfMonth;
+								dateString = "0" + dayOfMonth;
 							} else {
-								temp = "" + dayOfMonth;
+								dateString = "" + dayOfMonth;
 							}
 
 							if (monthOfYear < 10) {
-								temp = temp + "-0" + (monthOfYear + 1);
+								dateString = dateString + "-0" + (monthOfYear + 1);
 							} else {
-								temp = temp + "-" + (monthOfYear + 1);
+								dateString = dateString + "-" + (monthOfYear + 1);
 							}
-							temp = temp + "-" + year;
+							dateString = dateString + "-" + year;
 
-							getDateTimeString(view, temp, true);
+							getDateTimeString(view, dateString, true);
 							tPicker.show();
 						}
 						noOfTimesDateCalled++;

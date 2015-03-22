@@ -21,12 +21,17 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -113,6 +118,8 @@ public class MyApp extends Application {
 	Map<String, String> interactionTypeMap;
 	Map<String, String> lobMap;
 	Map<String, String> leadSourceMap;
+	Map<String, String> opportunityLostMap;
+	Map<String, String> opportunityWonMap;
 	Map<String, String> priorityLevelMap;
 	Map<String, String> probabilityMap;
 	Map<String, String> salesStageMap;
@@ -174,6 +181,8 @@ public class MyApp extends Application {
 		interactionTypeMap = new LinkedHashMap<String, String>();
 		leadSourceMap = new LinkedHashMap<String, String>();
 		lobMap = new LinkedHashMap<String, String>();
+		opportunityLostMap = new LinkedHashMap<String, String>();
+		opportunityWonMap = new LinkedHashMap<String, String>();
 		priorityLevelMap = new LinkedHashMap<String, String>();
 		probabilityMap = new LinkedHashMap<String, String>();
 		salesStageMap = new LinkedHashMap<String, String>();
@@ -666,6 +675,22 @@ public class MyApp extends Application {
 		this.lobMap = lobMap;
 	}
 
+	public Map<String, String> getOpportunityLostMap() {
+		return opportunityLostMap;
+	}
+
+	public void setOpportunityLostMap(Map<String, String> opportunityLostMap) {
+		this.opportunityLostMap = opportunityLostMap;
+	}
+
+	public Map<String, String> getOpportunityWonMap() {
+		return opportunityWonMap;
+	}
+
+	public void setOpportunityWonMap(Map<String, String> opportunityWonMap) {
+		this.opportunityWonMap = opportunityWonMap;
+	}
+
 	public Map<String, String> getPriorityLevelMap() {
 		return priorityLevelMap;
 	}
@@ -909,6 +934,8 @@ public class MyApp extends Application {
 		readInteractionTypeExcel();
 		readLeadSourceExcel();
 		readLobExcel();
+		readOpportunityLostExcel();
+		readOpportunityWonExcel();
 		readPriorityLevelExcel();
 		readProbabilityExcel();
 		readSalesStageExcel();
@@ -1030,6 +1057,40 @@ public class MyApp extends Application {
 		for (int i = 0; i < sheet.getRows(); i++) {
 			lobMap.put(sheet.getCell(0, i).getContents(), sheet.getCell(1, i)
 					.getContents());
+		}
+
+	}
+
+	public void readOpportunityLostExcel() {
+		Workbook w = getWorkbookFromAssets(Constant.OPPORTUNITY_LOST_PATH,
+				Constant.OPPORTUNITY_LOST_ERROR);
+		if (w == null) {
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			opportunityLostMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
+		}
+
+	}
+
+	public void readOpportunityWonExcel() {
+		Workbook w = getWorkbookFromAssets(Constant.OPPORTUNITY_WON_PATH,
+				Constant.OPPORTUNITY_WON_ERROR);
+		if (w == null) {
+			return;
+		}
+
+		/** Get the first sheet **/
+		Sheet sheet = w.getSheet(0);
+
+		for (int i = 0; i < sheet.getRows(); i++) {
+			opportunityWonMap.put(sheet.getCell(0, i).getContents(), sheet
+					.getCell(1, i).getContents());
 		}
 
 	}
@@ -1424,5 +1485,87 @@ public class MyApp extends Application {
 					}
 				});
 		return alertDialogBuilder;
+	}
+
+	int noOfTimesDateCalled = 0;
+	int noOfTimesTimeCalled = 0;
+
+	String dateTimeString;
+
+	public void onPickDate(final View view) {
+
+		final TimePickerDialog tPicker = new TimePickerDialog(this,
+				new TimePickerDialog.OnTimeSetListener() {
+
+					@Override
+					public void onTimeSet(TimePicker view2, int hourOfDay,
+							int minute) {
+						if (noOfTimesTimeCalled % 2 == 0) {
+							// System.out.println(hourOfDay + ":" + minute);
+
+							String timeString = "";
+
+							if (hourOfDay < 10) {
+								timeString = "0" + hourOfDay;
+							} else {
+								timeString = "" + hourOfDay;
+							}
+							if (minute < 10) {
+								timeString = timeString + ":0" + minute;
+							} else {
+								timeString = timeString + ":" + minute;
+							}
+							dateTimeString = dateTimeString + ", " + timeString;
+							
+							view.setTag(dateTimeString);
+							// getDateTimeString(view, timeString, false);
+						}
+						noOfTimesTimeCalled++;
+					}
+				}, 12, 00, true);
+		tPicker.setCancelable(false);
+
+		final Calendar c = Calendar.getInstance();
+		int mYear = c.get(Calendar.YEAR);
+		int mMonth = c.get(Calendar.MONTH);
+		int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+		DatePickerDialog dPicker = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+					/**
+					 * http://stackoverflow.com/questions/19836210/method-called
+					 * -twice-in-datepicker
+					 **/
+					@Override
+					public void onDateSet(DatePicker view2, int year,
+							int monthOfYear, int dayOfMonth) {
+						if (noOfTimesDateCalled % 2 == 0) {
+							// System.out.println(dayOfMonth + "-"
+							// + (monthOfYear + 1) + "-" + year);
+
+							String dateString = "";
+							if (dayOfMonth < 10) {
+								dateString = "0" + dayOfMonth;
+							} else {
+								dateString = "" + dayOfMonth;
+							}
+
+							if (monthOfYear < 10) {
+								dateString = dateString + "-0"
+										+ (monthOfYear + 1);
+							} else {
+								dateString = dateString + "-"
+										+ (monthOfYear + 1);
+							}
+							dateString = dateString + "-" + year;
+							dateTimeString = dateString;
+							// getDateTimeString(view, dateString, true);
+							tPicker.show();
+						}
+						noOfTimesDateCalled++;
+					}
+				}, mYear, mMonth, mDay);
+		dPicker.setCancelable(false);
+		dPicker.show();
 	}
 }

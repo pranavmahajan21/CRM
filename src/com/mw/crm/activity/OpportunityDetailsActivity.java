@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
@@ -146,7 +143,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		cyNfrPlus1_TV.setText(tempSolution.getCyNfr1());
 		cyNfrPlus2_TV.setText(tempSolution.getCyNfr2());
 	}
-	
+
 	private void setTypeface() {
 		crmIdLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		oppoDescriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
@@ -171,6 +168,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		expectedClosureDate_TV.setTypeface(myApp.getTypefaceRegularSans());
 		totalProposalValue_TV.setTypeface(myApp.getTypefaceRegularSans());
 		noOfSolution_TV.setTypeface(myApp.getTypefaceRegularSans());
+
+		((TextView) findViewById(R.id.left_button_TV)).setTypeface(myApp
+				.getTypefaceBoldSans());
 	}
 
 	public void initView(String string, String string2) {
@@ -194,7 +194,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 					.getStringExtra("sector"));
 		} else {
 			crmId_TV.setText(selectedOpportunity.getCrmId());
-			oppoDescriptionLabel_TV.setText(selectedOpportunity
+			oppoDescription_TV.setText(selectedOpportunity
 					.getDescription());
 
 			clientName_TV.setText(myApp
@@ -290,8 +290,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		}
 	}
 
-	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -385,6 +383,13 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		nextIntent.putExtra("position",
 				previousIntent.getIntExtra("position", 0));
 		nextIntent.putExtra("is_edit_mode", true);
+		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
+	}
+
+	public void onLeftButton(View view) {
+		nextIntent = new Intent(this, OpportunityCloseActivity.class);
+		nextIntent.putExtra("position",
+				previousIntent.getIntExtra("position", 0));
 		startActivityForResult(nextIntent, MyApp.NOTHING_ELSE_MATTERS);
 	}
 

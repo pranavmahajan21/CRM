@@ -20,6 +20,8 @@ public class Constant {
 	public static String INTERACTION_TYPE_PATH = "excels/interaction_type.xls";
 	public static String LEAD_SOURCE_PATH = "excels/lead_source.xls";
 	public static String LOB_PATH = "excels/lob.xls";
+	public static String OPPORTUNITY_LOST_PATH = "excels/opportunity_lost.xls";
+	public static String OPPORTUNITY_WON_PATH = "excels/opportunity_won.xls";
 	public static String PRIORITY_LEVEL_PATH = "excels/priority_level.xls";
 	public static String PROBABILITY_PATH = "excels/probability.xls";
 	public static String SALES_STAGE_PATH = "excels/sales_stage.xls";
@@ -35,6 +37,8 @@ public class Constant {
 	public static String INTERACTION_TYPE_ERROR = "Error while loading Interaction Type.";
 	public static String LEAD_SOURCE_ERROR = "Error while loading Lead Source.";
 	public static String LOB_ERROR = "Error while loading LOB.";
+	public static String OPPORTUNITY_LOST_ERROR = "Error while loading Opportunity Lost excel.";
+	public static String OPPORTUNITY_WON_ERROR = "Error while loading Opportunity Won excel.";
 	public static String PRIORITY_LEVEL_ERROR = "Error while loading Priority Level.";
 	public static String PROBABILITY_ERROR = "Error while loading Probability.";
 	public static String SALES_STAGE_ERROR = "Error while loading Sales Stage.";
@@ -50,6 +54,10 @@ public class Constant {
 	public static String ERR_SOL3_AMOUNT = "For SOLUTION3 Fee should be greater than (PY NFR + CY NFR + CY1 NFR + CY2 NFR).";
 	public static String ERR_SOL4_AMOUNT = "For SOLUTION4 Fee should be greater than (PY NFR + CY NFR + CY1 NFR + CY2 NFR).";
 	/** Error Messages **/
+	
+	public static String OPPORTUNITY_LOST = "798330003";
+	public static String OPPORTUNITY_WON = "798330004";
+	
 	
 	/** Search User **/
 	public static final int USER_SOLUTION_MANAGER1 = 500;

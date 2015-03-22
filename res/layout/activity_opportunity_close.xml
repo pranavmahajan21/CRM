@@ -51,14 +51,18 @@
                         android:id="@+id/won_RB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:tag="true"
+                        android:onClick="onStatusSelected"
+                        android:checked="true"
                         android:text="Won"
                         android:textColor="@color/blue_dark" />
 
                     <RadioButton
                         android:id="@+id/lost_RB"
                         android:layout_width="wrap_content"
+                        android:tag="false"
                         android:layout_height="wrap_content"
-                        android:checked="true"
+                        android:onClick="onStatusSelected"
                         android:text="Lost"
                         android:textColor="@color/blue_dark" />
                 </RadioGroup>
@@ -82,12 +86,13 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/actualReasonLabel_TV"
+                android:id="@+id/actualValueLabel_TV"
                 style="@style/style_TV2"
                 android:text="Actual Value" />
 
-            <EditText
-                android:id="@+id/actualReason_ET"
+            <TextView
+                android:id="@+id/actualValue_TV"
+                android:background="@drawable/custom_bg_solid_grey_radius"
                 style="@style/style_ET2" />
 
             <TextView
@@ -97,6 +102,7 @@
 
             <RelativeLayout
                 android:id="@+id/closeDate_RL"
+                android:onClick="onPickDate"
                 style="@style/RL" >
 
                 <TextView
@@ -114,6 +120,7 @@
 
             <RelativeLayout
                 android:id="@+id/competitor_RL"
+                android:onClick="onSearchItem"
                 style="@style/RL" >
 
                 <TextView

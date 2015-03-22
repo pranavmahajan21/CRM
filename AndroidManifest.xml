@@ -74,6 +74,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.mw.crm.activity.OpportunityCloseActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.mw.crm.activity.OpportunityAddActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >

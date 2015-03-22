@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/header_logo_IV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/title_header_TV"
+        android:layout_marginBottom="7dp"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="onHome" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/left_button_TV"
+        style="@style/TV6"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:onClick="onLeftButton"
+        android:text="Close" />
+
+    <TextView
+        android:id="@+id/title_header_TV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/right_button_TV"
+        android:layout_alignBottom="@+id/header_logo_IV"
+        android:layout_marginBottom="8dp"
+        android:layout_toLeftOf="@+id/right_button_TV"
+        android:layout_toRightOf="@+id/left_button_TV"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/right_button_TV"
+        style="@style/TV6"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:onClick="onRightButton"
+        android:text="Button" />
+
+    <ImageButton
+        android:id="@+id/back_B"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+        android:onClick="onBack"
+        android:src="@drawable/back_button" />
+
+</RelativeLayout>

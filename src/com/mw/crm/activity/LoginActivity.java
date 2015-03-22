@@ -113,19 +113,20 @@ public class LoginActivity extends Activity {
 			startActivity(nextIntent);
 		} else if (previousIntent.hasExtra("on_the_go")) {
 			System.out.println("hello   4");
-		} else {
-			alertDialogBuilder = createDialog.createAlertDialog("Alert",
-					"First time login oly through On The Go app.", false);
-			alertDialogBuilder.setPositiveButton("OK",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-							finish();
-						}
-					});
-			alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		}
+		} 
+//		else {
+//			alertDialogBuilder = createDialog.createAlertDialog("Alert",
+//					"First time login oly through On The Go app.", false);
+//			alertDialogBuilder.setPositiveButton("OK",
+//					new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							dialog.dismiss();
+//							finish();
+//						}
+//					});
+//			alertDialog = alertDialogBuilder.create();
+//			alertDialog.show();
+//		}
 	}
 
 	private boolean validate() {
@@ -188,7 +189,7 @@ public class LoginActivity extends Activity {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-
+		params = MyApp.addParamToJson(params);
 		String url = MyApp.URL + MyApp.LOGIN;
 
 		progressDialog.show();

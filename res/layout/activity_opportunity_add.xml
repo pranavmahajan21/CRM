@@ -78,6 +78,7 @@
                         android:id="@+id/yes_RB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:tag="true"
                         android:text="Yes"
                         android:textColor="@color/blue_dark" />
 
@@ -85,6 +86,7 @@
                         android:id="@+id/no_RB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:tag="false"
                         android:checked="true"
                         android:text="No"
                         android:textColor="@color/blue_dark" />
