@@ -44,7 +44,7 @@ public class DateFormatter {
 			return "-";
 		}
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, HH:mm");
 
 		String dateStr = formatter.format(date);
 		System.out.println(">><<><><><" + dateStr);
@@ -52,6 +52,9 @@ public class DateFormatter {
 	}
 
 	public String formatDateToString4(Date date) {
+		if(date == null){
+			return null;
+		}
 		// 2015-01-14T14:16:34Z
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -92,6 +95,12 @@ public class DateFormatter {
 	}
 
 	public Date formatStringToDate3(String dateString) {
+		if (dateString == null || dateString.length() < 1) {
+			return null;
+		} else {
+			System.out.println("sadas : " + dateString + dateString.length());
+		}
+
 		System.out.println("1212  :  " + dateString);
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
 		// formatter.setTimeZone(TimeZone.getTimeZone("GMT+5"));

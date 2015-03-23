@@ -55,8 +55,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp" >
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/confidentialLabel_TV"
@@ -86,8 +86,8 @@
                         android:id="@+id/no_RB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tag="false"
                         android:checked="true"
+                        android:tag="false"
                         android:text="No"
                         android:textColor="@color/blue_dark" />
                 </RadioGroup>
@@ -168,11 +168,11 @@
 
             <RelativeLayout
                 android:id="@+id/expectedClosureDate_RL"
-                style="@style/RL" >
+                style="@style/RL"
+                android:onClick="onPickDate" >
 
                 <TextView
                     android:id="@+id/expectedClosureDate_TV"
-                    android:onClick="onPickDate"
                     style="@style/TV"
                     android:hint="Expected Closure Date" />
 
@@ -328,83 +328,6 @@
                     android:tag="false"
                     android:visibility="gone" />
             </LinearLayout>
-            <!--
-            <TextView
-                android:id="@+id/countryLabel_TV"
-                style="@style/style_TV2"
-                android:text="Country" />
-
-            <RelativeLayout
-                android:id="@+id/country_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/country_TV"
-                    style="@style/TV"
-                    android:hint="Country" />
-
-                <ImageView
-                    style="@style/IV"
-                    android:src="@null" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/lobLabel_TV"
-                style="@style/style_TV2"
-                android:text="LOB:" />
-
-            <RelativeLayout
-                android:id="@+id/lob_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/lob_TV"
-                    style="@style/TV"
-                    android:hint="LOB" />
-
-                <ImageView
-                    style="@style/IV"
-                    android:src="@null" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/sublobLabel_TV"
-                style="@style/style_TV2"
-                android:text="Sub LOB:" />
-
-            <RelativeLayout
-                android:id="@+id/sublob_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/sublob_TV"
-                    style="@style/TV"
-                    android:hint="Sub LOB" />
-
-                <ImageView
-                    style="@style/IV"
-                    android:src="@null" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/sectorLabel_TV"
-                style="@style/style_TV2"
-                android:text="Sector" />
-
-            <RelativeLayout
-                android:id="@+id/sector_RL"
-                style="@style/RL" >
-
-                <TextView
-                    android:id="@+id/sector_TV"
-                    style="@style/TV"
-                    android:hint="Sector" />
-
-                <ImageView
-                    style="@style/IV"
-                    android:src="@null" />
-            </RelativeLayout>
-            -->
         </LinearLayout>
     </ScrollView>
 

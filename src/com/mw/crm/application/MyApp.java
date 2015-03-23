@@ -2,11 +2,7 @@ package com.mw.crm.application;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,8 +60,6 @@ public class MyApp extends Application {
 	 */
 
 	String loginUserId;
-
-	
 
 	final public static int NOTHING_ELSE_MATTERS = 55;
 
@@ -168,174 +162,174 @@ public class MyApp extends Application {
 		gson = new Gson();
 	}
 
-	@SuppressWarnings("unchecked")
-	private void fetchPreferences() {
-		if (sharedPreferences.contains("login_user_id")) {
-			setLoginUserId(sharedPreferences.getString("login_user_id", null));
-		}
+//	@SuppressWarnings("unchecked")
+//	private void fetchPreferences() {
+//		if (sharedPreferences.contains("login_user_id")) {
+//			setLoginUserId(sharedPreferences.getString("login_user_id", null));
+//		}
+//
+//		if (sharedPreferences.contains("account_list")) {
+//			String value = sharedPreferences.getString("account_list", null);
+//			if (value != null) {
+//				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
+//				}.getType();
+//				setAccountList((List<Account>) gson.fromJson(value, listType),
+//						false, null);
+//				System.out
+//						.println("Account size  : " + getAccountList().size());
+//			}
+//		}
+//
+//		if (sharedPreferences.contains("appointment_list")) {
+//			String value = sharedPreferences
+//					.getString("appointment_list", null);
+//			if (value != null) {
+//				Type listType = (Type) new TypeToken<ArrayList<Appointment>>() {
+//				}.getType();
+//				setAppointmentList(
+//						(List<Appointment>) gson.fromJson(value, listType),
+//						false, null);
+//				System.out.println("Appointment size  : "
+//						+ getAppointmentList().size());
+//			}
+//		}
+//
+//		if (sharedPreferences.contains("contact_list")) {
+//			String value = sharedPreferences.getString("contact_list", null);
+//			if (value != null) {
+//				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
+//				}.getType();
+//				setContactList((List<Contact>) gson.fromJson(value, listType),
+//						false, null);
+//				System.out
+//						.println("Contact size  : " + getContactList().size());
+//			}
+//		}
+//
+//		if (sharedPreferences.contains("opportunity_list")) {
+//			String value = sharedPreferences
+//					.getString("opportunity_list", null);
+//			if (value != null) {
+//				Type listType = (Type) new TypeToken<ArrayList<Opportunity>>() {
+//				}.getType();
+//				setOpportunityList(
+//						(List<Opportunity>) gson.fromJson(value, listType),
+//						false, null);
+//				System.out.println("Opportunity size  : "
+//						+ getOpportunityList().size());
+//			}
+//		}
+//
+//		if (sharedPreferences.contains("competitor_map")) {
+//			String value = sharedPreferences.getString("competitor_map", null);
+//			if (value != null) {
+//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+//				}.getType();
+//				setCompetitorMap(
+//						(Map<String, String>) gson.fromJson(value, mapType),
+//						false);
+//				System.out.println("Competitor map size  : "
+//						+ getCompetitorMap().size());
+//			}
+//		}
+//		if (sharedPreferences.contains("product_map")) {
+//			String value = sharedPreferences.getString("product_map", null);
+//			if (value != null) {
+//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+//				}.getType();
+//				setProductMap(
+//						(Map<String, String>) gson.fromJson(value, mapType),
+//						false);
+//				System.out.println("Product map size  : "
+//						+ getProductMap().size());
+//			}
+//		}
+//
+//		if (sharedPreferences.contains("profit_center_map")) {
+//			String value = sharedPreferences.getString("profit_center_map",
+//					null);
+//			if (value != null) {
+//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+//				}.getType();
+//				setProfitCenterMap(
+//						(Map<String, String>) gson.fromJson(value, mapType),
+//						false);
+//				System.out.println("Profit Center map size  : "
+//						+ getProfitCenterMap().size());
+//			}
+//		}
+//
+//		if (sharedPreferences.contains("solution_map")) {
+//			String value = sharedPreferences.getString("solution_map", null);
+//			if (value != null) {
+//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+//				}.getType();
+//				setSolutionMap(
+//						(Map<String, String>) gson.fromJson(value, mapType),
+//						false);
+//				System.out.println("Solution map size  : "
+//						+ getSolutionMap().size());
+//			}
+//		}
+//		if (sharedPreferences.contains("user_map")) {
+//			String value = sharedPreferences.getString("user_map", null);
+//			if (value != null) {
+//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+//				}.getType();
+//				setUserMap((Map<String, String>) gson.fromJson(value, mapType),
+//						false);
+//				System.out.println("User map size  : " + getUserMap().size());
+//			}
+//		}
+//
+//		// loadUnloadedData();
+//	}
 
-		if (sharedPreferences.contains("account_list")) {
-			String value = sharedPreferences.getString("account_list", null);
-			if (value != null) {
-				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
-				}.getType();
-				setAccountList((List<Account>) gson.fromJson(value, listType),
-						false);
-				System.out
-						.println("Account size  : " + getAccountList().size());
-			}
-		}
-
-		if (sharedPreferences.contains("appointment_list")) {
-			String value = sharedPreferences
-					.getString("appointment_list", null);
-			if (value != null) {
-				Type listType = (Type) new TypeToken<ArrayList<Appointment>>() {
-				}.getType();
-				setAppointmentList(
-						(List<Appointment>) gson.fromJson(value, listType),
-						false);
-				System.out.println("Appointment size  : "
-						+ getAppointmentList().size());
-			}
-		}
-
-		if (sharedPreferences.contains("contact_list")) {
-			String value = sharedPreferences.getString("contact_list", null);
-			if (value != null) {
-				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
-				}.getType();
-				setContactList((List<Contact>) gson.fromJson(value, listType),
-						false);
-				System.out
-						.println("Contact size  : " + getContactList().size());
-			}
-		}
-
-		if (sharedPreferences.contains("opportunity_list")) {
-			String value = sharedPreferences
-					.getString("opportunity_list", null);
-			if (value != null) {
-				Type listType = (Type) new TypeToken<ArrayList<Opportunity>>() {
-				}.getType();
-				setOpportunityList(
-						(List<Opportunity>) gson.fromJson(value, listType),
-						false);
-				System.out.println("Opportunity size  : "
-						+ getOpportunityList().size());
-			}
-		}
-
-		if (sharedPreferences.contains("competitor_map")) {
-			String value = sharedPreferences.getString("competitor_map", null);
-			if (value != null) {
-				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-				}.getType();
-				setCompetitorMap(
-						(Map<String, String>) gson.fromJson(value, mapType),
-						false);
-				System.out.println("Competitor map size  : "
-						+ getCompetitorMap().size());
-			}
-		}
-		if (sharedPreferences.contains("product_map")) {
-			String value = sharedPreferences.getString("product_map", null);
-			if (value != null) {
-				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-				}.getType();
-				setProductMap(
-						(Map<String, String>) gson.fromJson(value, mapType),
-						false);
-				System.out.println("Product map size  : "
-						+ getProductMap().size());
-			}
-		}
-
-		if (sharedPreferences.contains("profit_center_map")) {
-			String value = sharedPreferences.getString("profit_center_map",
-					null);
-			if (value != null) {
-				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-				}.getType();
-				setProfitCenterMap(
-						(Map<String, String>) gson.fromJson(value, mapType),
-						false);
-				System.out.println("Profit Center map size  : "
-						+ getProfitCenterMap().size());
-			}
-		}
-
-		if (sharedPreferences.contains("solution_map")) {
-			String value = sharedPreferences.getString("solution_map", null);
-			if (value != null) {
-				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-				}.getType();
-				setSolutionMap(
-						(Map<String, String>) gson.fromJson(value, mapType),
-						false);
-				System.out.println("Solution map size  : "
-						+ getSolutionMap().size());
-			}
-		}
-		if (sharedPreferences.contains("user_map")) {
-			String value = sharedPreferences.getString("user_map", null);
-			if (value != null) {
-				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-				}.getType();
-				setUserMap((Map<String, String>) gson.fromJson(value, mapType),
-						false);
-				System.out.println("User map size  : " + getUserMap().size());
-			}
-		}
-
-//		loadUnloadedData();
-	}
-
-	private void loadUnloadedData() {
-		boolean isUnloadedDataThere = false;
-
-		Intent intent;
-		if (opportunityList == null) {
-			isUnloadedDataThere = true;
-			intent = new Intent(this, OpportunityService.class);
-			startService(intent);
-		}
-		if (contactList == null) {
-			isUnloadedDataThere = true;
-			intent = new Intent(this, ContactService.class);
-			startService(intent);
-		}
-		if (appointmentList == null) {
-			isUnloadedDataThere = true;
-			intent = new Intent(this, AppointmentService.class);
-			startService(intent);
-		}
-		if (accountList == null) {
-			isUnloadedDataThere = true;
-			intent = new Intent(this, AccountService.class);
-			startService(intent);
-		}
-		if (userMap == null) {
-			isUnloadedDataThere = true;
-			intent = new Intent(this, UserService.class);
-			startService(intent);
-		}
-		if (isUnloadedDataThere) {
-			Toast.makeText(this, "Fetching some unloaded data.",
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	private void loadMenuItems() {
-		menuItemList.add(new MenuItem("CONTACTS", getResources().getDrawable(
-				R.drawable.contact)));
-		menuItemList.add(new MenuItem("ACCOUNTS", getResources().getDrawable(
-				R.drawable.account)));
-		menuItemList.add(new MenuItem("APPOINTMENTS", getResources()
-				.getDrawable(R.drawable.appointment)));
-		menuItemList.add(new MenuItem("OPPORTUNITIES", getResources()
-				.getDrawable(R.drawable.opportunity)));
-	}
+//	private void loadUnloadedData() {
+//		boolean isUnloadedDataThere = false;
+//
+//		Intent intent;
+//		if (opportunityList == null) {
+//			isUnloadedDataThere = true;
+//			intent = new Intent(this, OpportunityService.class);
+//			startService(intent);
+//		}
+//		if (contactList == null) {
+//			isUnloadedDataThere = true;
+//			intent = new Intent(this, ContactService.class);
+//			startService(intent);
+//		}
+//		if (appointmentList == null) {
+//			isUnloadedDataThere = true;
+//			intent = new Intent(this, AppointmentService.class);
+//			startService(intent);
+//		}
+//		if (accountList == null) {
+//			isUnloadedDataThere = true;
+//			intent = new Intent(this, AccountService.class);
+//			startService(intent);
+//		}
+//		if (userMap == null) {
+//			isUnloadedDataThere = true;
+//			intent = new Intent(this, UserService.class);
+//			startService(intent);
+//		}
+//		if (isUnloadedDataThere) {
+//			Toast.makeText(this, "Fetching some unloaded data.",
+//					Toast.LENGTH_SHORT).show();
+//		}
+//	}
+//
+//	private void loadMenuItems() {
+//		menuItemList.add(new MenuItem("CONTACTS", getResources().getDrawable(
+//				R.drawable.contact)));
+//		menuItemList.add(new MenuItem("ACCOUNTS", getResources().getDrawable(
+//				R.drawable.account)));
+//		menuItemList.add(new MenuItem("APPOINTMENTS", getResources()
+//				.getDrawable(R.drawable.appointment)));
+//		menuItemList.add(new MenuItem("OPPORTUNITIES", getResources()
+//				.getDrawable(R.drawable.opportunity)));
+//	}
 
 	@Override
 	public void onCreate() {
@@ -347,7 +341,7 @@ public class MyApp extends Application {
 		System.out.println("hello everyboooty");
 
 		initThings();
-//		loadMenuItems();
+		// loadMenuItems();
 
 		readDataFromExcel();
 
@@ -357,7 +351,7 @@ public class MyApp extends Application {
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
 			System.out.println("hello   1");
-//			fetchPreferences();
+			// fetchPreferences();
 
 		} else {
 			System.out.println("hello   2");
@@ -424,11 +418,14 @@ public class MyApp extends Application {
 	}
 
 	public void setContactList(List<Contact> contactList,
-			boolean updatePreferences) {
+			boolean updatePreferences, String syncTime) {
 		this.contactList = contactList;
 		if (updatePreferences) {
 			String json = gson.toJson(contactList);
 			editor.putString("contact_list", json);
+			if (syncTime != null) {
+				editor.putString("last_sync_date_contact", syncTime);
+			}
 			editor.commit();
 		}
 	}
@@ -438,11 +435,14 @@ public class MyApp extends Application {
 	}
 
 	public void setAppointmentList(List<Appointment> appointmentList,
-			boolean updatePreferences) {
+			boolean updatePreferences, String syncTime) {
 		this.appointmentList = appointmentList;
 		if (updatePreferences) {
 			String json = gson.toJson(appointmentList);
 			editor.putString("appointment_list", json);
+			if (syncTime != null) {
+				editor.putString("last_sync_date_appointment", syncTime);
+			}
 			editor.commit();
 		}
 	}
@@ -452,11 +452,14 @@ public class MyApp extends Application {
 	}
 
 	public void setAccountList(List<Account> accountList,
-			boolean updatePreferences) {
+			boolean updatePreferences, String syncTime) {
 		this.accountList = accountList;
 		if (updatePreferences) {
 			String json = gson.toJson(accountList);
 			editor.putString("account_list", json);
+			if (syncTime != null) {
+				editor.putString("last_sync_date_account", syncTime);
+			}
 			editor.commit();
 		}
 	}
@@ -466,11 +469,14 @@ public class MyApp extends Application {
 	}
 
 	public void setOpportunityList(List<Opportunity> opportunityList,
-			boolean updatePreferences) {
+			boolean updatePreferences, String syncTime) {
 		this.opportunityList = opportunityList;
 		if (updatePreferences) {
 			String json = gson.toJson(opportunityList);
 			editor.putString("opportunity_list", json);
+			if (syncTime != null) {
+				editor.putString("last_sync_date_opportunity", syncTime);
+			}
 			editor.commit();
 		}
 	}
@@ -745,148 +751,6 @@ public class MyApp extends Application {
 		// System.out.println("!@!@" + aa);
 		return new Encrypter(null, null).encrypt(string);
 	}
-
-//	public String formatDateToString(Date date) {
-//		if (date == null) {
-//			return "-";
-//		}
-//
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-//		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-//
-//		String dateStr = formatter.format(date);
-//		System.out.println(">><<><><><" + dateStr);
-//		return dateStr;
-//	}
-//
-//	public String formatDateToString2(Date date) {
-//
-//		if (date == null) {
-//			return "-";
-//		}
-//
-//		SimpleDateFormat formatter = new SimpleDateFormat(
-//				"EEE, dd MMM, hh:mmaa");
-//		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-//
-//		String dateStr = formatter.format(date);
-//		System.out.println(">><<><><><" + dateStr);
-//		return dateStr;
-//	}
-//
-//	public String formatDateToString3(Date date) {
-//
-//		if (date == null) {
-//			return "-";
-//		}
-//
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-//
-//		String dateStr = formatter.format(date);
-//		System.out.println(">><<><><><" + dateStr);
-//		return dateStr;
-//	}
-//
-//	public String formatDateToString4(Date date) {
-//		// 2015-01-14T14:16:34Z
-//		SimpleDateFormat formatter = new SimpleDateFormat(
-//				"yyyy-MM-dd'T'HH:mm:ss'Z'");
-//
-//		String dateStr = formatter.format(date);
-//		System.out.println(">><<><><><" + dateStr);
-//		return dateStr;
-//	}
-//
-//	public Date formatStringToDate(String dateString) {
-//		System.out.println("1212  :  " + dateString);
-//		SimpleDateFormat formatter = new SimpleDateFormat(
-//				"yyyy-MM-dd'T'HH:mm:ssZ");
-//
-//		Date date = null;
-//		try {
-//			date = formatter.parse(dateString);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		// System.out.println(">><<><><><" + dateStr);
-//		return date;
-//	}
-//
-//	public Date formatStringToDate2(String dateString) {
-//		System.out.println("1212  :  " + dateString);
-//		SimpleDateFormat formatter = new SimpleDateFormat(
-//				"EEE, dd MMM, hh:mmaa");
-//
-//		Date date = null;
-//		try {
-//			date = formatter.parse(dateString);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		// System.out.println(">><<><><><" + dateStr);
-//		return date;
-//	}
-//
-//	public Date formatStringToDate3(String dateString) {
-//		System.out.println("1212  :  " + dateString);
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-//		// formatter.setTimeZone(TimeZone.getTimeZone("GMT+5"));
-//
-//		Date date = null;
-//		try {
-//			date = formatter.parse(dateString);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//
-//		/** Just a temporary fix **/
-//		Calendar cal = Calendar.getInstance();
-//		cal.setTime(date);
-//		cal.add(Calendar.HOUR, -5);
-//		cal.add(Calendar.MINUTE, -30);
-//		Date dateMinus530 = cal.getTime();
-//		/** Just a temporary fix **/
-//
-//		// return date;
-//		return dateMinus530;
-//	}
-//
-//	public Date formatStringToDate3Copy(String dateString) {
-//		System.out.println("1212  :  " + dateString);
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-//
-//		Date date = null;
-//		try {
-//			date = formatter.parse(dateString);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		// System.out.println(">><<><><><" + dateStr);
-//		return date;
-//	}
-//
-//	@SuppressWarnings("deprecation")
-//	public Date formatStringSpecialToDate(String dateString) {
-//		/**
-//		 * http://stackoverflow.com/questions/20036075/json-datetime-parsing-in-
-//		 * android
-//		 **/
-//		if (dateString == null) {
-//			return null;
-//		}
-//		System.out.println("1212  : " + dateString);
-//		// String ackwardDate = "/Date(1376841597000)/";
-//
-//		Calendar calendar = Calendar.getInstance();
-//		String ackwardRipOff = dateString.replace("\\/Date(", "").replace(
-//				")\\/", "");
-//		Long timeInMillis = Long.valueOf(ackwardRipOff);
-//		calendar.setTimeInMillis(timeInMillis);
-//		// calendar.setTimeZone(TimeZone.get);
-//		System.out.println(calendar.getTime().toGMTString());
-//		System.out.println(calendar.getTime());
-//		return calendar.getTime();
-//	}
 
 	public void readDataFromExcel() {
 		readAccountCategoryExcel();
@@ -1320,14 +1184,19 @@ public class MyApp extends Application {
 	}
 
 	/**
+	 * Type1:
 	 * {"Id":"da7bb1a7-8095-e411-96e8-5cf3fc3f502a","LogicalName":"account",
-	 * "Name":"Mascot Click","ExtensionData":{}} {"Value":1,"ExtensionData":{}}
+	 * "Name":"Mascot Click","ExtensionData":{}} Type2:
+	 * {"Value":1,"ExtensionData":{}}
 	 * **/
 	public Integer getIntValueFromStringJSON(String x) {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
 			return new JSONObject(x).getInt("Value");
 		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}

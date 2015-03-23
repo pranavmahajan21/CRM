@@ -1,6 +1,7 @@
 package com.mw.crm.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -25,6 +26,7 @@ import com.mw.crm.activity.ContactListActivity;
 import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Contact;
 
 public class ContactService extends IntentService {
@@ -76,7 +78,7 @@ public class ContactService extends IntentService {
 								}
 
 							}
-							myApp.setContactList(contactList, true);
+							myApp.setContactList(contactList, true, new DateFormatter().formatDateToString3(new Date()));
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {

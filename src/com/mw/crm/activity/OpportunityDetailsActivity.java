@@ -38,9 +38,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	LayoutInflater inflater;
 	LinearLayout view_solution;
-	
+
 	DateFormatter dateFormatter;
-	
+
 	@SuppressLint("InflateParams")
 	private LinearLayout getViewSolution() {
 		return (LinearLayout) inflater.inflate(R.layout.view_solution_details,
@@ -62,7 +62,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view_solution = getViewSolution();
-		
+
 		dateFormatter = new DateFormatter();
 	}
 
@@ -101,7 +101,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		childSolution3_LL = (LinearLayout) findViewById(R.id.childSolution3_LL);
 	}
 
-	private void findViewSolution(LinearLayout childLL, int solutionIndex) {
+	private void findAndInitViewSolution(LinearLayout childLL, int solutionIndex) {
 		TextView solutionManager_TV = (TextView) childLL
 				.findViewById(R.id.solutionManager_TV);
 		TextView solutionPartner_TV = (TextView) childLL
@@ -135,18 +135,45 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 		Solution tempSolution = selectedOpportunity.getSolutionList().get(
 				solutionIndex);
+		if (previousIntent.hasExtra("opportunity_dummy")) {
+			solutionManager_TV.setText(tempSolution.getSolutionManager());
+			solutionPartner_TV.setText(tempSolution.getSolutionPartner());
+			solutionName_TV.setText(tempSolution.getSolutionName());
+			profitCenter_TV.setText(tempSolution.getProfitCenter());
+			taxonomy_TV.setText(tempSolution.getTaxonomy());
 
-		solutionManager_TV.setText(tempSolution.getSolutionManager());
-		solutionPartner_TV.setText(tempSolution.getSolutionPartner());
-		solutionName_TV.setText(tempSolution.getSolutionName());
-		profitCenter_TV.setText(tempSolution.getProfitCenter());
-		taxonomy_TV.setText(tempSolution.getTaxonomy());
+			fee_TV.setText(tempSolution.getFee());
+			pyNfr_TV.setText(tempSolution.getPyNfr());
+			cyNfr_TV.setText(tempSolution.getCyNfr());
+			cyNfrPlus1_TV.setText(tempSolution.getCyNfr1());
+			cyNfrPlus2_TV.setText(tempSolution.getCyNfr2());
+		} else {
+			solutionManager_TV.setText(myApp
+					.getStringNameFromStringJSON(tempSolution
+							.getSolutionManager()));
+			solutionPartner_TV.setText(myApp
+					.getStringNameFromStringJSON(tempSolution
+							.getSolutionPartner()));
+			solutionName_TV
+					.setText(myApp.getStringNameFromStringJSON(tempSolution
+							.getSolutionName()));
+			profitCenter_TV
+					.setText(myApp.getStringNameFromStringJSON(tempSolution
+							.getProfitCenter()));
+			taxonomy_TV.setText(myApp.getStringNameFromStringJSON(tempSolution
+					.getTaxonomy()));
 
-		fee_TV.setText(tempSolution.getFee());
-		pyNfr_TV.setText(tempSolution.getPyNfr());
-		cyNfr_TV.setText(tempSolution.getCyNfr());
-		cyNfrPlus1_TV.setText(tempSolution.getCyNfr1());
-		cyNfrPlus2_TV.setText(tempSolution.getCyNfr2());
+			fee_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+					.getFee()) + "");
+			pyNfr_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+					.getPyNfr()) + "");
+			cyNfr_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+					.getCyNfr()) + "");
+			cyNfrPlus1_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+					.getCyNfr1()) + "");
+			cyNfrPlus2_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+					.getCyNfr2()) + "");
+		}
 	}
 
 	private void setTypeface() {
@@ -178,12 +205,15 @@ public class OpportunityDetailsActivity extends CRMActivity {
 				.getTypefaceBoldSans());
 	}
 
+	int noOfSolution = 0;
+	
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
 
 		if (previousIntent.hasExtra("opportunity_dummy")
 				&& selectedOpportunity != null) {
+			/** We are coming from create/edit screen **/
 			crmId_TV.setText("-");
 			oppoDescription_TV.setText(selectedOpportunity.getDescription());
 			clientName_TV.setText(selectedOpportunity.getCustomerId());
@@ -193,15 +223,22 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			salesStage_TV.setText(selectedOpportunity.getSalesStage());
 			status_TV.setText(selectedOpportunity.getKpmgStatus());
 
-			expectedClosureDate_TV.setText(dateFormatter.formatDateToString2(selectedOpportunity
-					.getExpectedClosureDate()));
-			totalProposalValue_TV.setText(selectedOpportunity.getTotalProposalValue());
-			noOfSolution_TV.setText(selectedOpportunity.getNoOfSolutionRequired());
+			expectedClosureDate_TV.setText(dateFormatter
+					.formatDateToString2(selectedOpportunity
+							.getExpectedClosureDate()));
+			totalProposalValue_TV.setText(selectedOpportunity
+					.getTotalProposalValue());
+			noOfSolution_TV.setText(selectedOpportunity
+					.getNoOfSolutionRequired());
+			
+			noOfSolution = Integer.parseInt(selectedOpportunity.getNoOfSolutionRequired());
+			
+			initAllSolutions();
 
 		} else {
+			/** We are coming from List screen **/
 			crmId_TV.setText(selectedOpportunity.getCrmId());
-			oppoDescription_TV.setText(selectedOpportunity
-					.getDescription());
+			oppoDescription_TV.setText(selectedOpportunity.getDescription());
 
 			clientName_TV.setText(myApp
 					.getStringNameFromStringJSON(selectedOpportunity
@@ -209,13 +246,15 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 			confidential_TV.setText(selectedOpportunity.getIsConfidential());
 
-			leadSource_TV.setText(selectedOpportunity.getLeadSource());
-
-			// oppoManager_TV.setText(myApp
-			// .getStringNameFromStringJSON(selectedOpportunity
-			// .getOwnerId()));
-
 			Integer temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+					.getSalesStage());
+			if (temp2 != null) {
+				leadSource_TV.setText(myApp.getLeadSourceMap().get(
+						Integer.toString(temp2.intValue())));
+				temp2 = null;
+			}
+
+			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
 					.getSalesStage());
 			if (temp2 != null) {
 				salesStage_TV.setText(myApp.getSalesStageMap().get(
@@ -243,57 +282,54 @@ public class OpportunityDetailsActivity extends CRMActivity {
 							.getExpectedClosureDate()));
 			totalProposalValue_TV.setText(selectedOpportunity
 					.getTotalProposalValue());
-			noOfSolution_TV.setText(selectedOpportunity
+
+			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
 					.getNoOfSolutionRequired());
 
-			int noOfSolution = 0;
-			try {
-				noOfSolution = Integer.parseInt(selectedOpportunity
-						.getNoOfSolutionRequired());
-			} catch (NumberFormatException exception) {
+			if (temp2 != null) {
+				noOfSolution = temp2;
+				noOfSolution_TV.setText(Integer.toString(temp2.intValue()));
+				temp2 = null;
 			}
 
-			childSolution1_LL.addView(view_solution);
-			findViewSolution(childSolution1_LL, 0);
+			initAllSolutions();
+			
+//			childSolution1_LL.addView(view_solution);
+//			findAndInitViewSolution(childSolution1_LL, 0);
+//
+//			if (noOfSolution > 1) {
+//				parentSolution2_LL.setVisibility(View.VISIBLE);
+//				view_solution = getViewSolution();
+//				childSolution2_LL.addView(view_solution);
+//				findAndInitViewSolution(childSolution1_LL, 1);
+//			}
+//			if (noOfSolution > 2) {
+//				parentSolution3_LL.setVisibility(View.VISIBLE);
+//				view_solution = getViewSolution();
+//				childSolution3_LL.addView(view_solution);
+//				findAndInitViewSolution(childSolution1_LL, 2);
+//			}
 
-			if (noOfSolution > 0) {
-				parentSolution2_LL.setVisibility(View.VISIBLE);
-				view_solution = getViewSolution();
-				childSolution2_LL.addView(view_solution);
-				findViewSolution(childSolution1_LL, 1);
-			}
-			if (noOfSolution > 1) {
-				parentSolution3_LL.setVisibility(View.VISIBLE);
-				view_solution = getViewSolution();
-				childSolution3_LL.addView(view_solution);
-				findViewSolution(childSolution1_LL, 2);
-			}
-
-			/*
-			 * Account tempAccount = myApp.getAccountById(myApp
-			 * .getStringIdFromStringJSON(selectedOpportunity
-			 * .getCustomerId())); if (tempAccount != null) { Integer temp =
-			 * myApp.getIntValueFromStringJSON(tempAccount .getCountry()); if
-			 * (temp != null) {
-			 * confidential_TV.setText(myApp.getCountryMap().get(
-			 * Integer.toString(temp.intValue()))); temp = null; } temp =
-			 * myApp.getIntValueFromStringJSON(tempAccount.getLob()); if (temp
-			 * != null) { leadSource_TV.setText(myApp.getLobMap().get(
-			 * Integer.toString(temp.intValue()))); temp = null; } temp =
-			 * myApp.getIntValueFromStringJSON(tempAccount.getSubLob()); if
-			 * (temp != null) {
-			 * expectedClosureDate_TV.setText(myApp.getSubLobMap().get(
-			 * Integer.toString(temp.intValue()))); temp = null; } temp =
-			 * myApp.getIntValueFromStringJSON(tempAccount.getSector()); if
-			 * (temp != null) {
-			 * totalProposalValue_TV.setText(myApp.getSectorMap().get(
-			 * Integer.toString(temp.intValue()))); temp = null; } } else {
-			 * Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
-			 * .show();
-			 * 
-			 * }
-			 */
 		}
+	}
+
+	private void initAllSolutions() {
+		childSolution1_LL.addView(view_solution);
+		findAndInitViewSolution(childSolution1_LL, 0);
+
+		if (noOfSolution > 1) {
+			parentSolution2_LL.setVisibility(View.VISIBLE);
+			view_solution = getViewSolution();
+			childSolution2_LL.addView(view_solution);
+			findAndInitViewSolution(childSolution1_LL, 1);
+		}
+		if (noOfSolution > 2) {
+			parentSolution3_LL.setVisibility(View.VISIBLE);
+			view_solution = getViewSolution();
+			childSolution3_LL.addView(view_solution);
+			findAndInitViewSolution(childSolution1_LL, 2);
+		}
+		
 	}
 
 	@Override

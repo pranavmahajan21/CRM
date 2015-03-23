@@ -1,6 +1,7 @@
 package com.mw.crm.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -25,6 +26,7 @@ import com.mw.crm.activity.AccountListActivity;
 import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Account;
 
 public class AccountService extends IntentService {
@@ -75,7 +77,7 @@ public class AccountService extends IntentService {
 									e.printStackTrace();
 								}
 							}
-							myApp.setAccountList(accountList, true);
+							myApp.setAccountList(accountList, true, new DateFormatter().formatDateToString3(new Date()));
 							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {

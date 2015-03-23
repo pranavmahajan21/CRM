@@ -1,6 +1,7 @@
 package com.mw.crm.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -81,7 +82,7 @@ public class OpportunityService extends IntentService {
 								// System.out.println("<><>"
 								// + accountList.get(i).getName());
 							}
-							myApp.setOpportunityList(opportunityList, true);
+							myApp.setOpportunityList(opportunityList, true, new DateFormatter().formatDateToString3(new Date()));
 							Toast.makeText(OpportunityService.this, "Done",
 									Toast.LENGTH_SHORT).show();
 							onRequestComplete();

@@ -1,6 +1,7 @@
 package com.mw.crm.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -77,7 +78,7 @@ public class AppointmentService extends IntentService {
 								}
 
 							}
-							myApp.setAppointmentList(appointmentList, true);
+							myApp.setAppointmentList(appointmentList, true, new DateFormatter().formatDateToString3(new Date()));
 							onRequestComplete();
 						}
 

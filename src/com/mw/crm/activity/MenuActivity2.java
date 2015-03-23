@@ -2,7 +2,6 @@ package com.mw.crm.activity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -72,14 +71,15 @@ public class MenuActivity2 extends Activity {
 			if (X == 0) {
 				progressDialog.dismiss();
 			}
-			Map<String, String> userMap = myApp.getUserMap();
-			List<String> keys = new ArrayList<String>(userMap.keySet());
-			for (int i = 0; i < keys.size(); i++) {
-				System.out.println("***** " + keys.get(i));
-				if (myApp.getLoginUserId().equals(keys.get(i))) {
-					System.out.println("hurray  " + userMap.get(keys.get(i)));
-				}
-			}
+			setSynced();
+			// Map<String, String> userMap = myApp.getUserMap();
+			// List<String> keys = new ArrayList<String>(userMap.keySet());
+			// for (int i = 0; i < keys.size(); i++) {
+			// System.out.println("***** " + keys.get(i));
+			// if (myApp.getLoginUserId().equals(keys.get(i))) {
+			// System.out.println("hurray  " + userMap.get(keys.get(i)));
+			// }
+			// }
 		}
 	};
 
@@ -125,12 +125,32 @@ public class MenuActivity2 extends Activity {
 		syncMenuItem4_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
+	private void setSynced() {
+		if (sharedPreferences.contains("last_sync_date_account")) {
+			syncMenuItem1_TV.setText("Synced:"
+					+ sharedPreferences
+							.getString("last_sync_date_account", "-"));
+		}
+		if (sharedPreferences.contains("last_sync_date_contact")) {
+			syncMenuItem2_TV.setText("Synced:"
+					+ sharedPreferences
+							.getString("last_sync_date_contact", "-"));
+		}
+		if (sharedPreferences.contains("last_sync_date_appointment")) {
+			syncMenuItem3_TV.setText("Synced:"
+					+ sharedPreferences.getString("last_sync_date_appointment",
+							"-"));
+		}
+		if (sharedPreferences.contains("last_sync_date_opportunity")) {
+			syncMenuItem4_TV.setText("Synced:"
+					+ sharedPreferences.getString("last_sync_date_opportunity",
+							"-"));
+		}
+	}
+
 	public void initView(String title, String title2) {
 		setTypeface();
-		if (sharedPreferences.contains("last_sync_date")) {
-			// syncDate_TV.setText(sharedPreferences.getString("last_sync_date",
-			// "-"));
-		}
+		setSynced();
 	}
 
 	@Override
@@ -195,10 +215,17 @@ public class MenuActivity2 extends Activity {
 		startService(intent);
 
 		// TODO: do this in broadcaster
-		String temp = dateFormatter.formatDateToString3(new Date());
-		// syncDate_TV.setText(temp);
-		editor.putString("last_sync_date", temp);
-		editor.commit();
+		// String temp = dateFormatter.formatDateToString3(new Date());
+		// syncMenuItem1_TV.setText(temp);
+		// syncMenuItem2_TV.setText(temp);
+		// syncMenuItem3_TV.setText(temp);
+		// syncMenuItem4_TV.setText(temp);
+		//
+		// editor.putString("last_sync_date_account", temp);
+		// editor.putString("last_sync_date_appointment", temp);
+		// editor.putString("last_sync_date_contact", temp);
+		// editor.putString("last_sync_date_opportunity", temp);
+		// editor.commit();
 	}
 
 	@Override
@@ -276,7 +303,8 @@ public class MenuActivity2 extends Activity {
 				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
 				}.getType();
 				myApp.setAccountList(
-						(List<Account>) gson.fromJson(value, listType), false);
+						(List<Account>) gson.fromJson(value, listType), false,
+						null);
 				System.out.println("Account size  : "
 						+ myApp.getAccountList().size());
 			}
@@ -290,7 +318,7 @@ public class MenuActivity2 extends Activity {
 				}.getType();
 				myApp.setAppointmentList(
 						(List<Appointment>) gson.fromJson(value, listType),
-						false);
+						false, null);
 				System.out.println("Appointment size  : "
 						+ myApp.getAppointmentList().size());
 			}
@@ -302,7 +330,8 @@ public class MenuActivity2 extends Activity {
 				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
 				}.getType();
 				myApp.setContactList(
-						(List<Contact>) gson.fromJson(value, listType), false);
+						(List<Contact>) gson.fromJson(value, listType), false,
+						null);
 				System.out.println("Contact size  : "
 						+ myApp.getContactList().size());
 			}
@@ -316,7 +345,7 @@ public class MenuActivity2 extends Activity {
 				}.getType();
 				myApp.setOpportunityList(
 						(List<Opportunity>) gson.fromJson(value, listType),
-						false);
+						false, null);
 				System.out.println("Opportunity size  : "
 						+ myApp.getOpportunityList().size());
 			}
@@ -445,4 +474,11 @@ public class MenuActivity2 extends Activity {
 			progressDialog.dismiss();
 		}
 	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		setSynced();
+	}
+
 }

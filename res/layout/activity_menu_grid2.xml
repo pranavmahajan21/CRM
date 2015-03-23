@@ -125,12 +125,12 @@
 
                     <ImageView
                         style="@style/IV4"
-                        android:src="@drawable/service_connect" />
+                        android:src="@drawable/opportunity2" />
 
                     <TextView
                         android:id="@+id/titleMenuItem4_TV"
                         style="@style/TV4"
-                        android:text="Place a Request" />
+                        android:text="Opportunity" />
 
                     <TextView
                         android:id="@+id/syncMenuItem4_TV"

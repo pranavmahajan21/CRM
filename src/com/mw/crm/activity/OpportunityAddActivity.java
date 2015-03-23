@@ -136,10 +136,10 @@ public class OpportunityAddActivity extends CRMActivity {
 	int selectedSolManager4 = -1, selectedSolPartner4 = -1,
 			selectedSolName4 = -1, selectedProfitCenter4 = -1,
 			selectedTaxonomy4 = -1;
-	
+
 	RequestQueue queue;
-DateFormatter dateFormatter;
-	
+	DateFormatter dateFormatter;
+
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
@@ -191,18 +191,21 @@ DateFormatter dateFormatter;
 			List<Solution> solutionList = new ArrayList<Solution>();
 			solutionList.add(getSolutionObjectFromChildLL(childSolution1_LL));
 			if (selectedNoOfSolution > 0) {
+				System.out.println("0");
 				solutionList
 						.add(getSolutionObjectFromChildLL(childSolution2_LL));
 			}
 			if (selectedNoOfSolution > 1) {
+				System.out.println("1");
 				solutionList
 						.add(getSolutionObjectFromChildLL(childSolution3_LL));
 			}
 			if (selectedNoOfSolution > 2) {
+				System.out.println("2");
 				solutionList
 						.add(getSolutionObjectFromChildLL(childSolution4_LL));
 			}
-			
+
 			Opportunity aa = new Opportunity(null, description_ET.getText()
 					.toString(), clientName_TV.getText().toString(),
 					((RadioButton) findViewById(confidential_RG
@@ -210,10 +213,11 @@ DateFormatter dateFormatter;
 					leadSource_TV.getText().toString(), salesStage_TV.getText()
 							.toString(), probability_TV.getText().toString(),
 					status_TV.getText().toString(),
-					dateFormatter.formatStringToDate3Copy(expectedClosureDate_TV
-							.getText().toString()), totalProposalValue_TV
-							.getText().toString(), noOfSolution_TV.getText()
-							.toString(), solutionList);
+					dateFormatter
+							.formatStringToDate3Copy(expectedClosureDate_TV
+									.getText().toString()),
+					totalProposalValue_TV.getText().toString(), noOfSolution_TV
+							.getText().toString(), solutionList);
 
 			nextIntent = new Intent(OpportunityAddActivity.this,
 					OpportunityDetailsActivity.class);
@@ -488,8 +492,9 @@ DateFormatter dateFormatter;
 		hideKeyboardFunctionality();
 
 		childSolution1_LL.addView(view_solution);
-		setDecimalLimitOnFields();
-		setOnFocusLoseListener();
+		setTypefaceToChildLL(childSolution1_LL);
+		setDecimalLimitOnFields(childSolution1_LL);
+		setOnFocusLoseListener(childSolution1_LL);
 
 	}
 
@@ -754,9 +759,16 @@ DateFormatter dateFormatter;
 	}
 
 	public void onRightButton(View view) {
+		/**
+		 * This line is to ensure that money fields lose focus & Total Proposal
+		 * Value gets updated.
+		 **/
+		description_ET.requestFocus();
+		
 		if (!validate()) {
 			return;
 		}
+
 		JSONObject params = new JSONObject();
 		try {
 			params.put("Name",
@@ -776,10 +788,13 @@ DateFormatter dateFormatter;
 					.put("probabilty",
 							new ArrayList<String>(probabilityMap.keySet())
 									.get(selectedProbability))
-					// .put("expclosuredate",
-					// myApp.formatDateToString4(myApp
-					// .formatStringToDate3(expectedClosureDate_TV
-					// .getText().toString())))
+					.put("expclosuredate",
+							dateFormatter.formatDateToString4(dateFormatter
+									.formatStringToDate3(expectedClosureDate_TV
+											.getText().toString())))
+					.put("estvalue", totalProposalValue_TV.getText().toString())
+					.put("noofsolutions",
+							solutionList.get(selectedNoOfSolution))
 					.put("solutionmanager",
 							new ArrayList<String>(userMap.keySet())
 									.get(selectedSolManager1))
@@ -1245,16 +1260,7 @@ DateFormatter dateFormatter;
 		return Constant.SOLUTION1_VISIBLE;
 	}
 
-	private void setDecimalLimitOnFields() {
-		InputFilter[] inputFilters = new InputFilter[] { new DecimalDigitsInputFilter(
-				10, 4) };
-
-		((EditText) findViewById(R.id.fee_ET)).setFilters(inputFilters);
-		// ((EditText) findViewById(R.id.pyNfr_ET)).setFilters(inputFilters);
-		((EditText) findViewById(R.id.cyNfr_ET)).setFilters(inputFilters);
-		((EditText) findViewById(R.id.cyNfrPlus1_ET)).setFilters(inputFilters);
-		((EditText) findViewById(R.id.cyNfrPlus2_ET)).setFilters(inputFilters);
-	}
+	
 
 	private double parseStringToDouble(String numberString) {
 		try {
@@ -1278,7 +1284,18 @@ DateFormatter dateFormatter;
 		return (fee + pyNfr + cyNfr + cyNfrPlus1 + cyNfrPlus2);
 	}
 
-	private void setOnFocusLoseListener() {
+	private void setDecimalLimitOnFields(LinearLayout childLL) {
+		InputFilter[] inputFilters = new InputFilter[] { new DecimalDigitsInputFilter(
+				10, 4) };
+
+		((EditText) childLL.findViewById(R.id.fee_ET)).setFilters(inputFilters);
+		// ((EditText) findViewById(R.id.pyNfr_ET)).setFilters(inputFilters);
+		((EditText) childLL.findViewById(R.id.cyNfr_ET)).setFilters(inputFilters);
+		((EditText) childLL.findViewById(R.id.cyNfrPlus1_ET)).setFilters(inputFilters);
+		((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET)).setFilters(inputFilters);
+	}
+	
+	private void setOnFocusLoseListener(LinearLayout childLL) {
 		OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
 
 			@Override
@@ -1307,40 +1324,60 @@ DateFormatter dateFormatter;
 
 		};
 
-		((EditText) findViewById(R.id.fee_ET))
+		((EditText) childLL.findViewById(R.id.fee_ET))
 				.setOnFocusChangeListener(focusChangeListener);
-		((EditText) findViewById(R.id.cyNfr_ET))
+		((EditText) childLL.findViewById(R.id.cyNfr_ET))
 				.setOnFocusChangeListener(focusChangeListener);
-		((EditText) findViewById(R.id.cyNfrPlus1_ET))
+		((EditText) childLL.findViewById(R.id.cyNfrPlus1_ET))
 				.setOnFocusChangeListener(focusChangeListener);
-		((EditText) findViewById(R.id.cyNfrPlus2_ET))
+		((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET))
 				.setOnFocusChangeListener(focusChangeListener);
 	}
 
-	private void setChildLLTag(int visibility1, int visibility2,
-			int visibility3, int visibility4) {
-		if (visibility1 == View.GONE) {
-			childSolution1_LL.setTag("false");
-		}
-		if (visibility2 == View.GONE) {
-			childSolution2_LL.setTag("false");
-		}
-		if (visibility3 == View.GONE) {
-			childSolution3_LL.setTag("false");
-		}
-		if (visibility4 == View.GONE) {
-			childSolution4_LL.setTag("false");
-		}
-	}
+	private void setTypefaceToChildLL(LinearLayout childLL) {
+		((TextView) childLL.findViewById(R.id.solutionManagerLabel_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.solutionPartnerLabel_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.solutionNameLabel_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.profitCenterLabel_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.taxonomyLabel_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
 
-	private void setChildLLVisibility(int visibility1, int visibility2,
-			int visibility3, int visibility4) {
-		childSolution1_LL.setVisibility(visibility1);
-		childSolution2_LL.setVisibility(visibility2);
-		childSolution3_LL.setVisibility(visibility3);
-		childSolution4_LL.setVisibility(visibility4);
+		((TextView) childLL.findViewById(R.id.feeLabel_TV)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.pyNfrLabel_TV)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.cyNfrLabel_TV)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.cyNfrPlus1Label_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.cyNfrPlus2Label_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
 
-		setChildLLTag(visibility1, visibility2, visibility3, visibility4);
+		((TextView) childLL.findViewById(R.id.solutionManager_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.solutionPartner_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.solutionName_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.profitCenter_TV))
+				.setTypeface(myApp.getTypefaceRegularSans());
+		((TextView) childLL.findViewById(R.id.taxonomy_TV)).setTypeface(myApp
+				.getTypefaceRegularSans());
+
+		((EditText) childLL.findViewById(R.id.fee_ET)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((EditText) childLL.findViewById(R.id.pyNfr_ET)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((EditText) childLL.findViewById(R.id.cyNfr_ET)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((EditText) childLL.findViewById(R.id.cyNfrPlus1_ET)).setTypeface(myApp
+				.getTypefaceRegularSans());
+		((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET)).setTypeface(myApp
+				.getTypefaceRegularSans());
 	}
 
 	private void addSolutionViewToChild(int visibility2, int visibility3,
@@ -1349,8 +1386,9 @@ DateFormatter dateFormatter;
 		if (visibility2 == View.VISIBLE) {
 			if (childSolution2_LL.getChildCount() == 0) {
 				childSolution2_LL.addView(getViewSolution());
-				setDecimalLimitOnFields();
-				setOnFocusLoseListener();
+				setTypefaceToChildLL(childSolution2_LL);
+				setDecimalLimitOnFields(childSolution2_LL);
+				setOnFocusLoseListener(childSolution2_LL);
 			}
 		} else {
 			childSolution2_LL.removeAllViews();
@@ -1359,8 +1397,9 @@ DateFormatter dateFormatter;
 		if (visibility3 == View.VISIBLE) {
 			if (childSolution3_LL.getChildCount() == 0) {
 				childSolution3_LL.addView(getViewSolution());
-				setDecimalLimitOnFields();
-				setOnFocusLoseListener();
+				setTypefaceToChildLL(childSolution3_LL);
+				setDecimalLimitOnFields(childSolution3_LL);
+				setOnFocusLoseListener(childSolution3_LL);
 			}
 		} else {
 			childSolution3_LL.removeAllViews();
@@ -1369,8 +1408,9 @@ DateFormatter dateFormatter;
 		if (visibility4 == View.VISIBLE) {
 			if (childSolution4_LL.getChildCount() == 0) {
 				childSolution4_LL.addView(getViewSolution());
-				setDecimalLimitOnFields();
-				setOnFocusLoseListener();
+				setTypefaceToChildLL(childSolution4_LL);
+				setDecimalLimitOnFields(childSolution4_LL);
+				setOnFocusLoseListener(childSolution4_LL);
 			}
 		} else {
 			childSolution4_LL.removeAllViews();
@@ -1440,6 +1480,32 @@ DateFormatter dateFormatter;
 		cyNfr_ET = (EditText) childLL.findViewById(R.id.cyNfr_ET);
 		cyNfrPlus1_ET = (EditText) childLL.findViewById(R.id.cyNfrPlus1_ET);
 		cyNfrPlus2_ET = (EditText) childLL.findViewById(R.id.cyNfrPlus2_ET);
+	}
+
+	private void setChildLLTag(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
+		if (visibility1 == View.GONE) {
+			childSolution1_LL.setTag("false");
+		}
+		if (visibility2 == View.GONE) {
+			childSolution2_LL.setTag("false");
+		}
+		if (visibility3 == View.GONE) {
+			childSolution3_LL.setTag("false");
+		}
+		if (visibility4 == View.GONE) {
+			childSolution4_LL.setTag("false");
+		}
+	}
+
+	private void setChildLLVisibility(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
+		childSolution1_LL.setVisibility(visibility1);
+		childSolution2_LL.setVisibility(visibility2);
+		childSolution3_LL.setVisibility(visibility3);
+		childSolution4_LL.setVisibility(visibility4);
+
+		setChildLLTag(visibility1, visibility2, visibility3, visibility4);
 	}
 
 	public void onExpand(View view) {
@@ -1692,6 +1758,8 @@ DateFormatter dateFormatter;
 	}
 
 	public void onPickDate(View view) {
+		System.out.println("date picker");
+		Toast.makeText(this, "date picker", Toast.LENGTH_SHORT).show();
 		super.onPickDate2(view, expectedClosureDate_TV);
 	}
 }
