@@ -51,6 +51,7 @@ import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.extra.DecimalDigitsInputFilter;
+import com.mw.crm.extra.SearchEngine;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 import com.mw.crm.model.Solution;
@@ -138,7 +139,9 @@ public class OpportunityAddActivity extends CRMActivity {
 			selectedTaxonomy4 = -1;
 
 	RequestQueue queue;
+
 	DateFormatter dateFormatter;
+	SearchEngine searchEngine;
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -149,7 +152,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	LinearLayout view_solution;
 
 	private Solution getSolutionObjectFromChildLL(LinearLayout childLL) {
-		return new Solution(
+		Solution solution = new Solution(
 				((TextView) childLL.findViewById(R.id.solutionManager_TV))
 						.getText().toString(),
 				((TextView) childLL.findViewById(R.id.solutionPartner_TV))
@@ -170,6 +173,10 @@ public class OpportunityAddActivity extends CRMActivity {
 						.toString(),
 				((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET)).getText()
 						.toString());
+
+		System.out.println("solution  :  " + solution.toString());
+
+		return solution;
 	}
 
 	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
@@ -191,17 +198,14 @@ public class OpportunityAddActivity extends CRMActivity {
 			List<Solution> solutionList = new ArrayList<Solution>();
 			solutionList.add(getSolutionObjectFromChildLL(childSolution1_LL));
 			if (selectedNoOfSolution > 0) {
-				System.out.println("0");
 				solutionList
 						.add(getSolutionObjectFromChildLL(childSolution2_LL));
 			}
 			if (selectedNoOfSolution > 1) {
-				System.out.println("1");
 				solutionList
 						.add(getSolutionObjectFromChildLL(childSolution3_LL));
 			}
 			if (selectedNoOfSolution > 2) {
-				System.out.println("2");
 				solutionList
 						.add(getSolutionObjectFromChildLL(childSolution4_LL));
 			}
@@ -269,6 +273,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		queue = Volley.newRequestQueue(this);
 		dateFormatter = new DateFormatter();
+		searchEngine = new SearchEngine(this);
 	}
 
 	public void findThings() {
@@ -358,12 +363,25 @@ public class OpportunityAddActivity extends CRMActivity {
 					previousIntent.getIntExtra("position", 0));
 			description_ET.setText(tempOpportunity.getDescription());
 
-			Integer temp = myApp.getIntValueFromStringJSON(tempOpportunity
-					.getKpmgStatus());
+			Integer temp = null;
+
+			temp = myApp.getIntValueFromStringJSON(tempOpportunity
+					.getLeadSource());
 			if (temp != null) {
-				status_TV.setText(myApp.getStatusMap().get(
+				leadSource_TV.setText(myApp.getLeadSourceMap().get(
 						Integer.toString(temp.intValue())));
-				selectedStatus = myApp.getIndexFromKeyStatusMap(Integer
+				selectedLeadSource = searchEngine
+						.getIndexFromKeyLeadSourceMap(Integer.toString(temp
+								.intValue()));
+				temp = null;
+			}
+
+			temp = myApp.getIntValueFromStringJSON(tempOpportunity
+					.getSalesStage());
+			if (temp != null) {
+				salesStage_TV.setText(myApp.getSalesStageMap().get(
+						Integer.toString(temp.intValue())));
+				selectedSalesStage = myApp.getIndexFromKeySalesMap(Integer
 						.toString(temp.intValue()));
 				temp = null;
 			}
@@ -380,18 +398,328 @@ public class OpportunityAddActivity extends CRMActivity {
 			}
 
 			temp = myApp.getIntValueFromStringJSON(tempOpportunity
-					.getProbability());
+					.getKpmgStatus());
 			if (temp != null) {
-				salesStage_TV.setText(myApp.getSalesStageMap().get(
+				status_TV.setText(myApp.getStatusMap().get(
 						Integer.toString(temp.intValue())));
-				selectedSalesStage = myApp.getIndexFromKeySalesMap(Integer
+				selectedStatus = myApp.getIndexFromKeyStatusMap(Integer
 						.toString(temp.intValue()));
 				temp = null;
 			}
 
-			// clientName_TV.setText(myApp
-			// .getStringNameFromStringJSON(tempOpportunity
-			// .getCustomerId()));
+			expectedClosureDate_TV.setText(dateFormatter
+					.formatDateToString(tempOpportunity
+							.getExpectedClosureDate()));
+
+			/**
+			 * If an Opportunity has multiple solutions, but returns a wrong
+			 * count, then we will display as per the count
+			 **/
+			temp = myApp.getIntValueFromStringJSON(tempOpportunity
+					.getNoOfSolutionRequired());
+			if (temp != null) {
+
+				for (int i = 0; i < solutionList.size(); i++) {
+					if (solutionList.get(i).equals(
+							Integer.toString(temp.intValue()))) {
+						selectedNoOfSolution = i;
+					}
+				}
+				temp = null;
+			}
+			System.out.println("selectedNoOfSolution  : "
+					+ Integer.toString(selectedNoOfSolution + 1));
+			noOfSolution_TV.setText(Integer.toString(selectedNoOfSolution + 1));
+			switchForNoOfSolutionSelected(selectedNoOfSolution + 1);
+
+			if (selectedNoOfSolution > -1) {
+				Solution tempSolution = tempOpportunity.getSolutionList()
+						.get(0);
+
+				((TextView) childSolution1_LL
+						.findViewById(R.id.solutionManager_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionManager()));
+				selectedSolManager1 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionManager()));
+
+				((TextView) childSolution1_LL
+						.findViewById(R.id.solutionPartner_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionPartner()));
+				selectedSolPartner1 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionPartner()));
+
+				((TextView) childSolution1_LL
+						.findViewById(R.id.solutionName_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionName()));
+				selectedSolName1 = searchEngine
+						.getIndexFromKeySolutionMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getSolutionName()));
+
+				((TextView) childSolution1_LL
+						.findViewById(R.id.profitCenter_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getProfitCenter()));
+				selectedProfitCenter1 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getProfitCenter()));
+
+				((TextView) childSolution1_LL.findViewById(R.id.taxonomy_TV))
+						.setText(myApp.getStringNameFromStringJSON(tempSolution
+								.getTaxonomy()));
+				selectedTaxonomy1 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getTaxonomy()));
+
+				((EditText) childSolution1_LL.findViewById(R.id.fee_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getFee())
+								+ "");
+				((EditText) childSolution1_LL.findViewById(R.id.pyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getPyNfr())
+								+ "");
+				((EditText) childSolution1_LL.findViewById(R.id.cyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr())
+								+ "");
+				((EditText) childSolution1_LL.findViewById(R.id.cyNfrPlus1_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr1())
+								+ "");
+				((EditText) childSolution1_LL.findViewById(R.id.cyNfrPlus2_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr2())
+								+ "");
+			}
+			if (selectedNoOfSolution > 0) {
+				Solution tempSolution = tempOpportunity.getSolutionList()
+						.get(1);
+
+				((TextView) childSolution2_LL
+						.findViewById(R.id.solutionManager_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionManager()));
+				selectedSolManager2 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionManager()));
+
+				((TextView) childSolution2_LL
+						.findViewById(R.id.solutionPartner_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionPartner()));
+				selectedSolPartner2 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionPartner()));
+
+				((TextView) childSolution2_LL
+						.findViewById(R.id.solutionName_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionName()));
+				selectedSolName2 = searchEngine
+						.getIndexFromKeySolutionMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getSolutionName()));
+
+				((TextView) childSolution2_LL
+						.findViewById(R.id.profitCenter_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getProfitCenter()));
+				selectedProfitCenter2 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getProfitCenter()));
+
+				((TextView) childSolution2_LL.findViewById(R.id.taxonomy_TV))
+						.setText(myApp.getStringNameFromStringJSON(tempSolution
+								.getTaxonomy()));
+				selectedTaxonomy2 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getTaxonomy()));
+
+				((EditText) childSolution2_LL.findViewById(R.id.fee_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getFee())
+								+ "");
+				((EditText) childSolution2_LL.findViewById(R.id.pyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getPyNfr())
+								+ "");
+				((EditText) childSolution2_LL.findViewById(R.id.cyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr())
+								+ "");
+				((EditText) childSolution2_LL.findViewById(R.id.cyNfrPlus1_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr1())
+								+ "");
+				((EditText) childSolution2_LL.findViewById(R.id.cyNfrPlus2_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr2())
+								+ "");
+			}
+			if (selectedNoOfSolution > 1) {
+				Solution tempSolution = tempOpportunity.getSolutionList()
+						.get(2);
+
+				((TextView) childSolution3_LL
+						.findViewById(R.id.solutionManager_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionManager()));
+				selectedSolManager3 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionManager()));
+
+				((TextView) childSolution3_LL
+						.findViewById(R.id.solutionPartner_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionPartner()));
+				selectedSolPartner3 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionPartner()));
+
+				((TextView) childSolution3_LL
+						.findViewById(R.id.solutionName_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionName()));
+				selectedSolName3 = searchEngine
+						.getIndexFromKeySolutionMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getSolutionName()));
+
+				((TextView) childSolution3_LL
+						.findViewById(R.id.profitCenter_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getProfitCenter()));
+				selectedProfitCenter3 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getProfitCenter()));
+
+				((TextView) childSolution3_LL.findViewById(R.id.taxonomy_TV))
+						.setText(myApp.getStringNameFromStringJSON(tempSolution
+								.getTaxonomy()));
+				selectedTaxonomy3 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getTaxonomy()));
+
+				((EditText) childSolution3_LL.findViewById(R.id.fee_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getFee())
+								+ "");
+				((EditText) childSolution3_LL.findViewById(R.id.pyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getPyNfr())
+								+ "");
+				((EditText) childSolution3_LL.findViewById(R.id.cyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr())
+								+ "");
+				((EditText) childSolution3_LL.findViewById(R.id.cyNfrPlus1_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr1())
+								+ "");
+				((EditText) childSolution3_LL.findViewById(R.id.cyNfrPlus2_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr2())
+								+ "");
+			}
+			if (selectedNoOfSolution > 2) {
+				Solution tempSolution = tempOpportunity.getSolutionList()
+						.get(2);
+
+				((TextView) childSolution4_LL
+						.findViewById(R.id.solutionManager_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionManager()));
+				selectedSolManager4 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionManager()));
+
+				((TextView) childSolution4_LL
+						.findViewById(R.id.solutionPartner_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionPartner()));
+				selectedSolPartner4 = myApp.getIndexFromKeyUserMap(myApp
+						.getStringIdFromStringJSON(tempSolution
+								.getSolutionPartner()));
+
+				((TextView) childSolution4_LL
+						.findViewById(R.id.solutionName_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getSolutionName()));
+				selectedSolName4 = searchEngine
+						.getIndexFromKeySolutionMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getSolutionName()));
+
+				((TextView) childSolution4_LL
+						.findViewById(R.id.profitCenter_TV)).setText(myApp
+						.getStringNameFromStringJSON(tempSolution
+								.getProfitCenter()));
+				selectedProfitCenter4 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getProfitCenter()));
+
+				((TextView) childSolution4_LL.findViewById(R.id.taxonomy_TV))
+						.setText(myApp.getStringNameFromStringJSON(tempSolution
+								.getTaxonomy()));
+				selectedTaxonomy4 = searchEngine
+						.getIndexFromKeyProfitCenterMap(myApp
+								.getStringIdFromStringJSON(tempSolution
+										.getTaxonomy()));
+
+				((EditText) childSolution4_LL.findViewById(R.id.fee_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getFee())
+								+ "");
+				((EditText) childSolution4_LL.findViewById(R.id.pyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getPyNfr())
+								+ "");
+				((EditText) childSolution4_LL.findViewById(R.id.cyNfr_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr())
+								+ "");
+				((EditText) childSolution4_LL.findViewById(R.id.cyNfrPlus1_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr1())
+								+ "");
+				((EditText) childSolution4_LL.findViewById(R.id.cyNfrPlus2_ET))
+						.setText(myApp
+								.getDoubleValueFromStringJSON(tempSolution
+										.getCyNfr2())
+								+ "");
+			}
 
 			Account tempAccount = myApp
 					.getAccountById(myApp
@@ -402,23 +730,6 @@ public class OpportunityAddActivity extends CRMActivity {
 				selectedClientName = myApp
 						.getAccountIndexFromAccountId(tempAccount
 								.getAccountId());
-
-				Integer temp2 = myApp.getIntValueFromStringJSON(tempAccount
-						.getCountry());
-				/*
-				 * if (temp2 != null) {
-				 * country_TV.setText(myApp.getCountryMap().get(
-				 * Integer.toString(temp2.intValue()))); temp2 = null; } temp2 =
-				 * myApp.getIntValueFromStringJSON(tempAccount.getLob()); if
-				 * (temp2 != null) { lob_TV.setText(myApp.getLobMap().get(
-				 * Integer.toString(temp2.intValue()))); temp2 = null; } temp2 =
-				 * myApp .getIntValueFromStringJSON(tempAccount.getSubLob()); if
-				 * (temp2 != null) { sublob_TV.setText(myApp.getSubLobMap().get(
-				 * Integer.toString(temp2.intValue()))); temp2 = null; } temp2 =
-				 * myApp .getIntValueFromStringJSON(tempAccount.getSector()); if
-				 * (temp2 != null) { sector_TV.setText(myApp.getSectorMap().get(
-				 * Integer.toString(temp2.intValue()))); temp2 = null; }
-				 */
 			} else {
 				Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT)
 						.show();
@@ -546,21 +857,28 @@ public class OpportunityAddActivity extends CRMActivity {
 	private boolean validateAmount(LinearLayout childSolution_LL) {
 		double cyNfrPlus1 = 0;
 		double cyNfrPlus2 = 0;
-		double fee = Double.parseDouble(((EditText) childSolution_LL
+		// double fee = Double.parseDouble(((EditText) childSolution_LL
+		// .findViewById(R.id.fee_ET)).getText().toString().trim());
+		// double pyNfr = Double.parseDouble(((EditText) childSolution_LL
+		// .findViewById(R.id.pyNfr_ET)).getText().toString().trim());
+		// double cyNfr = Double.parseDouble(((EditText) childSolution_LL
+		// .findViewById(R.id.cyNfr_ET)).getText().toString().trim());
+		double fee = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.fee_ET)).getText().toString().trim());
-		double pyNfr = Double.parseDouble(((EditText) childSolution_LL
+		double pyNfr = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.pyNfr_ET)).getText().toString().trim());
-		double cyNfr = Double.parseDouble(((EditText) childSolution_LL
+		double cyNfr = parseStringToDouble(((EditText) childSolution_LL
 				.findViewById(R.id.cyNfr_ET)).getText().toString().trim());
+
 		if (((EditText) childSolution_LL.findViewById(R.id.cyNfrPlus1_ET))
 				.getText().toString().trim().length() > 0) {
-			cyNfrPlus1 = Double.parseDouble(((EditText) childSolution_LL
+			cyNfrPlus1 = parseStringToDouble(((EditText) childSolution_LL
 					.findViewById(R.id.cyNfrPlus1_ET)).getText().toString()
 					.trim());
 		}
 		if (((EditText) childSolution_LL.findViewById(R.id.cyNfrPlus2_ET))
 				.getText().toString().trim().length() > 0) {
-			cyNfrPlus2 = Double.parseDouble(((EditText) childSolution_LL
+			cyNfrPlus2 = parseStringToDouble(((EditText) childSolution_LL
 					.findViewById(R.id.cyNfrPlus2_ET)).getText().toString()
 					.trim());
 		}
@@ -579,7 +897,27 @@ public class OpportunityAddActivity extends CRMActivity {
 			notErrorCase = false;
 		} else if (selectedLeadSource < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
-					"Please select a lead source.", false);
+					"Please select a Lead Source.", false);
+			notErrorCase = false;
+		} else if (selectedSalesStage < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Sales Stage.", false);
+			notErrorCase = false;
+		} else if (selectedProbability < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Probability.", false);
+			notErrorCase = false;
+		} else if (selectedStatus < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select a Status.", false);
+			notErrorCase = false;
+		} else if (expectedClosureDate_TV.getText().toString().trim().length() < 2) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select some Expected Closure Date.", false);
+			notErrorCase = false;
+		} else if (selectedNoOfSolution < 0) {
+			alertDialogBuilder = createDialog.createAlertDialog(null,
+					"Please select Number of Solutions.", false);
 			notErrorCase = false;
 		} else if (selectedSolManager1 < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
@@ -764,7 +1102,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		 * Value gets updated.
 		 **/
 		description_ET.requestFocus();
-		
+
 		if (!validate()) {
 			return;
 		}
@@ -1147,83 +1485,16 @@ public class OpportunityAddActivity extends CRMActivity {
 			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.solutionName_RL:
-			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			// switch (whichSolutionTabIsVisible) {
-			// case Constant.SOLUTION1_VISIBLE:
-			// System.out.println("Check0");
-			// nextIntent.putExtra("solution_value",
-			// Constant.SOLUTION1_VISIBLE);
-			// break;
-			// case Constant.SOLUTION2_VISIBLE:
-			// nextIntent.putExtra("solution_value",
-			// Constant.SOLUTION2_VISIBLE);
-			// break;
-			// case Constant.SOLUTION3_VISIBLE:
-			// nextIntent.putExtra("solution_value",
-			// Constant.SOLUTION3_VISIBLE);
-			// break;
-			// case Constant.SOLUTION4_VISIBLE:
-			// nextIntent.putExtra("solution_value",
-			// Constant.SOLUTION4_VISIBLE);
-			// break;
-			//
-			// default:
-			// break;
-			// }
 			putExtraUsingSwitch("solution_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_SOLUTION);
 			break;
 
 		case R.id.profitCenter_RL:
-			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			// switch (whichSolutionTabIsVisible) {
-			// case Constant.SOLUTION1_VISIBLE:
-			// nextIntent.putExtra("profit_center_value",
-			// Constant.SOLUTION1_VISIBLE);
-			// break;
-			// case Constant.SOLUTION2_VISIBLE:
-			// nextIntent.putExtra("profit_center_value",
-			// Constant.SOLUTION2_VISIBLE);
-			// break;
-			// case Constant.SOLUTION3_VISIBLE:
-			// nextIntent.putExtra("profit_center_value",
-			// Constant.SOLUTION3_VISIBLE);
-			// break;
-			// case Constant.SOLUTION4_VISIBLE:
-			// nextIntent.putExtra("profit_center_value",
-			// Constant.SOLUTION4_VISIBLE);
-			// break;
-			//
-			// default:
-			// break;
-			// }
 			putExtraUsingSwitch("profit_center_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_PROFIT_CENTER);
 			break;
 
 		case R.id.taxonomy_RL:
-			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
-			// switch (whichSolutionTabIsVisible) {
-			// case Constant.SOLUTION1_VISIBLE:
-			// nextIntent
-			// .putExtra("product_value", Constant.SOLUTION1_VISIBLE);
-			// break;
-			// case Constant.SOLUTION2_VISIBLE:
-			// nextIntent
-			// .putExtra("product_value", Constant.SOLUTION2_VISIBLE);
-			// break;
-			// case Constant.SOLUTION3_VISIBLE:
-			// nextIntent
-			// .putExtra("product_value", Constant.SOLUTION3_VISIBLE);
-			// break;
-			// case Constant.SOLUTION4_VISIBLE:
-			// nextIntent
-			// .putExtra("product_value", Constant.SOLUTION4_VISIBLE);
-			// break;
-			//
-			// default:
-			// break;
-			// }
 			putExtraUsingSwitch("product_value");
 			startActivityForResult(nextIntent, Constant.SEARCH_PRODUCT);
 			break;
@@ -1260,8 +1531,6 @@ public class OpportunityAddActivity extends CRMActivity {
 		return Constant.SOLUTION1_VISIBLE;
 	}
 
-	
-
 	private double parseStringToDouble(String numberString) {
 		try {
 			return Double.parseDouble(numberString);
@@ -1290,11 +1559,14 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		((EditText) childLL.findViewById(R.id.fee_ET)).setFilters(inputFilters);
 		// ((EditText) findViewById(R.id.pyNfr_ET)).setFilters(inputFilters);
-		((EditText) childLL.findViewById(R.id.cyNfr_ET)).setFilters(inputFilters);
-		((EditText) childLL.findViewById(R.id.cyNfrPlus1_ET)).setFilters(inputFilters);
-		((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET)).setFilters(inputFilters);
+		((EditText) childLL.findViewById(R.id.cyNfr_ET))
+				.setFilters(inputFilters);
+		((EditText) childLL.findViewById(R.id.cyNfrPlus1_ET))
+				.setFilters(inputFilters);
+		((EditText) childLL.findViewById(R.id.cyNfrPlus2_ET))
+				.setFilters(inputFilters);
 	}
-	
+
 	private void setOnFocusLoseListener(LinearLayout childLL) {
 		OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
 
@@ -1380,8 +1652,19 @@ public class OpportunityAddActivity extends CRMActivity {
 				.getTypefaceRegularSans());
 	}
 
-	private void addSolutionViewToChild(int visibility2, int visibility3,
-			int visibility4) {
+	private void addSolutionViewToChild(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
+
+		if (visibility2 == View.VISIBLE) {
+			if (childSolution1_LL.getChildCount() == 0) {
+				childSolution1_LL.addView(getViewSolution());
+				setTypefaceToChildLL(childSolution1_LL);
+				setDecimalLimitOnFields(childSolution1_LL);
+				setOnFocusLoseListener(childSolution1_LL);
+			}
+		} else {
+			childSolution2_LL.removeAllViews();
+		}
 
 		if (visibility2 == View.VISIBLE) {
 			if (childSolution2_LL.getChildCount() == 0) {
@@ -1417,13 +1700,39 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 	}
 
-	private void setParentLLVisibility(int visibility2, int visibility3,
-			int visibility4) {
+	private void setParentLLVisibility(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
+		parentSolution1_LL.setVisibility(visibility1);
 		parentSolution2_LL.setVisibility(visibility2);
 		parentSolution3_LL.setVisibility(visibility3);
 		parentSolution4_LL.setVisibility(visibility4);
 
-		addSolutionViewToChild(visibility2, visibility3, visibility4);
+		addSolutionViewToChild(visibility1, visibility2, visibility3,
+				visibility4);
+	}
+
+	private void switchForNoOfSolutionSelected(int i) {
+		switch (i) {
+		case 1:
+			setParentLLVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
+			break;
+		case 2:
+			setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.GONE,
+					View.GONE);
+			break;
+		case 3:
+			setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+					View.GONE);
+			break;
+		case 4:
+			System.out.println("44444444");
+			setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+					View.VISIBLE);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -1438,26 +1747,31 @@ public class OpportunityAddActivity extends CRMActivity {
 			salesStage_TV.setText(item.getTitle());
 			selectedSalesStage = item.getOrder();
 		} else if (item.getGroupId() == 3) {
+			noOfSolution_TV.setText(item.getTitle());
+			selectedNoOfSolution = item.getOrder();
+
 			int i = Integer.parseInt(item.getTitle().toString());
 			switch (i) {
 			case 1:
-				setParentLLVisibility(View.GONE, View.GONE, View.GONE);
+				setParentLLVisibility(View.VISIBLE, View.GONE, View.GONE,
+						View.GONE);
 				break;
 			case 2:
-				setParentLLVisibility(View.VISIBLE, View.GONE, View.GONE);
+				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.GONE,
+						View.GONE);
 				break;
 			case 3:
-				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.GONE);
+				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+						View.GONE);
 				break;
 			case 4:
-				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE);
+				setParentLLVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+						View.VISIBLE);
 				break;
 
 			default:
 				break;
 			}
-			noOfSolution_TV.setText(item.getTitle());
-			selectedNoOfSolution = item.getOrder();
 		} else if (item.getGroupId() == 4) {
 			leadSource_TV.setText(item.getTitle());
 			selectedLeadSource = item.getOrder();
@@ -1601,28 +1915,6 @@ public class OpportunityAddActivity extends CRMActivity {
 				tempAccount = myApp.getAccountList().get(positionItem);
 				if (tempAccount != null) {
 					clientName_TV.setText(tempAccount.getName());
-					/*
-					 * Integer temp =
-					 * myApp.getIntValueFromStringJSON(tempAccount
-					 * .getCountry()); if (temp != null) {
-					 * country_TV.setText(myApp.getCountryMap().get(
-					 * Integer.toString(temp.intValue()))); } else {
-					 * country_TV.setText(""); } temp = myApp
-					 * .getIntValueFromStringJSON(tempAccount.getLob()); if
-					 * (temp != null) { lob_TV.setText(myApp.getLobMap().get(
-					 * Integer.toString(temp.intValue()))); } else {
-					 * lob_TV.setText(""); } temp =
-					 * myApp.getIntValueFromStringJSON(tempAccount
-					 * .getSubLob()); if (temp != null) {
-					 * sublob_TV.setText(myApp.getSubLobMap().get(
-					 * Integer.toString(temp.intValue()))); } else {
-					 * sublob_TV.setText(""); } temp =
-					 * myApp.getIntValueFromStringJSON(tempAccount
-					 * .getSector()); if (temp != null) {
-					 * sector_TV.setText(myApp.getSectorMap().get(
-					 * Integer.toString(temp.intValue()))); } else {
-					 * sector_TV.setText(""); }
-					 */
 				} else {
 					Toast.makeText(this, "Account not found",
 							Toast.LENGTH_SHORT).show();
@@ -1758,8 +2050,6 @@ public class OpportunityAddActivity extends CRMActivity {
 	}
 
 	public void onPickDate(View view) {
-		System.out.println("date picker");
-		Toast.makeText(this, "date picker", Toast.LENGTH_SHORT).show();
 		super.onPickDate2(view, expectedClosureDate_TV);
 	}
 }

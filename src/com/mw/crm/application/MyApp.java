@@ -1,7 +1,6 @@
 package com.mw.crm.application;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,23 +32,14 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.example.crm.activity.R;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.Encrypter;
-import com.mw.crm.extra.LruBitmapCache;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
-import com.mw.crm.model.MenuItem;
 import com.mw.crm.model.Opportunity;
-import com.mw.crm.service.AccountService;
-import com.mw.crm.service.AppointmentService;
-import com.mw.crm.service.ContactService;
-import com.mw.crm.service.OpportunityService;
-import com.mw.crm.service.UserService;
 
 @SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
@@ -63,7 +53,7 @@ public class MyApp extends Application {
 
 	final public static int NOTHING_ELSE_MATTERS = 55;
 
-	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
+//	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
 
 	List<Opportunity> opportunityList;// = new ArrayList<Opportunity>();
 	List<Opportunity> opportunityMyList;
@@ -371,14 +361,14 @@ public class MyApp extends Application {
 		return mRequestQueue;
 	}
 
-	public ImageLoader getImageLoader() {
-		getRequestQueue();
-		if (mImageLoader == null) {
-			mImageLoader = new ImageLoader(this.mRequestQueue,
-					new LruBitmapCache());
-		}
-		return this.mImageLoader;
-	}
+//	public ImageLoader getImageLoader() {
+//		getRequestQueue();
+//		if (mImageLoader == null) {
+//			mImageLoader = new ImageLoader(this.mRequestQueue,
+//					new LruBitmapCache());
+//		}
+//		return this.mImageLoader;
+//	}
 
 	public <T> void addToRequestQueue(Request<T> req, String tag) {
 		// set the default tag if tag is empty
@@ -570,13 +560,13 @@ public class MyApp extends Application {
 		editor.commit();
 	}
 
-	public List<MenuItem> getMenuItemList() {
+	/*public List<MenuItem> getMenuItemList() {
 		return menuItemList;
 	}
 
 	public void setMenuItemList(List<MenuItem> menuItemList) {
 		this.menuItemList = menuItemList;
-	}
+	}*/
 
 	public Typeface getTypefaceRegularSans() {
 		return typefaceRegularSans;
@@ -1193,6 +1183,18 @@ public class MyApp extends Application {
 		/** Used for all mapping values like lob, sub_lob & all the excels **/
 		try {
 			return new JSONObject(x).getInt("Value");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Double getDoubleValueFromStringJSON(String x) {
+		try {
+			return new JSONObject(x).getDouble("Value");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;

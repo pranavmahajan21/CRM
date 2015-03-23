@@ -36,6 +36,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 	LinearLayout childSolution1_LL, childSolution2_LL, childSolution3_LL;
 	/** Solution **/
 
+	int noOfSolution = 0;
+	
 	LayoutInflater inflater;
 	LinearLayout view_solution;
 
@@ -133,9 +135,13 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		cyNfrPlus1_TV.setTypeface(myApp.getTypefaceRegularSans());
 		cyNfrPlus2_TV.setTypeface(myApp.getTypefaceRegularSans());
 
+		System.out.println("lits size : " + selectedOpportunity.getSolutionList().size() + "index  : " + solutionIndex);
+		
 		Solution tempSolution = selectedOpportunity.getSolutionList().get(
 				solutionIndex);
+		System.out.println("tempSolution  : " + tempSolution.toString());
 		if (previousIntent.hasExtra("opportunity_dummy")) {
+			System.out.println("opportunity_dummy");
 			solutionManager_TV.setText(tempSolution.getSolutionManager());
 			solutionPartner_TV.setText(tempSolution.getSolutionPartner());
 			solutionName_TV.setText(tempSolution.getSolutionName());
@@ -148,6 +154,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			cyNfrPlus1_TV.setText(tempSolution.getCyNfr1());
 			cyNfrPlus2_TV.setText(tempSolution.getCyNfr2());
 		} else {
+			System.out.println("else");
 			solutionManager_TV.setText(myApp
 					.getStringNameFromStringJSON(tempSolution
 							.getSolutionManager()));
@@ -163,15 +170,15 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			taxonomy_TV.setText(myApp.getStringNameFromStringJSON(tempSolution
 					.getTaxonomy()));
 
-			fee_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+			fee_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
 					.getFee()) + "");
-			pyNfr_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+			pyNfr_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
 					.getPyNfr()) + "");
-			cyNfr_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+			cyNfr_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
 					.getCyNfr()) + "");
-			cyNfrPlus1_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+			cyNfrPlus1_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
 					.getCyNfr1()) + "");
-			cyNfrPlus2_TV.setText(myApp.getIntValueFromStringJSON(tempSolution
+			cyNfrPlus2_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
 					.getCyNfr2()) + "");
 		}
 	}
@@ -205,8 +212,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 				.getTypefaceBoldSans());
 	}
 
-	int noOfSolution = 0;
-	
 	public void initView(String string, String string2) {
 		super.initView(string, string2);
 		setTypeface();
@@ -230,9 +235,10 @@ public class OpportunityDetailsActivity extends CRMActivity {
 					.getTotalProposalValue());
 			noOfSolution_TV.setText(selectedOpportunity
 					.getNoOfSolutionRequired());
-			
-			noOfSolution = Integer.parseInt(selectedOpportunity.getNoOfSolutionRequired());
-			
+
+			noOfSolution = Integer.parseInt(selectedOpportunity
+					.getNoOfSolutionRequired());
+
 			initAllSolutions();
 
 		} else {
@@ -277,11 +283,17 @@ public class OpportunityDetailsActivity extends CRMActivity {
 				temp2 = null;
 			}
 
+			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+					.getTotalProposalValue());
+			if (temp2 != null) {
+				totalProposalValue_TV
+						.setText(Integer.toString(temp2.intValue()));
+				temp2 = null;
+			}
+
 			expectedClosureDate_TV.setText(dateFormatter
 					.formatDateToString2(selectedOpportunity
 							.getExpectedClosureDate()));
-			totalProposalValue_TV.setText(selectedOpportunity
-					.getTotalProposalValue());
 
 			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
 					.getNoOfSolutionRequired());
@@ -293,22 +305,22 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			}
 
 			initAllSolutions();
-			
-//			childSolution1_LL.addView(view_solution);
-//			findAndInitViewSolution(childSolution1_LL, 0);
-//
-//			if (noOfSolution > 1) {
-//				parentSolution2_LL.setVisibility(View.VISIBLE);
-//				view_solution = getViewSolution();
-//				childSolution2_LL.addView(view_solution);
-//				findAndInitViewSolution(childSolution1_LL, 1);
-//			}
-//			if (noOfSolution > 2) {
-//				parentSolution3_LL.setVisibility(View.VISIBLE);
-//				view_solution = getViewSolution();
-//				childSolution3_LL.addView(view_solution);
-//				findAndInitViewSolution(childSolution1_LL, 2);
-//			}
+
+			// childSolution1_LL.addView(view_solution);
+			// findAndInitViewSolution(childSolution1_LL, 0);
+			//
+			// if (noOfSolution > 1) {
+			// parentSolution2_LL.setVisibility(View.VISIBLE);
+			// view_solution = getViewSolution();
+			// childSolution2_LL.addView(view_solution);
+			// findAndInitViewSolution(childSolution1_LL, 1);
+			// }
+			// if (noOfSolution > 2) {
+			// parentSolution3_LL.setVisibility(View.VISIBLE);
+			// view_solution = getViewSolution();
+			// childSolution3_LL.addView(view_solution);
+			// findAndInitViewSolution(childSolution1_LL, 2);
+			// }
 
 		}
 	}
@@ -321,15 +333,15 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			parentSolution2_LL.setVisibility(View.VISIBLE);
 			view_solution = getViewSolution();
 			childSolution2_LL.addView(view_solution);
-			findAndInitViewSolution(childSolution1_LL, 1);
+			findAndInitViewSolution(childSolution2_LL, 1);
 		}
 		if (noOfSolution > 2) {
 			parentSolution3_LL.setVisibility(View.VISIBLE);
 			view_solution = getViewSolution();
 			childSolution3_LL.addView(view_solution);
-			findAndInitViewSolution(childSolution1_LL, 2);
+			findAndInitViewSolution(childSolution3_LL, 2);
 		}
-		
+
 	}
 
 	@Override
@@ -341,6 +353,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("opportunity_dummy")) {
+			((TextView)findViewById(R.id.left_button_TV)).setVisibility(View.GONE);
 			if (previousIntent.hasExtra("opportunity_created")
 					&& previousIntent.getBooleanExtra("opportunity_created",
 							false)) {

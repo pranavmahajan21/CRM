@@ -17,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
@@ -48,7 +47,6 @@ public class MenuActivity2 extends Activity {
 	TextView menu_item_TV1, menu_item_TV2, menu_item_TV3, menu_item_TV4;
 	TextView syncMenuItem1_TV, syncMenuItem2_TV, syncMenuItem3_TV,
 			syncMenuItem4_TV;
-	LinearLayout lastSync_LL;
 
 	MyApp myApp;
 	Intent nextIntent, previousIntent;
@@ -72,14 +70,6 @@ public class MenuActivity2 extends Activity {
 				progressDialog.dismiss();
 			}
 			setSynced();
-			// Map<String, String> userMap = myApp.getUserMap();
-			// List<String> keys = new ArrayList<String>(userMap.keySet());
-			// for (int i = 0; i < keys.size(); i++) {
-			// System.out.println("***** " + keys.get(i));
-			// if (myApp.getLoginUserId().equals(keys.get(i))) {
-			// System.out.println("hurray  " + userMap.get(keys.get(i)));
-			// }
-			// }
 		}
 	};
 
@@ -89,8 +79,6 @@ public class MenuActivity2 extends Activity {
 		previousIntent = getIntent();
 
 		createDialog = new CreateDialog(this);
-		progressDialog = createDialog.createProgressDialog("Account Setup",
-				"This may take some time", true, null);
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = sharedPreferences.edit();
@@ -109,8 +97,6 @@ public class MenuActivity2 extends Activity {
 		syncMenuItem2_TV = (TextView) findViewById(R.id.syncMenuItem2_TV);
 		syncMenuItem3_TV = (TextView) findViewById(R.id.syncMenuItem3_TV);
 		syncMenuItem4_TV = (TextView) findViewById(R.id.syncMenuItem4_TV);
-
-		lastSync_LL = (LinearLayout) findViewById(R.id.lastSync_LL);
 	}
 
 	private void setTypeface() {
@@ -163,20 +149,15 @@ public class MenuActivity2 extends Activity {
 		findThings();
 		initView("Menu", null);
 
-		progressDialog.show();
 		if (previousIntent.hasExtra("is_first_time_login")
 				&& previousIntent.getBooleanExtra("is_first_time_login", true)) {
 			loadAppData();
 		} else {
-			// TODO
 			fetchPreferences();
-			// rempve from MyApp
 		}
 	}// onCreate
 
 	private void loadAppData() {
-		// progressDialog.show();
-
 		Intent intent = new Intent(this, AccountService.class);
 
 		X++;
@@ -214,18 +195,6 @@ public class MenuActivity2 extends Activity {
 		X++;
 		startService(intent);
 
-		// TODO: do this in broadcaster
-		// String temp = dateFormatter.formatDateToString3(new Date());
-		// syncMenuItem1_TV.setText(temp);
-		// syncMenuItem2_TV.setText(temp);
-		// syncMenuItem3_TV.setText(temp);
-		// syncMenuItem4_TV.setText(temp);
-		//
-		// editor.putString("last_sync_date_account", temp);
-		// editor.putString("last_sync_date_appointment", temp);
-		// editor.putString("last_sync_date_contact", temp);
-		// editor.putString("last_sync_date_opportunity", temp);
-		// editor.commit();
 	}
 
 	@Override
@@ -245,6 +214,9 @@ public class MenuActivity2 extends Activity {
 	}
 
 	public void onSync(View view) {
+		progressDialog = createDialog.createProgressDialog("Account Setup",
+				"This may take some time", true, null);
+		progressDialog.show();
 		loadAppData();
 	}
 
@@ -292,6 +264,9 @@ public class MenuActivity2 extends Activity {
 
 	@SuppressWarnings("unchecked")
 	private void fetchPreferences() {
+		progressDialog = createDialog.createProgressDialog("Fetching Preferences",
+				"This may take some time", true, null);
+		progressDialog.show();
 		if (sharedPreferences.contains("login_user_id")) {
 			myApp.setLoginUserId(sharedPreferences.getString("login_user_id",
 					null));

@@ -44,7 +44,6 @@ import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Contact;
-import com.mw.crm.model.InternalConnect;
 import com.mw.crm.service.ContactService;
 
 public class ContactAddActivity extends CRMActivity {
@@ -68,7 +67,7 @@ public class ContactAddActivity extends CRMActivity {
 
 	int selectedDOR = -1, selectedInternalConnect = -1,
 			selectedOrganisation = -1;
-	List<InternalConnect> internalConnectList;
+//	List<InternalConnect> internalConnectList;
 	List<Account> accountList;
 
 	Map<String, String> dorMap;

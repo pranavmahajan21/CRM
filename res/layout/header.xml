@@ -52,7 +52,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="TextView"
-        android:textColor="@color/blue"
+        android:textColor="@color/blue_dark"
         android:textSize="20sp" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:paddingRight="10dp"
         android:paddingTop="4dp"
         android:text="Button"
-        android:textColor="@color/blue"
+        android:textColor="@color/blue_dark"
         android:textSize="20sp" />
 
     <ImageButton
