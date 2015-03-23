@@ -9,9 +9,13 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,9 +40,12 @@ import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Opportunity;
+import com.mw.crm.service.OpportunityService;
 
 public class OpportunityCloseActivity extends CRMActivity {
 
+	public static boolean isActivityVisible = false;
+	
 	TextView statusReasonLabel_TV, actualValueLabel_TV, closeDateLabel_TV,
 			competitorLabel_TV, descriptionLabel_TV;
 
@@ -58,7 +65,7 @@ public class OpportunityCloseActivity extends CRMActivity {
 	boolean isWon;
 
 	DateFormatter dateFormatter;
-	
+
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
@@ -69,6 +76,17 @@ public class OpportunityCloseActivity extends CRMActivity {
 	Map<String, String> opportunityWonMap;
 
 	RequestQueue queue;
+
+	private BroadcastReceiver opportunityUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			progressDialog.dismiss();
+			intent.putExtra("status", ((RadioButton) findViewById(status_RG
+					.getCheckedRadioButtonId())).getText().toString());
+			OpportunityCloseActivity.this.setResult(RESULT_OK, intent);
+			finish();
+		}
+	};
 
 	private void initThings() {
 		myApp = (MyApp) getApplicationContext();
@@ -87,7 +105,7 @@ public class OpportunityCloseActivity extends CRMActivity {
 		opportunityWonMap = myApp.getOpportunityWonMap();
 
 		queue = Volley.newRequestQueue(this);
-		dateFormatter= new DateFormatter();
+		dateFormatter = new DateFormatter();
 	}
 
 	public void findThings() {
@@ -131,7 +149,10 @@ public class OpportunityCloseActivity extends CRMActivity {
 		super.initView(title, title2);
 		setTypeface();
 
-		actualValue_TV.setText(selectedOpportunity.getTotalProposalValue());
+		actualValue_TV.setText(myApp
+				.getDoubleValueFromStringJSON(selectedOpportunity
+						.getTotalProposalValue())
+				+ "");
 	}
 
 	@Override
@@ -241,6 +262,18 @@ public class OpportunityCloseActivity extends CRMActivity {
 		return notErrorCase;
 	}
 
+	private void onPositiveResponse() {
+		progressDialog.dismiss();
+
+		 progressDialog = createDialog.createProgressDialog(
+		 "Updating Opportunity", "This may take some time", true, null);
+		 progressDialog.show();
+		
+		 Intent serviceIntent = new Intent(this, OpportunityService.class);
+		 startService(serviceIntent);
+
+	}
+
 	@Override
 	public void onRightButton(View view) {
 		super.onRightButton(view);
@@ -296,8 +329,8 @@ public class OpportunityCloseActivity extends CRMActivity {
 					@Override
 					public void onResponse(JSONObject response) {
 						System.out.println("length2" + response);
-						// onPositiveResponse();
-						progressDialog.dismiss();
+						onPositiveResponse();
+						// progressDialog.dismiss();
 					}
 				}, new Response.ErrorListener() {
 
@@ -307,7 +340,7 @@ public class OpportunityCloseActivity extends CRMActivity {
 
 						AlertDialog alertDialog = myApp.handleError(
 								createDialog, error,
-								"Error while creating opportunity.");
+								"Error while closing opportunity.");
 						alertDialog.show();
 					}
 				});
@@ -348,5 +381,23 @@ public class OpportunityCloseActivity extends CRMActivity {
 
 	public void onPickDate(View view) {
 		super.onPickDate2(view, closeDate_TV);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				opportunityUpdateReceiver,
+				new IntentFilter("opportunity_update_receiver"));
+
+	}
+
+	@Override
+	protected void onPause() {
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				opportunityUpdateReceiver);
+		super.onPause();
 	}
 }

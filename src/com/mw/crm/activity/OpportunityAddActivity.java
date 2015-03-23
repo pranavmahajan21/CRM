@@ -1319,20 +1319,10 @@ public class OpportunityAddActivity extends CRMActivity {
 		}
 
 		progressDialog.show();
-		// if (previousIntent.hasExtra("is_edit_mode")
-		// && previousIntent.getBooleanExtra("is_edit_mode", false)) {
-		// /** Update Mode **/
-		// String url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
 		try {
 
 			System.out.println("URL : " + url);
-
 			System.out.println("json" + params);
-			// params.put(
-			// "kpmgstatus",
-			// new ArrayList<String>(statusMap.keySet())
-			// .get(selectedStatus)).put("oppid",
-			// tempOpportunity.getOpportunityId());
 
 			JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
 					Method.POST, url, params,

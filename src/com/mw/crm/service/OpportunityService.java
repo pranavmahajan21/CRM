@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.activity.OpportunityAddActivity;
+import com.mw.crm.activity.OpportunityCloseActivity;
 import com.mw.crm.activity.OpportunityListActivity;
 import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
@@ -119,6 +120,9 @@ public class OpportunityService extends IntentService {
 			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		} else if (OpportunityAddActivity.isActivityVisible) {
+			Intent nextIntent = new Intent("opportunity_update_receiver");
+			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
+		}else if (OpportunityCloseActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}

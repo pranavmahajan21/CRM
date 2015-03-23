@@ -30,6 +30,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			leadSource_TV, salesStage_TV, probability_TV, status_TV,
 			expectedClosureDate_TV, totalProposalValue_TV, noOfSolution_TV;
 
+	TextView left_button_TV;
 	/** Solution **/
 	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL;
 
@@ -94,6 +95,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		totalProposalValue_TV = (TextView) findViewById(R.id.totalProposalValue_TV);
 		noOfSolution_TV = (TextView) findViewById(R.id.noOfSolution_TV);
 
+		left_button_TV = (TextView)findViewById(R.id.left_button_TV);
+		
 		parentSolution1_LL = (LinearLayout) findViewById(R.id.parentSolution1_LL);
 		parentSolution2_LL = (LinearLayout) findViewById(R.id.parentSolution2_LL);
 		parentSolution3_LL = (LinearLayout) findViewById(R.id.parentSolution3_LL);
@@ -353,7 +356,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		findThings();
 
 		if (previousIntent.hasExtra("opportunity_dummy")) {
-			((TextView)findViewById(R.id.left_button_TV)).setVisibility(View.GONE);
+			left_button_TV.setVisibility(View.GONE);
 			if (previousIntent.hasExtra("opportunity_created")
 					&& previousIntent.getBooleanExtra("opportunity_created",
 							false)) {
@@ -481,8 +484,12 @@ public class OpportunityDetailsActivity extends CRMActivity {
 							previousIntent.getStringExtra("search_text"));
 				}
 				setResult(RESULT_OK, dataIntent);
+				finish();
 			}
-			finish();
+			if(requestCode ==MyApp.NOTHING_ELSE_MATTERS){
+				status_TV.setText(dataIntent.getStringExtra("status"));
+				left_button_TV.setVisibility(View.GONE);
+			}
 		}
 	}
 

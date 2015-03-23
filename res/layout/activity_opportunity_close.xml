@@ -71,7 +71,7 @@
             <TextView
                 android:id="@+id/statusReasonLabel_TV"
                 style="@style/style_TV2"
-                android:text="Status Reason" />
+                android:text="* Status Reason" />
 
             <RelativeLayout
                 android:id="@+id/statusReason_RL"
@@ -98,7 +98,7 @@
             <TextView
                 android:id="@+id/closeDateLabel_TV"
                 style="@style/style_TV2"
-                android:text="Close Date" />
+                android:text="* Close Date" />
 
             <RelativeLayout
                 android:id="@+id/closeDate_RL"
@@ -134,7 +134,7 @@
             <TextView
                 android:id="@+id/descriptionLabel_TV"
                 style="@style/style_TV2"
-                android:text="Description" />
+                android:text="* Description" />
 
             <EditText
                 android:id="@+id/description_ET"
