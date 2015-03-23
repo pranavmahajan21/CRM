@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.crm.activity.R;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
 
 //import android.view.ViewGroup.LayoutParams;
 

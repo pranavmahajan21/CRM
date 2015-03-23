@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Appointment;
 
 public class AppointmentDetailsActivity extends CRMActivity {
@@ -25,7 +26,8 @@ public class AppointmentDetailsActivity extends CRMActivity {
 			designationClientOfficial_TV, purpose_TV, interactionType_TV,
 			dateMeeting_TV, endTime_TV, owner_TV;
 
-	// , organizer_TV
+	DateFormatter dateFormatter;
+	
 	private void initThings() {
 		previousIntent = getIntent();
 		System.out.println("position"
@@ -38,6 +40,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 			selectedAppointment = myApp.getAppointmentList().get(
 					previousIntent.getIntExtra("position", 0));
 		}
+		dateFormatter = new DateFormatter();
 	}
 
 	public void findThings() {
@@ -91,9 +94,9 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 
-		dateMeeting_TV.setText(myApp.formatDateToString2(selectedAppointment
+		dateMeeting_TV.setText(dateFormatter.formatDateToString2(selectedAppointment
 				.getStartTime()));
-		endTime_TV.setText(myApp.formatDateToString2(selectedAppointment
+		endTime_TV.setText(dateFormatter.formatDateToString2(selectedAppointment
 				.getEndTime()));
 
 	}

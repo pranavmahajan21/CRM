@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.SearchListAdapter;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
-import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 
@@ -54,27 +54,27 @@ public class SearchActivity extends CRMActivity {
 		requestCode = previouIntent.getIntExtra("request_code", 0);
 
 		switch (requestCode) {
-		case MyApp.SEARCH_SECTOR:
+		case Constant.SEARCH_SECTOR:
 			searchMap = myApp.getSectorMap();
 			stringList = new ArrayList<String>(searchMap.values());
 			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
-		case MyApp.SEARCH_HQ_COUNTRY:
+		case Constant.SEARCH_HQ_COUNTRY:
 			searchMap = myApp.getCountryMap();
 			stringList = new ArrayList<String>(searchMap.values());
 			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
-		case MyApp.SEARCH_SUB_LOB:
+		case Constant.SEARCH_SUB_LOB:
 			searchMap = myApp.getSubLobMap();
 			stringList = new ArrayList<String>(searchMap.values());
 			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
-		case MyApp.SEARCH_USER:
+		case Constant.SEARCH_USER:
 			searchMap = myApp.getUserMap();
 			stringList = new ArrayList<String>(searchMap.values());
 			anotherStringList = new ArrayList<String>(searchMap.values());
 			break;
-		case MyApp.SEARCH_ACCOUNT:
+		case Constant.SEARCH_ACCOUNT:
 			accountList = myApp.getAccountList();
 			stringList = new ArrayList<String>();
 			anotherStringList = new ArrayList<String>();

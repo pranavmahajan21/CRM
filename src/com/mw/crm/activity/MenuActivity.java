@@ -23,8 +23,9 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.mw.crm.adapter.MenuAdapter;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.MenuItem;
 import com.mw.crm.service.AccountService;
 import com.mw.crm.service.AppointmentService;
@@ -55,6 +56,8 @@ public class MenuActivity extends Activity {
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
 
+	DateFormatter dateFormatter;
+	
 	private BroadcastReceiver appDataReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -79,6 +82,8 @@ public class MenuActivity extends Activity {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = sharedPreferences.edit();
 
+		dateFormatter = new DateFormatter();
+		
 		if (menuItemList != null && menuItemList.size() > 0) {
 			adapter = new MenuAdapter(this, menuItemList);
 		}
@@ -185,7 +190,7 @@ public class MenuActivity extends Activity {
 		X++;
 		startService(intent);
 
-		String temp = myApp.formatDateToString3(new Date());
+		String temp = dateFormatter.formatDateToString3(new Date());
 		syncDate_TV.setText(temp);
 		editor.putString("last_sync_date", temp);
 		editor.commit();

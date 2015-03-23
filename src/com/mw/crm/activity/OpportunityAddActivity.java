@@ -46,10 +46,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.extra.DecimalDigitsInputFilter;
-import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Opportunity;
 import com.mw.crm.model.Solution;
@@ -135,8 +136,10 @@ public class OpportunityAddActivity extends CRMActivity {
 	int selectedSolManager4 = -1, selectedSolPartner4 = -1,
 			selectedSolName4 = -1, selectedProfitCenter4 = -1,
 			selectedTaxonomy4 = -1;
+	
 	RequestQueue queue;
-
+DateFormatter dateFormatter;
+	
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
@@ -207,7 +210,7 @@ public class OpportunityAddActivity extends CRMActivity {
 					leadSource_TV.getText().toString(), salesStage_TV.getText()
 							.toString(), probability_TV.getText().toString(),
 					status_TV.getText().toString(),
-					myApp.formatStringToDate3Copy(expectedClosureDate_TV
+					dateFormatter.formatStringToDate3Copy(expectedClosureDate_TV
 							.getText().toString()), totalProposalValue_TV
 							.getText().toString(), noOfSolution_TV.getText()
 							.toString(), solutionList);
@@ -221,7 +224,7 @@ public class OpportunityAddActivity extends CRMActivity {
 					.getBooleanExtra("is_edit_mode", false))) {
 				nextIntent.putExtra("opportunity_created", true);
 			}
-			startActivityForResult(nextIntent, MyApp.DETAILS_OPPORTUNITY);
+			startActivityForResult(nextIntent, Constant.DETAILS_OPPORTUNITY);
 
 		}
 	};
@@ -261,6 +264,7 @@ public class OpportunityAddActivity extends CRMActivity {
 		view_solution = getViewSolution();
 
 		queue = Volley.newRequestQueue(this);
+		dateFormatter = new DateFormatter();
 	}
 
 	public void findThings() {
@@ -956,9 +960,9 @@ public class OpportunityAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/
-			url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
+			url = Constant.URL + Constant.OPPORTUNITY_UPDATE;
 		} else {
-			url = MyApp.URL + MyApp.OPPORTUNITY_ADD;
+			url = Constant.URL + Constant.OPPORTUNITY_ADD;
 		}
 
 		progressDialog.show();
@@ -1074,7 +1078,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.client_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			startActivityForResult(nextIntent, Constant.SEARCH_ACCOUNT);
 			break;
 		case R.id.solutionManager_RL:
 			whichSolutionTabIsVisible = checkVisibilityOfChildLL();
@@ -1099,7 +1103,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			default:
 				break;
 			}
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 
 		case R.id.solutionPartner_RL:
@@ -1125,7 +1129,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			default:
 				break;
 			}
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.solutionName_RL:
 			// whichSolutionTabIsVisible = checkVisibilityOfChildLL();
@@ -1524,7 +1528,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
-			if (requestCode == MyApp.SEARCH_ACCOUNT) {
+			if (requestCode == Constant.SEARCH_ACCOUNT) {
 				selectedClientName = positionItem;
 
 				Account tempAccount = null;
@@ -1559,7 +1563,7 @@ public class OpportunityAddActivity extends CRMActivity {
 
 				}
 			}// if (requestCode == MyApp.SEARCH_ACCOUNT)
-			if (requestCode == MyApp.SEARCH_USER) {
+			if (requestCode == Constant.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				String text = list.get(positionItem);
 				switch (data.getIntExtra("user_value", -1)) {
@@ -1674,7 +1678,7 @@ public class OpportunityAddActivity extends CRMActivity {
 				}
 
 			}
-			if (requestCode == MyApp.DETAILS_OPPORTUNITY) {
+			if (requestCode == Constant.DETAILS_OPPORTUNITY) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
 				if (previousIntent.hasExtra("search_text")) {

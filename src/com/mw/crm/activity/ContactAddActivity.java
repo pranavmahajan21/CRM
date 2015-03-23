@@ -39,8 +39,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Contact;
 import com.mw.crm.model.InternalConnect;
@@ -113,7 +114,7 @@ public class ContactAddActivity extends CRMActivity {
 					.getBooleanExtra("is_edit_mode", false))) {
 				nextIntent.putExtra("contact_created", true);
 			}
-			startActivityForResult(nextIntent, MyApp.DETAILS_CONTACT);
+			startActivityForResult(nextIntent, Constant.DETAILS_CONTACT);
 		}
 	};
 
@@ -400,9 +401,9 @@ public class ContactAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/
-			url = MyApp.URL + MyApp.CONTACTS_UPDATE;
+			url = Constant.URL + Constant.CONTACTS_UPDATE;
 		} else {
-			url = MyApp.URL + MyApp.CONTACTS_ADD;
+			url = Constant.URL + Constant.CONTACTS_ADD;
 		}
 		System.out.println("json" + params);
 
@@ -487,10 +488,10 @@ public class ContactAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.internal_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.organization_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			startActivityForResult(nextIntent, Constant.SEARCH_ACCOUNT);
 			break;
 
 		default:
@@ -521,7 +522,7 @@ public class ContactAddActivity extends CRMActivity {
 			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
-			if (requestCode == MyApp.SEARCH_USER) {
+			if (requestCode == Constant.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				internalConnect_TV.setText(list.get(positionItem));
 
@@ -533,12 +534,12 @@ public class ContactAddActivity extends CRMActivity {
 				System.out.println(userMap.get(new ArrayList<String>(userMap
 						.keySet()).get(selectedInternalConnect)));
 			}
-			if (requestCode == MyApp.SEARCH_ACCOUNT) {
+			if (requestCode == Constant.SEARCH_ACCOUNT) {
 				organization_TV
 						.setText(accountList.get(positionItem).getName());
 				selectedOrganisation = positionItem;
 			}
-			if (requestCode == MyApp.DETAILS_CONTACT) {
+			if (requestCode == Constant.DETAILS_CONTACT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
 				if (previousIntent.hasExtra("search_text")) {

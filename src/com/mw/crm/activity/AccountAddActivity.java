@@ -39,8 +39,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
 import com.mw.crm.model.Account;
 import com.mw.crm.service.AccountService;
 
@@ -122,7 +123,7 @@ public class AccountAddActivity extends CRMActivity {
 					.getBooleanExtra("is_edit_mode", false))) {
 				nextIntent.putExtra("account_created", true);
 			}
-			startActivityForResult(nextIntent, MyApp.DETAILS_ACCOUNT);
+			startActivityForResult(nextIntent, Constant.DETAILS_ACCOUNT);
 
 		}
 	};
@@ -494,9 +495,9 @@ public class AccountAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/
-			url = MyApp.URL + MyApp.ACCOUNTS_UPDATE;
+			url = Constant.URL + Constant.ACCOUNTS_UPDATE;
 		} else {
-			url = MyApp.URL + MyApp.ACCOUNTS_ADD;
+			url = Constant.URL + Constant.ACCOUNTS_ADD;
 		}
 
 		params = MyApp.addParamToJson(params);
@@ -554,33 +555,33 @@ public class AccountAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.sector_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_SECTOR);
+			startActivityForResult(nextIntent, Constant.SEARCH_SECTOR);
 			break;
 		case R.id.headquarter_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_HQ_COUNTRY);
+			startActivityForResult(nextIntent, Constant.SEARCH_HQ_COUNTRY);
 			break;
 		// case R.id.sublob_RL:
 		// startActivityForResult(nextIntent, MyApp.SEARCH_SUB_LOB);
 		// break;
 		case R.id.leadPartner_RL:
 			nextIntent.putExtra("user_value", 0);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.relPartner1_RL:
 			nextIntent.putExtra("user_value", 1);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.relPartner2_RL:
 			nextIntent.putExtra("user_value", 2);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.relPartner3_RL:
 			nextIntent.putExtra("user_value", 3);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		case R.id.bdm_RL:
 			nextIntent.putExtra("user_value", 4);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 
 		default:
@@ -623,13 +624,13 @@ public class AccountAddActivity extends CRMActivity {
 			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
-			if (requestCode == MyApp.SEARCH_SECTOR) {
+			if (requestCode == Constant.SEARCH_SECTOR) {
 				List<String> list = new ArrayList<String>(sectorMap.values());
 				sector_TV.setText(list.get(positionItem));
 				selectedSector = positionItem;
 				System.out.println("selectedSector  :  " + selectedSector);
 			}
-			if (requestCode == MyApp.SEARCH_HQ_COUNTRY) {
+			if (requestCode == Constant.SEARCH_HQ_COUNTRY) {
 				List<String> list = new ArrayList<String>(countryMap.values());
 				headquarter_TV.setText(list.get(positionItem));
 				selectedCountry = positionItem;
@@ -641,7 +642,7 @@ public class AccountAddActivity extends CRMActivity {
 			// selectedSubLob = positionItem;
 			// System.out.println("selectedSubLob  :  " + selectedSubLob);
 			// }
-			if (requestCode == MyApp.SEARCH_USER) {
+			if (requestCode == Constant.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				String text = list.get(positionItem);
 				switch (data.getIntExtra("user_value", -1)) {
@@ -674,7 +675,7 @@ public class AccountAddActivity extends CRMActivity {
 				// System.out.println("selectedLeadPartner  :  "
 				// + selectedLeadPartner);
 			}
-			if (requestCode == MyApp.DETAILS_ACCOUNT) {
+			if (requestCode == Constant.DETAILS_ACCOUNT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
 				if (previousIntent.hasExtra("search_text")) {

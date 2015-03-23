@@ -1,4 +1,4 @@
-package com.mw.crm.extra;
+package com.mw.crm.application;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -21,17 +21,12 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Application;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -45,6 +40,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mw.crm.extra.Constant;
+import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.Encrypter;
+import com.mw.crm.extra.LruBitmapCache;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
@@ -53,35 +52,11 @@ import com.mw.crm.model.Opportunity;
 import com.mw.crm.service.AccountService;
 import com.mw.crm.service.AppointmentService;
 import com.mw.crm.service.ContactService;
-import com.mw.crm.service.UserService;
 import com.mw.crm.service.OpportunityService;
+import com.mw.crm.service.UserService;
 
 @SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
-
-	// public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
-	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
-
-	/** Used to get List<T> **/
-	public static String APPOINTMENTS_DATA = "/PostAppointments";
-	public static String ACCOUNTS_DATA = "/PostAccounts";
-	public static String CONTACTS_DATA = "/PostContacts";
-	public static String OPPORTUNITY_DATA = "/PostOpportunities";
-
-	/** Used to create <T> **/
-	public static String APPOINTMENTS_ADD = "/appointments";
-	public static String ACCOUNTS_ADD = "/accounts";
-	public static String CONTACTS_ADD = "/contacts";
-	public static String OPPORTUNITY_ADD = "/opportunities";
-	public static String SERVICE_ADD = "/serviceconnect";
-
-	/** Used to update <T> **/
-	public static String APPOINTMENTS_UPDATE = "/PostAppointmentUpdate";
-	public static String ACCOUNTS_UPDATE = "/PostAccountUpdate";
-	public static String CONTACTS_UPDATE = "/PostContactUpdate";
-	public static String OPPORTUNITY_UPDATE = "/PostOpportunityUpdate";
-
-	public static String LOGIN = "/PostCurrentUser";
 
 	/*
 	 * Used for Internal Connect in CONTACT screen & owner in APPOINTMENT screen
@@ -90,16 +65,7 @@ public class MyApp extends Application {
 
 	String loginUserId;
 
-	final public static int SEARCH_SECTOR = 0;
-	final public static int SEARCH_HQ_COUNTRY = 1;
-	final public static int SEARCH_SUB_LOB = 10;
-	final public static int SEARCH_USER = 11;
-	final public static int SEARCH_ACCOUNT = 100;
-
-	final public static int DETAILS_ACCOUNT = 1100;
-	final public static int DETAILS_APPOINTMENT = 1100;
-	final public static int DETAILS_CONTACT = 1100;
-	final public static int DETAILS_OPPORTUNITY = 1100;
+	
 
 	final public static int NOTHING_ELSE_MATTERS = 55;
 
@@ -322,7 +288,7 @@ public class MyApp extends Application {
 			}
 		}
 
-		loadUnloadedData();
+//		loadUnloadedData();
 	}
 
 	private void loadUnloadedData() {
@@ -381,7 +347,7 @@ public class MyApp extends Application {
 		System.out.println("hello everyboooty");
 
 		initThings();
-		loadMenuItems();
+//		loadMenuItems();
 
 		readDataFromExcel();
 
@@ -391,12 +357,7 @@ public class MyApp extends Application {
 		if (sharedPreferences.contains("is_user_login")
 				&& sharedPreferences.getBoolean("is_user_login", false)) {
 			System.out.println("hello   1");
-			fetchPreferences();
-
-			// Intent intent = new Intent(this, MenuActivity2.class);
-			// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			// | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			// startActivity(intent);
+//			fetchPreferences();
 
 		} else {
 			System.out.println("hello   2");
@@ -785,147 +746,147 @@ public class MyApp extends Application {
 		return new Encrypter(null, null).encrypt(string);
 	}
 
-	public String formatDateToString(Date date) {
-		if (date == null) {
-			return "-";
-		}
-
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-		String dateStr = formatter.format(date);
-		System.out.println(">><<><><><" + dateStr);
-		return dateStr;
-	}
-
-	public String formatDateToString2(Date date) {
-
-		if (date == null) {
-			return "-";
-		}
-
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"EEE, dd MMM, hh:mmaa");
-		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-		String dateStr = formatter.format(date);
-		System.out.println(">><<><><><" + dateStr);
-		return dateStr;
-	}
-
-	public String formatDateToString3(Date date) {
-
-		if (date == null) {
-			return "-";
-		}
-
-		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-
-		String dateStr = formatter.format(date);
-		System.out.println(">><<><><><" + dateStr);
-		return dateStr;
-	}
-
-	public String formatDateToString4(Date date) {
-		// 2015-01-14T14:16:34Z
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-		String dateStr = formatter.format(date);
-		System.out.println(">><<><><><" + dateStr);
-		return dateStr;
-	}
-
-	public Date formatStringToDate(String dateString) {
-		System.out.println("1212  :  " + dateString);
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ssZ");
-
-		Date date = null;
-		try {
-			date = formatter.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		// System.out.println(">><<><><><" + dateStr);
-		return date;
-	}
-
-	public Date formatStringToDate2(String dateString) {
-		System.out.println("1212  :  " + dateString);
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"EEE, dd MMM, hh:mmaa");
-
-		Date date = null;
-		try {
-			date = formatter.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		// System.out.println(">><<><><><" + dateStr);
-		return date;
-	}
-
-	public Date formatStringToDate3(String dateString) {
-		System.out.println("1212  :  " + dateString);
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-		// formatter.setTimeZone(TimeZone.getTimeZone("GMT+5"));
-
-		Date date = null;
-		try {
-			date = formatter.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		/** Just a temporary fix **/
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.add(Calendar.HOUR, -5);
-		cal.add(Calendar.MINUTE, -30);
-		Date dateMinus530 = cal.getTime();
-		/** Just a temporary fix **/
-
-		// return date;
-		return dateMinus530;
-	}
-
-	public Date formatStringToDate3Copy(String dateString) {
-		System.out.println("1212  :  " + dateString);
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
-
-		Date date = null;
-		try {
-			date = formatter.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		// System.out.println(">><<><><><" + dateStr);
-		return date;
-	}
-
-	@SuppressWarnings("deprecation")
-	public Date formatStringSpecialToDate(String dateString) {
-		/**
-		 * http://stackoverflow.com/questions/20036075/json-datetime-parsing-in-
-		 * android
-		 **/
-		if (dateString == null) {
-			return null;
-		}
-		System.out.println("1212  : " + dateString);
-		// String ackwardDate = "/Date(1376841597000)/";
-
-		Calendar calendar = Calendar.getInstance();
-		String ackwardRipOff = dateString.replace("\\/Date(", "").replace(
-				")\\/", "");
-		Long timeInMillis = Long.valueOf(ackwardRipOff);
-		calendar.setTimeInMillis(timeInMillis);
-		// calendar.setTimeZone(TimeZone.get);
-		System.out.println(calendar.getTime().toGMTString());
-		System.out.println(calendar.getTime());
-		return calendar.getTime();
-	}
+//	public String formatDateToString(Date date) {
+//		if (date == null) {
+//			return "-";
+//		}
+//
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
+//		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+//
+//		String dateStr = formatter.format(date);
+//		System.out.println(">><<><><><" + dateStr);
+//		return dateStr;
+//	}
+//
+//	public String formatDateToString2(Date date) {
+//
+//		if (date == null) {
+//			return "-";
+//		}
+//
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"EEE, dd MMM, hh:mmaa");
+//		// formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+//
+//		String dateStr = formatter.format(date);
+//		System.out.println(">><<><><><" + dateStr);
+//		return dateStr;
+//	}
+//
+//	public String formatDateToString3(Date date) {
+//
+//		if (date == null) {
+//			return "-";
+//		}
+//
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy HH:mm");
+//
+//		String dateStr = formatter.format(date);
+//		System.out.println(">><<><><><" + dateStr);
+//		return dateStr;
+//	}
+//
+//	public String formatDateToString4(Date date) {
+//		// 2015-01-14T14:16:34Z
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"yyyy-MM-dd'T'HH:mm:ss'Z'");
+//
+//		String dateStr = formatter.format(date);
+//		System.out.println(">><<><><><" + dateStr);
+//		return dateStr;
+//	}
+//
+//	public Date formatStringToDate(String dateString) {
+//		System.out.println("1212  :  " + dateString);
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"yyyy-MM-dd'T'HH:mm:ssZ");
+//
+//		Date date = null;
+//		try {
+//			date = formatter.parse(dateString);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		// System.out.println(">><<><><><" + dateStr);
+//		return date;
+//	}
+//
+//	public Date formatStringToDate2(String dateString) {
+//		System.out.println("1212  :  " + dateString);
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"EEE, dd MMM, hh:mmaa");
+//
+//		Date date = null;
+//		try {
+//			date = formatter.parse(dateString);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		// System.out.println(">><<><><><" + dateStr);
+//		return date;
+//	}
+//
+//	public Date formatStringToDate3(String dateString) {
+//		System.out.println("1212  :  " + dateString);
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
+//		// formatter.setTimeZone(TimeZone.getTimeZone("GMT+5"));
+//
+//		Date date = null;
+//		try {
+//			date = formatter.parse(dateString);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//
+//		/** Just a temporary fix **/
+//		Calendar cal = Calendar.getInstance();
+//		cal.setTime(date);
+//		cal.add(Calendar.HOUR, -5);
+//		cal.add(Calendar.MINUTE, -30);
+//		Date dateMinus530 = cal.getTime();
+//		/** Just a temporary fix **/
+//
+//		// return date;
+//		return dateMinus530;
+//	}
+//
+//	public Date formatStringToDate3Copy(String dateString) {
+//		System.out.println("1212  :  " + dateString);
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, hh:mm");
+//
+//		Date date = null;
+//		try {
+//			date = formatter.parse(dateString);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		// System.out.println(">><<><><><" + dateStr);
+//		return date;
+//	}
+//
+//	@SuppressWarnings("deprecation")
+//	public Date formatStringSpecialToDate(String dateString) {
+//		/**
+//		 * http://stackoverflow.com/questions/20036075/json-datetime-parsing-in-
+//		 * android
+//		 **/
+//		if (dateString == null) {
+//			return null;
+//		}
+//		System.out.println("1212  : " + dateString);
+//		// String ackwardDate = "/Date(1376841597000)/";
+//
+//		Calendar calendar = Calendar.getInstance();
+//		String ackwardRipOff = dateString.replace("\\/Date(", "").replace(
+//				")\\/", "");
+//		Long timeInMillis = Long.valueOf(ackwardRipOff);
+//		calendar.setTimeInMillis(timeInMillis);
+//		// calendar.setTimeZone(TimeZone.get);
+//		System.out.println(calendar.getTime().toGMTString());
+//		System.out.println(calendar.getTime());
+//		return calendar.getTime();
+//	}
 
 	public void readDataFromExcel() {
 		readAccountCategoryExcel();

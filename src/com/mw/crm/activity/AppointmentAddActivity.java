@@ -44,8 +44,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.service.AppointmentService;
@@ -90,6 +92,8 @@ public class AppointmentAddActivity extends CRMActivity {
 
 	RequestQueue queue;
 
+	DateFormatter dateFormatter;
+
 	private BroadcastReceiver appointmentUpdateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -112,9 +116,9 @@ public class AppointmentAddActivity extends CRMActivity {
 							.getText().toString(), detailsDiscussion_ET
 							.getText().toString(), interactionType_TV.getText()
 							.toString(), owner_TV.getText().toString(), null,
-					myApp.formatStringToDate3Copy(dateMeeting_TV.getText()
-							.toString()),
-					myApp.formatStringToDate3Copy(endTime_TV.getText()
+					dateFormatter.formatStringToDate3Copy(dateMeeting_TV
+							.getText().toString()),
+					dateFormatter.formatStringToDate3Copy(endTime_TV.getText()
 							.toString()));
 
 			nextIntent = new Intent(AppointmentAddActivity.this,
@@ -125,7 +129,7 @@ public class AppointmentAddActivity extends CRMActivity {
 					.getBooleanExtra("is_edit_mode", false))) {
 				nextIntent.putExtra("appointment_created", true);
 			}
-			startActivityForResult(nextIntent, MyApp.DETAILS_APPOINTMENT);
+			startActivityForResult(nextIntent, Constant.DETAILS_APPOINTMENT);
 
 		}
 	};
@@ -143,6 +147,8 @@ public class AppointmentAddActivity extends CRMActivity {
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
+
+		dateFormatter = new DateFormatter();
 	}
 
 	public void findThings() {
@@ -251,9 +257,9 @@ public class AppointmentAddActivity extends CRMActivity {
 
 			detailsDiscussion_ET.setText(tempAppointment.getDescription());
 
-			dateMeeting_TV.setText(myApp.formatDateToString(tempAppointment
-					.getStartTime()));
-			endTime_TV.setText(myApp.formatDateToString(tempAppointment
+			dateMeeting_TV.setText(dateFormatter
+					.formatDateToString(tempAppointment.getStartTime()));
+			endTime_TV.setText(dateFormatter.formatDateToString(tempAppointment
 					.getEndTime()));
 
 			/** Removed temporarily **/
@@ -389,10 +395,9 @@ public class AppointmentAddActivity extends CRMActivity {
 			return;
 		}
 
-		System.out
-				.println("check  :  "
-						+ myApp.formatStringToDate3(dateMeeting_TV.getText()
-								.toString()));
+		System.out.println("check  :  "
+				+ dateFormatter.formatStringToDate3(dateMeeting_TV.getText()
+						.toString()));
 
 		JSONObject params = new JSONObject();
 
@@ -414,14 +419,14 @@ public class AppointmentAddActivity extends CRMActivity {
 							MyApp.encryptData(detailsDiscussion_ET.getText()
 									.toString()))
 					.put("startdate",
-							myApp.formatDateToString4(myApp
+							dateFormatter.formatDateToString4(dateFormatter
 									.formatStringToDate3(dateMeeting_TV
 											.getText().toString())));
 			// .put("ownid", myApp.getLoginUserId());
 
 			if (endTime_TV.getText().toString().trim().length() > 1) {
-				params.put("enddate",
-						myApp.formatDateToString4(myApp
+				params.put("enddate", dateFormatter
+						.formatDateToString4(dateFormatter
 								.formatStringToDate3(endTime_TV.getText()
 										.toString())));
 			}
@@ -447,9 +452,9 @@ public class AppointmentAddActivity extends CRMActivity {
 		if (previousIntent.hasExtra("is_edit_mode")
 				&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 			/** Update Mode **/
-			url = MyApp.URL + MyApp.APPOINTMENTS_UPDATE;
+			url = Constant.URL + Constant.APPOINTMENTS_UPDATE;
 		} else {
-			url = MyApp.URL + MyApp.APPOINTMENTS_ADD;
+			url = Constant.URL + Constant.APPOINTMENTS_ADD;
 		}
 
 		params = MyApp.addParamToJson(params);
@@ -477,7 +482,8 @@ public class AppointmentAddActivity extends CRMActivity {
 							progressDialog.dismiss();
 
 							AlertDialog alertDialog = myApp.handleError(
-									createDialog,error, "Error while creating appointment.");
+									createDialog, error,
+									"Error while creating appointment.");
 							alertDialog.show();
 
 							// System.out.println("ERROR  : " +
@@ -552,11 +558,11 @@ public class AppointmentAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.account_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_ACCOUNT);
+			startActivityForResult(nextIntent, Constant.SEARCH_ACCOUNT);
 			break;
 		case R.id.owner_RL:
 			nextIntent.putExtra("user_value", 0);
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 		// case R.id.organizer_RL:
 		// nextIntent.putExtra("user_value", 1);
@@ -651,9 +657,11 @@ public class AppointmentAddActivity extends CRMActivity {
 							}
 
 							if (monthOfYear < 10) {
-								dateString = dateString + "-0" + (monthOfYear + 1);
+								dateString = dateString + "-0"
+										+ (monthOfYear + 1);
 							} else {
-								dateString = dateString + "-" + (monthOfYear + 1);
+								dateString = dateString + "-"
+										+ (monthOfYear + 1);
 							}
 							dateString = dateString + "-" + year;
 
@@ -689,7 +697,7 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
-			if (requestCode == MyApp.SEARCH_USER) {
+			if (requestCode == Constant.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				String text = list.get(positionItem);
 				switch (data.getIntExtra("user_value", -1)) {
@@ -705,12 +713,12 @@ public class AppointmentAddActivity extends CRMActivity {
 					break;
 				}
 			}
-			if (requestCode == MyApp.SEARCH_ACCOUNT) {
+			if (requestCode == Constant.SEARCH_ACCOUNT) {
 				account_TV.setText(accountList.get(positionItem).getName());
 				selectedAccount = positionItem;
 			}
 
-			if (requestCode == MyApp.DETAILS_APPOINTMENT) {
+			if (requestCode == Constant.DETAILS_APPOINTMENT) {
 				Intent intent = new Intent();
 				intent.putExtra("refresh_list", true);
 				if (previousIntent.hasExtra("search_text")) {

@@ -31,9 +31,10 @@ import com.android.volley.Request.Method;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Opportunity;
 
 public class OpportunityCloseActivity extends CRMActivity {
@@ -56,6 +57,8 @@ public class OpportunityCloseActivity extends CRMActivity {
 
 	boolean isWon;
 
+	DateFormatter dateFormatter;
+	
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
@@ -84,6 +87,7 @@ public class OpportunityCloseActivity extends CRMActivity {
 		opportunityWonMap = myApp.getOpportunityWonMap();
 
 		queue = Volley.newRequestQueue(this);
+		dateFormatter= new DateFormatter();
 	}
 
 	public void findThings() {
@@ -252,7 +256,7 @@ public class OpportunityCloseActivity extends CRMActivity {
 							.getCheckedRadioButtonId())).getTag())
 					.put("actualrevenue", actualValue_TV.getText().toString())
 					.put("closuredate",
-							myApp.formatDateToString4(myApp
+							dateFormatter.formatDateToString4(dateFormatter
 									.formatStringToDate3(closeDate_TV.getText()
 											.toString())))
 					.put("description", description_ET.getText().toString())
@@ -279,7 +283,7 @@ public class OpportunityCloseActivity extends CRMActivity {
 		}
 		params = MyApp.addParamToJson(params);
 
-		String url = MyApp.URL + MyApp.OPPORTUNITY_UPDATE;
+		String url = Constant.URL + Constant.OPPORTUNITY_UPDATE;
 
 		progressDialog.show();
 

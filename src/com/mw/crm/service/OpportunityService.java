@@ -23,7 +23,9 @@ import com.google.gson.Gson;
 import com.mw.crm.activity.MenuActivity2;
 import com.mw.crm.activity.OpportunityAddActivity;
 import com.mw.crm.activity.OpportunityListActivity;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Opportunity;
 import com.mw.crm.model.Solution;
 
@@ -31,7 +33,8 @@ public class OpportunityService extends IntentService {
 
 	MyApp myApp;
 	Gson gson = new Gson();
-
+	DateFormatter dateFormatter = new DateFormatter();
+	
 	List<Opportunity> opportunityList = new ArrayList<Opportunity>();
 
 	public OpportunityService() {
@@ -50,7 +53,7 @@ public class OpportunityService extends IntentService {
 
 		try {
 
-			String url = MyApp.URL + MyApp.OPPORTUNITY_DATA;
+			String url = Constant.URL + Constant.OPPORTUNITY_DATA;
 
 			System.out.println("URL : " + url);
 
@@ -216,7 +219,7 @@ public class OpportunityService extends IntentService {
 					MyApp.decryptData(jsonObject
 							.getString("opportunityratingcode")),
 					MyApp.decryptData(jsonObject.getString("pcl_kpmgstatus")),
-					myApp.formatStringSpecialToDate(MyApp
+					dateFormatter.formatStringSpecialToDate(MyApp
 							.getPerfectString(jsonObject
 									.getString("estimatedclosedate"))),
 					MyApp.decryptData(jsonObject.getString("estimatedvalue")),

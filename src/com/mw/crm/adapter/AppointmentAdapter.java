@@ -12,7 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Appointment;
 
 public class AppointmentAdapter extends BaseAdapter {
@@ -25,6 +26,8 @@ public class AppointmentAdapter extends BaseAdapter {
 	List<Appointment> appointmentList;
 	List<Appointment> tempAppointmentList;
 
+	DateFormatter dateFormatter;
+	
 	public AppointmentAdapter(Context context, List<Appointment> appointmentList) {
 		super();
 		this.context = context;
@@ -32,6 +35,7 @@ public class AppointmentAdapter extends BaseAdapter {
 		this.tempAppointmentList = new ArrayList<Appointment>();
 		this.tempAppointmentList.addAll(appointmentList);
 		myApp = (MyApp) context.getApplicationContext();
+		dateFormatter = new DateFormatter();
 	}
 
 	public void swapData(List<Appointment> appointmentList) {
@@ -78,7 +82,7 @@ public class AppointmentAdapter extends BaseAdapter {
 		viewHolder.purpose_TV.setText(tempAppointment
 				.getNameOfTheClientOfficial());
 		viewHolder.nameClient_TV.setText(tempAppointment.getPurposeOfMeeting());
-		viewHolder.date_TV.setText(myApp.formatDateToString(tempAppointment
+		viewHolder.date_TV.setText(dateFormatter.formatDateToString(tempAppointment
 				.getStartTime()));
 
 		return convertView;

@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Opportunity;
 import com.mw.crm.model.Solution;
 
@@ -37,7 +38,9 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	LayoutInflater inflater;
 	LinearLayout view_solution;
-
+	
+	DateFormatter dateFormatter;
+	
 	@SuppressLint("InflateParams")
 	private LinearLayout getViewSolution() {
 		return (LinearLayout) inflater.inflate(R.layout.view_solution_details,
@@ -59,6 +62,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view_solution = getViewSolution();
+		
+		dateFormatter = new DateFormatter();
 	}
 
 	public void findThings() {
@@ -188,7 +193,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			salesStage_TV.setText(selectedOpportunity.getSalesStage());
 			status_TV.setText(selectedOpportunity.getKpmgStatus());
 
-			expectedClosureDate_TV.setText(myApp.formatDateToString2(selectedOpportunity
+			expectedClosureDate_TV.setText(dateFormatter.formatDateToString2(selectedOpportunity
 					.getExpectedClosureDate()));
 			totalProposalValue_TV.setText(selectedOpportunity.getTotalProposalValue());
 			noOfSolution_TV.setText(selectedOpportunity.getNoOfSolutionRequired());
@@ -233,7 +238,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 				temp2 = null;
 			}
 
-			expectedClosureDate_TV.setText(myApp
+			expectedClosureDate_TV.setText(dateFormatter
 					.formatDateToString2(selectedOpportunity
 							.getExpectedClosureDate()));
 			totalProposalValue_TV.setText(selectedOpportunity

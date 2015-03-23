@@ -21,8 +21,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.activity.MenuActivity2;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
-import com.mw.crm.extra.MyApp;
 
 public class SolutionService extends IntentService {
 
@@ -44,7 +44,7 @@ public class SolutionService extends IntentService {
 
 		try {
 
-			String url = MyApp.URL + Constant.SOLUTION;
+			String url = Constant.URL + Constant.SOLUTION;
 
 			JSONObject params = new JSONObject();
 			params = MyApp.addParamToJson(params);

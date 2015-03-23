@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.model.Contact;
 
 public class ContactDetailsActivity extends CRMActivity {

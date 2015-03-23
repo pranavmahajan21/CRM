@@ -23,13 +23,16 @@ import com.google.gson.Gson;
 import com.mw.crm.activity.AppointmentAddActivity;
 import com.mw.crm.activity.AppointmentListActivity;
 import com.mw.crm.activity.MenuActivity2;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
+import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Appointment;
 
 public class AppointmentService extends IntentService {
 
 	MyApp myApp;
 	Gson gson = new Gson();
+	DateFormatter dateFormatter = new DateFormatter();
 
 	List<Appointment> appointmentList = new ArrayList<Appointment>();
 
@@ -49,7 +52,7 @@ public class AppointmentService extends IntentService {
 
 		try {
 
-			String url = MyApp.URL + MyApp.APPOINTMENTS_DATA;
+			String url = Constant.URL + Constant.APPOINTMENTS_DATA;
 
 			System.out.println("URL : " + url);
 
@@ -154,9 +157,9 @@ public class AppointmentService extends IntentService {
 
 					MyApp.decryptData(jsonObject.getString("ownerid")), MyApp
 							.decryptData(jsonObject.getString("organizer")),
-					myApp.formatStringSpecialToDate(MyApp
+							dateFormatter.formatStringSpecialToDate(MyApp
 							.getPerfectString(jsonObject
-									.getString("scheduledstart"))), myApp
+									.getString("scheduledstart"))), dateFormatter
 							.formatStringSpecialToDate(MyApp
 									.getPerfectString(jsonObject
 											.getString("scheduledend"))));

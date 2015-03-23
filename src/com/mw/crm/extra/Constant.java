@@ -2,6 +2,30 @@ package com.mw.crm.extra;
 
 public class Constant {
 
+	// public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
+	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
+	
+	/** Used to get List<T> **/
+	public static String APPOINTMENTS_DATA = "/PostAppointments";
+	public static String ACCOUNTS_DATA = "/PostAccounts";
+	public static String CONTACTS_DATA = "/PostContacts";
+	public static String OPPORTUNITY_DATA = "/PostOpportunities";
+
+	/** Used to create <T> **/
+	public static String APPOINTMENTS_ADD = "/appointments";
+	public static String ACCOUNTS_ADD = "/accounts";
+	public static String CONTACTS_ADD = "/contacts";
+	public static String OPPORTUNITY_ADD = "/opportunities";
+	public static String SERVICE_ADD = "/serviceconnect";
+
+	/** Used to update <T> **/
+	public static String APPOINTMENTS_UPDATE = "/PostAppointmentUpdate";
+	public static String ACCOUNTS_UPDATE = "/PostAccountUpdate";
+	public static String CONTACTS_UPDATE = "/PostContactUpdate";
+	public static String OPPORTUNITY_UPDATE = "/PostOpportunityUpdate";
+
+	public static String LOGIN = "/PostCurrentUser";
+
 	/** Used to get lookups **/
 	/** Used for **/
 	public static String USER = "/PostUser";
@@ -83,6 +107,17 @@ public class Constant {
 	public static final int SOLUTION4_VISIBLE = 603;
 	
 	/** Search Tags **/
+	final public static int SEARCH_SECTOR = 0;
+	final public static int SEARCH_HQ_COUNTRY = 1;
+	final public static int SEARCH_SUB_LOB = 10;
+	final public static int SEARCH_USER = 11;
+	final public static int SEARCH_ACCOUNT = 100;
+
+	final public static int DETAILS_ACCOUNT = 1100;
+	final public static int DETAILS_APPOINTMENT = 1100;
+	final public static int DETAILS_CONTACT = 1100;
+	final public static int DETAILS_OPPORTUNITY = 1100;
+	
 	public static final int SEARCH_SOLUTION = 13;
 	public static final int SEARCH_PRODUCT = 14;
 	public static final int SEARCH_PROFIT_CENTER = 15;

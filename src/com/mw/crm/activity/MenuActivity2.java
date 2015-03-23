@@ -1,5 +1,6 @@
 package com.mw.crm.activity;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.extra.DateFormatter;
+import com.mw.crm.model.Account;
+import com.mw.crm.model.Appointment;
+import com.mw.crm.model.Contact;
+import com.mw.crm.model.Opportunity;
 import com.mw.crm.service.AccountService;
 import com.mw.crm.service.AppointmentService;
 import com.mw.crm.service.CompetitorService;
@@ -39,7 +47,8 @@ public class MenuActivity2 extends Activity {
 	public static boolean isActivityVisible = false;
 
 	TextView menu_item_TV1, menu_item_TV2, menu_item_TV3, menu_item_TV4;
-	TextView syncMenuItem1_TV, syncMenuItem2_TV, syncMenuItem3_TV, syncMenuItem4_TV;
+	TextView syncMenuItem1_TV, syncMenuItem2_TV, syncMenuItem3_TV,
+			syncMenuItem4_TV;
 	LinearLayout lastSync_LL;
 
 	MyApp myApp;
@@ -50,6 +59,10 @@ public class MenuActivity2 extends Activity {
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
+
+	Gson gson;
+
+	DateFormatter dateFormatter;
 
 	private BroadcastReceiver appDataReceiver = new BroadcastReceiver() {
 		@Override
@@ -82,6 +95,8 @@ public class MenuActivity2 extends Activity {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = sharedPreferences.edit();
 
+		gson = new Gson();
+		dateFormatter = new DateFormatter();
 	}
 
 	public void findThings() {
@@ -113,8 +128,8 @@ public class MenuActivity2 extends Activity {
 	public void initView(String title, String title2) {
 		setTypeface();
 		if (sharedPreferences.contains("last_sync_date")) {
-//			syncDate_TV.setText(sharedPreferences.getString("last_sync_date",
-//					"-"));
+			// syncDate_TV.setText(sharedPreferences.getString("last_sync_date",
+			// "-"));
 		}
 	}
 
@@ -128,18 +143,19 @@ public class MenuActivity2 extends Activity {
 		findThings();
 		initView("Menu", null);
 
+		progressDialog.show();
 		if (previousIntent.hasExtra("is_first_time_login")
 				&& previousIntent.getBooleanExtra("is_first_time_login", true)) {
 			loadAppData();
-		}else{
+		} else {
 			// TODO
-//			fetchPreferences();
-//			rempve from MyApp
+			fetchPreferences();
+			// rempve from MyApp
 		}
 	}// onCreate
 
 	private void loadAppData() {
-		progressDialog.show();
+		// progressDialog.show();
 
 		Intent intent = new Intent(this, AccountService.class);
 
@@ -161,26 +177,26 @@ public class MenuActivity2 extends Activity {
 		intent = new Intent(this, CompetitorService.class);
 		X++;
 		startService(intent);
-		
+
 		intent = new Intent(this, ProductService.class);
 		X++;
 		startService(intent);
-		
+
 		intent = new Intent(this, ProfitCenterService.class);
 		X++;
 		startService(intent);
-		
+
 		intent = new Intent(this, SolutionService.class);
 		X++;
 		startService(intent);
-		
+
 		intent = new Intent(this, UserService.class);
 		X++;
 		startService(intent);
 
 		// TODO: do this in broadcaster
-		String temp = myApp.formatDateToString3(new Date());
-//		syncDate_TV.setText(temp);
+		String temp = dateFormatter.formatDateToString3(new Date());
+		// syncDate_TV.setText(temp);
 		editor.putString("last_sync_date", temp);
 		editor.commit();
 	}
@@ -236,8 +252,8 @@ public class MenuActivity2 extends Activity {
 
 	public void onOpportunity(View view) {
 		nextIntent = new Intent(this, OpportunityListActivity.class);
-//		 nextIntent = new Intent(this,
-//		 OpportunityAddActivity.class);
+		// nextIntent = new Intent(this,
+		// OpportunityAddActivity.class);
 		nextIntent.putExtra("is_my_opportunity", true);
 		startActivity(nextIntent);
 	}
@@ -245,5 +261,188 @@ public class MenuActivity2 extends Activity {
 	public void onService(View view) {
 		nextIntent = new Intent(this, ServiceAddActivity.class);
 		startActivity(nextIntent);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void fetchPreferences() {
+		if (sharedPreferences.contains("login_user_id")) {
+			myApp.setLoginUserId(sharedPreferences.getString("login_user_id",
+					null));
+		}
+
+		if (sharedPreferences.contains("account_list")) {
+			String value = sharedPreferences.getString("account_list", null);
+			if (value != null) {
+				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
+				}.getType();
+				myApp.setAccountList(
+						(List<Account>) gson.fromJson(value, listType), false);
+				System.out.println("Account size  : "
+						+ myApp.getAccountList().size());
+			}
+		}
+
+		if (sharedPreferences.contains("appointment_list")) {
+			String value = sharedPreferences
+					.getString("appointment_list", null);
+			if (value != null) {
+				Type listType = (Type) new TypeToken<ArrayList<Appointment>>() {
+				}.getType();
+				myApp.setAppointmentList(
+						(List<Appointment>) gson.fromJson(value, listType),
+						false);
+				System.out.println("Appointment size  : "
+						+ myApp.getAppointmentList().size());
+			}
+		}
+
+		if (sharedPreferences.contains("contact_list")) {
+			String value = sharedPreferences.getString("contact_list", null);
+			if (value != null) {
+				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
+				}.getType();
+				myApp.setContactList(
+						(List<Contact>) gson.fromJson(value, listType), false);
+				System.out.println("Contact size  : "
+						+ myApp.getContactList().size());
+			}
+		}
+
+		if (sharedPreferences.contains("opportunity_list")) {
+			String value = sharedPreferences
+					.getString("opportunity_list", null);
+			if (value != null) {
+				Type listType = (Type) new TypeToken<ArrayList<Opportunity>>() {
+				}.getType();
+				myApp.setOpportunityList(
+						(List<Opportunity>) gson.fromJson(value, listType),
+						false);
+				System.out.println("Opportunity size  : "
+						+ myApp.getOpportunityList().size());
+			}
+		}
+
+		if (sharedPreferences.contains("competitor_map")) {
+			String value = sharedPreferences.getString("competitor_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				myApp.setCompetitorMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Competitor map size  : "
+						+ myApp.getCompetitorMap().size());
+			}
+		}
+		if (sharedPreferences.contains("product_map")) {
+			String value = sharedPreferences.getString("product_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				myApp.setProductMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Product map size  : "
+						+ myApp.getProductMap().size());
+			}
+		}
+
+		if (sharedPreferences.contains("profit_center_map")) {
+			String value = sharedPreferences.getString("profit_center_map",
+					null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				myApp.setProfitCenterMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Profit Center map size  : "
+						+ myApp.getProfitCenterMap().size());
+			}
+		}
+
+		if (sharedPreferences.contains("solution_map")) {
+			String value = sharedPreferences.getString("solution_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				myApp.setSolutionMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("Solution map size  : "
+						+ myApp.getSolutionMap().size());
+			}
+		}
+		if (sharedPreferences.contains("user_map")) {
+			String value = sharedPreferences.getString("user_map", null);
+			if (value != null) {
+				Type mapType = (Type) new TypeToken<Map<String, String>>() {
+				}.getType();
+				myApp.setUserMap(
+						(Map<String, String>) gson.fromJson(value, mapType),
+						false);
+				System.out.println("User map size  : "
+						+ myApp.getUserMap().size());
+			}
+		}
+		progressDialog.dismiss();
+		loadUnloadedData();
+	}
+
+	private void loadUnloadedData() {
+		progressDialog = createDialog.createProgressDialog(
+				"Load Unloaded Data", "This may take some time", true, null);
+		progressDialog.show();
+
+		Intent intent;
+		if (myApp.getOpportunityList() == null) {
+			X++;
+			intent = new Intent(this, OpportunityService.class);
+			startService(intent);
+		}
+		if (myApp.getContactList() == null) {
+			X++;
+			intent = new Intent(this, ContactService.class);
+			startService(intent);
+		}
+		if (myApp.getAppointmentList() == null) {
+			X++;
+			intent = new Intent(this, AppointmentService.class);
+			startService(intent);
+		}
+		if (myApp.getAccountList() == null) {
+			X++;
+			intent = new Intent(this, AccountService.class);
+			startService(intent);
+		}
+		if (myApp.getUserMap() == null) {
+			X++;
+			intent = new Intent(this, UserService.class);
+			startService(intent);
+		}
+		if (myApp.getProductMap() == null) {
+			X++;
+			intent = new Intent(this, ProductService.class);
+			startService(intent);
+		}
+		if (myApp.getProfitCenterMap() == null) {
+			X++;
+			intent = new Intent(this, ProfitCenterService.class);
+			startService(intent);
+		}
+		if (myApp.getSolutionMap() == null) {
+			X++;
+			intent = new Intent(this, SolutionService.class);
+			startService(intent);
+		}
+		if (myApp.getCompetitorMap() == null) {
+			X++;
+			intent = new Intent(this, CompetitorService.class);
+			startService(intent);
+		}
+
+		if (X == 0) {
+			progressDialog.dismiss();
+		}
 	}
 }

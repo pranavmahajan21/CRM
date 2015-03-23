@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
 
 public class SearchMapAdapter extends BaseAdapter {
 

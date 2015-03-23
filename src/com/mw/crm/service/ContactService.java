@@ -23,7 +23,8 @@ import com.google.gson.Gson;
 import com.mw.crm.activity.ContactAddActivity;
 import com.mw.crm.activity.ContactListActivity;
 import com.mw.crm.activity.MenuActivity2;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.model.Contact;
 
 public class ContactService extends IntentService {
@@ -48,7 +49,7 @@ public class ContactService extends IntentService {
 
 		try {
 
-			String url = MyApp.URL + MyApp.CONTACTS_DATA;
+			String url = Constant.URL + Constant.CONTACTS_DATA;
 
 			System.out.println("URL : " + url);
 

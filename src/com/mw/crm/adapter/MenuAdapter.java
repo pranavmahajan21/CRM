@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.crm.activity.R;
-import com.mw.crm.extra.MyApp;
+import com.mw.crm.application.MyApp;
 import com.mw.crm.model.MenuItem;
 
 public class MenuAdapter extends BaseAdapter {

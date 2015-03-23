@@ -33,8 +33,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
 
 public class ServiceAddActivity extends CRMActivity {
 
@@ -279,7 +280,7 @@ public class ServiceAddActivity extends CRMActivity {
 		}
 		params = MyApp.addParamToJson(params);
 
-		String url = MyApp.URL + MyApp.SERVICE_ADD;
+		String url = Constant.URL + Constant.SERVICE_ADD;
 		System.out.println("json" + params);
 		progressDialog.show();
 		try {
@@ -328,7 +329,7 @@ public class ServiceAddActivity extends CRMActivity {
 
 		switch (view.getId()) {
 		case R.id.queryBy_RL:
-			startActivityForResult(nextIntent, MyApp.SEARCH_USER);
+			startActivityForResult(nextIntent, Constant.SEARCH_USER);
 			break;
 
 		default:
@@ -365,7 +366,7 @@ public class ServiceAddActivity extends CRMActivity {
 			if (data != null) {
 				positionItem = data.getIntExtra("position_item", 0);
 			}
-			if (requestCode == MyApp.SEARCH_USER) {
+			if (requestCode == Constant.SEARCH_USER) {
 				List<String> list = new ArrayList<String>(userMap.values());
 				String text = list.get(positionItem);
 				queryBy_TV.setText(text);

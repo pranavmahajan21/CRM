@@ -27,8 +27,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.crm.activity.R;
 import com.google.gson.Gson;
+import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
-import com.mw.crm.extra.MyApp;
 
 public class LoginActivity extends Activity {
 	MyApp myApp;
@@ -190,7 +191,7 @@ public class LoginActivity extends Activity {
 			e1.printStackTrace();
 		}
 		params = MyApp.addParamToJson(params);
-		String url = MyApp.URL + MyApp.LOGIN;
+		String url = Constant.URL + Constant.LOGIN;
 
 		progressDialog.show();
 
