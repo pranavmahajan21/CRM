@@ -83,8 +83,7 @@ public class OpportunityAdapter extends BaseAdapter {
 
 		Opportunity tempOpportunity = opportunityList.get(position);
 
-//		viewHolder.crmId_TV.setText(myApp
-//				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
+		viewHolder.crmId_TV.setText(tempOpportunity.getCrmId());
 		viewHolder.description_TV.setText(tempOpportunity.getDescription());
 		viewHolder.customerId_TV.setText(myApp
 				.getStringNameFromStringJSON(tempOpportunity.getCustomerId()));
@@ -104,7 +103,6 @@ public class OpportunityAdapter extends BaseAdapter {
 			temp = null;
 		}
 
-		//		viewHolder.costTV.setText(tempOpportunity.getTotalAmount());
 		return convertView;
 	}
 

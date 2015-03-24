@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -57,25 +58,28 @@ public class CompetitorService extends IntentService {
 						public void onResponse(JSONArray response) {
 							System.out.println("length2" + response);
 
-							for (int i = 0; i < response.length(); i++) {
-								try {
-									createCompetitorMap(response.getJSONObject(i));
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
+							ProcessResponseAsynTask asynTask = new ProcessResponseAsynTask();
+							asynTask.execute(response);
 
-							}
-							// TODO : update preferences as well
-							myApp.setCompetitorMap(competitorMap, true);
-							onRequestComplete();
+//							for (int i = 0; i < response.length(); i++) {
+//								try {
+//									createCompetitorMap(response
+//											.getJSONObject(i));
+//								} catch (JSONException e) {
+//									e.printStackTrace();
+//								}
+//
+//							}
+//							myApp.setCompetitorMap(competitorMap, true);
+//							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							System.out.println("ERROR  : " + error.getMessage());
-							Toast.makeText(
-									CompetitorService.this,
+							System.out
+									.println("ERROR  : " + error.getMessage());
+							Toast.makeText(CompetitorService.this,
 									"Error while fetching cometitor data.",
 									Toast.LENGTH_LONG).show();
 							error.printStackTrace();
@@ -107,13 +111,41 @@ public class CompetitorService extends IntentService {
 		super.onDestroy();
 	}
 
+	private class ProcessResponseAsynTask extends
+			AsyncTask<JSONArray, Void, Void> {
+
+		@Override
+		protected Void doInBackground(JSONArray... params) {
+			JSONArray responseJsonArray = params[0];
+			for (int i = 0; i < responseJsonArray.length(); i++) {
+				try {
+					createCompetitorMap(responseJsonArray
+							.getJSONObject(i));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+			myApp.setCompetitorMap(competitorMap, true);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aa) {
+			super.onPostExecute(aa);
+			onRequestComplete();
+		}
+
+	}
+
 	private void createCompetitorMap(JSONObject jsonObject) {
 		try {
 
-			/*System.out.println("[][]"
-					+ MyApp.getPerfectString(jsonObject
-							.getString("competitorid")) + "\n[][]"
-					+ MyApp.getPerfectString(jsonObject.getString("name")));*/
+			/*
+			 * System.out.println("[][]" + MyApp.getPerfectString(jsonObject
+			 * .getString("competitorid")) + "\n[][]" +
+			 * MyApp.getPerfectString(jsonObject.getString("name")));
+			 */
 
 			competitorMap.put(MyApp.getPerfectString(jsonObject
 					.getString("competitorid")), MyApp

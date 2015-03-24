@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -69,17 +70,22 @@ public class ContactService extends IntentService {
 							System.out.println("Contact response"
 									+ response.toString());
 
-							for (int i = 0; i < response.length(); i++) {
-								try {
-									contactList.add(getContactObject(response
-											.getJSONObject(i)));
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-
-							}
-							myApp.setContactList(contactList, true, new DateFormatter().formatDateToString3(new Date()));
-							onRequestComplete();
+							ProcessResponseAsynTask asynTask = new ProcessResponseAsynTask();
+							asynTask.execute(response);
+							
+//							for (int i = 0; i < response.length(); i++) {
+//								try {
+//									contactList.add(getContactObject(response
+//											.getJSONObject(i)));
+//								} catch (JSONException e) {
+//									e.printStackTrace();
+//								}
+//
+//							}
+//							myApp.setContactList(contactList, true,
+//									new DateFormatter()
+//											.formatDateToString3(new Date()));
+//							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
@@ -121,6 +127,35 @@ public class ContactService extends IntentService {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+	}
+
+	private class ProcessResponseAsynTask extends
+			AsyncTask<JSONArray, Void, Void> {
+
+		@Override
+		protected Void doInBackground(JSONArray... params) {
+			JSONArray responseJsonArray = params[0];
+			for (int i = 0; i < responseJsonArray.length(); i++) {
+				try {
+					contactList.add(getContactObject(responseJsonArray
+							.getJSONObject(i)));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+			myApp.setContactList(contactList, true,
+					new DateFormatter()
+							.formatDateToString3(new Date()));
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aa) {
+			super.onPostExecute(aa);
+			onRequestComplete();
+		}
+
 	}
 
 	private Contact getContactObject(JSONObject jsonObject) {

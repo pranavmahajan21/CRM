@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -69,22 +70,28 @@ public class AccountService extends IntentService {
 							System.out.println(">>>>Account Response => "
 									+ response.toString());
 
-							for (int i = 0; i < response.length(); i++) {
-								try {
-									accountList.add(getAccountObject(response
-											.getJSONObject(i)));
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-							}
-							myApp.setAccountList(accountList, true, new DateFormatter().formatDateToString3(new Date()));
-							onRequestComplete();
+							ProcessResponseAsynTask asynTask = new ProcessResponseAsynTask();
+							asynTask.execute(response);
+
+							// for (int i = 0; i < response.length(); i++) {
+							// try {
+							// accountList.add(getAccountObject(response
+							// .getJSONObject(i)));
+							// } catch (JSONException e) {
+							// e.printStackTrace();
+							// }
+							// }
+							// myApp.setAccountList(accountList, true,
+							// new DateFormatter()
+							// .formatDateToString3(new Date()));
+							// onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							System.out.println("ERROR  : " + error.getMessage());
+							System.out
+									.println("ERROR  : " + error.getMessage());
 							Toast.makeText(AccountService.this,
 									"Error while fetching Accounts",
 									Toast.LENGTH_LONG).show();
@@ -120,6 +127,33 @@ public class AccountService extends IntentService {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+	}
+
+	private class ProcessResponseAsynTask extends
+			AsyncTask<JSONArray, Void, Void> {
+
+		@Override
+		protected Void doInBackground(JSONArray... params) {
+			JSONArray responseJsonArray = params[0];
+			for (int i = 0; i < responseJsonArray.length(); i++) {
+				try {
+					accountList.add(getAccountObject(responseJsonArray
+							.getJSONObject(i)));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			myApp.setAccountList(accountList, true,
+					new DateFormatter().formatDateToString3(new Date()));
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aa) {
+			super.onPostExecute(aa);
+			onRequestComplete();
+		}
+
 	}
 
 	private Account getAccountObject(JSONObject jsonObject) {

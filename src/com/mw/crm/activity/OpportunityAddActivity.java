@@ -745,6 +745,8 @@ public class OpportunityAddActivity extends CRMActivity {
 			selectedProbability = Constant.DEFAULT_PROBABILITY_INDEX;
 			selectedStatus = Constant.DEFAULT_STATUS_INDEX;
 			selectedNoOfSolution = Constant.DEFAULT_NO_OF_SOLUTION_INDEX;
+			
+			setParentLLVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
 
 			salesStage_TV.setText(salesStageMap.get(new ArrayList<String>(
 					salesStageMap.keySet()).get(selectedSalesStage)));
@@ -800,10 +802,10 @@ public class OpportunityAddActivity extends CRMActivity {
 
 		hideKeyboardFunctionality();
 
-		childSolution1_LL.addView(view_solution);
-		setTypefaceToChildLL(childSolution1_LL);
-		setDecimalLimitOnFields(childSolution1_LL);
-		setOnFocusLoseListener(childSolution1_LL);
+//		childSolution1_LL.addView(view_solution);
+//		setTypefaceToChildLL(childSolution1_LL);
+//		setDecimalLimitOnFields(childSolution1_LL);
+//		setOnFocusLoseListener(childSolution1_LL);
 
 	}
 
@@ -1643,7 +1645,7 @@ public class OpportunityAddActivity extends CRMActivity {
 	private void addSolutionViewToChild(int visibility1, int visibility2,
 			int visibility3, int visibility4) {
 
-		if (visibility2 == View.VISIBLE) {
+		if (visibility1 == View.VISIBLE) {
 			if (childSolution1_LL.getChildCount() == 0) {
 				childSolution1_LL.addView(getViewSolution());
 				setTypefaceToChildLL(childSolution1_LL);

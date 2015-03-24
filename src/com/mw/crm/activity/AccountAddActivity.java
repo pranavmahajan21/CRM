@@ -396,27 +396,6 @@ public class AccountAddActivity extends CRMActivity {
 					"Please select a country.", false);
 			notErrorCase = false;
 		}
-		// else if (selectedSector < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a sector.", false);
-		// notErrorCase = false;
-		// } else if (selectedLob < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a LOB.", false);
-		// notErrorCase = false;
-		// } else if (selectedSubLob < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a Sub Lob.", false);
-		// notErrorCase = false;
-		// } else if (selectedLeadPartner < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a Lead Partner.", false);
-		// notErrorCase = false;
-		// } else if (selectedAccountCategory < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select an Account Category.", false);
-		// notErrorCase = false;
-		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -448,14 +427,6 @@ public class AccountAddActivity extends CRMActivity {
 				params.put("sectors", new ArrayList<String>(sectorMap.keySet())
 						.get(selectedSector));
 			}
-//			if (selectedLob > -1) {
-//				params.put("lobusiness",
-//						new ArrayList<String>(lobMap.keySet()).get(selectedLob));
-//			}
-//			if (selectedSubLob > -1) {
-//				params.put("slob", new ArrayList<String>(subLobMap.keySet())
-//						.get(selectedSubLob));
-//			}
 			if (selectedLeadPartner > -1) {
 				params.put("leadpartner",
 						new ArrayList<String>(userMap.keySet())
@@ -559,9 +530,6 @@ public class AccountAddActivity extends CRMActivity {
 		case R.id.headquarter_RL:
 			startActivityForResult(nextIntent, Constant.SEARCH_HQ_COUNTRY);
 			break;
-		// case R.id.sublob_RL:
-		// startActivityForResult(nextIntent, MyApp.SEARCH_SUB_LOB);
-		// break;
 		case R.id.leadPartner_RL:
 			nextIntent.putExtra("user_value", 0);
 			startActivityForResult(nextIntent, Constant.SEARCH_USER);

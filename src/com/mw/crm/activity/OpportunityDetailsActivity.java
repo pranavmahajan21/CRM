@@ -263,6 +263,7 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 			confidential_TV.setText(selectedOpportunity.getIsConfidential());
 
+			Double tempDouble = null;
 			Integer temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
 					.getSalesStage());
 			if (temp2 != null) {
@@ -294,12 +295,12 @@ public class OpportunityDetailsActivity extends CRMActivity {
 				temp2 = null;
 			}
 
-			temp2 = myApp.getIntValueFromStringJSON(selectedOpportunity
+			tempDouble = myApp.getDoubleValueFromStringJSON(selectedOpportunity
 					.getTotalProposalValue());
-			if (temp2 != null) {
+			if (tempDouble != null) {
 				totalProposalValue_TV
-						.setText(Integer.toString(temp2.intValue()));
-				temp2 = null;
+						.setText(tempDouble.intValue() + "");
+				tempDouble = null;
 			}
 
 			expectedClosureDate_TV.setText(dateFormatter

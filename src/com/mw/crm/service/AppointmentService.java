@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -68,18 +69,23 @@ public class AppointmentService extends IntentService {
 							System.out.println(">>>>Appointment Response => "
 									+ response.toString());
 
-							for (int i = 0; i < response.length(); i++) {
-								try {
-									appointmentList
-											.add(getAppointmentObject(response
-													.getJSONObject(i)));
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
+							ProcessResponseAsynTask asynTask = new ProcessResponseAsynTask();
+							asynTask.execute(response);
 
-							}
-							myApp.setAppointmentList(appointmentList, true, new DateFormatter().formatDateToString3(new Date()));
-							onRequestComplete();
+//							for (int i = 0; i < response.length(); i++) {
+//								try {
+//									appointmentList
+//											.add(getAppointmentObject(response
+//													.getJSONObject(i)));
+//								} catch (JSONException e) {
+//									e.printStackTrace();
+//								}
+//
+//							}
+//							myApp.setAppointmentList(appointmentList, true,
+//									new DateFormatter()
+//											.formatDateToString3(new Date()));
+//							onRequestComplete();
 						}
 
 						// TODO What is the difference b/w creating this func
@@ -91,7 +97,8 @@ public class AppointmentService extends IntentService {
 
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							System.out.println("ERROR  : " + error.getMessage());
+							System.out
+									.println("ERROR  : " + error.getMessage());
 							Toast.makeText(AppointmentService.this,
 									"Error while fetching Appointment",
 									Toast.LENGTH_LONG).show();
@@ -142,6 +149,34 @@ public class AppointmentService extends IntentService {
 		super.onDestroy();
 	}
 
+	private class ProcessResponseAsynTask extends
+			AsyncTask<JSONArray, Void, Void> {
+
+		@Override
+		protected Void doInBackground(JSONArray... params) {
+			JSONArray responseJsonArray = params[0];
+			for (int i = 0; i < responseJsonArray.length(); i++) {
+				try {
+					appointmentList
+							.add(getAppointmentObject(responseJsonArray
+									.getJSONObject(i)));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+			myApp.setAppointmentList(appointmentList, true, new DateFormatter().formatDateToString3(new Date()));
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aa) {
+			super.onPostExecute(aa);
+			onRequestComplete();
+		}
+
+	}
+
 	private Appointment getAppointmentObject(JSONObject jsonObject) {
 		try {
 
@@ -158,12 +193,12 @@ public class AppointmentService extends IntentService {
 
 					MyApp.decryptData(jsonObject.getString("ownerid")), MyApp
 							.decryptData(jsonObject.getString("organizer")),
-							dateFormatter.formatStringSpecialToDate(MyApp
+					dateFormatter.formatStringSpecialToDate(MyApp
 							.getPerfectString(jsonObject
-									.getString("scheduledstart"))), dateFormatter
-							.formatStringSpecialToDate(MyApp
-									.getPerfectString(jsonObject
-											.getString("scheduledend"))));
+									.getString("scheduledstart"))),
+					dateFormatter.formatStringSpecialToDate(MyApp
+							.getPerfectString(jsonObject
+									.getString("scheduledend"))));
 			return appointment;
 
 		} catch (JSONException e) {
