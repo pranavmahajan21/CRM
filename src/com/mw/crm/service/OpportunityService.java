@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -36,7 +37,8 @@ public class OpportunityService extends IntentService {
 	MyApp myApp;
 	Gson gson = new Gson();
 	DateFormatter dateFormatter = new DateFormatter();
-	
+
+	List<Solution> solutionList;
 	List<Opportunity> opportunityList = new ArrayList<Opportunity>();
 
 	public OpportunityService() {
@@ -71,28 +73,29 @@ public class OpportunityService extends IntentService {
 							System.out.println("Oppo response"
 									+ response.toString());
 
-							for (int i = 0; i < response.length(); i++) {
-								try {
-									opportunityList
-											.add(getOpportunityObject(response
-													.getJSONObject(i)));
-								} catch (JSONException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								// System.out.println("<><>"
-								// + accountList.get(i).getName());
-							}
-							myApp.setOpportunityList(opportunityList, true, new DateFormatter().formatDateToString3(new Date()));
-							Toast.makeText(OpportunityService.this, "Done",
-									Toast.LENGTH_SHORT).show();
-							onRequestComplete();
+							ProcessResponseAsynTask asynTask = new ProcessResponseAsynTask();
+							asynTask.execute(response);
+
+//							for (int i = 0; i < response.length(); i++) {
+//								try {
+//									opportunityList
+//											.add(getOpportunityObject(response
+//													.getJSONObject(i)));
+//								} catch (JSONException e) {
+//									e.printStackTrace();
+//								}
+//							}
+//							myApp.setOpportunityList(opportunityList, true,
+//									new DateFormatter()
+//											.formatDateToString3(new Date()));
+//							onRequestComplete();
 						}
 					}, new Response.ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							System.out.println("ERROR  : " + error.getMessage());
+							System.out
+									.println("ERROR  : " + error.getMessage());
 							Toast.makeText(OpportunityService.this,
 									"Error while fetching oppotunitites",
 									Toast.LENGTH_LONG).show();
@@ -122,7 +125,7 @@ public class OpportunityService extends IntentService {
 		} else if (OpportunityAddActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
-		}else if (OpportunityCloseActivity.isActivityVisible) {
+		} else if (OpportunityCloseActivity.isActivityVisible) {
 			Intent nextIntent = new Intent("opportunity_update_receiver");
 			LocalBroadcastManager.getInstance(this).sendBroadcast(nextIntent);
 		}
@@ -133,7 +136,34 @@ public class OpportunityService extends IntentService {
 		super.onDestroy();
 	}
 
-	List<Solution> solutionList;
+	private class ProcessResponseAsynTask extends
+			AsyncTask<JSONArray, Void, Void> {
+
+		@Override
+		protected Void doInBackground(JSONArray... params) {
+			JSONArray responseJsonArray = params[0];
+			for (int i = 0; i < responseJsonArray.length(); i++) {
+				try {
+					opportunityList
+							.add(getOpportunityObject(responseJsonArray
+									.getJSONObject(i)));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			myApp.setOpportunityList(opportunityList, true,
+					new DateFormatter()
+							.formatDateToString3(new Date()));
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aa) {
+			super.onPostExecute(aa);
+			onRequestComplete();
+		}
+
+	}
 
 	private Opportunity getOpportunityObject(JSONObject jsonObject) {
 		solutionList = new ArrayList<Solution>();
@@ -214,6 +244,8 @@ public class OpportunityService extends IntentService {
 									.getString("pcl_nfrfy2solution4"))));
 
 			Opportunity opportunity = new Opportunity(
+					MyApp.getPerfectString(jsonObject
+							.getString("pcl_opportunitynumber")),
 					MyApp.getPerfectString(jsonObject
 							.getString("opportunityid")),
 					MyApp.getPerfectString(jsonObject.getString("name")),

@@ -68,9 +68,9 @@ public class LoginActivity extends Activity {
 		queue = Volley.newRequestQueue(this);
 
 		nextIntent = new Intent(this, MenuActivity2.class);
+//		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	}
 
 	public void findThings() {
@@ -107,26 +107,14 @@ public class LoginActivity extends Activity {
 		findThings();
 		initView();
 
-		if (sharedPreferences.contains("is_user_login")
-				&& sharedPreferences.getBoolean("is_user_login", false)) {
+		if (sharedPreferences.contains(Constant.PREF_IS_USER_LOGIN)
+				&& sharedPreferences.getBoolean(Constant.PREF_IS_USER_LOGIN, false)) {
 			System.out.println("hello   3");
 			startActivity(nextIntent);
-		} else if (previousIntent.hasExtra("on_the_go")) {
-			System.out.println("hello   4");
-		} 
-//		else {
-//			alertDialogBuilder = createDialog.createAlertDialog("Alert",
-//					"First time login oly through On The Go app.", false);
-//			alertDialogBuilder.setPositiveButton("OK",
-//					new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int id) {
-//							dialog.dismiss();
-//							finish();
-//						}
-//					});
-//			alertDialog = alertDialogBuilder.create();
-//			alertDialog.show();
-//		}
+		}
+//		else if (previousIntent.hasExtra("on_the_go")) {
+//			System.out.println("hello   4");
+//		} 
 	}
 
 	private boolean validate() {
@@ -153,7 +141,7 @@ public class LoginActivity extends Activity {
 		progressDialog.dismiss();
 
 		if (response.has("id")) {
-			editor.putBoolean("is_user_login", true);
+			editor.putBoolean(Constant.PREF_IS_USER_LOGIN, true);
 			editor.commit();
 			try {
 				myApp.setLoginUserId(response.getString("id"));

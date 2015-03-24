@@ -37,14 +37,12 @@ public class OpportunityListActivity extends CRMActivity {
 	MyApp myApp;
 
 	EditText search_ET;
-	// AutoCompleteTextView searchOpportunity_ET;
 	TextView errorTV;
 
 	ListView opportunityLV;
 	List<Opportunity> opportunityList;
 	List<Opportunity> subOpportunityList;
 	OpportunityAdapter adapter;
-	// OpportunitySearchAdapter adapter2;
 
 	Intent previousIntent, nextIntent;
 

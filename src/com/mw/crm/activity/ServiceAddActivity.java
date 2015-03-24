@@ -36,6 +36,7 @@ import com.example.crm.activity.R;
 import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.SearchEngine;
 
 public class ServiceAddActivity extends CRMActivity {
 
@@ -48,19 +49,14 @@ public class ServiceAddActivity extends CRMActivity {
 	RequestQueue queue;
 
 	TextView queryByLabel_TV, supportTypeLabel_TV, descriptionLabel_TV;
-	// nameLabel_TV, priorityLevelLabel_TV
 
 	TextView queryBy_TV, supportType_TV;
-	// , priorityLevel_TV
 
 	EditText description_ET;
-	// name_ET,
 
 	RelativeLayout supportType_RL;
-	// , priorityLevel_RL
 
 	int selectedQueryBy = -1, selectedSupportType = -1;
-	// selectedPriorityLevel = -1;
 
 	Map<String, String> priorityLevelMap;
 	Map<String, String> supportTypeMap;
@@ -94,35 +90,23 @@ public class ServiceAddActivity extends CRMActivity {
 
 		queryByLabel_TV = (TextView) findViewById(R.id.queryByLabel_TV);
 		supportTypeLabel_TV = (TextView) findViewById(R.id.supportTypeLabel_TV);
-		// nameLabel_TV = (TextView) findViewById(R.id.nameLabel_TV);
 		descriptionLabel_TV = (TextView) findViewById(R.id.descriptionLabel_TV);
-		// priorityLevelLabel_TV = (TextView)
-		// findViewById(R.id.priorityLevelLabel_TV);
 
 		queryBy_TV = (TextView) findViewById(R.id.queryBy_TV);
 		supportType_TV = (TextView) findViewById(R.id.supportType_TV);
-		// priorityLevel_TV = (TextView) findViewById(R.id.priorityLevel_TV);
 
-		// name_ET = (EditText) findViewById(R.id.name_ET);
 		description_ET = (EditText) findViewById(R.id.description_ET);
 
 		supportType_RL = (RelativeLayout) findViewById(R.id.supportType_RL);
-		// priorityLevel_RL = (RelativeLayout)
-		// findViewById(R.id.priorityLevel_RL);
 	}
 
 	private void setTypeface() {
 		queryByLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		supportTypeLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// nameLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 		descriptionLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// priorityLevelLabel_TV.setTypeface(myApp.getTypefaceRegularSans());
 
 		queryBy_TV.setTypeface(myApp.getTypefaceRegularSans());
-		// name_ET.setTypeface(myApp.getTypefaceRegularSans());
 		description_ET.setTypeface(myApp.getTypefaceRegularSans());
-		// priorityLevel_TV.setTypeface(myApp.getTypefaceRegularSans());
-
 		supportType_TV.setTypeface(myApp.getTypefaceRegularSans());
 	}
 
@@ -131,12 +115,8 @@ public class ServiceAddActivity extends CRMActivity {
 		setTypeface();
 
 		// selectedQueryBy
-		int i = myApp.getIndexFromKeyUserMap(myApp.getLoginUserId());
+		int i =  new SearchEngine(this).getIndexFromKeyUserMap(myApp.getLoginUserId());
 		selectedQueryBy = i;
-//		System.out.println("key  : "
-//				+ new ArrayList<String>(myApp.getUserMap().keySet()).get(i)
-//				+ "value  : "
-//				+ new ArrayList<String>(myApp.getUserMap().values()).get(i));
 		queryBy_TV.setText(new ArrayList<String>(myApp.getUserMap().values())
 				.get(i));
 	}
@@ -167,7 +147,6 @@ public class ServiceAddActivity extends CRMActivity {
 		hideKeyboardFunctionality();
 
 		registerForContextMenu(supportType_RL);
-		// registerForContextMenu(priorityLevel_RL);
 	}
 
 	@Override
@@ -197,10 +176,6 @@ public class ServiceAddActivity extends CRMActivity {
 			selectedSupportType = item.getOrder();
 			supportType_TV.setText(item.getTitle());
 		}
-		// else if (item.getGroupId() == 1) {
-		// selectedPriorityLevel = item.getOrder();
-		// priorityLevel_TV.setText(item.getTitle());
-		// }
 		return super.onContextItemSelected(item);
 	}
 
@@ -211,31 +186,16 @@ public class ServiceAddActivity extends CRMActivity {
 
 	private boolean validate() {
 		boolean notErrorCase = true;
-//		if (selectedQueryBy < 0) {
-//			alertDialogBuilder = createDialog.createAlertDialog(null,
-//					"Please select an owner.", false);
-//			notErrorCase = false;
-//		} else
 			if (selectedSupportType < 0) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please select a Support Type.", false);
 			notErrorCase = false;
 		}
-		// else if (name_ET.getText().toString().trim().length() < 1) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please enter some Name.", false);
-		// notErrorCase = false;
-		// }
 		else if (description_ET.getText().toString().trim().length() < 1) {
 			alertDialogBuilder = createDialog.createAlertDialog(null,
 					"Please enter some description.", false);
 			notErrorCase = false;
 		}
-		// else if (selectedPriorityLevel < 0) {
-		// alertDialogBuilder = createDialog.createAlertDialog(null,
-		// "Please select a Priority Level.", false);
-		// notErrorCase = false;
-		// }
 		if (!notErrorCase) {
 			alertDialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -375,16 +335,4 @@ public class ServiceAddActivity extends CRMActivity {
 		}
 	}
 
-	// @Override
-	// protected void onResume() {
-	// super.onResume();
-	// isActivityVisible = true;
-	//
-	// }
-	//
-	// @Override
-	// protected void onPause() {
-	// isActivityVisible = false;
-	// super.onPause();
-	// }
 }

@@ -170,7 +170,8 @@ public class ContactDetailsActivity extends CRMActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent dataIntent) {
+	protected void onActivityResult(int requestCode, int resultCode,
+			Intent dataIntent) {
 		super.onActivityResult(requestCode, resultCode, dataIntent);
 		if (resultCode == RESULT_OK) {
 			if (dataIntent != null) {
@@ -178,7 +179,9 @@ public class ContactDetailsActivity extends CRMActivity {
 					dataIntent.putExtra("search_text",
 							previousIntent.getStringExtra("search_text"));
 				}
-				setResult(RESULT_OK, dataIntent);
+				if (dataIntent.hasExtra("refresh_list")) {
+					setResult(RESULT_OK, dataIntent);
+				}
 			}
 			finish();
 		}

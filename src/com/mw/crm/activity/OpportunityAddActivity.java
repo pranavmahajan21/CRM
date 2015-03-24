@@ -66,12 +66,10 @@ public class OpportunityAddActivity extends CRMActivity {
 	TextView clientNameLabel_TV, leadSourceLabel_TV, salesStageLabel_TV,
 			probabilityLabel_TV, statusLabel_TV, expectedClosureDateLabel_TV,
 			totalProposalValueLabel_TV, noOfSolutionLabel_TV;
-	// , countryLabel_TV, lobLabel_TV, sublobLabel_TV,
-	// sectorLabel_TV, oppoManagerLabel_TV
+
 	TextView clientName_TV, leadSource_TV, salesStage_TV, probability_TV,
 			status_TV, expectedClosureDate_TV, totalProposalValue_TV,
 			noOfSolution_TV;
-	// country_TV, lob_TV, sublob_TV, sector_TV, oppoManager_TV
 
 	TextView descriptionLabel_TV;
 	EditText description_ET;
@@ -81,7 +79,6 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	RadioGroup confidential_RG;
 
-	// , oppoManager_RL
 	/** Solution **/
 	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL,
 			parentSolution4_LL;
@@ -105,7 +102,6 @@ public class OpportunityAddActivity extends CRMActivity {
 
 	Opportunity tempOpportunity;
 
-	// Map<String, String> lobMap;
 	Map<String, String> leadSourceMap;
 	Map<String, String> salesStageMap;
 	Map<String, String> probabilityMap;
@@ -184,17 +180,6 @@ public class OpportunityAddActivity extends CRMActivity {
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-					.getBooleanExtra("is_edit_mode", false))) {
-				Toast.makeText(OpportunityAddActivity.this,
-						"Opportunity updated successfully.", Toast.LENGTH_SHORT)
-						.show();
-			} else {
-				Toast.makeText(OpportunityAddActivity.this,
-						"Opportunity created successfully.", Toast.LENGTH_SHORT)
-						.show();
-			}
-
 			List<Solution> solutionList = new ArrayList<Solution>();
 			solutionList.add(getSolutionObjectFromChildLL(childSolution1_LL));
 			if (selectedNoOfSolution > 0) {
@@ -210,8 +195,8 @@ public class OpportunityAddActivity extends CRMActivity {
 						.add(getSolutionObjectFromChildLL(childSolution4_LL));
 			}
 
-			Opportunity aa = new Opportunity(null, description_ET.getText()
-					.toString(), clientName_TV.getText().toString(),
+			Opportunity aa = new Opportunity(null, null, description_ET
+					.getText().toString(), clientName_TV.getText().toString(),
 					((RadioButton) findViewById(confidential_RG
 							.getCheckedRadioButtonId())).getTag().toString(),
 					leadSource_TV.getText().toString(), salesStage_TV.getText()
@@ -222,6 +207,18 @@ public class OpportunityAddActivity extends CRMActivity {
 									.getText().toString()),
 					totalProposalValue_TV.getText().toString(), noOfSolution_TV
 							.getText().toString(), solutionList);
+
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+				Toast.makeText(OpportunityAddActivity.this,
+						"Opportunity updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+				aa.setCrmId(tempOpportunity.getCrmId());
+			} else {
+				Toast.makeText(OpportunityAddActivity.this,
+						"Opportunity created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
 
 			nextIntent = new Intent(OpportunityAddActivity.this,
 					OpportunityDetailsActivity.class);
@@ -381,8 +378,9 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (temp != null) {
 				salesStage_TV.setText(myApp.getSalesStageMap().get(
 						Integer.toString(temp.intValue())));
-				selectedSalesStage = myApp.getIndexFromKeySalesMap(Integer
-						.toString(temp.intValue()));
+				selectedSalesStage = searchEngine
+						.getIndexFromKeySalesMap(Integer.toString(temp
+								.intValue()));
 				temp = null;
 			}
 
@@ -391,7 +389,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (temp != null) {
 				probability_TV.setText(myApp.getProbabilityMap().get(
 						Integer.toString(temp.intValue())));
-				selectedProbability = myApp
+				selectedProbability = searchEngine
 						.getIndexFromKeyProbabilityMap(Integer.toString(temp
 								.intValue()));
 				temp = null;
@@ -402,7 +400,7 @@ public class OpportunityAddActivity extends CRMActivity {
 			if (temp != null) {
 				status_TV.setText(myApp.getStatusMap().get(
 						Integer.toString(temp.intValue())));
-				selectedStatus = myApp.getIndexFromKeyStatusMap(Integer
+				selectedStatus = searchEngine.getIndexFromKeyStatusMap(Integer
 						.toString(temp.intValue()));
 				temp = null;
 			}
@@ -440,7 +438,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionManager_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionManager()));
-				selectedSolManager1 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolManager1 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionManager()));
 
@@ -448,7 +446,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionPartner_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionPartner()));
-				selectedSolPartner1 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolPartner1 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionPartner()));
 
@@ -512,7 +510,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionManager_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionManager()));
-				selectedSolManager2 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolManager2 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionManager()));
 
@@ -520,7 +518,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionPartner_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionPartner()));
-				selectedSolPartner2 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolPartner2 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionPartner()));
 
@@ -584,7 +582,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionManager_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionManager()));
-				selectedSolManager3 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolManager3 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionManager()));
 
@@ -592,7 +590,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionPartner_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionPartner()));
-				selectedSolPartner3 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolPartner3 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionPartner()));
 
@@ -656,7 +654,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionManager_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionManager()));
-				selectedSolManager4 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolManager4 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionManager()));
 
@@ -664,7 +662,7 @@ public class OpportunityAddActivity extends CRMActivity {
 						.findViewById(R.id.solutionPartner_TV)).setText(myApp
 						.getStringNameFromStringJSON(tempSolution
 								.getSolutionPartner()));
-				selectedSolPartner4 = myApp.getIndexFromKeyUserMap(myApp
+				selectedSolPartner4 = searchEngine.getIndexFromKeyUserMap(myApp
 						.getStringIdFromStringJSON(tempSolution
 								.getSolutionPartner()));
 
@@ -2027,12 +2025,16 @@ public class OpportunityAddActivity extends CRMActivity {
 
 			}
 			if (requestCode == Constant.DETAILS_OPPORTUNITY) {
-				Intent intent = new Intent();
+				// Intent intent = new Intent();
+				// intent.putExtra("refresh_list", true);
+				// if (previousIntent.hasExtra("search_text")) {
+				// intent.putExtra("search_text",
+				// previousIntent.getStringExtra("search_text"));
+				// }
+				Intent intent = new MyApp()
+						.getIntenWithPreviousSearch(previousIntent);
 				intent.putExtra("refresh_list", true);
-				if (previousIntent.hasExtra("search_text")) {
-					intent.putExtra("search_text",
-							previousIntent.getStringExtra("search_text"));
-				}
+
 				setResult(RESULT_OK, intent);
 				finish();
 			}

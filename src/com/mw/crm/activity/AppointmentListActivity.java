@@ -115,33 +115,6 @@ public class AppointmentListActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Updating List",
 				"This may take some time", true, null);
 
-		// if (appointmentList != null && appointmentList.size() > 0) {
-		// if (previousIntent.hasExtra("is_my_appointment")
-		// && previousIntent.getBooleanExtra("is_my_appointment",
-		// false)) {
-		// subAppointmentList = new ArrayList<Appointment>(appointmentList);
-		// } else if (previousIntent.hasExtra("account_id")) {
-		// System.out.println("acc ID is : "
-		// + previousIntent.getStringExtra("account_id"));
-		// subAppointmentList = new ArrayList<Appointment>();
-		// for (int i = 0; i < appointmentList.size(); i++) {
-		// System.out.println("#$#$  : "
-		// + appointmentList.get(i).getOwner());
-		//
-		// // TODO : try to remove the 2nd check from if(check1 &&
-		// // check2 && check3)
-		// if (appointmentList.get(i).getAccount() != null
-		// && appointmentList.get(i).getAccount().length() > 0
-		// && myApp.getStringIdFromStringJSON(
-		// appointmentList.get(i).getAccount())
-		// .equals(previousIntent
-		// .getStringExtra("account_id"))) {
-		// subAppointmentList.add(appointmentList.get(i));
-		// }
-		// }
-		//
-		// }
-		// }
 		initSubAppointmentList();
 		if (subAppointmentList != null && subAppointmentList.size() > 0) {
 			adapter = new AppointmentAdapter(this, subAppointmentList);

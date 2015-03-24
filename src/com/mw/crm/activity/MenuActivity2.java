@@ -23,6 +23,7 @@ import com.example.crm.activity.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mw.crm.application.MyApp;
+import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.DateFormatter;
 import com.mw.crm.model.Account;
@@ -112,25 +113,27 @@ public class MenuActivity2 extends Activity {
 	}
 
 	private void setSynced() {
-		if (sharedPreferences.contains("last_sync_date_account")) {
+		if (sharedPreferences.contains(Constant.PREF_LAST_SYNC_DATE_ACCOUNT)) {
 			syncMenuItem1_TV.setText("Synced:"
-					+ sharedPreferences
-							.getString("last_sync_date_account", "-"));
+					+ sharedPreferences.getString(
+							Constant.PREF_LAST_SYNC_DATE_ACCOUNT, "-"));
 		}
-		if (sharedPreferences.contains("last_sync_date_contact")) {
+		if (sharedPreferences.contains(Constant.PREF_LAST_SYNC_DATE_CONTACT)) {
 			syncMenuItem2_TV.setText("Synced:"
-					+ sharedPreferences
-							.getString("last_sync_date_contact", "-"));
+					+ sharedPreferences.getString(
+							Constant.PREF_LAST_SYNC_DATE_CONTACT, "-"));
 		}
-		if (sharedPreferences.contains("last_sync_date_appointment")) {
+		if (sharedPreferences
+				.contains(Constant.PREF_LAST_SYNC_DATE_APPOINTMENT)) {
 			syncMenuItem3_TV.setText("Synced:"
-					+ sharedPreferences.getString("last_sync_date_appointment",
-							"-"));
+					+ sharedPreferences.getString(
+							Constant.PREF_LAST_SYNC_DATE_APPOINTMENT, "-"));
 		}
-		if (sharedPreferences.contains("last_sync_date_opportunity")) {
+		if (sharedPreferences
+				.contains(Constant.PREF_LAST_SYNC_DATE_OPPORTUNITY)) {
 			syncMenuItem4_TV.setText("Synced:"
-					+ sharedPreferences.getString("last_sync_date_opportunity",
-							"-"));
+					+ sharedPreferences.getString(
+							Constant.PREF_LAST_SYNC_DATE_OPPORTUNITY, "-"));
 		}
 	}
 
@@ -158,6 +161,10 @@ public class MenuActivity2 extends Activity {
 	}// onCreate
 
 	private void loadAppData() {
+		progressDialog = createDialog.createProgressDialog("Account Setup",
+				"This may take some time", true, null);
+		progressDialog.show();
+
 		Intent intent = new Intent(this, AccountService.class);
 
 		X++;
@@ -197,83 +204,20 @@ public class MenuActivity2 extends Activity {
 
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		isActivityVisible = true;
-		LocalBroadcastManager.getInstance(this).registerReceiver(
-				appDataReceiver, new IntentFilter("app_data"));
-	}
-
-	@Override
-	protected void onPause() {
-		isActivityVisible = false;
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-				appDataReceiver);
-		super.onPause();
-	}
-
-	public void onSync(View view) {
-		progressDialog = createDialog.createProgressDialog("Account Setup",
-				"This may take some time", true, null);
-		progressDialog.show();
-		loadAppData();
-	}
-
-	public void onLogout(View view) {
-		editor.clear();
-		editor.commit();
-
-		nextIntent = new Intent(this, LoginActivity.class);
-		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(nextIntent);
-	}
-
-	public void onContact(View view) {
-		nextIntent = new Intent(this, ContactListActivity.class);
-		nextIntent.putExtra("is_my_contact", true);
-		startActivity(nextIntent);
-	}
-
-	public void onAccount(View view) {
-		nextIntent = new Intent(this, AccountListActivity.class);
-		nextIntent.putExtra("is_my_account", true);
-		startActivity(nextIntent);
-	}
-
-	public void onAppointment(View view) {
-		nextIntent = new Intent(this, AppointmentListActivity.class);
-		nextIntent.putExtra("is_my_appointment", true);
-		startActivity(nextIntent);
-
-	}
-
-	public void onOpportunity(View view) {
-		nextIntent = new Intent(this, OpportunityListActivity.class);
-		// nextIntent = new Intent(this,
-		// OpportunityAddActivity.class);
-		nextIntent.putExtra("is_my_opportunity", true);
-		startActivity(nextIntent);
-	}
-
-	public void onService(View view) {
-		nextIntent = new Intent(this, ServiceAddActivity.class);
-		startActivity(nextIntent);
-	}
-
 	@SuppressWarnings("unchecked")
 	private void fetchPreferences() {
-		progressDialog = createDialog.createProgressDialog("Fetching Preferences",
-				"This may take some time", true, null);
+		progressDialog = createDialog.createProgressDialog(
+				"Fetching Preferences", "This may take some time", true, null);
 		progressDialog.show();
-		if (sharedPreferences.contains("login_user_id")) {
-			myApp.setLoginUserId(sharedPreferences.getString("login_user_id",
-					null));
+
+		if (sharedPreferences.contains(Constant.PREF_LOGIN_USER_ID)) {
+			myApp.setLoginUserId(sharedPreferences.getString(
+					Constant.PREF_LOGIN_USER_ID, null));
 		}
 
-		if (sharedPreferences.contains("account_list")) {
-			String value = sharedPreferences.getString("account_list", null);
+		if (sharedPreferences.contains(Constant.PREF_ACCOUNT_LIST)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_ACCOUNT_LIST, null);
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
 				}.getType();
@@ -285,9 +229,9 @@ public class MenuActivity2 extends Activity {
 			}
 		}
 
-		if (sharedPreferences.contains("appointment_list")) {
-			String value = sharedPreferences
-					.getString("appointment_list", null);
+		if (sharedPreferences.contains(Constant.PREF_APPOINTMENT_LIST)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_APPOINTMENT_LIST, null);
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Appointment>>() {
 				}.getType();
@@ -299,8 +243,9 @@ public class MenuActivity2 extends Activity {
 			}
 		}
 
-		if (sharedPreferences.contains("contact_list")) {
-			String value = sharedPreferences.getString("contact_list", null);
+		if (sharedPreferences.contains(Constant.PREF_CONTACT_LIST)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_CONTACT_LIST, null);
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
 				}.getType();
@@ -312,9 +257,9 @@ public class MenuActivity2 extends Activity {
 			}
 		}
 
-		if (sharedPreferences.contains("opportunity_list")) {
-			String value = sharedPreferences
-					.getString("opportunity_list", null);
+		if (sharedPreferences.contains(Constant.PREF_OPPORTUNITY_LIST)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_OPPORTUNITY_LIST, null);
 			if (value != null) {
 				Type listType = (Type) new TypeToken<ArrayList<Opportunity>>() {
 				}.getType();
@@ -326,8 +271,9 @@ public class MenuActivity2 extends Activity {
 			}
 		}
 
-		if (sharedPreferences.contains("competitor_map")) {
-			String value = sharedPreferences.getString("competitor_map", null);
+		if (sharedPreferences.contains(Constant.PREF_COMPETITOR_MAP)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_COMPETITOR_MAP, null);
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
@@ -338,8 +284,9 @@ public class MenuActivity2 extends Activity {
 						+ myApp.getCompetitorMap().size());
 			}
 		}
-		if (sharedPreferences.contains("product_map")) {
-			String value = sharedPreferences.getString("product_map", null);
+		if (sharedPreferences.contains(Constant.PREF_PRODUCT_MAP)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_PRODUCT_MAP, null);
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
@@ -351,9 +298,9 @@ public class MenuActivity2 extends Activity {
 			}
 		}
 
-		if (sharedPreferences.contains("profit_center_map")) {
-			String value = sharedPreferences.getString("profit_center_map",
-					null);
+		if (sharedPreferences.contains(Constant.PREF_PROFIT_CENTER_MAP)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_PROFIT_CENTER_MAP, null);
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
@@ -365,8 +312,9 @@ public class MenuActivity2 extends Activity {
 			}
 		}
 
-		if (sharedPreferences.contains("solution_map")) {
-			String value = sharedPreferences.getString("solution_map", null);
+		if (sharedPreferences.contains(Constant.PREF_SOLUTION_MAP)) {
+			String value = sharedPreferences.getString(
+					Constant.PREF_SOLUTION_MAP, null);
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
@@ -377,8 +325,9 @@ public class MenuActivity2 extends Activity {
 						+ myApp.getSolutionMap().size());
 			}
 		}
-		if (sharedPreferences.contains("user_map")) {
-			String value = sharedPreferences.getString("user_map", null);
+		if (sharedPreferences.contains(Constant.PREF_USER_MAP)) {
+			String value = sharedPreferences.getString(Constant.PREF_USER_MAP,
+					null);
 			if (value != null) {
 				Type mapType = (Type) new TypeToken<Map<String, String>>() {
 				}.getType();
@@ -389,6 +338,7 @@ public class MenuActivity2 extends Activity {
 						+ myApp.getUserMap().size());
 			}
 		}
+
 		progressDialog.dismiss();
 		loadUnloadedData();
 	}
@@ -450,10 +400,91 @@ public class MenuActivity2 extends Activity {
 		}
 	}
 
+	public void onSync(View view) {
+		loadAppData();
+	}
+
+	public void onLogout(View view) {
+		// editor.clear();
+		editor.remove(Constant.PREF_IS_USER_LOGIN);
+		editor.remove(Constant.PREF_LOGIN_USER_ID);
+		
+		editor.remove(Constant.PREF_ACCOUNT_LIST);
+		editor.remove(Constant.PREF_APPOINTMENT_LIST);
+		editor.remove(Constant.PREF_CONTACT_LIST);
+		editor.remove(Constant.PREF_OPPORTUNITY_LIST);
+		
+		editor.remove(Constant.PREF_LAST_SYNC_DATE_ACCOUNT);
+		editor.remove(Constant.PREF_LAST_SYNC_DATE_APPOINTMENT);
+		editor.remove(Constant.PREF_LAST_SYNC_DATE_CONTACT);
+		editor.remove(Constant.PREF_LAST_SYNC_DATE_OPPORTUNITY);
+		
+		editor.remove(Constant.PREF_USER_MAP);
+		editor.remove(Constant.PREF_PRODUCT_MAP);
+		editor.remove(Constant.PREF_PROFIT_CENTER_MAP);
+		editor.remove(Constant.PREF_SOLUTION_MAP);
+		editor.remove(Constant.PREF_COMPETITOR_MAP);
+		
+		editor.commit();
+
+		nextIntent = new Intent(this, LoginActivity.class);
+		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(nextIntent);
+	}
+
+	public void onContact(View view) {
+		nextIntent = new Intent(this, ContactListActivity.class);
+		nextIntent.putExtra("is_my_contact", true);
+		startActivity(nextIntent);
+	}
+
+	public void onAccount(View view) {
+		nextIntent = new Intent(this, AccountListActivity.class);
+		nextIntent.putExtra("is_my_account", true);
+		startActivity(nextIntent);
+	}
+
+	public void onAppointment(View view) {
+		nextIntent = new Intent(this, AppointmentListActivity.class);
+		nextIntent.putExtra("is_my_appointment", true);
+		startActivity(nextIntent);
+
+	}
+
+	public void onOpportunity(View view) {
+		nextIntent = new Intent(this, OpportunityListActivity.class);
+		// nextIntent = new Intent(this,
+		// OpportunityAddActivity.class);
+		nextIntent.putExtra("is_my_opportunity", true);
+		startActivity(nextIntent);
+	}
+
+	public void onService(View view) {
+		nextIntent = new Intent(this, ServiceAddActivity.class);
+		startActivity(nextIntent);
+	}
+
 	@Override
 	protected void onRestart() {
 		super.onRestart();
 		setSynced();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActivityVisible = true;
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				appDataReceiver, new IntentFilter("app_data"));
+	}
+
+	@Override
+	protected void onPause() {
+		isActivityVisible = false;
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				appDataReceiver);
+		super.onPause();
 	}
 
 }

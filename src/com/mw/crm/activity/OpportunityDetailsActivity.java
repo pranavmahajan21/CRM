@@ -18,7 +18,7 @@ import com.mw.crm.model.Solution;
 
 public class OpportunityDetailsActivity extends CRMActivity {
 
-	Intent nextIntent, previousIntent;
+	Intent previousIntent, nextIntent;
 	Opportunity selectedOpportunity;
 
 	TextView crmIdLabel_TV, oppoDescriptionLabel_TV, clientNameLabel_TV,
@@ -32,13 +32,15 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	TextView left_button_TV;
 	/** Solution **/
-	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL;
+	LinearLayout parentSolution1_LL, parentSolution2_LL, parentSolution3_LL,
+			parentSolution4_LL;
 
-	LinearLayout childSolution1_LL, childSolution2_LL, childSolution3_LL;
+	LinearLayout childSolution1_LL, childSolution2_LL, childSolution3_LL,
+			childSolution4_LL;
 	/** Solution **/
 
 	int noOfSolution = 0;
-	
+
 	LayoutInflater inflater;
 	LinearLayout view_solution;
 
@@ -95,15 +97,17 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		totalProposalValue_TV = (TextView) findViewById(R.id.totalProposalValue_TV);
 		noOfSolution_TV = (TextView) findViewById(R.id.noOfSolution_TV);
 
-		left_button_TV = (TextView)findViewById(R.id.left_button_TV);
-		
+		left_button_TV = (TextView) findViewById(R.id.left_button_TV);
+
 		parentSolution1_LL = (LinearLayout) findViewById(R.id.parentSolution1_LL);
 		parentSolution2_LL = (LinearLayout) findViewById(R.id.parentSolution2_LL);
 		parentSolution3_LL = (LinearLayout) findViewById(R.id.parentSolution3_LL);
+		parentSolution4_LL = (LinearLayout) findViewById(R.id.parentSolution4_LL);
 
 		childSolution1_LL = (LinearLayout) findViewById(R.id.childSolution1_LL);
 		childSolution2_LL = (LinearLayout) findViewById(R.id.childSolution2_LL);
 		childSolution3_LL = (LinearLayout) findViewById(R.id.childSolution3_LL);
+		childSolution4_LL = (LinearLayout) findViewById(R.id.childSolution4_LL);
 	}
 
 	private void findAndInitViewSolution(LinearLayout childLL, int solutionIndex) {
@@ -138,8 +142,10 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		cyNfrPlus1_TV.setTypeface(myApp.getTypefaceRegularSans());
 		cyNfrPlus2_TV.setTypeface(myApp.getTypefaceRegularSans());
 
-		System.out.println("lits size : " + selectedOpportunity.getSolutionList().size() + "index  : " + solutionIndex);
-		
+		System.out.println("lits size : "
+				+ selectedOpportunity.getSolutionList().size() + "index  : "
+				+ solutionIndex);
+
 		Solution tempSolution = selectedOpportunity.getSolutionList().get(
 				solutionIndex);
 		System.out.println("tempSolution  : " + tempSolution.toString());
@@ -179,10 +185,12 @@ public class OpportunityDetailsActivity extends CRMActivity {
 					.getPyNfr()) + "");
 			cyNfr_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
 					.getCyNfr()) + "");
-			cyNfrPlus1_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
-					.getCyNfr1()) + "");
-			cyNfrPlus2_TV.setText(myApp.getDoubleValueFromStringJSON(tempSolution
-					.getCyNfr2()) + "");
+			cyNfrPlus1_TV.setText(myApp
+					.getDoubleValueFromStringJSON(tempSolution.getCyNfr1())
+					+ "");
+			cyNfrPlus2_TV.setText(myApp
+					.getDoubleValueFromStringJSON(tempSolution.getCyNfr2())
+					+ "");
 		}
 	}
 
@@ -308,23 +316,6 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			}
 
 			initAllSolutions();
-
-			// childSolution1_LL.addView(view_solution);
-			// findAndInitViewSolution(childSolution1_LL, 0);
-			//
-			// if (noOfSolution > 1) {
-			// parentSolution2_LL.setVisibility(View.VISIBLE);
-			// view_solution = getViewSolution();
-			// childSolution2_LL.addView(view_solution);
-			// findAndInitViewSolution(childSolution1_LL, 1);
-			// }
-			// if (noOfSolution > 2) {
-			// parentSolution3_LL.setVisibility(View.VISIBLE);
-			// view_solution = getViewSolution();
-			// childSolution3_LL.addView(view_solution);
-			// findAndInitViewSolution(childSolution1_LL, 2);
-			// }
-
 		}
 	}
 
@@ -343,6 +334,12 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			view_solution = getViewSolution();
 			childSolution3_LL.addView(view_solution);
 			findAndInitViewSolution(childSolution3_LL, 2);
+		}
+		if (noOfSolution > 3) {
+			parentSolution4_LL.setVisibility(View.VISIBLE);
+			view_solution = getViewSolution();
+			childSolution4_LL.addView(view_solution);
+			findAndInitViewSolution(childSolution4_LL, 3);
 		}
 
 	}
@@ -371,7 +368,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		onExpand(findViewById(R.id.solution1_TV));
 	}
 
-	private void setChildLLTag(int visibility1, int visibility2, int visibility3) {
+	private void setChildLLTag(int visibility1, int visibility2,
+			int visibility3, int visibility4) {
 		if (visibility1 == View.GONE) {
 			childSolution1_LL.setTag("false");
 		}
@@ -381,15 +379,19 @@ public class OpportunityDetailsActivity extends CRMActivity {
 		if (visibility3 == View.GONE) {
 			childSolution3_LL.setTag("false");
 		}
+		if (visibility4 == View.GONE) {
+			childSolution4_LL.setTag("false");
+		}
 	}
 
 	private void setChildLLVisibility(int visibility1, int visibility2,
-			int visibility3) {
+			int visibility3, int visibility4) {
 		childSolution1_LL.setVisibility(visibility1);
 		childSolution2_LL.setVisibility(visibility2);
 		childSolution3_LL.setVisibility(visibility3);
+		childSolution4_LL.setVisibility(visibility4);
 
-		setChildLLTag(visibility1, visibility2, visibility3);
+		setChildLLTag(visibility1, visibility2, visibility3, visibility4);
 	}
 
 	public void onExpand(View view) {
@@ -402,7 +404,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			childSolution1_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE);
+				setChildLLVisibility(View.VISIBLE, View.GONE, View.GONE,
+						View.GONE);
 			} else {
 				childSolution1_LL.setVisibility(View.GONE);
 			}
@@ -414,7 +417,8 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			childSolution2_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				setChildLLVisibility(View.GONE, View.VISIBLE, View.GONE);
+				setChildLLVisibility(View.GONE, View.VISIBLE, View.GONE,
+						View.GONE);
 			} else {
 				childSolution2_LL.setVisibility(View.GONE);
 			}
@@ -426,9 +430,23 @@ public class OpportunityDetailsActivity extends CRMActivity {
 			childSolution3_LL.setTag(String.valueOf(tagVisibility));
 
 			if (tagVisibility) {
-				setChildLLVisibility(View.GONE, View.GONE, View.VISIBLE);
+				setChildLLVisibility(View.GONE, View.GONE, View.VISIBLE,
+						View.GONE);
 			} else {
 				childSolution3_LL.setVisibility(View.GONE);
+			}
+			break;
+		case R.id.solution4_TV:
+			tagVisibility = Boolean.parseBoolean((String) childSolution4_LL
+					.getTag());
+			tagVisibility = !tagVisibility;
+			childSolution4_LL.setTag(String.valueOf(tagVisibility));
+
+			if (tagVisibility) {
+				setChildLLVisibility(View.GONE, View.GONE, View.GONE,
+						View.VISIBLE);
+			} else {
+				childSolution4_LL.setVisibility(View.GONE);
 			}
 			break;
 		default:
@@ -453,22 +471,24 @@ public class OpportunityDetailsActivity extends CRMActivity {
 
 	@Override
 	public void onBack(View view) {
-		Intent intent = new Intent();
-		if (previousIntent.hasExtra("search_text")) {
-			intent.putExtra("search_text",
-					previousIntent.getStringExtra("search_text"));
-		}
+		// Intent intent = new Intent();
+		// if (previousIntent.hasExtra("search_text")) {
+		// intent.putExtra("search_text",
+		// previousIntent.getStringExtra("search_text"));
+		// }
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
 		setResult(RESULT_OK, intent);
 		super.onBack(view);
 	}
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent();
-		if (previousIntent.hasExtra("search_text")) {
-			intent.putExtra("search_text",
-					previousIntent.getStringExtra("search_text"));
-		}
+		// Intent intent = new Intent();
+		// if (previousIntent.hasExtra("search_text")) {
+		// intent.putExtra("search_text",
+		// previousIntent.getStringExtra("search_text"));
+		// }
+		Intent intent = myApp.getIntenWithPreviousSearch(previousIntent);
 		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
@@ -484,9 +504,11 @@ public class OpportunityDetailsActivity extends CRMActivity {
 							previousIntent.getStringExtra("search_text"));
 				}
 				setResult(RESULT_OK, dataIntent);
-				finish();
+				if (dataIntent.hasExtra("refresh_list")) {
+					finish();
+				}
 			}
-			if(requestCode ==MyApp.NOTHING_ELSE_MATTERS){
+			if (requestCode == MyApp.NOTHING_ELSE_MATTERS) {
 				status_TV.setText(dataIntent.getStringExtra("status"));
 				left_button_TV.setVisibility(View.GONE);
 			}

@@ -12,7 +12,7 @@ public class Opportunity implements Serializable {
 	 * Order of attributes is same as the order of UI. Do not change.
 	 * **/
 
-	/** unknown **/
+	/** pcl_opportunitynumber **/
 	String crmId;
 	
 	/** opportunityid **/
@@ -52,12 +52,13 @@ public class Opportunity implements Serializable {
 
 	List<Solution> solutionList;
 
-	public Opportunity(String opportunityId, String description,
+	public Opportunity(String crmId, String opportunityId, String description,
 			String customerId, String isConfidential, String leadSource,
 			String salesStage, String probability, String kpmgStatus,
 			Date expectedClosureDate, String totalProposalValue,
 			String noOfSolutionRequired, List<Solution> solutionList) {
 		super();
+		this.crmId = crmId;
 		this.opportunityId = opportunityId;
 		this.description = description;
 		this.customerId = customerId;

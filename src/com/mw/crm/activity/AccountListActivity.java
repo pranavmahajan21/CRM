@@ -95,14 +95,6 @@ public class AccountListActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Updating List",
 				"This may take some time", true, null);
 
-//		accountList = myApp.getAccountList();
-//		if (accountList != null && accountList.size() > 0) {
-//			if (previousIntent.hasExtra("is_my_account")
-//					&& previousIntent.getBooleanExtra("is_my_account", false)) {
-//				subAccountList = new ArrayList<Account>(accountList);
-//			}
-//		}
-
 		initSubAccountList();
 		
 		if (subAccountList != null && subAccountList.size() > 0) {

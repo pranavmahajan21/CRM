@@ -27,7 +27,7 @@ public class AppointmentDetailsActivity extends CRMActivity {
 			dateMeeting_TV, endTime_TV, owner_TV;
 
 	DateFormatter dateFormatter;
-	
+
 	private void initThings() {
 		previousIntent = getIntent();
 		System.out.println("position"
@@ -94,10 +94,10 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				.getDesignationOfClientOfficial());
 		purpose_TV.setText(selectedAppointment.getPurposeOfMeeting());
 
-		dateMeeting_TV.setText(dateFormatter.formatDateToString2(selectedAppointment
-				.getStartTime()));
-		endTime_TV.setText(dateFormatter.formatDateToString2(selectedAppointment
-				.getEndTime()));
+		dateMeeting_TV.setText(dateFormatter
+				.formatDateToString2(selectedAppointment.getStartTime()));
+		endTime_TV.setText(dateFormatter
+				.formatDateToString2(selectedAppointment.getEndTime()));
 
 	}
 
@@ -203,7 +203,9 @@ public class AppointmentDetailsActivity extends CRMActivity {
 				}
 				setResult(RESULT_OK, dataIntent);
 			}
-			finish();
+			if (dataIntent.hasExtra("refresh_list")) {
+				finish();
+			}
 		}
 	}
 

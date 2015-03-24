@@ -111,31 +111,6 @@ public class ContactListActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Updating List",
 				"This may take some time", true, null);
 
-		// contactList = myApp.getContactList();
-		// if (contactList != null && contactList.size() > 0) {
-		// if (previousIntent.hasExtra("is_my_contact")
-		// && previousIntent.getBooleanExtra("is_my_contact", false)) {
-		// subContactList = new ArrayList<Contact>(contactList);
-		// } else if (previousIntent.hasExtra("account_id")) {
-		// subContactList = new ArrayList<Contact>();
-		// for (int i = 0; i < contactList.size(); i++) {
-		// System.out.println("#$#$  : "
-		// + contactList.get(i).getOrganization());
-		//
-		// // TODO : try to remove the 2nd check from if(check1 &&
-		// // check2 && check3)
-		// if (contactList.get(i).getOrganization() != null
-		// && contactList.get(i).getOrganization().length() > 0
-		// && myApp.getStringIdFromStringJSON(
-		// contactList.get(i).getOrganization())
-		// .equals(previousIntent
-		// .getStringExtra("account_id"))) {
-		// subContactList.add(contactList.get(i));
-		// }
-		// }
-		//
-		// }
-		// }
 		initSubContactList();
 		if (subContactList != null && subContactList.size() > 0) {
 			adapter = new ContactAdapter(this, subContactList);

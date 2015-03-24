@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.SearchEngine;
 import com.mw.crm.model.Account;
 import com.mw.crm.service.AccountService;
 
@@ -54,27 +55,24 @@ public class AccountAddActivity extends CRMActivity {
 	TextView clientNameLabel_TV, sectorLabel_TV, headquarterLabel_TV,
 			leadPartnerLabel_TV, relPartner1Label_TV, relPartner2Label_TV,
 			relPartner3Label_TV, bdmLabel_TV, accountCategoryLabel_TV;
-	// TextView lobLabel_TV, sublobLabel_TV ;
 
 	TextView sector_TV, headquarter_TV, leadPartner_TV, relPartner1_TV,
 			relPartner2_TV, relPartner3_TV, bdm_TV, accountCategory_TV;
-	// TextView lob_TV, sublob_TV;
 
 	EditText clientName_ET;
 
 	RelativeLayout accountCategory_RL;
-//	RelativeLayout lob_RL;
 	
 	Intent previousIntent, nextIntent;
 	Account tempAccount;
 
 	RequestQueue queue;
-
+	SearchEngine searchEngine;
+	
 	int selectedCountry = -1, selectedSector = -1, selectedLeadPartner = -1,
 			selectedAccountCategory = -1, selectedRelPartner1 = -1,
 			selectedRelPartner2 = -1, selectedRelPartner3 = -1,
 			selectedBDM = -1;
-//	int selectedLob = -1, selectedSubLob = -1;
 	
 	Map<String, String> sectorMap;
 	Map<String, String> countryMap;
@@ -92,19 +90,7 @@ public class AccountAddActivity extends CRMActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
-			if (previousIntent.hasExtra("is_edit_mode")
-					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
-				Toast.makeText(AccountAddActivity.this,
-						"Account updated successfully.", Toast.LENGTH_SHORT)
-						.show();
-			} else {
-				Toast.makeText(AccountAddActivity.this,
-						"Account created successfully.", Toast.LENGTH_SHORT)
-						.show();
-			}
 
-			// lob_TV.getText()
-			// .toString(), sublob_TV.getText().toString()
 			Account aa = new Account(clientName_ET.getText().toString(), null,
 					headquarter_TV.getText().toString(), null, null,
 					accountCategory_TV.getText().toString(), sector_TV
@@ -112,6 +98,18 @@ public class AccountAddActivity extends CRMActivity {
 							.toString(), relPartner1_TV.getText().toString(),
 					relPartner2_TV.getText().toString(), relPartner3_TV.getText().toString(), bdm_TV.getText()
 							.toString());
+
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
+				Toast.makeText(AccountAddActivity.this,
+						"Account updated successfully.", Toast.LENGTH_SHORT)
+						.show();
+				aa.setAccountId(tempAccount.getAccountId());
+			} else {
+				Toast.makeText(AccountAddActivity.this,
+						"Account created successfully.", Toast.LENGTH_SHORT)
+						.show();
+			}
 
 			nextIntent = new Intent(AccountAddActivity.this,
 					AccountDetailsActivity.class);
@@ -146,6 +144,7 @@ public class AccountAddActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
 
+		searchEngine = new SearchEngine(this);
 		queue = Volley.newRequestQueue(this);
 	}
 
@@ -224,7 +223,7 @@ public class AccountAddActivity extends CRMActivity {
 			if (temp != null) {
 				headquarter_TV.setText(myApp.getCountryMap().get(
 						Integer.toString(temp.intValue())));
-				selectedCountry = myApp.getIndexFromKeyCountryMap(Integer
+				selectedCountry = searchEngine.getIndexFromKeyCountryMap(Integer
 						.toString(temp.intValue()));
 			}
 			// temp = myApp.getIntValueFromStringJSON(tempAccount.getLob());
@@ -245,7 +244,7 @@ public class AccountAddActivity extends CRMActivity {
 			if (temp != null) {
 				sector_TV.setText(myApp.getSectorMap().get(
 						Integer.toString(temp.intValue())));
-				selectedSector = myApp.getIndexFromKeySectorMap(Integer
+				selectedSector = searchEngine.getIndexFromKeySectorMap(Integer
 						.toString(temp.intValue()));
 			}
 			temp = myApp.getIntValueFromStringJSON(tempAccount
@@ -253,41 +252,41 @@ public class AccountAddActivity extends CRMActivity {
 			if (temp != null) {
 				accountCategory_TV.setText(myApp.getAccountCategoryMap().get(
 						Integer.toString(temp.intValue())));
-				selectedAccountCategory = myApp
-						.getIndexFromKeyAccountMap(Integer.toString(temp
+				selectedAccountCategory = searchEngine
+						.getIndexFromKeyAccountCategoryMap(Integer.toString(temp
 								.intValue()));
 			}
 
 			leadPartner_TV.setText(myApp
 					.getStringNameFromStringJSON(tempAccount.getLeadPartner()));
-			selectedLeadPartner = myApp.getIndexFromKeyUserMap(myApp
+			selectedLeadPartner = searchEngine.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAccount.getLeadPartner()));
 
 			relPartner1_TV.setText(myApp
 					.getStringNameFromStringJSON(tempAccount
 							.getRelationshipPartner1()));
-			selectedRelPartner1 = myApp.getIndexFromKeyUserMap(myApp
+			selectedRelPartner1 = searchEngine.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAccount
 							.getRelationshipPartner1()));
 
 			relPartner2_TV.setText(myApp
 					.getStringNameFromStringJSON(tempAccount
 							.getRelationshipPartner2()));
-			selectedRelPartner2 = myApp.getIndexFromKeyUserMap(myApp
+			selectedRelPartner2 = searchEngine.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAccount
 							.getRelationshipPartner2()));
 
 			relPartner3_TV.setText(myApp
 					.getStringNameFromStringJSON(tempAccount
 							.getRelationshipPartner3()));
-			selectedRelPartner3 = myApp.getIndexFromKeyUserMap(myApp
+			selectedRelPartner3 = searchEngine.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAccount
 							.getRelationshipPartner3()));
 			
 			bdm_TV.setText(myApp
 					.getStringNameFromStringJSON(tempAccount
 							.getBusinessDevelopmentManager()));
-			selectedBDM = myApp.getIndexFromKeyUserMap(myApp
+			selectedBDM = searchEngine.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAccount
 							.getBusinessDevelopmentManager()));
 
@@ -676,12 +675,15 @@ public class AccountAddActivity extends CRMActivity {
 				// + selectedLeadPartner);
 			}
 			if (requestCode == Constant.DETAILS_ACCOUNT) {
-				Intent intent = new Intent();
+//				Intent intent = new Intent();
+//				intent.putExtra("refresh_list", true);
+//				if (previousIntent.hasExtra("search_text")) {
+//					intent.putExtra("search_text",
+//							previousIntent.getStringExtra("search_text"));
+//				}
+				Intent intent = new MyApp().getIntenWithPreviousSearch(previousIntent);
 				intent.putExtra("refresh_list", true);
-				if (previousIntent.hasExtra("search_text")) {
-					intent.putExtra("search_text",
-							previousIntent.getStringExtra("search_text"));
-				}
+				
 				setResult(RESULT_OK, intent);
 				finish();
 			}

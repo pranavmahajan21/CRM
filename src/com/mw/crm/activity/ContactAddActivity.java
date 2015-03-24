@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
+import com.mw.crm.extra.SearchEngine;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Contact;
 import com.mw.crm.service.ContactService;
@@ -67,13 +68,14 @@ public class ContactAddActivity extends CRMActivity {
 
 	int selectedDOR = -1, selectedInternalConnect = -1,
 			selectedOrganisation = -1;
-//	List<InternalConnect> internalConnectList;
+	// List<InternalConnect> internalConnectList;
 	List<Account> accountList;
 
 	Map<String, String> dorMap;
 	Map<String, String> userMap;
 
 	Gson gson;
+	SearchEngine searchEngine;
 	RequestQueue queue;
 
 	CreateDialog createDialog;
@@ -86,8 +88,8 @@ public class ContactAddActivity extends CRMActivity {
 		public void onReceive(Context context, Intent intent) {
 			progressDialog.dismiss();
 
-			if (!(previousIntent.hasExtra("is_edit_mode") && previousIntent
-					.getBooleanExtra("is_edit_mode", false))) {
+			if (previousIntent.hasExtra("is_edit_mode")
+					&& previousIntent.getBooleanExtra("is_edit_mode", false)) {
 				Toast.makeText(ContactAddActivity.this,
 						"Contact updated successfully.", Toast.LENGTH_SHORT)
 						.show();
@@ -126,6 +128,7 @@ public class ContactAddActivity extends CRMActivity {
 		userMap = myApp.getUserMap();
 
 		gson = new Gson();
+		searchEngine = new SearchEngine(this);
 		queue = Volley.newRequestQueue(this);
 
 		createDialog = new CreateDialog(this);
@@ -205,14 +208,14 @@ public class ContactAddActivity extends CRMActivity {
 			if (temp != null) {
 				dor_TV.setText(myApp.getDorMap().get(
 						Integer.toString(temp.intValue())));
-				selectedDOR = myApp.getIndexFromKeyDORMap(Integer.toString(temp
-						.intValue()));
+				selectedDOR = searchEngine.getIndexFromKeyDORMap(Integer
+						.toString(temp.intValue()));
 			}
 
 			internalConnect_TV.setText(myApp
 					.getStringNameFromStringJSON(tempContact
 							.getInternalConnect()));
-			selectedInternalConnect = myApp
+			selectedInternalConnect = searchEngine
 					.getIndexFromKeyUserMap(myApp
 							.getStringIdFromStringJSON(tempContact
 									.getInternalConnect()));
@@ -539,12 +542,16 @@ public class ContactAddActivity extends CRMActivity {
 				selectedOrganisation = positionItem;
 			}
 			if (requestCode == Constant.DETAILS_CONTACT) {
-				Intent intent = new Intent();
+				// Intent intent = new Intent();
+				// intent.putExtra("refresh_list", true);
+				// if (previousIntent.hasExtra("search_text")) {
+				// intent.putExtra("search_text",
+				// previousIntent.getStringExtra("search_text"));
+				// }
+				Intent intent = new MyApp()
+						.getIntenWithPreviousSearch(previousIntent);
 				intent.putExtra("refresh_list", true);
-				if (previousIntent.hasExtra("search_text")) {
-					intent.putExtra("search_text",
-							previousIntent.getStringExtra("search_text"));
-				}
+
 				setResult(RESULT_OK, intent);
 				finish();
 			}

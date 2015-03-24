@@ -4,7 +4,7 @@ public class Constant {
 
 	// public static String URL = "https://www.kpmgapps.kpmg.in/crmproxy/api";
 	public static String URL = "https://www.kpmgapps.kpmg.in/CRMProxyTest/api";
-	
+
 	/** Used to get List<T> **/
 	public static String APPOINTMENTS_DATA = "/PostAppointments";
 	public static String ACCOUNTS_DATA = "/PostAccounts";
@@ -71,17 +71,37 @@ public class Constant {
 	public static String SUB_LOP_ERROR = "Error while loading Sub LOP.";
 	public static String SUPPORT_TYPE_ERROR = "Error while loading Support Type.";
 	/** Error Message for of Excels **/
-	
+
 	/** Error Messages **/
 	public static String ERR_SOL1_AMOUNT = "For SOLUTION1 Fee should be greater than (PY NFR + CY NFR + CY1 NFR + CY2 NFR).";
 	public static String ERR_SOL2_AMOUNT = "For SOLUTION2 Fee should be greater than (PY NFR + CY NFR + CY1 NFR + CY2 NFR).";
 	public static String ERR_SOL3_AMOUNT = "For SOLUTION3 Fee should be greater than (PY NFR + CY NFR + CY1 NFR + CY2 NFR).";
 	public static String ERR_SOL4_AMOUNT = "For SOLUTION4 Fee should be greater than (PY NFR + CY NFR + CY1 NFR + CY2 NFR).";
 	/** Error Messages **/
-	
+
 	public static String OPPORTUNITY_LOST = "798330003";
 	public static String OPPORTUNITY_WON = "798330004";
+
+	/** Preferences **/
+	public static String PREF_IS_USER_LOGIN = "is_user_login";
+	public static String PREF_LOGIN_USER_ID = "login_user_id";
 	
+	public static String PREF_ACCOUNT_LIST = "account_list";
+	public static String PREF_APPOINTMENT_LIST = "appointment_list";
+	public static String PREF_CONTACT_LIST = "contact_list";
+	public static String PREF_OPPORTUNITY_LIST = "opportunity_list";
+	
+	public static String PREF_LAST_SYNC_DATE_ACCOUNT = "last_sync_date_account";
+	public static String PREF_LAST_SYNC_DATE_APPOINTMENT = "last_sync_date_appointment";
+	public static String PREF_LAST_SYNC_DATE_CONTACT = "last_sync_date_contact";
+	public static String PREF_LAST_SYNC_DATE_OPPORTUNITY = "last_sync_date_opportunity";
+	
+	public static String PREF_USER_MAP = "user_map";
+	public static String PREF_PRODUCT_MAP = "product_map";
+	public static String PREF_PROFIT_CENTER_MAP = "profit_center_map";
+	public static String PREF_SOLUTION_MAP = "solution_map";
+	public static String PREF_COMPETITOR_MAP = "competitor_map";
+	/** Preferences **/	
 	
 	/** Search User **/
 	public static final int USER_SOLUTION_MANAGER1 = 500;
@@ -93,35 +113,36 @@ public class Constant {
 	public static final int USER_SOLUTION_MANAGER4 = 506;
 	public static final int USER_SOLUTION_PARTNER4 = 507;
 	public static int USER_ = 500;
-	
-	/*public static final int SOLUTION_SOLUTION_NAME1 = 520;
-	public static final int SOLUTION_SOLUTION_NAME2 = 521;
-	public static final int SOLUTION_SOLUTION_NAME3 = 522;
-	public static final int SOLUTION_SOLUTION_NAME4 = 523;*/
 
+	/*
+	 * public static final int SOLUTION_SOLUTION_NAME1 = 520; public static
+	 * final int SOLUTION_SOLUTION_NAME2 = 521; public static final int
+	 * SOLUTION_SOLUTION_NAME3 = 522; public static final int
+	 * SOLUTION_SOLUTION_NAME4 = 523;
+	 */
 
 	/** To check which solution tab is visible **/
 	public static final int SOLUTION1_VISIBLE = 600;
 	public static final int SOLUTION2_VISIBLE = 601;
 	public static final int SOLUTION3_VISIBLE = 602;
 	public static final int SOLUTION4_VISIBLE = 603;
-	
+
 	/** Search Tags **/
-	final public static int SEARCH_SECTOR = 0;
-	final public static int SEARCH_HQ_COUNTRY = 1;
-	final public static int SEARCH_SUB_LOB = 10;
-	final public static int SEARCH_USER = 11;
-	final public static int SEARCH_ACCOUNT = 100;
+	final public static int SEARCH_SECTOR = 100;
+	final public static int SEARCH_HQ_COUNTRY = 101;
+	final public static int SEARCH_SUB_LOB = 102;
+	final public static int SEARCH_USER = 103;
+	final public static int SEARCH_ACCOUNT = 104;
+	public static final int SEARCH_SOLUTION = 105;
+	public static final int SEARCH_PRODUCT = 106;
+	public static final int SEARCH_PROFIT_CENTER = 107;
+	public static final int SEARCH_COMPETITOR = 108;
 
 	final public static int DETAILS_ACCOUNT = 1100;
 	final public static int DETAILS_APPOINTMENT = 1100;
 	final public static int DETAILS_CONTACT = 1100;
 	final public static int DETAILS_OPPORTUNITY = 1100;
-	
-	public static final int SEARCH_SOLUTION = 13;
-	public static final int SEARCH_PRODUCT = 14;
-	public static final int SEARCH_PROFIT_CENTER = 15;
-	public static final int SEARCH_COMPETITOR = 16;
+
 	
 	/** Default value of lookups **/
 	public static final int DEFAULT_SALES_STAGE_INDEX = 0;

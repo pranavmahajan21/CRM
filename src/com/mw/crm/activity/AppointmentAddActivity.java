@@ -48,6 +48,7 @@ import com.mw.crm.application.MyApp;
 import com.mw.crm.extra.Constant;
 import com.mw.crm.extra.CreateDialog;
 import com.mw.crm.extra.DateFormatter;
+import com.mw.crm.extra.SearchEngine;
 import com.mw.crm.model.Account;
 import com.mw.crm.model.Appointment;
 import com.mw.crm.service.AppointmentService;
@@ -91,6 +92,7 @@ public class AppointmentAddActivity extends CRMActivity {
 	Map<String, String> interactionTypeMap;
 
 	RequestQueue queue;
+	SearchEngine searchEngine;
 
 	DateFormatter dateFormatter;
 
@@ -148,6 +150,7 @@ public class AppointmentAddActivity extends CRMActivity {
 		progressDialog = createDialog.createProgressDialog("Saving Changes",
 				"This may take some time", true, null);
 
+		searchEngine = new SearchEngine(this);
 		dateFormatter = new DateFormatter();
 	}
 
@@ -250,7 +253,7 @@ public class AppointmentAddActivity extends CRMActivity {
 			if (temp != null) {
 				interactionType_TV.setText(myApp.getInteractionTypeMap().get(
 						Integer.toString(temp.intValue())));
-				selectedInteraction = myApp
+				selectedInteraction = searchEngine
 						.getIndexFromKeyInteractionMap(Integer.toString(temp
 								.intValue()));
 			}
@@ -265,14 +268,8 @@ public class AppointmentAddActivity extends CRMActivity {
 			/** Removed temporarily **/
 			owner_TV.setText(myApp.getStringNameFromStringJSON(tempAppointment
 					.getOwner()));
-			selectedOwner = myApp.getIndexFromKeyUserMap(myApp
+			selectedOwner = searchEngine.getIndexFromKeyUserMap(myApp
 					.getStringIdFromStringJSON(tempAppointment.getOwner()));
-
-			// organizer_TV
-			// .setText(myApp.getStringNameFromStringJSON(tempAppointment
-			// .getOrganizer()));
-			// selectedOrganizer = myApp.getIndexFromKeyUserMap(myApp
-			// .getStringIdFromStringJSON(tempAppointment.getOrganizer()));
 
 			System.out.println("selectedInteraction  : " + selectedInteraction
 					+ "\nselectedOwner  : " + selectedOwner);
@@ -719,12 +716,15 @@ public class AppointmentAddActivity extends CRMActivity {
 			}
 
 			if (requestCode == Constant.DETAILS_APPOINTMENT) {
-				Intent intent = new Intent();
+//				Intent intent = new Intent();
+//				intent.putExtra("refresh_list", true);
+//				if (previousIntent.hasExtra("search_text")) {
+//					intent.putExtra("search_text",
+//							previousIntent.getStringExtra("search_text"));
+//				}
+				Intent intent = new MyApp().getIntenWithPreviousSearch(previousIntent);
 				intent.putExtra("refresh_list", true);
-				if (previousIntent.hasExtra("search_text")) {
-					intent.putExtra("search_text",
-							previousIntent.getStringExtra("search_text"));
-				}
+				
 				setResult(RESULT_OK, intent);
 				finish();
 			}

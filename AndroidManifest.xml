@@ -26,6 +26,7 @@
         <activity
             android:name="com.mw.crm.activity.LoginActivity"
             android:label="@string/app_name"
+            android:noHistory="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

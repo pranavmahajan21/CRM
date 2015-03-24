@@ -1,7 +1,6 @@
 package com.mw.crm.application;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import jxl.read.biff.BiffException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
@@ -30,7 +28,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.crm.extra.Constant;
@@ -41,7 +38,6 @@ import com.mw.crm.model.Appointment;
 import com.mw.crm.model.Contact;
 import com.mw.crm.model.Opportunity;
 
-@SuppressLint("SimpleDateFormat")
 public class MyApp extends Application {
 
 	/*
@@ -52,8 +48,6 @@ public class MyApp extends Application {
 	String loginUserId;
 
 	final public static int NOTHING_ELSE_MATTERS = 55;
-
-//	List<MenuItem> menuItemList = new ArrayList<MenuItem>();
 
 	List<Opportunity> opportunityList;// = new ArrayList<Opportunity>();
 	List<Opportunity> opportunityMyList;
@@ -102,7 +96,7 @@ public class MyApp extends Application {
 	public static final String TAG = MyApp.class.getSimpleName();
 
 	private RequestQueue mRequestQueue;
-	private ImageLoader mImageLoader;
+	// private ImageLoader mImageLoader;
 
 	Gson gson;
 	private static MyApp mInstance;
@@ -118,12 +112,6 @@ public class MyApp extends Application {
 				"fonts/SourceSansPro-Regular.ttf");
 		typefaceBoldSans = Typeface.createFromAsset(getAssets(),
 				"fonts/SourceSansPro-Semibold.ttf");
-
-		// previousIntent = getPackageManager().getLaunchIntentForPackage(
-		// "com.example.crm.activity");
-		//
-		// System.out.println("loop  :  "
-		// + previousIntent.hasExtra("should_start_app"));
 
 		accountCategoryMap = new LinkedHashMap<String, String>();
 		countryMap = new LinkedHashMap<String, String>();
@@ -152,200 +140,25 @@ public class MyApp extends Application {
 		gson = new Gson();
 	}
 
-//	@SuppressWarnings("unchecked")
-//	private void fetchPreferences() {
-//		if (sharedPreferences.contains("login_user_id")) {
-//			setLoginUserId(sharedPreferences.getString("login_user_id", null));
-//		}
-//
-//		if (sharedPreferences.contains("account_list")) {
-//			String value = sharedPreferences.getString("account_list", null);
-//			if (value != null) {
-//				Type listType = (Type) new TypeToken<ArrayList<Account>>() {
-//				}.getType();
-//				setAccountList((List<Account>) gson.fromJson(value, listType),
-//						false, null);
-//				System.out
-//						.println("Account size  : " + getAccountList().size());
-//			}
-//		}
-//
-//		if (sharedPreferences.contains("appointment_list")) {
-//			String value = sharedPreferences
-//					.getString("appointment_list", null);
-//			if (value != null) {
-//				Type listType = (Type) new TypeToken<ArrayList<Appointment>>() {
-//				}.getType();
-//				setAppointmentList(
-//						(List<Appointment>) gson.fromJson(value, listType),
-//						false, null);
-//				System.out.println("Appointment size  : "
-//						+ getAppointmentList().size());
-//			}
-//		}
-//
-//		if (sharedPreferences.contains("contact_list")) {
-//			String value = sharedPreferences.getString("contact_list", null);
-//			if (value != null) {
-//				Type listType = (Type) new TypeToken<ArrayList<Contact>>() {
-//				}.getType();
-//				setContactList((List<Contact>) gson.fromJson(value, listType),
-//						false, null);
-//				System.out
-//						.println("Contact size  : " + getContactList().size());
-//			}
-//		}
-//
-//		if (sharedPreferences.contains("opportunity_list")) {
-//			String value = sharedPreferences
-//					.getString("opportunity_list", null);
-//			if (value != null) {
-//				Type listType = (Type) new TypeToken<ArrayList<Opportunity>>() {
-//				}.getType();
-//				setOpportunityList(
-//						(List<Opportunity>) gson.fromJson(value, listType),
-//						false, null);
-//				System.out.println("Opportunity size  : "
-//						+ getOpportunityList().size());
-//			}
-//		}
-//
-//		if (sharedPreferences.contains("competitor_map")) {
-//			String value = sharedPreferences.getString("competitor_map", null);
-//			if (value != null) {
-//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-//				}.getType();
-//				setCompetitorMap(
-//						(Map<String, String>) gson.fromJson(value, mapType),
-//						false);
-//				System.out.println("Competitor map size  : "
-//						+ getCompetitorMap().size());
-//			}
-//		}
-//		if (sharedPreferences.contains("product_map")) {
-//			String value = sharedPreferences.getString("product_map", null);
-//			if (value != null) {
-//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-//				}.getType();
-//				setProductMap(
-//						(Map<String, String>) gson.fromJson(value, mapType),
-//						false);
-//				System.out.println("Product map size  : "
-//						+ getProductMap().size());
-//			}
-//		}
-//
-//		if (sharedPreferences.contains("profit_center_map")) {
-//			String value = sharedPreferences.getString("profit_center_map",
-//					null);
-//			if (value != null) {
-//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-//				}.getType();
-//				setProfitCenterMap(
-//						(Map<String, String>) gson.fromJson(value, mapType),
-//						false);
-//				System.out.println("Profit Center map size  : "
-//						+ getProfitCenterMap().size());
-//			}
-//		}
-//
-//		if (sharedPreferences.contains("solution_map")) {
-//			String value = sharedPreferences.getString("solution_map", null);
-//			if (value != null) {
-//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-//				}.getType();
-//				setSolutionMap(
-//						(Map<String, String>) gson.fromJson(value, mapType),
-//						false);
-//				System.out.println("Solution map size  : "
-//						+ getSolutionMap().size());
-//			}
-//		}
-//		if (sharedPreferences.contains("user_map")) {
-//			String value = sharedPreferences.getString("user_map", null);
-//			if (value != null) {
-//				Type mapType = (Type) new TypeToken<Map<String, String>>() {
-//				}.getType();
-//				setUserMap((Map<String, String>) gson.fromJson(value, mapType),
-//						false);
-//				System.out.println("User map size  : " + getUserMap().size());
-//			}
-//		}
-//
-//		// loadUnloadedData();
-//	}
-
-//	private void loadUnloadedData() {
-//		boolean isUnloadedDataThere = false;
-//
-//		Intent intent;
-//		if (opportunityList == null) {
-//			isUnloadedDataThere = true;
-//			intent = new Intent(this, OpportunityService.class);
-//			startService(intent);
-//		}
-//		if (contactList == null) {
-//			isUnloadedDataThere = true;
-//			intent = new Intent(this, ContactService.class);
-//			startService(intent);
-//		}
-//		if (appointmentList == null) {
-//			isUnloadedDataThere = true;
-//			intent = new Intent(this, AppointmentService.class);
-//			startService(intent);
-//		}
-//		if (accountList == null) {
-//			isUnloadedDataThere = true;
-//			intent = new Intent(this, AccountService.class);
-//			startService(intent);
-//		}
-//		if (userMap == null) {
-//			isUnloadedDataThere = true;
-//			intent = new Intent(this, UserService.class);
-//			startService(intent);
-//		}
-//		if (isUnloadedDataThere) {
-//			Toast.makeText(this, "Fetching some unloaded data.",
-//					Toast.LENGTH_SHORT).show();
-//		}
-//	}
-//
-//	private void loadMenuItems() {
-//		menuItemList.add(new MenuItem("CONTACTS", getResources().getDrawable(
-//				R.drawable.contact)));
-//		menuItemList.add(new MenuItem("ACCOUNTS", getResources().getDrawable(
-//				R.drawable.account)));
-//		menuItemList.add(new MenuItem("APPOINTMENTS", getResources()
-//				.getDrawable(R.drawable.appointment)));
-//		menuItemList.add(new MenuItem("OPPORTUNITIES", getResources()
-//				.getDrawable(R.drawable.opportunity)));
-//	}
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		// ProgressDialog.show(this, "Status", "Downloading The master");
 
 		Toast.makeText(this, "dskhf", Toast.LENGTH_SHORT).show();
 		System.out.println("hello everyboooty");
 
 		initThings();
-		// loadMenuItems();
-
 		readDataFromExcel();
 
 		// Intent intent2 = new Intent(this, OpportunityService.class);
 		// startService(intent2);
 
-		if (sharedPreferences.contains("is_user_login")
-				&& sharedPreferences.getBoolean("is_user_login", false)) {
-			System.out.println("hello   1");
-			// fetchPreferences();
-
-		} else {
-			System.out.println("hello   2");
-		}
+		// if (sharedPreferences.contains("is_user_login")
+		// && sharedPreferences.getBoolean("is_user_login", false)) {
+		// System.out.println("hello   1");
+		// } else {
+		// System.out.println("hello   2");
+		// }
 
 	}
 
@@ -361,14 +174,14 @@ public class MyApp extends Application {
 		return mRequestQueue;
 	}
 
-//	public ImageLoader getImageLoader() {
-//		getRequestQueue();
-//		if (mImageLoader == null) {
-//			mImageLoader = new ImageLoader(this.mRequestQueue,
-//					new LruBitmapCache());
-//		}
-//		return this.mImageLoader;
-//	}
+	// public ImageLoader getImageLoader() {
+	// getRequestQueue();
+	// if (mImageLoader == null) {
+	// mImageLoader = new ImageLoader(this.mRequestQueue,
+	// new LruBitmapCache());
+	// }
+	// return this.mImageLoader;
+	// }
 
 	public <T> void addToRequestQueue(Request<T> req, String tag) {
 		// set the default tag if tag is empty
@@ -403,18 +216,18 @@ public class MyApp extends Application {
 		return params;
 	}
 
-	public List<Contact> getContactList() {
-		return contactList;
+	public List<Account> getAccountList() {
+		return accountList;
 	}
 
-	public void setContactList(List<Contact> contactList,
+	public void setAccountList(List<Account> accountList,
 			boolean updatePreferences, String syncTime) {
-		this.contactList = contactList;
+		this.accountList = accountList;
 		if (updatePreferences) {
-			String json = gson.toJson(contactList);
-			editor.putString("contact_list", json);
+			String json = gson.toJson(accountList);
+			editor.putString(Constant.PREF_ACCOUNT_LIST, json);
 			if (syncTime != null) {
-				editor.putString("last_sync_date_contact", syncTime);
+				editor.putString(Constant.PREF_LAST_SYNC_DATE_ACCOUNT, syncTime);
 			}
 			editor.commit();
 		}
@@ -429,31 +242,31 @@ public class MyApp extends Application {
 		this.appointmentList = appointmentList;
 		if (updatePreferences) {
 			String json = gson.toJson(appointmentList);
-			editor.putString("appointment_list", json);
+			editor.putString(Constant.PREF_APPOINTMENT_LIST, json);
 			if (syncTime != null) {
-				editor.putString("last_sync_date_appointment", syncTime);
+				editor.putString(Constant.PREF_LAST_SYNC_DATE_APPOINTMENT, syncTime);
 			}
 			editor.commit();
 		}
 	}
 
-	public List<Account> getAccountList() {
-		return accountList;
+	public List<Contact> getContactList() {
+		return contactList;
 	}
 
-	public void setAccountList(List<Account> accountList,
+	public void setContactList(List<Contact> contactList,
 			boolean updatePreferences, String syncTime) {
-		this.accountList = accountList;
+		this.contactList = contactList;
 		if (updatePreferences) {
-			String json = gson.toJson(accountList);
-			editor.putString("account_list", json);
+			String json = gson.toJson(contactList);
+			editor.putString(Constant.PREF_CONTACT_LIST, json);
 			if (syncTime != null) {
-				editor.putString("last_sync_date_account", syncTime);
+				editor.putString(Constant.PREF_LAST_SYNC_DATE_CONTACT, syncTime);
 			}
 			editor.commit();
 		}
 	}
-
+	
 	public List<Opportunity> getOpportunityList() {
 		return opportunityList;
 	}
@@ -463,9 +276,9 @@ public class MyApp extends Application {
 		this.opportunityList = opportunityList;
 		if (updatePreferences) {
 			String json = gson.toJson(opportunityList);
-			editor.putString("opportunity_list", json);
+			editor.putString(Constant.PREF_OPPORTUNITY_LIST, json);
 			if (syncTime != null) {
-				editor.putString("last_sync_date_opportunity", syncTime);
+				editor.putString(Constant.PREF_LAST_SYNC_DATE_OPPORTUNITY, syncTime);
 			}
 			editor.commit();
 		}
@@ -475,14 +288,13 @@ public class MyApp extends Application {
 		return userMap;
 	}
 
-	// TODO : replicate boolean everywhere
 	public void setUserMap(Map<String, String> userMap,
 			boolean updatePreferences) {
 		this.userMap = userMap;
 
 		if (updatePreferences) {
 			String json = gson.toJson(userMap);
-			editor.putString("user_map", json);
+			editor.putString(Constant.PREF_USER_MAP, json);
 			editor.commit();
 		}
 	}
@@ -497,7 +309,7 @@ public class MyApp extends Application {
 
 		if (updatePreferences) {
 			String json = gson.toJson(productMap);
-			editor.putString("product_map", json);
+			editor.putString(Constant.PREF_PRODUCT_MAP, json);
 			editor.commit();
 		}
 	}
@@ -512,7 +324,7 @@ public class MyApp extends Application {
 
 		if (updatePreferences) {
 			String json = gson.toJson(profitCenterMap);
-			editor.putString("profit_center_map", json);
+			editor.putString(Constant.PREF_PROFIT_CENTER_MAP, json);
 			editor.commit();
 		}
 	}
@@ -527,7 +339,7 @@ public class MyApp extends Application {
 
 		if (updatePreferences) {
 			String json = gson.toJson(solutionMap);
-			editor.putString("solution_map", json);
+			editor.putString(Constant.PREF_SOLUTION_MAP, json);
 			editor.commit();
 		}
 	}
@@ -541,7 +353,7 @@ public class MyApp extends Application {
 		this.competitorMap = competitorMap;
 		if (updatePreferences) {
 			String json = gson.toJson(competitorMap);
-			editor.putString("competitor_map", json);
+			editor.putString(Constant.PREF_COMPETITOR_MAP, json);
 			editor.commit();
 		}
 	}
@@ -552,21 +364,11 @@ public class MyApp extends Application {
 
 	public void setLoginUserId(String loginUserId) {
 		this.loginUserId = loginUserId;
-
-		// Toast.makeText(this, loginUserId, Toast.LENGTH_SHORT).show();
 		System.out.println("!@!@  " + loginUserId);
 
-		editor.putString("login_user_id", loginUserId);
+		editor.putString(Constant.PREF_LOGIN_USER_ID, loginUserId);
 		editor.commit();
 	}
-
-	/*public List<MenuItem> getMenuItemList() {
-		return menuItemList;
-	}
-
-	public void setMenuItemList(List<MenuItem> menuItemList) {
-		this.menuItemList = menuItemList;
-	}*/
 
 	public Typeface getTypefaceRegularSans() {
 		return typefaceRegularSans;
@@ -1057,121 +859,121 @@ public class MyApp extends Application {
 		return null;
 	}
 
-	public int getIndexFromKeyAccountMap(String key) {
-		// System.out.println("1111  " + key);
-		List<String> aa = new ArrayList<String>(accountCategoryMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			// System.out.println("2222  " + accountList.get(i).getAccountId());
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyCountryMap(String key) {
-		// System.out.println("1111  " + key);
-		List<String> aa = new ArrayList<String>(countryMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			// System.out.println("2222  " + aa.get(i));
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyDORMap(String key) {
-		List<String> aa = new ArrayList<String>(dorMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyInteractionMap(String key) {
-		List<String> aa = new ArrayList<String>(interactionTypeMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyLobMap(String key) {
-		List<String> aa = new ArrayList<String>(lobMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyProbabilityMap(String key) {
-		List<String> aa = new ArrayList<String>(probabilityMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeySalesMap(String key) {
-		List<String> aa = new ArrayList<String>(salesStageMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeySectorMap(String key) {
-		List<String> aa = new ArrayList<String>(sectorMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyStatusMap(String key) {
-		List<String> aa = new ArrayList<String>(statusMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeySubLobMap(String key) {
-		List<String> aa = new ArrayList<String>(subLobMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	public int getIndexFromKeyUserMap(String key) {
-		// System.out.println("1111  " + key);
-		List<String> aa = new ArrayList<String>(userMap.keySet());
-		for (int i = 0; i < aa.size(); i++) {
-			// System.out.println("2222  " + aa.get(i));
-			if (aa.get(i).equalsIgnoreCase(key)) {
-				return i;
-			}
-		}
-		return -1;
-	}
+	// public int getIndexFromKeyAccountCategoryMap(String key) {
+	// // System.out.println("1111  " + key);
+	// List<String> aa = new ArrayList<String>(accountCategoryMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// // System.out.println("2222  " + accountList.get(i).getAccountId());
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyCountryMap(String key) {
+	// // System.out.println("1111  " + key);
+	// List<String> aa = new ArrayList<String>(countryMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// // System.out.println("2222  " + aa.get(i));
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyDORMap(String key) {
+	// List<String> aa = new ArrayList<String>(dorMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyInteractionMap(String key) {
+	// List<String> aa = new ArrayList<String>(interactionTypeMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyLobMap(String key) {
+	// List<String> aa = new ArrayList<String>(lobMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyProbabilityMap(String key) {
+	// List<String> aa = new ArrayList<String>(probabilityMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeySalesMap(String key) {
+	// List<String> aa = new ArrayList<String>(salesStageMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeySectorMap(String key) {
+	// List<String> aa = new ArrayList<String>(sectorMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyStatusMap(String key) {
+	// List<String> aa = new ArrayList<String>(statusMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeySubLobMap(String key) {
+	// List<String> aa = new ArrayList<String>(subLobMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return 0;
+	// }
+	//
+	// public int getIndexFromKeyUserMap(String key) {
+	// // System.out.println("1111  " + key);
+	// List<String> aa = new ArrayList<String>(userMap.keySet());
+	// for (int i = 0; i < aa.size(); i++) {
+	// // System.out.println("2222  " + aa.get(i));
+	// if (aa.get(i).equalsIgnoreCase(key)) {
+	// return i;
+	// }
+	// }
+	// return -1;
+	// }
 
 	/**
 	 * Type1:
@@ -1191,7 +993,7 @@ public class MyApp extends Application {
 			return null;
 		}
 	}
-	
+
 	public Double getDoubleValueFromStringJSON(String x) {
 		try {
 			return new JSONObject(x).getDouble("Value");
@@ -1302,6 +1104,7 @@ public class MyApp extends Application {
 	public Intent getIntenWithPreviousSearch(Intent previousIntent) {
 		Intent intent = new Intent();
 		if (previousIntent.hasExtra("search_text")) {
+			System.out.println("getIntenWithPreviousSearch");
 			intent.putExtra("search_text",
 					previousIntent.getStringExtra("search_text"));
 		}
